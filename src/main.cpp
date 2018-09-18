@@ -36,8 +36,8 @@ int main()
 {
     std::string lena = "../images/lena800.jpg";
 
-    //interactive(lena);
-    roiSelection(lena);
+    interactive(lena);
+    //roiSelection(lena);
 
     return 0;
 }
