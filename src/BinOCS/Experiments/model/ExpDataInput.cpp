@@ -26,6 +26,8 @@ ExpDataInput ExpDataInput::read(std::string filepath)
     }
 
     ifs.close();
+
+    return data;
 }
 
 void ExpDataInput::write(const ExpDataInput& dataToWrite,

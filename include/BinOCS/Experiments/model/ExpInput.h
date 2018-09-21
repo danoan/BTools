@@ -11,6 +11,7 @@ namespace BinOCS
             unsigned long int estimatingBallRadius;
             double dataTermWeight;
             double sqTermWeight;
+            double lengthTermWeight;
 
             std::string outputFolder;
         };

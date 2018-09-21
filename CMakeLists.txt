@@ -20,7 +20,10 @@ add_executable(main
         src/BinOCS/Experiments/utils.cpp
         src/BinOCS/Experiments/ExpInteractive.cpp
         src/BinOCS/Experiments/model/ExpDataInput.cpp
-        src/BinOCS/Experiments/ROISelection.cpp)
+        src/BinOCS/Experiments/ROISelection.cpp
+        src/BinOCS/Experiments/ExpROI.cpp)
+
+target_compile_definitions(main PRIVATE -DPROJECT_DIR=\"${CMAKE_SOURCE_DIR}\")
 
 target_include_directories(main PRIVATE
         ext/include
@@ -33,6 +36,7 @@ target_link_libraries(main
         -ldipacus-base
         -lscabolic-core
         -lscabolic-energy
+        -lscabolic-optimization
         -lboost_filesystem
         -lboost_system
         ${DGTAL_LIBRARIES}

@@ -1,26 +1,24 @@
-#include "BinOCS/Experiments/ExpInteractive.h"
+#include "BinOCS/Experiments/ExpROI.h"
 
 using namespace BinOCS::Experiments;
 
-ExpInput ExpInteractive::expInput;
+ExpInput ExpROI::expInput;
 
-ExpInteractive::ExpInteractive(std::string imgFilepath,
-                               std::string outputFolder)
+ExpROI::ExpROI(const std::string& imgFilepath,
+               const cv::Rect& ROI,
+               const std::string& outputFolder)
 {
     boost::filesystem::create_directories(outputFolder);
 
-
     GCApplication::GrabCutResult result;
-    GCApplication ga(imgFilepath,result);
+    cv::Mat baseImage = cv::imread(imgFilepath,CV_LOAD_IMAGE_COLOR);
+    GCApplication::executeFromROI(result,baseImage,ROI);
 
-    cv::destroyWindow(ga.windowName);
-
-    CVMatDistribution fgDistr(result.baseImage,
+    CVMatDistribution fgDistr(baseImage,
                               result.fgModel);
 
-    CVMatDistribution bgDistr(result.baseImage,
+    CVMatDistribution bgDistr(baseImage,
                               result.bgModel);
-
 
     BCConfigData configData(expInput.estimatingBallRadius,
                             fgDistr,
@@ -71,15 +69,12 @@ ExpInteractive::ExpInteractive(std::string imgFilepath,
     cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput(extendedROI));
 
 
-    BinOCS::Experiments::Utils::showManyImages("Segmentation Result",
-                                               3,
-                                               result.foreground(extendedROI),
-                                               dd.imgOutput(extendedROI),
-                                               enhancedImg(extendedROI));
-
-
-    cv::destroyAllWindows();
-
+//    BinOCS::Experiments::Utils::showManyImages("Segmentation Result",
+//                                               3,
+//                                               result.foreground(extendedROI),
+//                                               dd.imgOutput(extendedROI),
+//                                               enhancedImg(extendedROI));
+//
+//
+//    cv::destroyAllWindows();
 }
-
-

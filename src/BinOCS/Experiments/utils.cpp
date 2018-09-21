@@ -108,3 +108,21 @@ void Utils::showManyImages(std::string title, int nArgs, ...)
 // End the number of arguments
     va_end(args);
 }
+
+void Utils::enhance(cv::Mat& imgOutput,
+                             const cv::Mat& baseImg,
+                             const DGtal::Z2i::DigitalSet& enhanceDSMask,
+                             double factor)
+{
+    for(auto it=enhanceDSMask.begin();it!=enhanceDSMask.end();++it)
+    {
+        int row = imgOutput.rows-(*it)(1)-1;
+        int col = (*it)(0);
+
+        std::cout << baseImg.at<cv::Vec3b>(row,col) << std::endl;
+        std::cout << (baseImg.at<cv::Vec3b>(row,col)*factor) << std::endl;
+
+        imgOutput.at<cv::Vec3b>(row,col) = (baseImg.at<cv::Vec3b>(row,col)*factor);
+
+    }
+}

@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <cstdarg>
+#include <DGtal/helpers/StdDefs.h>
 
 namespace BinOCS
 {
@@ -62,6 +63,10 @@ namespace BinOCS
             ///////////////////////////////////////////////////////////////////////*/
 
             void showManyImages(std::string title, int nArgs, ...);
+            void enhance(cv::Mat& imgOutput,
+                         const cv::Mat& baseImg,
+                         const DGtal::Z2i::DigitalSet& enhanceDSMask,
+                         double factor);
         }
     }
 }

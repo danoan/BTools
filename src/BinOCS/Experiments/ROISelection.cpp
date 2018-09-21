@@ -93,7 +93,7 @@ void ROISelection::executionLoop(ExpDataInput& dataInput)
             {
                 dataInput.vectorOfROI.push_back(me.rect());
                 cv::imshow(windowName,me.baseImg);
-                std::cout << "Rectt Saved" << std::endl;
+                std::cout << "Rect Saved" << std::endl;
                 break;
             }
             case 'q':

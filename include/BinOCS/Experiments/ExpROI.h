@@ -1,5 +1,5 @@
-#ifndef BINOCS_EXPERIMENTS_EXPINTERACTIVE_H
-#define BINOCS_EXPERIMENTS_EXPINTERACTIVE_H
+#ifndef BINOCS_EXPERIMENTS_EXPROI_H
+#define BINOCS_EXPERIMENTS_EXPROI_H
 
 #include <DGtal/io/boards/Board2D.h>
 
@@ -17,7 +17,7 @@ namespace BinOCS
 {
     namespace Experiments
     {
-        class ExpInteractive
+        class ExpROI
         {
 
         public:
@@ -35,8 +35,9 @@ namespace BinOCS
 
         public:
 
-            ExpInteractive(std::string imgFilepath,
-                           std::string outputFolder);
+            ExpROI(const std::string& imgFilepath,
+                   const cv::Rect& ROI,
+                   const std::string& outputFolder);
 
         private:
             typedef DGtal::Z2i::DigitalSet DigitalSet;
@@ -45,4 +46,4 @@ namespace BinOCS
     }
 }
 
-#endif //BINOCS_EXPERIMENTS_EXPINTERACTIVE_H
+#endif //BINOCS_EXPERIMENTS_EXPROI_H
