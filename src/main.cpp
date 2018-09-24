@@ -1,11 +1,12 @@
 
-#include <BinOCS/Experiments/ExpInteractive.h>
-#include <BinOCS/Experiments/ROISelection.h>
-#include <BinOCS/Experiments/ExpROI.h>
+#include <BinOCS/Lab/Experiments/ExpInteractive.h>
+#include <BinOCS/Lab/Experiments/ExpROISelection.h>
+#include <BinOCS/Lab/Experiments/ExpROI.h>
+#include <BinOCS/Lab/Experiments/ExpDataset.h>
 
 namespace BinOCS
 {
-    namespace Experiments
+    namespace Lab
     {
         std::string projectDir = PROJECT_DIR;
         std::string imageDir = projectDir + "/images";
@@ -14,30 +15,31 @@ namespace BinOCS
 }
 
 
-using namespace BinOCS::Experiments;
+using namespace BinOCS::Lab;
+using namespace BinOCS::Lab::Experiments;
 
 void fromROISelection(std::string dataFilePath)
 {
+    Model::ROICorrectionInput rci("Standard Input");
 
-    ExpDataInput di = ExpDataInput::read(dataFilePath);
+    rci.bcInput.maxIterations=3;
+    rci.bcInput.estimatingBallRadius=3.0;
+    rci.bcInput.sqTermWeight=1.0;
+    rci.bcInput.lengthTermWeight=0.0;
+    rci.bcInput.dataTermWeight=0.5;
 
-    boost::filesystem::path pFile(di.imgFilePath);
+    rci.roiInput = Model::ROISequenceInput::read(dataFilePath);
+
+
+    boost::filesystem::path pFile(rci.roiInput.imgFilePath);
     boost::filesystem::path pOutputFolder(outputDir);
 
     pOutputFolder.append("ROI-Selection");
     pOutputFolder.append(pFile.filename().string());
 
-
-    ExpROI::expInput.maxIterations=3;
-    ExpROI::expInput.estimatingBallRadius=3.0;
-    ExpROI::expInput.sqTermWeight=1.0;
-    ExpROI::expInput.lengthTermWeight=0.0;
-    ExpROI::expInput.dataTermWeight=0.5;
-
-    for(int i=0;i<di.vectorOfROI.size();++i)
+    for(int i=0;i<rci.roiInput.vectorOfROI.size();++i)
     {
-       ExpROI(pFile.string(),
-              di.vectorOfROI.at(i),
+       ExpROI(rci,
               pOutputFolder.string() + "/ROI-" + std::to_string(i) );
     }
 }
@@ -50,15 +52,16 @@ void interactive(std::string imgFilepath)
     pOutputFolder.append("Interactive");
     pOutputFolder.append(pFile.filename().string());
 
+    Model::GrabCorrectionInput gci("Standard Input");
 
-    ExpInteractive::expInput.maxIterations=1;
-    ExpInteractive::expInput.estimatingBallRadius=3.0;
-    ExpInteractive::expInput.sqTermWeight=1.0;
-    ExpInteractive::expInput.lengthTermWeight=1.0;
-    ExpInteractive::expInput.dataTermWeight=5.0;
+    gci.bcInput.maxIterations=1;
+    gci.bcInput.estimatingBallRadius=3.0;
+    gci.bcInput.sqTermWeight=1.0;
+    gci.bcInput.lengthTermWeight=1.0;
+    gci.bcInput.dataTermWeight=5.0;
+    gci.imagePath = pFile.string();
 
-
-    ExpInteractive(pFile.string(),pOutputFolder.string());
+    ExpInteractive(gci,pOutputFolder.string());
 }
 
 void roiSelection(std::string imgFilepath)
@@ -69,8 +72,10 @@ void roiSelection(std::string imgFilepath)
     pOutputFolder.append("ROI");
     pOutputFolder.append(pFile.filename().string());
 
-    ROISelection(pFile.string(),pOutputFolder.string());
+    ExpROISelection(pFile.string(),pOutputFolder.string());
 }
+
+
 
 int main()
 {
@@ -79,7 +84,9 @@ int main()
 
     //interactive(lena);
     //roiSelection(lena);
-    fromROISelection(lenaROIData);
+    //fromROISelection(lenaROIData);
+
+    ExpDataset(imageDir+"/ds1",false);
 
     return 0;
 }

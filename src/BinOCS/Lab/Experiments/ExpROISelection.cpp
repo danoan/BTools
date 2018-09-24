@@ -1,19 +1,19 @@
-#include "BinOCS/Experiments/ROISelection.h"
+#include "BinOCS/Lab/Experiments/ExpROISelection.h"
 
-using namespace BinOCS::Experiments;
+using namespace BinOCS::Lab::Experiments;
 
-const cv::Scalar ROISelection::RECT_COLOR(0,255,0);
+const cv::Scalar ExpROISelection::RECT_COLOR(0,255,0);
 
-const int ROISelection::KEY_ENTER = 13;
-const int ROISelection::KEY_ESCAPE = 27;
+const int ExpROISelection::KEY_ENTER = 13;
+const int ExpROISelection::KEY_ESCAPE = 27;
 
-ROISelection::MouseEvent::MouseEvent(const cv::Mat& baseImg,
+ExpROISelection::MouseEvent::MouseEvent(const cv::Mat& baseImg,
                                      std::string windowName):
         baseImg(baseImg),
         windowName(windowName),
         flagDrawRect(false) {}
 
-cv::Rect ROISelection::MouseEvent::rect()
+cv::Rect ExpROISelection::MouseEvent::rect()
 {
     int w = p2.x-p1.x;
     int h = p2.y-p1.y;
@@ -25,7 +25,7 @@ cv::Rect ROISelection::MouseEvent::rect()
                       h);
 }
 
-void ROISelection::mouseEvent(int event,
+void ExpROISelection::mouseEvent(int event,
                               int x,
                               int y,
                               int flags,
@@ -61,8 +61,9 @@ void ROISelection::mouseEvent(int event,
 }
 
 
-ROISelection::ROISelection(std::string imgFilepath,
-                           std::string outputFolder):windowName("ROI-Selection"),
+ExpROISelection::ExpROISelection(const std::string& imgFilepath,
+                                 const std::string& outputFolder,
+                                 const std::string& filename):windowName("ROI-Selection"),
                                                      me(baseImage,windowName)
 {
     boost::filesystem::create_directories(outputFolder);
@@ -73,14 +74,14 @@ ROISelection::ROISelection(std::string imgFilepath,
 
     cv::imshow(windowName,baseImage);
 
-    ExpDataInput dataInput;
+    Input dataInput;
     dataInput.imgFilePath = imgFilepath;
     executionLoop(dataInput);
 
-    ExpDataInput::write(dataInput,outputFolder + "/data.txt");
+    Input::write(dataInput,outputFolder + "/" + filename);
 }
 
-void ROISelection::executionLoop(ExpDataInput& dataInput)
+void ExpROISelection::executionLoop(Input& dataInput)
 {
     bool onExecution = true;
     int key;

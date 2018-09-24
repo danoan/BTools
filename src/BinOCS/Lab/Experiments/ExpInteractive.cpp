@@ -1,17 +1,16 @@
-#include "BinOCS/Experiments/ExpInteractive.h"
+#include "BinOCS/Lab/Experiments/ExpInteractive.h"
 
-using namespace BinOCS::Experiments;
+using namespace BinOCS::Lab::Experiments;
 
-ExpInput ExpInteractive::expInput;
 
-ExpInteractive::ExpInteractive(std::string imgFilepath,
+ExpInteractive::ExpInteractive(const Model::GrabCorrectionInput& expInput,
                                std::string outputFolder)
 {
     boost::filesystem::create_directories(outputFolder);
 
 
     GCApplication::GrabCutResult result;
-    GCApplication ga(imgFilepath,result);
+    GCApplication ga(expInput.imagePath,result);
 
     cv::destroyWindow(ga.windowName);
 
@@ -22,17 +21,17 @@ ExpInteractive::ExpInteractive(std::string imgFilepath,
                               result.bgModel);
 
 
-    BCConfigData configData(expInput.estimatingBallRadius,
+    BCConfigData configData(expInput.bcInput.estimatingBallRadius,
                             fgDistr,
                             bgDistr,
-                            expInput.dataTermWeight,
-                            expInput.sqTermWeight,
-                            expInput.lengthTermWeight);
+                            expInput.bcInput.dataTermWeight,
+                            expInput.bcInput.sqTermWeight,
+                            expInput.bcInput.lengthTermWeight);
 
 
     BCSolution solution = BCApplication::solutionModel(result.foreground);
     BCApplication bca(solution,
-                      expInput.maxIterations,
+                      expInput.bcInput.maxIterations,
                       result.foreground,
                       configData);
 
@@ -71,12 +70,13 @@ ExpInteractive::ExpInteractive(std::string imgFilepath,
     cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput(extendedROI));
 
 
+    /*
     BinOCS::Experiments::Utils::showManyImages("Segmentation Result",
                                                3,
                                                result.foreground(extendedROI),
                                                dd.imgOutput(extendedROI),
                                                enhancedImg(extendedROI));
-
+    */
 
     cv::destroyAllWindows();
 

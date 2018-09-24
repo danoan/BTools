@@ -1,11 +1,10 @@
-#include <fstream>
-#include "BinOCS/Experiments/model/ExpDataInput.h"
+#include "BinOCS/Lab/model/input/ROISequenceInput.h"
 
-using namespace BinOCS::Experiments;
+using namespace BinOCS::Lab::Model;
 
-ExpDataInput ExpDataInput::read(std::string filepath)
+ROISequenceInput ROISequenceInput::read(std::string filepath)
 {
-    ExpDataInput data;
+    ROISequenceInput data;
     std::ifstream ifs(filepath);
 
     ifs >> data.imgFilePath;
@@ -30,7 +29,7 @@ ExpDataInput ExpDataInput::read(std::string filepath)
     return data;
 }
 
-void ExpDataInput::write(const ExpDataInput& dataToWrite,
+void ROISequenceInput::write(const ROISequenceInput& dataToWrite,
                          std::string outputFilepath)
 {
     std::ofstream ofs(outputFilepath);

@@ -1,18 +1,16 @@
-#include "BinOCS/Experiments/ExpROI.h"
+#include "BinOCS/Lab/Experiments/ExpROI.h"
 
-using namespace BinOCS::Experiments;
+using namespace BinOCS::Lab::Experiments;
 
-ExpInput ExpROI::expInput;
 
-ExpROI::ExpROI(const std::string& imgFilepath,
-               const cv::Rect& ROI,
+ExpROI::ExpROI(const Model::ROICorrectionInput& input,
                const std::string& outputFolder)
 {
     boost::filesystem::create_directories(outputFolder);
 
     GCApplication::GrabCutResult result;
-    cv::Mat baseImage = cv::imread(imgFilepath,CV_LOAD_IMAGE_COLOR);
-    GCApplication::executeFromROI(result,baseImage,ROI);
+    cv::Mat baseImage = cv::imread(input.roiInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
+    GCApplication::executeFromROI(result,baseImage,input.roiInput.vectorOfROI[0]);
 
     CVMatDistribution fgDistr(baseImage,
                               result.fgModel);
@@ -20,17 +18,17 @@ ExpROI::ExpROI(const std::string& imgFilepath,
     CVMatDistribution bgDistr(baseImage,
                               result.bgModel);
 
-    BCConfigData configData(expInput.estimatingBallRadius,
+    BCConfigData configData(input.bcInput.estimatingBallRadius,
                             fgDistr,
                             bgDistr,
-                            expInput.dataTermWeight,
-                            expInput.sqTermWeight,
-                            expInput.lengthTermWeight);
+                            input.bcInput.dataTermWeight,
+                            input.bcInput.sqTermWeight,
+                            input.bcInput.lengthTermWeight);
 
 
     BCSolution solution = BCApplication::solutionModel(result.foreground);
     BCApplication bca(solution,
-                      expInput.maxIterations,
+                      input.bcInput.maxIterations,
                       result.foreground,
                       configData);
 

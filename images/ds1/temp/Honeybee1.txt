@@ -1,0 +1,3 @@
+/home-local/dantu1/GIT/PhD/binocs-experiments/images/ds1/Honeybee1.jpg
+1
+47 114 384 160 

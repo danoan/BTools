@@ -1,0 +1,3 @@
+/home-local/dantu1/GIT/PhD/binocs-experiments/images/ds1/cow2.jpg
+1
+54 52 135 61 

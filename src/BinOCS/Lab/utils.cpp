@@ -1,6 +1,6 @@
-#include "BinOCS/Experiments/utils.h"
+#include "BinOCS/Lab/utils.h"
 
-using namespace BinOCS::Experiments;
+using namespace BinOCS::Lab;
 
 void Utils::showManyImages(std::string title, int nArgs, ...)
 {
@@ -58,6 +58,9 @@ void Utils::showManyImages(std::string title, int nArgs, ...)
         size = 150;
     }
 
+    ///va_args with cv::Mat raises an error: cannot receive objects of non-trivially-copyable type
+    ///it will be better to rewrite this function without using va_args
+/*
 // Create a new 3 channel image
     Mat DispImage = Mat::zeros(Size(100 + size*w, 60 + size*h), CV_8UC3);
 
@@ -106,7 +109,7 @@ void Utils::showManyImages(std::string title, int nArgs, ...)
     waitKey();
 
 // End the number of arguments
-    va_end(args);
+    va_end(args);*/
 }
 
 void Utils::enhance(cv::Mat& imgOutput,
@@ -123,6 +126,84 @@ void Utils::enhance(cv::Mat& imgOutput,
         std::cout << (baseImg.at<cv::Vec3b>(row,col)*factor) << std::endl;
 
         imgOutput.at<cv::Vec3b>(row,col) = (baseImg.at<cv::Vec3b>(row,col)*factor);
+
+    }
+}
+
+std::string Utils::fixedStrLength(int l,double v)
+{
+    std::string out = std::to_string(v);
+    while(out.length()<l) out += " ";
+
+    return out;
+}
+
+std::string Utils::fixedStrLength(int l,std::string str)
+{
+    std::string out = str;
+    while(out.length()<l) out += " ";
+
+    return out;
+}
+
+
+
+std::string Utils::resolveQPBOSolverType(Model::BCorrectionInput::QPBOSolverType solverType)
+{
+    switch(solverType)
+    {
+        case Model::BCorrectionInput::QPBOSolverType::Simple:
+            return "Simple";
+        case Model::BCorrectionInput::QPBOSolverType::ImproveProbe:
+            return "Improve-Probe";
+        case Model::BCorrectionInput::QPBOSolverType::Improve:
+            return "Improve";
+        case Model::BCorrectionInput::QPBOSolverType::Probe:
+            return "Probe";
+    }
+}
+
+void Utils::write(const Model::BCorrectionInput& bcInput,
+                  std::ostream& os)
+{
+    os << "Sq. Curv. Weigth: " << bcInput.sqTermWeight << std::endl
+       << "Length Weigth: " << bcInput.lengthTermWeight << std::endl
+       << "Data Weigth: " << bcInput.dataTermWeight << std::endl
+       << "Estimating Ball Radius: " << bcInput.estimatingBallRadius << std::endl
+       << "Solver Type: " << resolveQPBOSolverType(bcInput.solverType) << std::endl;
+}
+
+void Utils::write(const Model::GrabCorrectionInput& gcInput,
+                  std::ostream& os)
+{
+    os << "Image: " << gcInput.imagePath << std::endl;
+    write(gcInput.bcInput,os);
+}
+
+void Utils::write(const Model::ROICorrectionInput& roicInput,
+                  std::ostream& os)
+{
+    write(roicInput.bcInput,os);
+}
+
+void Utils::write(const Model::OptOutput& output,
+                  std::ostream& os,
+                  bool vertical=true)
+{
+    if(vertical)
+    {
+        os << "Opt. Energy Value: " << output.optEnergyValue << std::endl
+           << "II Elastica: " << output.IIElasticaValue << std::endl
+           << "MDCA Elastica: " << output.MDCAElasticaValue << std::endl
+           << "Unlabeled: " << output.unlabeled << std::endl;
+    }
+    else
+    {
+        int colLength=20;
+        os << fixedStrLength(colLength,output.optEnergyValue) << "\t"
+           << fixedStrLength(colLength,output.IIElasticaValue) << "\t"
+           << fixedStrLength(colLength,output.MDCAElasticaValue) << "\t"
+           << fixedStrLength(colLength,output.unlabeled) << std::endl;
 
     }
 }

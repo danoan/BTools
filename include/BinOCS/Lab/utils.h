@@ -4,12 +4,17 @@
 #include <cstdarg>
 #include <DGtal/helpers/StdDefs.h>
 
+#include <BinOCS/Lab/model/input/BCorrectionInput.h>
+#include <BinOCS/Lab/model/input/ROICorrectionInput.h>
+#include <BinOCS/Lab/model/input/GrabCorrectionInput.h>
+#include <BinOCS/Lab/model/OptOutput.h>
+
 namespace BinOCS
 {
-    namespace Experiments
+    namespace Lab
     {
         namespace Utils
-            {
+        {
             /*Function///////////////////////////////////////////////////////////////
 
             Name:       ShowManyImages
@@ -67,6 +72,26 @@ namespace BinOCS
                          const cv::Mat& baseImg,
                          const DGtal::Z2i::DigitalSet& enhanceDSMask,
                          double factor);
+
+
+            void write(const Model::BCorrectionInput& bcInput,
+                       std::ostream& os);
+
+            void write(const Model::GrabCorrectionInput& gcInput,
+                       std::ostream& os);
+
+
+            void write(const Model::ROICorrectionInput& roicInput,
+                       std::ostream& os);
+
+
+            void write(const Model::OptOutput &output,
+                       std::ostream& os,
+                       bool vertical);
+
+            std::string fixedStrLength(int l,std::string str);
+            std::string fixedStrLength(int l,double v);
+            std::string resolveQPBOSolverType(Model::BCorrectionInput::QPBOSolverType solverType);
         }
     }
 }

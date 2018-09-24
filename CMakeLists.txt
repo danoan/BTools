@@ -17,13 +17,17 @@ find_package(OpenCV REQUIRED)
 
 add_executable(main
         src/main.cpp
-        src/BinOCS/Experiments/utils.cpp
-        src/BinOCS/Experiments/ExpInteractive.cpp
-        src/BinOCS/Experiments/model/ExpDataInput.cpp
-        src/BinOCS/Experiments/ROISelection.cpp
-        src/BinOCS/Experiments/ExpROI.cpp)
+        src/BinOCS/Lab/utils.cpp
+        src/BinOCS/Lab/Experiments/ExpInteractive.cpp
+        src/BinOCS/Lab/Experiments/model/ROISequenceInput.cpp
+        src/BinOCS/Lab/Experiments/ExpROISelection.cpp
+        src/BinOCS/Lab/Experiments/ExpROI.cpp
+        src/BinOCS/Lab/Experiments/ExpDataset.cpp)
 
 target_compile_definitions(main PRIVATE -DPROJECT_DIR=\"${CMAKE_SOURCE_DIR}\")
+
+target_compile_features(main PRIVATE cxx_auto_type)
+target_compile_options(main PRIVATE -fext-numeric-literals)
 
 target_include_directories(main PRIVATE
         ext/include
@@ -31,6 +35,36 @@ target_include_directories(main PRIVATE
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(main
+        -lbinocs-application
+        -ldipacus-derivates
+        -ldipacus-components
+        -ldipacus-base
+        -lscabolic-core
+        -lscabolic-energy
+        -lscabolic-optimization
+        -lboost_filesystem
+        -lboost_system
+        ${DGTAL_LIBRARIES}
+        ${OpenCV_LIBS})
+
+
+
+
+add_executable(testWriting
+        src/BinOCS/Lab/Test/testWriting.cpp
+        src/BinOCS/Lab/utils.cpp)
+
+target_compile_definitions(testWriting PRIVATE -DPROJECT_DIR=\"${CMAKE_SOURCE_DIR}\")
+
+target_compile_features(testWriting PRIVATE cxx_auto_type)
+target_compile_options(testWriting PRIVATE -fext-numeric-literals)
+
+target_include_directories(testWriting PRIVATE
+        ext/include
+        include
+        ${DGTAL_INCLUDE_DIRS})
+
+target_link_libraries(testWriting
         -lbinocs-application
         -ldipacus-components
         -ldipacus-base
@@ -41,3 +75,4 @@ target_link_libraries(main
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
