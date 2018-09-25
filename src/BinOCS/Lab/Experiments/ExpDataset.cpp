@@ -31,12 +31,15 @@ void ExpDataset::datasetROISelection(std::string datasetPathStr)
     boost::filesystem::directory_iterator di(datasetPath);
     while(di!=boost::filesystem::directory_iterator())
     {
-        if(di->path().extension()==".txt") continue;
+        if(boost::filesystem::is_regular_file(di->path()) &&
+           di->path().extension()!=".txt")
+        {
 
-        std::string imagePath = di->path().string();
-        selectROI(imagePath,
-                  datasetPath.string(),
-                  di->path().stem().string() + ".txt");
+            std::string imagePath = di->path().string();
+            selectROI(imagePath,
+                      datasetPath.string(),
+                      di->path().stem().string() + ".txt");
+        }
 
         ++di;
     }
