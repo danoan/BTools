@@ -1,16 +1,18 @@
-#include "BinOCS/Lab/Experiments/ExpROI.h"
+#include "BinOCS/Lab/Experiments/ExpFromSeed.h"
 
 using namespace BinOCS::Lab::Experiments;
 
 
-ExpROI::ExpROI(const Model::ROICorrectionInput& input,
-               const std::string& outputFolder)
+ExpFromSeed::ExpFromSeed(const std::string& imgFilePath,
+                         const Model::BCorrectionInput& bcInput,
+                         const SelectorOutput& selectorOutput,
+                         const std::string& outputFolder)
 {
     boost::filesystem::create_directories(outputFolder);
 
-    GCApplication::GrabCutResult result;
-    cv::Mat baseImage = cv::imread(input.roiInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
-    GCApplication::executeFromROI(result,baseImage,input.roiInput.vectorOfROI[0]);
+    GrabCutResult result;
+    cv::Mat baseImage = cv::imread(imgFilePath,CV_LOAD_IMAGE_COLOR);
+    GCApplication::executeFromSeed(result,selectorOutput);
 
     CVMatDistribution fgDistr(baseImage,
                               result.fgModel);
@@ -18,17 +20,17 @@ ExpROI::ExpROI(const Model::ROICorrectionInput& input,
     CVMatDistribution bgDistr(baseImage,
                               result.bgModel);
 
-    BCConfigData configData(input.bcInput.estimatingBallRadius,
+    BCConfigData configData(bcInput.estimatingBallRadius,
                             fgDistr,
                             bgDistr,
-                            input.bcInput.dataTermWeight,
-                            input.bcInput.sqTermWeight,
-                            input.bcInput.lengthTermWeight);
+                            bcInput.dataTermWeight,
+                            bcInput.sqTermWeight,
+                            bcInput.lengthTermWeight);
 
 
     BCSolution solution = BCApplication::solutionModel(result.foreground);
     BCApplication bca(solution,
-                      input.bcInput.maxIterations,
+                      bcInput.maxIterations,
                       result.foreground,
                       configData);
 
@@ -39,14 +41,14 @@ ExpROI::ExpROI(const Model::ROICorrectionInput& input,
     cv::Mat enhancedImg = dd.imgOutput.clone();
 
     Utils::enhance(enhancedImg,
-            result.baseImage,
-            dd.removedPoints,
-            0.75);
+                   result.baseImage,
+                   dd.removedPoints,
+                   0.75);
 
     Utils::enhance(enhancedImg,
-            result.baseImage,
-            dd.includedPoints,
-            1.25);
+                   result.baseImage,
+                   dd.includedPoints,
+                   1.25);
 
     DGtal::Board2D board;
     board << dd.includedPoints;
@@ -57,14 +59,8 @@ ExpROI::ExpROI(const Model::ROICorrectionInput& input,
     board.saveEPS((outputFolder + "/removed.eps").c_str());
 
 
-    cv::Rect extendedROI = result.ROI;
-    extendedROI.x-=5;
-    extendedROI.y-=5;
-    extendedROI.width+=5;
-    extendedROI.height+=5;
-
-    cv::imwrite(outputFolder + "/gc-seg.jpg",result.foreground(extendedROI));
-    cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput(extendedROI));
+    cv::imwrite(outputFolder + "/gc-seg.jpg",result.foreground);
+    cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput);
 
 
 //    BinOCS::Experiments::Utils::showManyImages("Segmentation Result",

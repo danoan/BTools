@@ -6,53 +6,19 @@ using namespace BinOCS::Lab::Experiments;
 ExpDataset::ExpDataset(std::string datasetPath,bool ROISelection)
 {
     assert(boost::filesystem::is_directory(datasetPath));
-
-    if(ROISelection)
-        datasetROISelection(datasetPath);
-    else
-        executeROICorrection(datasetPath);
+    executeROICorrection(datasetPath);
 }
 
-void ExpDataset::selectROI(std::string imgFilepath,
-               std::string outputDir,
-               std::string filename)
-{
-    boost::filesystem::path pFile(imgFilepath);
-    boost::filesystem::path pOutputFolder(outputDir);
-
-    Experiments::ExpROISelection(pFile.string(),
-                                 pOutputFolder.string(),
-                                 filename);
-}
-
-void ExpDataset::datasetROISelection(std::string datasetPathStr)
-{
-    boost::filesystem::path datasetPath(datasetPathStr);
-    boost::filesystem::directory_iterator di(datasetPath);
-    while(di!=boost::filesystem::directory_iterator())
-    {
-        if(boost::filesystem::is_regular_file(di->path()) &&
-           di->path().extension()!=".txt")
-        {
-
-            std::string imagePath = di->path().string();
-            selectROI(imagePath,
-                      datasetPath.string(),
-                      di->path().stem().string() + ".txt");
-        }
-
-        ++di;
-    }
-};
 
 void ExpDataset::executeInstance(OptOutput& output,
                                  const BCorrectionInput& bcInput,
-                                 const std::string& imgFilePath,
-                                 const cv::Rect& ROI)
+                                 const SelectorOutput& selectorOutput,
+                                 const std::string& imgFilePath)
 {
     GCApplication::GrabCutResult result;
     cv::Mat baseImage = cv::imread(imgFilePath,CV_LOAD_IMAGE_COLOR);
-    GCApplication::executeFromROI(result,baseImage,ROI);
+
+    GCApplication::executeFromSeed(result,selectorOutput);
 
     CVMatDistribution fgDistr(baseImage,
                               result.fgModel);
@@ -81,17 +47,11 @@ void ExpDataset::executeInstance(OptOutput& output,
 
 
 
-    cv::Rect extendedROI = result.ROI;
-    extendedROI.x-=5;
-    extendedROI.y-=5;
-    extendedROI.width+=5;
-    extendedROI.height+=5;
-
 
     output.optEnergyValue = solution.energyValue;
     output.unlabeled = solution.unlabeled;
-    output.inputImage = result.foreground(extendedROI);
-    output.outputImage = dd.imgOutput(extendedROI);
+    output.inputImage = result.foreground;
+    output.outputImage = dd.imgOutput;
 
 
     SCaBOliC::Utils::MDCAISQEvaluation(output.MDCAElasticaValue,
@@ -117,36 +77,40 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr)
 
             std::string dataPath = di->path().string();
             std::string imageName = di->path().stem().string();
-            ROISequenceInput roiInput = ROISequenceInput::read(dataPath);
+            SeedSequenceInput roiInput = SeedSequenceInput::read(dataPath);
 
             boost::filesystem::path outputPath(datasetPath);
             outputPath.append(imageName);
             boost::filesystem::create_directories(outputPath);
 
 
-            int totalROI = roiInput.vectorOfROI.size();
-            GeneralInstance<ROICorrectionInput> instance(
-                    imageName, totalROI);
+            int totalSeed = roiInput.numSeed();
+            MyInstance instance(
+                    imageName, totalSeed);
 
             CurvatureProfile curvProfile(InstanceProfile::Curvature);
             BCorrectionInput bcInput("noname");
-            while (curvProfile.fillInstance(bcInput)) {
-                ROICorrectionInput roicInput(bcInput.inputName);
-                roicInput.roiInput = roiInput;
-                roicInput.bcInput = bcInput;
 
+            while (curvProfile.fillInstance(bcInput)) {
+                SeedCorrectionInput seedcInput(bcInput.inputName);
+                seedcInput.seedInput = roiInput;
+                seedcInput.bcInput = bcInput;
+
+                SelectorOutput selectorOutput;
                 std::vector<OptOutput> ROIOutput;
-                for (int i = 0; i < totalROI; ++i) {
+                for (int i = 0; i < totalSeed; ++i) {
                     OptOutput output;
+                    roiInput.getSelector(selectorOutput,i);
+
                     executeInstance(output,
                                     bcInput,
-                                    roiInput.imgFilePath,
-                                    roiInput.vectorOfROI[i]);
+                                    selectorOutput,
+                                    roiInput.imgFilePath);
 
                     ROIOutput.push_back(output);
                 }
 
-                instance.vectorOfInput.push_back(roicInput);
+                instance.vectorOfInput.push_back(seedcInput);
                 instance.vectorOfOutput.push_back(ROIOutput);
             }
 

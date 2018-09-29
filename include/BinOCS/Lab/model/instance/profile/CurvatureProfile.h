@@ -22,8 +22,8 @@ namespace BinOCS
                     if(currI >=4 ) return false;
                     this->standardInput(input);
 
-                    input.inputName = "Curv.W=" + std::to_string( weights[currI]);
                     input.sqTermWeight = weights[currI];
+                    input.inputName = "Curv.W=" + std::to_string( input.sqTermWeight);
 
                     currI++;
 

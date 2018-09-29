@@ -6,7 +6,7 @@
 
 #include <BinOCS/Lab/utils.h>
 #include <BinOCS/Lab/model/OptOutput.h>
-#include <BinOCS/Lab/model/input/ROICorrectionInput.h>
+#include <BinOCS/Lab/model/input/SeedCorrectionInput.h>
 
 namespace BinOCS
 {
@@ -37,19 +37,15 @@ namespace BinOCS
 
 
             template<>
-            struct GeneralInstance<ROICorrectionInput>
+            struct GeneralInstance< SeedCorrectionInput >
             {
             public:
-                typedef ROICorrectionInput Input;
+                typedef SeedCorrectionInput Input;
                 typedef OptOutput Output;
 
             public:
-                GeneralInstance(std::string instanceName, int numROIPerInput):instanceName(instanceName),
-                                                                              numROIPerInput(numROIPerInput){}
-
-            public:
-                std::vector<ROICorrectionInput> vectorOfInput;
-                std::vector< std::vector<Output> > vectorOfOutput;
+                GeneralInstance(std::string instanceName, int numSeedPerInput):instanceName(instanceName),
+                                                                              numSeedPerInput(numSeedPerInput){}
 
                 void write(std::ostream& os,
                            const std::string& outputFolder="-")
@@ -67,7 +63,7 @@ namespace BinOCS
                     if(outputFolder!="-")
                         cv::imwrite(imageBaseFilename,vectorOfOutput[0][0].inputImage);
 
-                    for(int i=0;i<numROIPerInput;++i)
+                    for(int i=0;i<numSeedPerInput;++i)
                     {
                         os << fnS(instanceName + "-ROI-" + std::to_string(i+1) ) << "\t"
                            << fnS("Opt.Energy Value") << "\t"
@@ -78,7 +74,7 @@ namespace BinOCS
                         for(int j=0;j<vectorOfInput.size();++j)
                         {
                             const OptOutput& currO = vectorOfOutput[j][i];
-                            const ROICorrectionInput& currI = vectorOfInput[j];
+                            const Input& currI = vectorOfInput[j];
 
                             os << fnS(currI.bcInput.inputName) << "\t"
                                << fnD(currO.optEnergyValue ) << "\t"
@@ -95,10 +91,13 @@ namespace BinOCS
                     }
                 }
 
+            public:
+                std::vector<Input> vectorOfInput;
+                std::vector< std::vector<Output> > vectorOfOutput;
 
             private:
                 std::string instanceName;
-                int numROIPerInput;
+                int numSeedPerInput;
             };
 
         }

@@ -10,7 +10,6 @@
 
 #include "BinOCS/Application/GrabCut/GrabCutApplication.h"
 
-#include <BinOCS/Lab/model/input/ROISequenceInput.h>
 #include <BinOCS/Lab/model/input/GrabCorrectionInput.h>
 #include <BinOCS/Lab/model/input/GrabCorrectionInput.h>
 #include "BinOCS/Lab/model/input/BCorrectionInput.h"
@@ -35,6 +34,7 @@ namespace BinOCS
                 typedef BCApplication::DisplayData DisplayData;
 
                 typedef BinOCS::Application::GrabCutApplication GCApplication;
+                typedef typename GCApplication::GrabCutResult GrabCutResult;
 
             public:
 

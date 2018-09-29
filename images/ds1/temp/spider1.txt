@@ -1,3 +1,0 @@
-/home-local/dantu1/GIT/PhD/binocs-experiments/images/ds1/spider1.jpg
-1
-224 84 28 58 

@@ -180,11 +180,11 @@ void Utils::write(const Model::GrabCorrectionInput& gcInput,
     write(gcInput.bcInput,os);
 }
 
-void Utils::write(const Model::ROICorrectionInput& roicInput,
-                  std::ostream& os)
+void Utils::write(const Model::SeedCorrectionInput &seedcInput, std::ostream &os)
 {
-    write(roicInput.bcInput,os);
+    write(seedcInput.bcInput,os);
 }
+
 
 void Utils::write(const Model::OptOutput& output,
                   std::ostream& os,

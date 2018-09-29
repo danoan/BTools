@@ -1,7 +1,5 @@
-
-#include <BinOCS/Lab/model/input/ROICorrectionInput.h>
 #include <BinOCS/Lab/model/instance/GeneralInstance.h>
-#include <iostream>
+#include <BinOCS/Lab/model/input/SeedCorrectionInput.h>
 
 using namespace BinOCS::Lab::Model;
 
@@ -19,7 +17,7 @@ int main()
 {
     srand(time(NULL));
 
-    typedef GeneralInstance<ROICorrectionInput> MyInstance;
+    typedef GeneralInstance<SeedCorrectionInput> MyInstance;
     std::vector<MyInstance> vectorOfInstances;
 
     int numROIPerInput = 4;
@@ -31,22 +29,22 @@ int main()
     double curvatureWeight[numVariations] = {0.25,0.5,1.0,2.0};
     for(int i=0;i<numInstances;++i)
     {
-        GeneralInstance<ROICorrectionInput> instance(
+        GeneralInstance<SeedCorrectionInput> instance(
                 "Image-" + std::to_string(i+1), numROIPerInput );
 
         for (int j = 0; j < numVariations; ++j)
         {
-            ROICorrectionInput roicInput("alpha = " + std::to_string(curvatureWeight[j]));
-            roicInput.roiInput.imgFilePath = "aaa.jpg";
+            SeedCorrectionInput seedcInput("alpha = " + std::to_string(curvatureWeight[j]));
+            seedcInput.seedInput.imgFilePath = "aaa.jpg";
 
-            roicInput.roiInput.vectorOfROI.push_back(randomRect());
+            seedcInput.seedInput.vectorOfROI.push_back(randomRect());
 
-            roicInput.bcInput.solverType = BCorrectionInput::QPBOSolverType::ImproveProbe;
-            roicInput.bcInput.estimatingBallRadius = 3;
-            roicInput.bcInput.dataTermWeight = 1.0;
-            roicInput.bcInput.sqTermWeight = curvatureWeight[j];
-            roicInput.bcInput.lengthTermWeight = 1.0;
-            roicInput.bcInput.maxIterations = 5;
+            seedcInput.bcInput.solverType = BCorrectionInput::QPBOSolverType::ImproveProbe;
+            seedcInput.bcInput.estimatingBallRadius = 3;
+            seedcInput.bcInput.dataTermWeight = 1.0;
+            seedcInput.bcInput.sqTermWeight = curvatureWeight[j];
+            seedcInput.bcInput.lengthTermWeight = 1.0;
+            seedcInput.bcInput.maxIterations = 5;
 
             std::vector<OptOutput> ROIOutput;
             for (int k = 0; k < numROIPerInput; ++k)
@@ -60,7 +58,7 @@ int main()
                 ROIOutput.push_back(output);
             }
 
-            instance.vectorOfInput.push_back(roicInput);
+            instance.vectorOfInput.push_back(seedcInput);
             instance.vectorOfOutput.push_back(ROIOutput);
         }
         vectorOfInstances.push_back(instance);

@@ -1,3 +1,3 @@
-/home-local/dantu1/GIT/PhD/binocs-experiments/images/ds1/cow2.jpg
+/home/daniel/Projects/GIT/PhD/binocs-experiment/images/ds1/cow2.jpg
 1
-54 52 135 61 
+37 16 209 169 

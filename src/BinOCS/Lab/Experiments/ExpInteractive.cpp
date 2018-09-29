@@ -2,14 +2,13 @@
 
 using namespace BinOCS::Lab::Experiments;
 
-
 ExpInteractive::ExpInteractive(const Model::GrabCorrectionInput& expInput,
                                std::string outputFolder)
 {
     boost::filesystem::create_directories(outputFolder);
 
 
-    GCApplication::GrabCutResult result;
+    GrabCutResult result;
     GCApplication ga(expInput.imagePath,result);
 
     cv::destroyWindow(ga.windowName);
@@ -42,14 +41,14 @@ ExpInteractive::ExpInteractive(const Model::GrabCorrectionInput& expInput,
     cv::Mat enhancedImg = dd.imgOutput.clone();
 
     Utils::enhance(enhancedImg,
-            result.baseImage,
-            dd.removedPoints,
-            0.75);
+                   result.baseImage,
+                   dd.removedPoints,
+                   0.75);
 
     Utils::enhance(enhancedImg,
-            result.baseImage,
-            dd.includedPoints,
-            1.25);
+                   result.baseImage,
+                   dd.includedPoints,
+                   1.25);
 
     DGtal::Board2D board;
     board << dd.includedPoints;
@@ -60,14 +59,8 @@ ExpInteractive::ExpInteractive(const Model::GrabCorrectionInput& expInput,
     board.saveEPS((outputFolder + "/removed.eps").c_str());
 
 
-    cv::Rect extendedROI = result.ROI;
-    extendedROI.x-=5;
-    extendedROI.y-=5;
-    extendedROI.width+=5;
-    extendedROI.height+=5;
-
-    cv::imwrite(outputFolder + "/gc-seg.jpg",result.foreground(extendedROI));
-    cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput(extendedROI));
+    cv::imwrite(outputFolder + "/gc-seg.jpg",result.foreground);
+    cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput);
 
 
     /*

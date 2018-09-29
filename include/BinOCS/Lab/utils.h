@@ -1,3 +1,6 @@
+#ifndef BINOCS_EXPERIMENTS_LAB_UTILS
+#define BINOCS_EXPERIMENTS_LAB_UTILS
+
 #include <opencv2/opencv.hpp>
 
 #include <cstdio>
@@ -5,9 +8,9 @@
 #include <DGtal/helpers/StdDefs.h>
 
 #include <BinOCS/Lab/model/input/BCorrectionInput.h>
-#include <BinOCS/Lab/model/input/ROICorrectionInput.h>
 #include <BinOCS/Lab/model/input/GrabCorrectionInput.h>
 #include <BinOCS/Lab/model/OptOutput.h>
+#include <BinOCS/Lab/model/input/SeedCorrectionInput.h>
 
 namespace BinOCS
 {
@@ -81,7 +84,7 @@ namespace BinOCS
                        std::ostream& os);
 
 
-            void write(const Model::ROICorrectionInput& roicInput,
+            void write(const Model::SeedCorrectionInput& seedcInput,
                        std::ostream& os);
 
 
@@ -96,3 +99,4 @@ namespace BinOCS
     }
 }
 
+#endif

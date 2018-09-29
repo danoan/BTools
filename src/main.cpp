@@ -1,8 +1,11 @@
+#include <BinOCS/Application/GrabCut/GrabCutApplication.h>
 
 #include <BinOCS/Lab/Experiments/ExpInteractive.h>
-#include <BinOCS/Lab/Experiments/ExpROISelection.h>
-#include <BinOCS/Lab/Experiments/ExpROI.h>
+#include <BinOCS/Lab/Experiments/ExpFromSeed.h>
 #include <BinOCS/Lab/Experiments/ExpDataset.h>
+
+#include <BinOCS/Lab/helpers/MultipleMaskSelector.h>
+
 
 namespace BinOCS
 {
@@ -18,34 +21,45 @@ namespace BinOCS
 using namespace BinOCS::Lab;
 using namespace BinOCS::Lab::Experiments;
 
+
 void fromROISelection(std::string dataFilePath)
 {
-    Model::ROICorrectionInput rci("Standard Input");
+    typedef BinOCS::Application::GrabCutApplication GCApplication;
+    typedef Model::SeedCorrectionInput SeedCorrectionInput;
+
+    SeedCorrectionInput rci("Standard Input");
 
     rci.bcInput.maxIterations=3;
     rci.bcInput.estimatingBallRadius=3.0;
     rci.bcInput.sqTermWeight=1.0;
-    rci.bcInput.lengthTermWeight=0.0;
-    rci.bcInput.dataTermWeight=0.5;
+    rci.bcInput.lengthTermWeight=0.5;
+    rci.bcInput.dataTermWeight=2.5;
 
-    rci.roiInput = Model::ROISequenceInput::read(dataFilePath);
+    rci.seedInput = SeedCorrectionInput::SeedInput::read(dataFilePath);
 
 
-    boost::filesystem::path pFile(rci.roiInput.imgFilePath);
+    boost::filesystem::path pFile(rci.seedInput.imgFilePath);
     boost::filesystem::path pOutputFolder(outputDir);
 
-    pOutputFolder.append("ROI-Selection");
+    pOutputFolder.append("From-Seed-Selection");
     pOutputFolder.append(pFile.filename().string());
 
-    for(int i=0;i<rci.roiInput.vectorOfROI.size();++i)
+    ExpFromSeed::SelectorOutput selectorOutput;
+    selectorOutput.baseImage = cv::imread(rci.seedInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
+    for(int i=0;i<rci.seedInput.numSeed();++i)
     {
-       ExpROI(rci,
-              pOutputFolder.string() + "/ROI-" + std::to_string(i) );
+        rci.seedInput.getSelector(selectorOutput,i);
+        ExpFromSeed(rci.seedInput.imgFilePath,
+                    rci.bcInput,
+                    selectorOutput,
+                    pOutputFolder.string() + "/ROI-" + std::to_string(i) );
     }
 }
 
 void interactive(std::string imgFilepath)
 {
+    typedef BinOCS::Application::GrabCutApplication GCApplication;
+
     boost::filesystem::path pFile(imgFilepath);
     boost::filesystem::path pOutputFolder(outputDir);
 
@@ -64,29 +78,51 @@ void interactive(std::string imgFilepath)
     ExpInteractive(gci,pOutputFolder.string());
 }
 
-void roiSelection(std::string imgFilepath)
+namespace BinOCS
 {
-    boost::filesystem::path pFile(imgFilepath);
-    boost::filesystem::path pOutputFolder(outputDir);
+    namespace Lab
+    {
+        struct InputData
+        {
+            InputData(std::string imagePath, std::string dataPath):imagePath(imagePath),
+                                                                   dataPath(dataPath){};
+            std::string imagePath;
+            std::string dataPath;
+        };
 
-    pOutputFolder.append("ROI");
-    pOutputFolder.append(pFile.filename().string());
+        namespace InputCollection
+        {
+            InputData COW2(imageDir + "/ds1/cow2.jpg",
+                           outputDir + "/seedData/cow2.txt");
 
-    ExpROISelection(pFile.string(),pOutputFolder.string());
+            InputData BUTTERFLY1(imageDir + "/ds1/butterfly1.jpg",
+                                 outputDir + "/seedData/butterfly1.txt");
+
+            InputData BUTTERFLY2(imageDir + "/ds1/butterfly2.jpg",
+                                 outputDir + "/seedData/butterfly2.txt");
+
+        }
+    }
 }
-
 
 
 int main()
 {
-    std::string lena = imageDir + "/lena800.jpg";
-    std::string lenaROIData = outputDir + "/ROI/lena800.jpg/data.txt";
+    typedef BinOCS::Application::GrabCutApplication GCApplication;
+    typedef Model::SeedSequenceInput SeedInput;
 
-    //interactive(lena);
-    //roiSelection(lena);
-    //fromROISelection(lenaROIData);
 
-    ExpDataset(imageDir+"/ds1",false);
+    InputData input = InputCollection::BUTTERFLY1;
+
+//    Helpers::MultipleMaskSelector MMS(input.imagePath,
+//                                      "Mask Selector",
+//                                      input.dataPath);
+
+
+    //interactive(input.imagePath);
+    fromROISelection(input.dataPath);
+
+    //ExpDataset(imageDir+"/ds1",false);
 
     return 0;
 }
