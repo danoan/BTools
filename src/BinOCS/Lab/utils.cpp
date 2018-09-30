@@ -112,6 +112,37 @@ void Utils::showManyImages(std::string title, int nArgs, ...)
     va_end(args);*/
 }
 
+cv::Rect Utils::computeBoundingBox(const cv::Mat &img)
+{
+    int nRows = img.rows;
+    int nCols = img.cols;
+
+
+    cv::Point low,high;
+    low = cv::Point(10000,10000);
+    high = cv::Point(0,0);
+
+    typedef cv::Vec3b ColorType;
+
+    const ColorType* row;
+    for(int i=0;i<nRows;++i)
+    {
+        row = img.ptr<ColorType>(i);
+        for(int j=0;j<nCols;++j)
+        {
+            if(row[j]==ColorType(0,0,0)) continue;
+
+            low.x = j<low.x?j:low.x;
+            low.y = i<low.y?i:low.y;
+
+            high.x = j>high.x?j:high.x;
+            high.y = i>high.y?i:high.y;
+        }
+    }
+
+    return cv::Rect(low,high);
+}
+
 void Utils::enhance(cv::Mat& imgOutput,
                              const cv::Mat& baseImg,
                              const DGtal::Z2i::DigitalSet& enhanceDSMask,

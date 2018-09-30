@@ -10,6 +10,8 @@
 
 #include "BinOCS/Application/GrabCut/GrabCutApplication.h"
 
+#include "SCaBOliC/Utils/Utils.h"
+
 #include <BinOCS/Lab/model/input/GrabCorrectionInput.h>
 #include <BinOCS/Lab/model/input/GrabCorrectionInput.h>
 #include "BinOCS/Lab/model/input/BCorrectionInput.h"

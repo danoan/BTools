@@ -38,40 +38,27 @@ ExpInteractive::ExpInteractive(const Model::GrabCorrectionInput& expInput,
                                        result.baseImage,
                                        result.foreground);
 
-    cv::Mat enhancedImg = dd.imgOutput.clone();
+    double outputElasticaEnergy,inputElasticaEnergy;
+    SCaBOliC::Utils::MDCAISQEvaluation(outputElasticaEnergy,
+                                       solution.outputDS);
 
-    Utils::enhance(enhancedImg,
-                   result.baseImage,
-                   dd.removedPoints,
-                   0.75);
+    DigitalSet baseImageDS(solution.outputDS.domain());
+    DIPaCUS::Representation::ImageAsDigitalSet(baseImageDS,expInput.imagePath);
+    SCaBOliC::Utils::MDCAISQEvaluation(inputElasticaEnergy,baseImageDS);
 
-    Utils::enhance(enhancedImg,
-                   result.baseImage,
-                   dd.includedPoints,
-                   1.25);
-
-    DGtal::Board2D board;
-    board << dd.includedPoints;
-    board.saveEPS( (outputFolder +"/included.eps").c_str());
-
-    board.clear();
-    board << dd.removedPoints;
-    board.saveEPS((outputFolder + "/removed.eps").c_str());
-
+    std::ofstream ofs(outputFolder + "/energy.txt");
+    ofs << "GrabCut Segmentation Elastica Energy: " << inputElasticaEnergy << "\n"
+        << "Boundary Correction Elastica Energy: " << outputElasticaEnergy << std::endl;
+    ofs.close();
 
     cv::imwrite(outputFolder + "/gc-seg.jpg",result.foreground);
     cv::imwrite(outputFolder +"/corrected-seg.jpg",dd.imgOutput);
 
-
-    /*
-    BinOCS::Experiments::Utils::showManyImages("Segmentation Result",
-                                               3,
-                                               result.foreground(extendedROI),
-                                               dd.imgOutput(extendedROI),
-                                               enhancedImg(extendedROI));
-    */
-
     cv::destroyAllWindows();
+
+    cv::Rect r = Utils::computeBoundingBox(result.foreground);
+
+    Utils::showManyImages("Boundary Correction",2,result.foreground(r),dd.imgOutput(r));
 
 }
 

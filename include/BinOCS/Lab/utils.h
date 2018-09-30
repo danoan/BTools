@@ -71,6 +71,8 @@ namespace BinOCS
             ///////////////////////////////////////////////////////////////////////*/
 
             void showManyImages(std::string title, int nArgs, ...);
+            cv::Rect computeBoundingBox(const cv::Mat& img);
+
             void enhance(cv::Mat& imgOutput,
                          const cv::Mat& baseImg,
                          const DGtal::Z2i::DigitalSet& enhanceDSMask,

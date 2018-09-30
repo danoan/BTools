@@ -141,10 +141,10 @@ int main()
 //                                      input.dataPath);
 
 
-    //interactive(input.imagePath);
+    interactive(input.imagePath);
     //fromROISelection(input.dataPath);
 
-    ExpDataset(imageDir+"/ds1",outputDir + "/Dataset-3it");
+    //ExpDataset(imageDir+"/ds1",outputDir + "/Dataset-3it");
 
     return 0;
 }
