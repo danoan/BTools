@@ -2,18 +2,36 @@ cmake_minimum_required(VERSION 3.2)
 project(binocs-experiments)
 
 
-#It expects variables
-#CMAKE_PREFIX_PATH: find_[package] macro directories
 #CMAKE_INSTALL_PREFIX: install location
-#EXTRA_LINK_DIR: extra link directories
-#BUILD_PATH: location of cmake generated build files
-
-
-link_directories(${EXTRA_LINK_DIR})
-
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
+
+message("Project Root Dir: ${CMAKE_SOURCE_DIR}")
+message("Build files at: ${CMAKE_BINARY_DIR}")
+message("Installation at: ${CMAKE_INSTALL_PREFIX}")
+
+set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
+
+set(DIPACUS_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "DIPaCUS include location path.")
+set(DIPACUS_LIBS_DIR /usr/local/lib CACHE PATH "DIPaCUS libraries location path.")
+
+set(GEOC_INCLUDE_DIRS /usr/local/include/geoc CACHE PATH "geoc include location path.")
+
+set(SCABOLIC_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "SCaBOliC include location path.")
+set(SCABOLIC_LIBS_DIR /usr/local/lib CACHE PATH "SCaBOliC libraries location path.")
+
+set(BINOCS_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "BinOCS include location path.")
+set(BINOCS_LIBS_DIR /usr/local/lib CACHE PATH "BinOCS libraries location path.")
+
+set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
+
+
+link_directories(${DIPACUS_LIBS_DIR}
+        ${GEOC_LIBS_DIR}
+        ${SCABOLIC_LIBS_DIR}
+        ${BINOCS_LIBS_DIR})
+
 
 add_executable(main
         src/main.cpp
@@ -23,14 +41,20 @@ add_executable(main
         src/BinOCS/Lab/Experiments/ExpFromSeed.cpp
         src/BinOCS/Lab/Experiments/ExpDataset.cpp)
 
+
+
 target_compile_definitions(main PRIVATE -DPROJECT_DIR=\"${CMAKE_SOURCE_DIR}\")
 
 target_compile_features(main PRIVATE cxx_auto_type)
 target_compile_options(main PRIVATE -fext-numeric-literals)
 
 target_include_directories(main PRIVATE
-        ext/include
         include
+        ${DIPACUS_INCLUDE_DIRS}
+        ${GEOC_INCLUDE_DIRS}
+        ${SCABOLIC_INCLUDE_DIRS}
+        ${BINOCS_INCLUDE_DIRS}
+        ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(main
@@ -58,9 +82,13 @@ target_compile_definitions(testWriting PRIVATE -DPROJECT_DIR=\"${CMAKE_SOURCE_DI
 target_compile_features(testWriting PRIVATE cxx_auto_type)
 target_compile_options(testWriting PRIVATE -fext-numeric-literals)
 
-target_include_directories(testWriting PRIVATE
-        ext/include
+target_include_directories(testWriting  PRIVATE
         include
+        ${DIPACUS_INCLUDE_DIRS}
+        ${GEOC_INCLUDE_DIRS}
+        ${SCABOLIC_INCLUDE_DIRS}
+        ${BINOCS_INCLUDE_DIRS}
+        ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(testWriting

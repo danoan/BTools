@@ -105,6 +105,27 @@ namespace BinOCS
     }
 }
 
+void multipleSelection(std::string datasetPathStr)
+{
+    boost::filesystem::path datasetPath(datasetPathStr);
+    boost::filesystem::directory_iterator di(datasetPath);
+
+    std::string outputFilepath;
+    std::string windowName = "Mask Selector";
+    while(di!=boost::filesystem::directory_iterator())
+    {
+        if(di->path().extension()==".jpg")
+        {
+            outputFilepath = outputDir + "/seedData/" + di->path().stem().string() + ".txt";
+            Helpers::MultipleMaskSelector MMS(di->path().string(),
+                                                  windowName,
+                                                  outputFilepath);
+            cv::destroyWindow(windowName);
+        }
+        ++di;
+    }
+}
+
 
 int main()
 {
@@ -114,15 +135,16 @@ int main()
 
     InputData input = InputCollection::BUTTERFLY1;
 
+    //multipleSelection(imageDir + "/ds1");
 //    Helpers::MultipleMaskSelector MMS(input.imagePath,
 //                                      "Mask Selector",
 //                                      input.dataPath);
 
 
     //interactive(input.imagePath);
-    fromROISelection(input.dataPath);
+    //fromROISelection(input.dataPath);
 
-    //ExpDataset(imageDir+"/ds1",false);
+    ExpDataset(imageDir+"/ds1",outputDir + "/Dataset-3it");
 
     return 0;
 }

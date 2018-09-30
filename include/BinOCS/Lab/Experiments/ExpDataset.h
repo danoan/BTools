@@ -9,6 +9,7 @@
 #include <BinOCS/Lab/model/input/SeedCorrectionInput.h>
 #include <BinOCS/Lab/model/instance/GeneralInstance.h>
 #include <BinOCS/Lab/model/instance/profile/CurvatureProfile.h>
+#include <BinOCS/Lab/model/instance/profile/DataTermProfile.h>
 
 #include <BinOCS/Application/BoundaryCorrection/model/CVMatDistribution.h>
 #include <BinOCS/Application/BoundaryCorrection/BCApplication.h>
@@ -36,7 +37,8 @@ namespace BinOCS
                 typedef GeneralInstance<SeedCorrectionInput> MyInstance;
 
             public:
-                ExpDataset(std::string datasetPath,bool ROISelection=true);
+                ExpDataset(std::string datasetPath,
+                           std::string outputFolder);
 
                 void executeInstance(OptOutput& output,
                                      const BCorrectionInput& bcInput,
@@ -44,7 +46,8 @@ namespace BinOCS
                                      const std::string& imgFilePath);
 
             private:
-                void executeROICorrection(std::string datasetPathStr);
+                void executeROICorrection(std::string datasetPathStr,
+                                          std::string outputFolder);
             };
         }
     }

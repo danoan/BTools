@@ -1,5 +1,5 @@
-#ifndef BINOCS_EXPERIMENTS_CURVATUREPROFILE_H
-#define BINOCS_EXPERIMENTS_CURVATUREPROFILE_H
+#ifndef BINOCS_EXPERIMENTS_DATATERMPROFILE_H
+#define BINOCS_EXPERIMENTS_DATATERMPROFILE_H
 
 #include "InstanceProfile.h"
 
@@ -9,21 +9,21 @@ namespace BinOCS
     {
         namespace Model
         {
-            class CurvatureProfile: public InstanceProfile
+            class DataTermProfile: public InstanceProfile
             {
             public:
                 typedef InstanceProfile::VariationType VariationType;
 
             public:
-                CurvatureProfile():InstanceProfile(InstanceProfile::Curvature){}
+                DataTermProfile():InstanceProfile(InstanceProfile::Data){}
 
                 bool fillInstance(Model::BCorrectionInput& input)
                 {
                     if(currI >=4 ) return false;
                     this->standardInput(input);
 
-                    input.sqTermWeight = weights[currI];
-                    input.inputName = "Curv.W=" + std::to_string( input.sqTermWeight);
+                    input.dataTermWeight = weights[currI];
+                    input.inputName = "Dt.W=" + std::to_string( input.dataTermWeight);
 
                     currI++;
 
@@ -32,9 +32,10 @@ namespace BinOCS
 
             private:
                 int currI = 0;
-                double weights[4] = {0,0.25,0.5,1.0};
+                double weights[4] = {0,0.1,0.25,0.5};
             };
         }
     }
 }
-#endif //BINOCS_EXPERIMENTS_CURVATUREPROFILE_H
+
+#endif //BINOCS_EXPERIMENTS_DATATERMPROFILE_H

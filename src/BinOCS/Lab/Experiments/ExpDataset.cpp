@@ -3,10 +3,12 @@
 using namespace BinOCS::Lab::Experiments;
 
 
-ExpDataset::ExpDataset(std::string datasetPath,bool ROISelection)
+ExpDataset::ExpDataset(std::string datasetPath,
+                       std::string outputFolder)
 {
     assert(boost::filesystem::is_directory(datasetPath));
-    executeROICorrection(datasetPath);
+    executeROICorrection(datasetPath,
+                         outputFolder);
 }
 
 
@@ -66,7 +68,8 @@ void ExpDataset::executeInstance(OptOutput& output,
 
 }
 
-void ExpDataset::executeROICorrection(std::string datasetPathStr)
+void ExpDataset::executeROICorrection(std::string datasetPathStr,
+                                      std::string outputFolder)
 {
     boost::filesystem::path datasetPath(datasetPathStr);
     boost::filesystem::directory_iterator di(datasetPath);
@@ -79,7 +82,7 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr)
             std::string imageName = di->path().stem().string();
             SeedSequenceInput roiInput = SeedSequenceInput::read(dataPath);
 
-            boost::filesystem::path outputPath(datasetPath);
+            boost::filesystem::path outputPath(outputFolder);
             outputPath.append(imageName);
             boost::filesystem::create_directories(outputPath);
 
@@ -88,15 +91,16 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr)
             MyInstance instance(
                     imageName, totalSeed);
 
-            CurvatureProfile curvProfile(InstanceProfile::Curvature);
+            DataTermProfile dtProfile;
             BCorrectionInput bcInput("noname");
 
-            while (curvProfile.fillInstance(bcInput)) {
+            SelectorOutput selectorOutput;
+            selectorOutput.baseImage = cv::imread(roiInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
+            while (dtProfile.fillInstance(bcInput)) {
                 SeedCorrectionInput seedcInput(bcInput.inputName);
                 seedcInput.seedInput = roiInput;
                 seedcInput.bcInput = bcInput;
 
-                SelectorOutput selectorOutput;
                 std::vector<OptOutput> ROIOutput;
                 for (int i = 0; i < totalSeed; ++i) {
                     OptOutput output;
@@ -114,10 +118,12 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr)
                 instance.vectorOfOutput.push_back(ROIOutput);
             }
 
-            instance.write(std::cout,
+            std::ofstream ofs( (outputPath.string() + "/values.txt").c_str() );
+
+            instance.write(ofs,
                            outputPath.string());
 
-            break;
+            ofs.close();
         }
 
         di++;
