@@ -22,12 +22,12 @@ namespace BinOCS
             protected:
                 void standardInput(BCorrectionInput& input)
                 {
-                    input.maxIterations = 3;
+                    input.maxIterations = 10;
                     input.lengthTermWeight = 0.5;
                     input.dataTermWeight = 0.5;
                     input.sqTermWeight = 1.0;
                     input.estimatingBallRadius = 3;
-                    input.solverType = Model::BCorrectionInput::QPBOSolverType::ImproveProbe;
+                    input.solverType = Model::BCorrectionInput::QPBOSolverType::Simple;
                 }
 
             protected:
