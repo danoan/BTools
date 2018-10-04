@@ -21,6 +21,7 @@ namespace BinOCS
     {
         namespace Experiments
         {
+            template<typename TInstanceProfile>
             class ExpDataset
             {
             public:
@@ -36,9 +37,12 @@ namespace BinOCS
 
                 typedef GeneralInstance<SeedCorrectionInput> MyInstance;
 
+                typedef TInstanceProfile MyInstanceProfile;
+
             public:
-                ExpDataset(std::string datasetPath,
-                           std::string outputFolder);
+                ExpDataset(const std::string& datasetPath,
+                           BCorrectionInput& bcInput,
+                           const std::string& outputFolder);
 
                 void executeInstance(OptOutput& output,
                                      const BCorrectionInput& bcInput,
@@ -46,11 +50,14 @@ namespace BinOCS
                                      const std::string& imgFilePath);
 
             private:
-                void executeROICorrection(std::string datasetPathStr,
-                                          std::string outputFolder);
+                void executeROICorrection(const std::string& datasetPath,
+                                          BCorrectionInput& bcInput,
+                                          const std::string& outputFolder);
             };
         }
     }
 }
+
+#include "ExpDataSet.hpp"
 
 #endif //BINOCS_EXPERIMENTS_EXPDATASET_H
