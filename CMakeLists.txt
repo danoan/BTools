@@ -30,7 +30,8 @@ set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 link_directories(${DIPACUS_LIBS_DIR}
         ${GEOC_LIBS_DIR}
         ${SCABOLIC_LIBS_DIR}
-        ${BINOCS_LIBS_DIR})
+        ${BINOCS_LIBS_DIR}
+        ${CMAKE_PREFIX_PATH})
 
 
 add_executable(main

@@ -68,11 +68,11 @@ void interactive(std::string imgFilepath)
 
     Model::GrabCorrectionInput gci("Standard Input");
 
-    gci.bcInput.maxIterations=1;
+    gci.bcInput.maxIterations=5;
     gci.bcInput.estimatingBallRadius=3.0;
     gci.bcInput.sqTermWeight=1.0;
-    gci.bcInput.lengthTermWeight=1.0;
-    gci.bcInput.dataTermWeight=5.0;
+    gci.bcInput.lengthTermWeight=0.1;
+    gci.bcInput.dataTermWeight=1.0;
     gci.imagePath = pFile.string();
 
     ExpInteractive(gci,pOutputFolder.string());
@@ -133,7 +133,7 @@ int main()
     typedef Model::SeedSequenceInput SeedInput;
 
 
-    InputData input = InputCollection::BUTTERFLY1;
+    InputData input = InputCollection::COW2;
 
     //multipleSelection(imageDir + "/ds1");
 //    Helpers::MultipleMaskSelector MMS(input.imagePath,
