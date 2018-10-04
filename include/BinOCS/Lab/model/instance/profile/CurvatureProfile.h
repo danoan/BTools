@@ -17,13 +17,14 @@ namespace BinOCS
             public:
                 CurvatureProfile():InstanceProfile(InstanceProfile::Curvature){}
 
+                std::string profileIdentifier(){return "Curvature-";};
+
                 bool fillInstance(Model::BCorrectionInput& input)
                 {
                     if(currI >=4 ) return false;
-                    this->standardInput(input);
 
                     input.sqTermWeight = weights[currI];
-                    input.inputName = "Curv.W=" + std::to_string( input.sqTermWeight);
+                    input.inputName = profileIdentifier() + std::to_string( input.sqTermWeight);
 
                     currI++;
 

@@ -126,8 +126,23 @@ void multipleSelection(std::string datasetPathStr)
     }
 }
 
+template<typename TInstanceProfile>
+void dataset(std::string prefix,int argc, char* argv[])
+{
+    GrabCorrectionInput gcInput("noname");
+    Utils::readInput(gcInput,argc,argv);
+    gcInput.bcInput.solverType = BCorrectionInput::QPBOSolverType::Probe;
 
-int main()
+    std::string datasetPath = gcInput.imagePath;
+
+    ExpDataset<TInstanceProfile>(datasetPath,
+                                 gcInput.bcInput,
+                                 outputDir + "/Dataset-" + prefix +
+                                 std::to_string(gcInput.bcInput.maxIterations) + "it");
+}
+
+
+int main(int argc, char* argv[])
 {
     typedef BinOCS::Application::GrabCutApplication GCApplication;
     typedef Model::SeedSequenceInput SeedInput;
@@ -141,10 +156,13 @@ int main()
 //                                      input.dataPath);
 
 
-    interactive(input.imagePath);
+    //interactive(input.imagePath);
     //fromROISelection(input.dataPath);
 
-    //ExpDataset(imageDir+"/ds1",outputDir + "/Dataset-3it");
+
+
+    dataset<CurvatureProfile>("Curvature-Erosion-",argc,argv);
+    dataset<DataTermProfile>("Data-Erosion-",argc,argv);
 
     return 0;
 }

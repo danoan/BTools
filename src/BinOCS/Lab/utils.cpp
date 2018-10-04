@@ -235,3 +235,51 @@ void Utils::write(const Model::OptOutput& output,
 
     }
 }
+
+void Utils::defaultValues(Model::GrabCorrectionInput& gci)
+{
+    gci.bcInput.maxIterations=1;
+    gci.bcInput.estimatingBallRadius=3.0;
+    gci.bcInput.sqTermWeight=1.0;
+    gci.bcInput.lengthTermWeight=0.5;
+    gci.bcInput.dataTermWeight=0.25;
+}
+
+void Utils::readInput(Model::GrabCorrectionInput& gci,
+                      int argc,
+                      char** argv)
+{
+    defaultValues(gci);
+
+    int opt;
+    while( (opt=getopt(argc,argv,"c:d:l:b:i:"))!=-1)
+    {
+        switch(opt)
+        {
+            case 'c':
+                gci.bcInput.sqTermWeight = atof(optarg);
+                break;
+            case 'd':
+                gci.bcInput.dataTermWeight = atof(optarg);
+                break;
+            case 'l':
+                gci.bcInput.lengthTermWeight = atof(optarg);
+                break;
+            case 'b':
+                gci.bcInput.estimatingBallRadius = atoi(optarg);
+                break;
+            case 'i':
+                gci.bcInput.maxIterations = atoi(optarg);
+                break;
+
+            default:
+                std::cerr << "Usage: %s IMAGE_PATH [-c Curvature Weight] "
+                        "[-d Data Weight] [-l Length Weight] [-b Ball Radius] "
+                        "[-i Max Iterations]" << std::endl;
+
+        }
+    }
+
+    gci.imagePath = argv[optind];
+    std::cout << gci.imagePath << std::endl;
+}

@@ -3,16 +3,19 @@
 using namespace BinOCS::Lab::Experiments;
 
 
-ExpDataset::ExpDataset(std::string datasetPath,
-                       std::string outputFolder)
+template<typename TInstanceProfile>
+ExpDataset<TInstanceProfile>::ExpDataset(const std::string& datasetPath,
+                       BCorrectionInput& bcInput,
+                       const std::string& outputFolder)
 {
     assert(boost::filesystem::is_directory(datasetPath));
     executeROICorrection(datasetPath,
+                         bcInput,
                          outputFolder);
 }
 
-
-void ExpDataset::executeInstance(OptOutput& output,
+template<typename TInstanceProfile>
+void ExpDataset<TInstanceProfile>::executeInstance(OptOutput& output,
                                  const BCorrectionInput& bcInput,
                                  const SelectorOutput& selectorOutput,
                                  const std::string& imgFilePath)
@@ -34,6 +37,11 @@ void ExpDataset::executeInstance(OptOutput& output,
                             bcInput.dataTermWeight,
                             bcInput.sqTermWeight,
                             bcInput.lengthTermWeight);
+
+    cv::Mat eroded;
+    cv::erode(result.foreground,eroded,cv::getStructuringElement(cv::MORPH_RECT,
+                                                                 cv::Size(2*1+1,2*1+1)),cv::Point(1,1));
+    result.foreground = eroded;
 
 
     BCSolution solution = BCApplication::solutionModel(result.foreground);
@@ -68,8 +76,10 @@ void ExpDataset::executeInstance(OptOutput& output,
 
 }
 
-void ExpDataset::executeROICorrection(std::string datasetPathStr,
-                                      std::string outputFolder)
+template<typename TInstanceProfile>
+void ExpDataset<TInstanceProfile>::executeROICorrection(const std::string& datasetPathStr,
+                                      BCorrectionInput& bcInput,
+                                      const std::string& outputFolder)
 {
     boost::filesystem::path datasetPath(datasetPathStr);
     boost::filesystem::directory_iterator di(datasetPath);
@@ -77,7 +87,6 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr,
     {
         if(di->path().extension()==".txt")
         {
-
             std::string dataPath = di->path().string();
             std::string imageName = di->path().stem().string();
             SeedSequenceInput roiInput = SeedSequenceInput::read(dataPath);
@@ -91,12 +100,12 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr,
             MyInstance instance(
                     imageName, totalSeed);
 
-            DataTermProfile dtProfile;
-            BCorrectionInput bcInput("noname");
+            MyInstanceProfile instanceProfile;
 
+            std::cout << roiInput.imgFilePath << std::endl;
             SelectorOutput selectorOutput;
             selectorOutput.baseImage = cv::imread(roiInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
-            while (dtProfile.fillInstance(bcInput)) {
+            while (instanceProfile.fillInstance(bcInput)) {
                 SeedCorrectionInput seedcInput(bcInput.inputName);
                 seedcInput.seedInput = roiInput;
                 seedcInput.bcInput = bcInput;
@@ -118,7 +127,7 @@ void ExpDataset::executeROICorrection(std::string datasetPathStr,
                 instance.vectorOfOutput.push_back(ROIOutput);
             }
 
-            std::ofstream ofs( (outputPath.string() + "/values.txt").c_str() );
+            std::ofstream ofs( (outputPath.string() + "/" + instanceProfile.profileIdentifier() + "values.txt").c_str() );
 
             instance.write(ofs,
                            outputPath.string());

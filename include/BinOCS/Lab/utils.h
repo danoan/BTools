@@ -97,6 +97,11 @@ namespace BinOCS
             std::string fixedStrLength(int l,std::string str);
             std::string fixedStrLength(int l,double v);
             std::string resolveQPBOSolverType(Model::BCorrectionInput::QPBOSolverType solverType);
+
+            void defaultValues(Model::GrabCorrectionInput& gci);
+            void readInput(Model::GrabCorrectionInput& gci,
+                           int argc,
+                           char** argv);
         }
     }
 }

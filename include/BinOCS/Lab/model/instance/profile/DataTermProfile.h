@@ -17,13 +17,14 @@ namespace BinOCS
             public:
                 DataTermProfile():InstanceProfile(InstanceProfile::Data){}
 
+                std::string profileIdentifier(){return "Data-";};
+
                 bool fillInstance(Model::BCorrectionInput& input)
                 {
                     if(currI >=4 ) return false;
-                    this->standardInput(input);
 
                     input.dataTermWeight = weights[currI];
-                    input.inputName = "Dt.W=" + std::to_string( input.dataTermWeight);
+                    input.inputName = profileIdentifier() + std::to_string( input.dataTermWeight);
 
                     currI++;
 
@@ -32,7 +33,7 @@ namespace BinOCS
 
             private:
                 int currI = 0;
-                double weights[4] = {0,0.1,0.25,0.5};
+                double weights[4] = {0,0.5,1.0,2.0};
             };
         }
     }

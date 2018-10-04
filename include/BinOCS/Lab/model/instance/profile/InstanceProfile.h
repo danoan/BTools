@@ -18,17 +18,7 @@ namespace BinOCS
                 InstanceProfile(VariationType vt):vt(vt){}
 
                 virtual bool fillInstance(BCorrectionInput& input)=0;
-
-            protected:
-                void standardInput(BCorrectionInput& input)
-                {
-                    input.maxIterations = 10;
-                    input.lengthTermWeight = 0.5;
-                    input.dataTermWeight = 0.5;
-                    input.sqTermWeight = 1.0;
-                    input.estimatingBallRadius = 3;
-                    input.solverType = Model::BCorrectionInput::QPBOSolverType::Simple;
-                }
+                virtual std::string profileIdentifier()=0;
 
             protected:
                 VariationType vt;
