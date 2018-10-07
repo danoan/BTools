@@ -1,0 +1,5 @@
+./setUp.sh #Download and make repositories: DIPaCUS,GEOC,SCaBOliC and BinOCS
+mkdir build
+cd build
+cmake ..
+make
