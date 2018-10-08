@@ -1,4 +1,4 @@
-#include "../include/InputReader.h"
+#include "InputReader.h"
 
 using namespace BTools::Application::FromSeed;
 

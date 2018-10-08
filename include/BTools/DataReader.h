@@ -1,5 +1,5 @@
-#ifndef BTOOLS_DATAHEADER_H
-#define BTOOLS_DATAHEADER_H
+#ifndef BTOOLS_DATAREADER_H
+#define BTOOLS_DATAREADER_H
 
 #include <BTools/model/input/SeedSequenceInput.h>
 #include <iostream>
@@ -18,4 +18,4 @@ namespace BTools
     }
 }
 
-#endif //BTOOLS_DATAHEADER_H
+#endif //BTOOLS_DATAREADER_H

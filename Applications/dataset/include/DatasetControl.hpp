@@ -49,7 +49,7 @@ void DatasetControl::runFlowOnDataset(const std::string &datasetPathStr,
                                                          seedInput.imgFilePath,
                                                          bcFlowInputModel,
                                                          selectorOutput,
-                                                         outputFolder);
+                                                         outputPath.string());
 
                     study.vectorOfOptOutput.push_back(output);
                 }

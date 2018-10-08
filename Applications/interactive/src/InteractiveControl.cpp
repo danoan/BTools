@@ -1,5 +1,5 @@
 #include <BinOCS/API.h>
-#include "../include/InteractiveControl.h"
+#include "InteractiveControl.h"
 
 using namespace BTools::Application;
 

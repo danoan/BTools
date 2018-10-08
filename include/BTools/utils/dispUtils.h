@@ -1,5 +1,5 @@
-#ifndef BTOOLS_DISP_UTILS
-#define BTOOLS_DISP_UTILS
+#ifndef BTOOLS_DISPUTILS_H
+#define BTOOLS_DISPUTILS_H
 
 #include <opencv2/opencv.hpp>
 
@@ -65,4 +65,4 @@ namespace BTools
     }
 }
 
-#endif
+#endif//BTOOLS_DISPUTILS_H

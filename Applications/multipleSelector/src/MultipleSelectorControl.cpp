@@ -1,4 +1,4 @@
-#include "../include/MultipleSelectorControl.h"
+#include "MultipleSelectorControl.h"
 
 using namespace BTools::Application;
 

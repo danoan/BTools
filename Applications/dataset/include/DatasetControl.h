@@ -1,5 +1,5 @@
-#ifndef BTOOLS_DATASETCONTROL_H
-#define BTOOLS_DATASETCONTROL_H
+#ifndef BTOOLS_APPLICATION_DATASET_DATASETCONTROL_H
+#define BTOOLS_APPLICATION_DATASET_DATASETCONTROL_H
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -59,4 +59,4 @@ namespace BTools
 
 #include "DatasetControl.hpp"
 
-#endif //BTOOLS_DATASETCONTROL
+#endif //BTOOLS_APPLICATION_DATASET_DATASETCONTROL

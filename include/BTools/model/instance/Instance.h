@@ -1,5 +1,5 @@
-#ifndef BTOOLS_INSTANCE_H
-#define BTOOLS_INSTANCE_H
+#ifndef BTOOLS_MODEL_INSTANCE_H
+#define BTOOLS_MODEL_INSTANCE_H
 
 #include <BTools/model/input/BCFlowInput.h>
 #include <BTools/model/input/SeedSequenceInput.h>
@@ -24,4 +24,4 @@ namespace BTools
     }
 }
 
-#endif //BTOOLS_INSTANCE_H
+#endif //BTOOLS_MODEL_INSTANCE_H

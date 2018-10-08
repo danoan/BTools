@@ -1,5 +1,5 @@
-#include "include/InteractiveControl.h"
-#include "include/InputReader.h"
+#include "InteractiveControl.h"
+#include "InputReader.h"
 
 namespace BTools
 {

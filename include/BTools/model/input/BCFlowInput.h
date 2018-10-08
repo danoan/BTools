@@ -1,5 +1,5 @@
-#ifndef BINOCS_EXPERIMENTS_EXPINPUT_H
-#define BINOCS_EXPERIMENTS_EXPINPUT_H
+#ifndef BTOOLS_MODEL_BCFLOWINPUT_H
+#define BTOOLS_MODEL_BCFLOWINPUT_H
 
 #include <BinOCS/BoundaryCorrection/model/BCApplicationInput.h>
 #include <string>
@@ -28,4 +28,4 @@ namespace BTools
         };
     }
 }
-#endif //BINOCS_EXPERIMENTS_EXPINPUT_H
+#endif //BTOOLS_MODEL_BCFLOWINPUT_H

@@ -1,4 +1,4 @@
-#include "../include/InputReader.h"
+#include "InputReader.h"
 
 using namespace BTools::Application::Dataset;
 
@@ -29,7 +29,7 @@ void InputReader::readInput(InputData& id,
                 break;
 
             default:
-                std::cerr << "Usage: %s IMAGE_PATH [-c Curvature Weight] "
+                std::cerr << "Usage: %s DATA_SEED_FOLDER_PATH [-c Curvature Weight] "
                         "[-d Data Weight] [-l Length Weight] [-b Ball Radius] "
                         "[-i Max Iterations]" << std::endl;
 

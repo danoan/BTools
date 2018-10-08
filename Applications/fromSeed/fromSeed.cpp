@@ -1,6 +1,6 @@
 #include <BTools/DataReader.h>
-#include "include/FromSeedControl.h"
-#include "include/InputReader.h"
+#include "FromSeedControl.h"
+#include "InputReader.h"
 
 namespace BTools
 {

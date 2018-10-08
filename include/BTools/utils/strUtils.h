@@ -1,5 +1,5 @@
-#ifndef BINOCS_EXPERIMENTS_LAB_UTILS
-#define BINOCS_EXPERIMENTS_LAB_UTILS
+#ifndef BTOOLS_STRUTILS_H
+#define BTOOLS_STRUTILS_H
 
 #include <DGtal/helpers/StdDefs.h>
 
@@ -19,4 +19,4 @@ namespace BTools
     }
 }
 
-#endif
+#endif//BTOOLS_STRUTILS_H

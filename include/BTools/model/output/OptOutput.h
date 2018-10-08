@@ -1,5 +1,5 @@
-#ifndef BINOCS_EXPERIMENTS_SINGLEINSTANCEOUTPUT_H
-#define BINOCS_EXPERIMENTS_SINGLEINSTANCEOUTPUT_H
+#ifndef BTOOLS_MODEL_OPTOUTPUT_H
+#define BTOOLS_MODEL_OPTOUTPUT_H
 
 #include <opencv2/core/mat.hpp>
 #include <BTools/model/input/SeedSequenceInput.h>
@@ -31,4 +31,4 @@ namespace BTools
         };
     }
 }
-#endif //BINOCS_EXPERIMENTS_SINGLEINSTANCEOUTPUT_H
+#endif //BTOOLS_MODEL_OPTOUTPUT_H

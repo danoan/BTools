@@ -21,7 +21,7 @@ int main()
     Flow::BCConfigInput bcInput(3,
                                 0,
                                 1.0,
-                                0.2,
+                                0,
                                 Flow::BCConfigInput::QPBOSolverType::Probe);
 
     Flow::BCFlowInput bcFlowInput("Digital Shapes Flow",

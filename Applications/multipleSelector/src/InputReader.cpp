@@ -1,4 +1,4 @@
-#include "../include/InputReader.h"
+#include "InputReader.h"
 
 using namespace BTools::Application::MultipleSelector;
 
@@ -13,7 +13,7 @@ void InputReader::readInput(InputData& id,
         switch(opt)
         {
             default:
-                std::cerr << "Usage: multipleSelector DATASET_PATH" << std::endl;
+                std::cerr << "Usage: multipleSelector IMAGE_DATASET_PATH" << std::endl;
         }
     }
 

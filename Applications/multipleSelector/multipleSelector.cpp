@@ -1,4 +1,4 @@
-#include "include/MultipleSelectorControl.h"
+#include "MultipleSelectorControl.h"
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <iostream>

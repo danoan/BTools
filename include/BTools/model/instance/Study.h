@@ -1,5 +1,5 @@
-#ifndef BTOOLS_STUDY_H
-#define BTOOLS_STUDY_H
+#ifndef BTOOLS_MODEL_STUDY_H
+#define BTOOLS_MODEL_STUDY_H
 
 #include "Instance.h"
 
@@ -15,4 +15,4 @@ namespace BTools
     }
 }
 
-#endif //BTOOLS_STUDY_H
+#endif //BTOOLS_MODEL_STUDY_H
