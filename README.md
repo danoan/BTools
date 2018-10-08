@@ -1,4 +1,4 @@
-**Dependencies** 
+##Dependencies 
 
 libboost1.58-dev
 
@@ -6,20 +6,36 @@ DGtal0.9
 
 opencv-3.3.0
 
-**How to use**
+##How to use
 
-./main -c 1.0 -d 0.25 -l 0.5 -b 3.0 -i 1 -f images/ds1/cow2.jpg
+This source contains five applications:
 
-Draw a rect containing the object.
 
-Press Enter.
+**dataset**: Read data seed files and execute the segmentation accordingly with parameters. 
+USAGE: DATA_SEED_FOLDER_PATH [-c Curvature Weight] [-d Data Weight] [-l Length Weight] [-b Ball Radius] [-i Max Iterations]
 
-Paint some pixels inside the rect. Those pixels identify sure foreground pixels.
 
-Press Enter.
+**fromSeed**: Read single data seed file and execute the segmentation accordingly with parameters. 
+USAGE: DATA_SEED_FILE_PATH [-c Curvature Weight] [-d Data Weight] [-l Length Weight] [-b Ball Radius] [-i Max Iterations]
 
-Wait for GrabCut output.
 
-Press Enter if output is sufficiently good. Press any other key to redo the selections.
+**interactive**: Read image file and let user to set seeds mannualy execute the segmentation accordingly with parameters. 
+USAGE: IMAGE_FILE_PATH [-c Curvature Weight] [-d Data Weight] [-l Length Weight] [-b Ball Radius] [-i Max Iterations]
 
-When operation is concluded, a window displaying images before and after correction will appear. The results are also save in output/Interactive/[Image_Name]
+
+**multipleSelector**: Read all images and let user to mannually select seeds. It outputs one dataSeed file for each image.
+USAGE: IMAGE_DATASET_PATH [-c Curvature Weight] [-d Data Weight] [-l Length Weight] [-b Ball Radius] [-i Max Iterations]
+
+
+**illustration**: Create some of the figures present in the paper.
+
+
+##Seed selection
+Draw a rect to select probable foreground pixels and press enter.
+
+Select sure foreground pixels among those inside the rect and press enter.
+
+**interactive**: If happy with selection, press escape. If wish to make a new selection, press enter.
+
+**multipleSelector**: To start a new selection for the same image, press enter. To pass to next image, press escape.
+
