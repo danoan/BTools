@@ -1,4 +1,4 @@
-##Dependencies 
+## Dependencies 
 
 libboost1.58-dev
 
@@ -6,7 +6,7 @@ DGtal0.9
 
 opencv-3.3.0
 
-##How to use
+## How to use
 
 This source contains five applications:
 
@@ -30,7 +30,7 @@ USAGE: IMAGE_DATASET_PATH [-c Curvature Weight] [-d Data Weight] [-l Length Weig
 **illustration**: Create some of the figures present in the paper.
 
 
-##Seed selection
+## Seed selection
 Draw a rect to select probable foreground pixels and press enter.
 
 Select sure foreground pixels among those inside the rect and press enter.
