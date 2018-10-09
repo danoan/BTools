@@ -9,8 +9,8 @@ void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
 {
     DGtal::Z2i::Point lb,ub;
     ds.computeBoundingBox(lb,ub);
-    lb+=DGtal::Z2i::Point(-10,-10);
-    ub+=DGtal::Z2i::Point(10,10);
+    lb+=DGtal::Z2i::Point(-80,-80);
+    ub+=DGtal::Z2i::Point(80,80);
     Image2D image( DGtal::Z2i::Domain(lb,ub) );
     DIPaCUS::Representation::DigitalSetToImage(image, ds);
 
@@ -38,8 +38,7 @@ void Flow::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
     SCaBOliC::Utils::MDCAISQEvaluation(MDCAValue,ds);
 
     os << fnD(colLength,IIValue) << "\t"
-       << fnD(colLength,MDCAValue) << "\t"
-       << std::endl;
+       << fnD(colLength,MDCAValue) << "\t";
 }
 
 
@@ -54,6 +53,7 @@ void Flow::printTable(const std::vector<TableEntry> &entries, std::ostream &os)
         << fnS(colLength,"Opt. Energy") << "\t"
         << fnS(colLength,"Elastica II") << "\t"
         << fnS(colLength,"Elastica MDCA") << "\t"
+        << fnS(colLength,"Unlabeled") << "\t"
         << std::endl;
 
     for(auto it=entries.begin();it!=entries.end();++it)
@@ -61,8 +61,8 @@ void Flow::printTable(const std::vector<TableEntry> &entries, std::ostream &os)
         const Solution &curr = (it->solution);
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
-
-	outputElasticaEnergy(it->solution.outputDS,os);
+        outputElasticaEnergy(it->solution.outputDS,os);
+        os << fnD(colLength,curr.unlabeled) << "\t\n";
     }
 }
 
