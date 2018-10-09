@@ -29,10 +29,10 @@ int main()
                                   20);
 
     Flow flow(bcFlowInput,
-              outputDir +"/illustration/flow-b3-r3",
+              outputDir +"/illustration/flow-b3-ls3",
               false);
 
-    boost::filesystem::path srcImagePath = outputDir +"/illustration/flow-b3-r3";
+    boost::filesystem::path srcImagePath = outputDir +"/illustration/flow-b3-ls3";
     boost::filesystem::directory_iterator di(srcImagePath);
     while(di!=boost::filesystem::directory_iterator())
     {

@@ -45,8 +45,11 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
           << domain;
 
     auto itS = begin;
-    for(auto itS=begin;itS!=end;itS+=seqStep,++c)
+    int jump = 0;
+    for(auto itS=begin;itS!=end;++itS,++c,--jump)
     {
+        if(jump>0) continue;
+
         colorIndex = c%3;
         colorIndex += c==0?0:1;
         ds.insert(itS->begin(),itS->end());
@@ -54,6 +57,8 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
                                      new DGtal::CustomColors(listOfColors[colorIndex],listOfColors[colorIndex]) )
               << ds;
         ds.clear();
+
+        jump=seqStep;
     }
     itS = begin;
     while(itS+1!=end)++itS;
