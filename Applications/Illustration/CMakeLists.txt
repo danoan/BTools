@@ -13,6 +13,7 @@ add_executable(illustration
         src/AroundBoundaryReasoning.cpp
         src/Flow.cpp
         src/OneImageFlow.cpp
+        src/InputReader.cpp
         ${CMAKE_SOURCE_DIR}/src/BTools/utils/strUtils.cpp
         ${CMAKE_SOURCE_DIR}/src/BTools/utils/imgUtils.cpp
         )

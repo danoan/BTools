@@ -1,3 +1,4 @@
+#include <InputReader.h>
 #include "OneImageFlow.h"
 #include "AroundBoundaryReasoning.h"
 #include "Flow.h"
@@ -14,11 +15,14 @@ namespace BTools
 using namespace BTools::Application::Illustration;
 using namespace BTools::Application;
 
-int main()
+int main(int argc, char* argv[])
 {
-    AroundBoundaryReasoning abr(outputDir + "/illustration/ab-reasoning");
+    //AroundBoundaryReasoning abr(outputDir + "/illustration/ab-reasoning");
 
-    Flow::BCConfigInput bcInput(3,
+    InputReader::InputData id;
+    InputReader::readInput(id,argc,argv);
+
+    Flow::BCConfigInput bcInput(id.radius,
                                 0,
                                 1.0,
                                 0,
@@ -26,13 +30,15 @@ int main()
 
     Flow::BCFlowInput bcFlowInput("Digital Shapes Flow",
                                   bcInput,
-                                  20);
+                                  id.iterations);
+
+    std::string outputFilePath = outputDir +"/illustration/flow-b" + std::to_string(id.radius);
 
     Flow flow(bcFlowInput,
-              outputDir +"/illustration/flow-b3-ls3",
+              outputFilePath,
               false);
 
-    boost::filesystem::path srcImagePath = outputDir +"/illustration/flow-b3-ls3";
+    boost::filesystem::path srcImagePath = outputFilePath;
     boost::filesystem::directory_iterator di(srcImagePath);
     while(di!=boost::filesystem::directory_iterator())
     {
