@@ -12,7 +12,7 @@ void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
     lb+=DGtal::Z2i::Point(-80,-80);
     ub+=DGtal::Z2i::Point(80,80);
     Image2D image( DGtal::Z2i::Domain(lb,ub) );
-    DIPaCUS::Representation::DigitalSetToImage(image, ds);
+    DIPaCUS::Representation::digitalSetToImage(image, ds);
 
     DGtal::GenericWriter<Image2D>::exportFile(outputFilepath, image);
 }
@@ -23,7 +23,7 @@ void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
 {
 
     Image2D image( domain );
-    DIPaCUS::Representation::DigitalSetToImage(image, ds);
+    DIPaCUS::Representation::digitalSetToImage(image, ds);
 
     DGtal::GenericWriter<Image2D>::exportFile(outputFilepath, image);
 }

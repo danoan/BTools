@@ -27,6 +27,7 @@ int main()
     int numVariation = 4;
     int numStudies = 4;
 
+    BinOCS::BoundaryCorrection::FlowConfigInput fci;
 
     double curvatureWeight[numVariation] = {0.25,0.5,1.0,2.0};
     for(int i=0;i<numStudies;++i)
@@ -44,6 +45,7 @@ int main()
 
             BCFlowInput bcFlowInput("alpha = " + std::to_string(curvatureWeight[j]),
                                     bcInput,
+                                    fci,
                                     5);
 
             Instance::SeedSequenceInput seedInput;

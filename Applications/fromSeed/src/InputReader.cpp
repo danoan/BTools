@@ -38,4 +38,5 @@ void InputReader::readInput(InputData& id,
 
     id.seedDataFilePath= argv[optind];
     id.bcFlowInput.bcInput.solverType = InputData::BCFlowInput::BCConfigInput::QPBOSolverType::Probe;
+    // id.bcFlowInput.flowConfigInput NEED TO ENTER FLOW_CONFIG DATA
 }

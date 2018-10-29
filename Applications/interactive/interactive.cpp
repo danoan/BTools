@@ -14,9 +14,8 @@ namespace BTools
 
 using namespace BTools::Application;
 
-typedef Interactive::InputReader::InputData InputData;
 
-void interactive(const InputData& inputData)
+void interactive(const Interactive::InputReader::InputData& inputData)
 {
     boost::filesystem::path pFile(inputData.imageFilePath);
     boost::filesystem::path pOutputFolder(outputDir);
@@ -31,7 +30,7 @@ void interactive(const InputData& inputData)
 
 int main(int argc, char* argv[])
 {
-    InputData inputData;
+    Interactive::InputReader::InputData inputData;
     Interactive::InputReader::readInput(inputData,argc,argv);
     interactive(inputData);
 }

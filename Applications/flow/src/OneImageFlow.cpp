@@ -99,7 +99,7 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
         Image2D image = DGtal::GenericReader<Image2D>::import(*it);
 
         DigitalSet ds(image.domain());
-        DIPaCUS::Representation::ImageAsDigitalSet(ds,*it);
+        DIPaCUS::Representation::imageAsDigitalSet(ds,*it);
 
         DigitalSet boundaryDS(image.domain());
         Neigh8 a(boundaryDS,ds);

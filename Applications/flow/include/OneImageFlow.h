@@ -32,7 +32,7 @@ namespace BTools
                 typedef std::vector< SetPoint > SetPointSequence;
                 typedef SetPointSequence::const_iterator SetPointSequenceIterator;
 
-                typedef DIPaCUS::Representation::DigitalSetToImage::Image2D Image2D;
+                typedef DIPaCUS::Representation::Image2D Image2D;
                 typedef DIPaCUS::Neighborhood::FourNeighborhoodPredicate<DigitalSet> Pred8;
                 typedef DIPaCUS::Misc::DigitalBoundary<Pred8> Neigh8;
 

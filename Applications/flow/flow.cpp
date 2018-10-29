@@ -1,6 +1,5 @@
 #include <InputReader.h>
 #include "OneImageFlow.h"
-#include "AroundBoundaryReasoning.h"
 #include "Flow.h"
 
 namespace BTools
@@ -17,8 +16,6 @@ using namespace BTools::Application;
 
 int main(int argc, char* argv[])
 {
-    //AroundBoundaryReasoning abr(outputDir + "/illustration/ab-reasoning");
-
     InputReader::InputData id;
     InputReader::readInput(id,argc,argv);
 
@@ -28,8 +25,11 @@ int main(int argc, char* argv[])
                                 0,
                                 Flow::BCConfigInput::QPBOSolverType::Probe);
 
+    FlowConfigInput fci;
+
     Flow::BCFlowInput bcFlowInput("Digital Shapes Flow",
                                   bcInput,
+                                  fci,
                                   id.iterations);
 
     std::string outputFilePath = outputDir +"/illustration/flow-b" + std::to_string(id.radius);

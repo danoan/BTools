@@ -1,4 +1,4 @@
-#include "AroundBoundaryReasoning.h"
+#include "../include/AroundBoundaryReasoning.h"
 
 using namespace BTools::Application::Illustration;
 

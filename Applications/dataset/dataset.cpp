@@ -14,10 +14,8 @@ namespace BTools
 
 using namespace BTools::Application;
 
-typedef Dataset::InputReader::InputData InputData;
-
 template<typename TInstanceProfile>
-void dataset(const std::string& prefix, const InputData& inputData)
+void dataset(const std::string& prefix, const Dataset::InputReader::InputData& inputData)
 {
     std::string outputFolder = outputDir + "/Dataset-" + prefix +
                                std::to_string(inputData.bcFlowInput.maxIterations) + "it";

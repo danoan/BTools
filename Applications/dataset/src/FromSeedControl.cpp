@@ -22,6 +22,7 @@ FromSeedControl::FromSeedControl(OptOutput& output,
 
 
     BCAInput bcaInput(bcFlowInput.bcInput,
+                      bcFlowInput.flowConfigInput,
                       fgDistr,
                       bgDistr,
                       result.baseImage,
