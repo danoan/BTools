@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <BTools/model/input/BCFlowInput.h>
 
+#include "BinOCS/BoundaryCorrection/model/FlowConfigInput.h"
+
 namespace BTools
 {
     namespace Application
@@ -16,9 +18,16 @@ namespace BTools
             public:
                 struct InputData
                 {
-                    int levelSets;
+                    typedef BinOCS::BoundaryCorrection::FlowConfigInput FlowConfigInput;
+
+                    std::string flowName;
                     int radius;
                     int iterations;
+
+                    FlowConfigInput::ApplicationCenter ac;
+                    FlowConfigInput::CountingMode cm;
+                    FlowConfigInput::SpaceMode  sm;
+                    FlowConfigInput::FlowProfile fp;
                 };
 
                 static void readInput(InputData& id,

@@ -71,6 +71,19 @@ Flow::Flow(const BCFlowInput& bcFLowInput,
            bool exportRegions)
 {
     boost::filesystem::create_directories(outputFolder);
+    std::ofstream ofs(outputFolder + "/input-data.txt");
+
+    if( bcFLowInput.flowConfigInput.flowProfile==FlowConfigInput::FlowProfile::SingleStep ) ofs << "Flow Profile: Single Step \n";
+    if( bcFLowInput.flowConfigInput.flowProfile==FlowConfigInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
+    if( bcFLowInput.flowConfigInput.applicationCenter==FlowConfigInput::ApplicationCenter::AC_PIXEL) ofs << "Application Center: Pixel \n";
+    if( bcFLowInput.flowConfigInput.applicationCenter==FlowConfigInput::ApplicationCenter::AC_POINTEL) ofs << "Application Center: Pointel \n";
+    if( bcFLowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_PIXEL) ofs << "Counting Mode: Pixel \n";
+    if( bcFLowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_POINTEL) ofs << "Counting Mode: Pointel \n";
+    if( bcFLowInput.flowConfigInput.spaceMode==FlowConfigInput::SpaceMode::Pixel) ofs << "Space Mode: Pixel \n";
+    if( bcFLowInput.flowConfigInput.spaceMode==FlowConfigInput::SpaceMode::Interpixel) ofs << "Space Mode: Interpixel \n";
+
+    ofs.flush();
+    ofs.close();
 
     double r=40;
     double h=1.0;
