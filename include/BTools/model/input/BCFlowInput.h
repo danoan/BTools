@@ -12,17 +12,21 @@ namespace BTools
         struct BCFlowInput
         {
             typedef BinOCS::BoundaryCorrection::BCConfigInput BCConfigInput;
+            typedef BinOCS::BoundaryCorrection::FlowConfigInput FlowConfigInput;
 
             BCFlowInput(){};
 
             BCFlowInput(const std::string& inputName,
                         const BCConfigInput& bcInput,
+                        const FlowConfigInput& flowConfigInput,
                         int maxIterations ):inputName(inputName),
                                             bcInput(bcInput),
+                                            flowConfigInput(flowConfigInput),
                                             maxIterations(maxIterations){};
 
 
             BCConfigInput bcInput;
+            FlowConfigInput flowConfigInput;
             std::string inputName;
             int maxIterations;
         };

@@ -59,6 +59,7 @@ void Flow::shapeFlow(TShape shape,
         img = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
         
         BCAInput bcaInput(bcFlowInput.bcInput,
+                          bcFlowInput.flowConfigInput,
                           frDistr,
                           bkDistr,
                           img,

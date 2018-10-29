@@ -15,9 +15,7 @@ namespace BTools
 
 using namespace BTools::Application;
 
-typedef FromSeed::InputReader::InputData InputData;
-
-void fromSeed(const InputData& inputData)
+void fromSeed(const FromSeed::InputReader::InputData& inputData)
 {
     typedef BinOCS::GrabCut::GrabCutApplication GCApplication;
     typedef BTools::Model::SeedSequenceInput SeedSequenceInput;
@@ -46,7 +44,7 @@ void fromSeed(const InputData& inputData)
 
 int main(int argc, char* argv[])
 {
-    InputData inputData;
+    FromSeed::InputReader::InputData inputData;
 
     FromSeed::InputReader::readInput(inputData,argc,argv);
     fromSeed(inputData);

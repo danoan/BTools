@@ -39,7 +39,7 @@ namespace BTools
                 typedef DGtal::Z2i::Domain Domain;
 
                 typedef DGtal::Shapes<Domain> Shapes;
-                typedef DIPaCUS::Representation::DigitalSetToImage::Image2D Image2D;
+                typedef DIPaCUS::Representation::Image2D Image2D;
 
                 typedef DGtal::AccFlower2D<Space> Flower;
                 typedef DGtal::Ball2D<Space> Ball;

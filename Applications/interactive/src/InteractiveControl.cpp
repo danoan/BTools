@@ -12,6 +12,7 @@ InteractiveControl::InteractiveControl(const BCFlowInput& bcFlowInput,
     typedef BinOCS::API::SegCorrect::BCAOutput BCAOutput;
     BCAOutput bcaOutput = BinOCS::API::segCorrect(imageFilePath,
                                                   bcFlowInput.bcInput,
+                                                  bcFlowInput.flowConfigInput,
                                                   bcFlowInput.maxIterations);
 
     const Solution& solution = bcaOutput.energySolution;
@@ -23,7 +24,7 @@ InteractiveControl::InteractiveControl(const BCFlowInput& bcFlowInput,
                                        solution.outputDS);
 
     DigitalSet baseImageDS(solution.outputDS.domain());
-    DIPaCUS::Representation::ImageAsDigitalSet(baseImageDS,imageFilePath);
+    DIPaCUS::Representation::imageAsDigitalSet(baseImageDS,imageFilePath);
     SCaBOliC::Utils::MDCAISQEvaluation(inputElasticaEnergy,baseImageDS);
 
     std::ofstream ofs(outputFolder + "/energy.txt");

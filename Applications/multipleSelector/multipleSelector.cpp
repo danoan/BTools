@@ -16,9 +16,8 @@ namespace BTools
 
 
 using namespace BTools::Application;
-typedef MultipleSelector::InputReader::InputData InputData;
 
-void multipleSelection(const InputData& inputData)
+void multipleSelection(const MultipleSelector::InputReader::InputData& inputData)
 {
     boost::filesystem::path datasetPath(inputData.datasetPath);
     boost::filesystem::directory_iterator di(datasetPath);
@@ -43,7 +42,7 @@ void multipleSelection(const InputData& inputData)
 
 int main(int argc, char* argv[])
 {
-    InputData inputData;
+    MultipleSelector::InputReader::InputData inputData;
     MultipleSelector::InputReader::readInput(inputData,
                                              argc,
                                              argv);
