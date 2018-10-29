@@ -96,12 +96,20 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
     {
         std::cout << *it << std::endl;
         SetPoint sp;
-        Image2D image = DGtal::GenericReader<Image2D>::import(*it);
+        cv::Mat cvImg = cv::imread(*it);
 
-        DigitalSet ds(image.domain());
-        DIPaCUS::Representation::imageAsDigitalSet(ds,*it);
+        cv::Mat grayscale(cvImg.size(),
+                          CV_8UC1);
 
-        DigitalSet boundaryDS(image.domain());
+        if(cvImg.type()!=CV_8UC1)
+            cv::cvtColor(cvImg,grayscale,cv::COLOR_RGB2GRAY,1);
+
+
+        DigitalSet ds( Domain(Point(0,0),Point(grayscale.cols-1,grayscale.rows-1) ) );
+
+        DIPaCUS::Representation::CVMatToDigitalSet(ds,grayscale);
+
+        DigitalSet boundaryDS(ds.domain());
         Neigh8 a(boundaryDS,ds);
 
         sp.insert(boundaryDS.begin(),boundaryDS.end());

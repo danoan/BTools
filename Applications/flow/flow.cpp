@@ -25,14 +25,14 @@ int main(int argc, char* argv[])
                                 0,
                                 Flow::BCConfigInput::QPBOSolverType::Probe);
 
-    FlowConfigInput fci;
+    FlowConfigInput fci(id.fp,id.ac,id.cm,id.sm);
 
     Flow::BCFlowInput bcFlowInput("Digital Shapes Flow",
                                   bcInput,
                                   fci,
                                   id.iterations);
 
-    std::string outputFilePath = outputDir +"/illustration/flow-b" + std::to_string(id.radius);
+    std::string outputFilePath = outputDir +"/flow/" + id.flowName;
 
     Flow flow(bcFlowInput,
               outputFilePath,

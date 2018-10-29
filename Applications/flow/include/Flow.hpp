@@ -74,8 +74,10 @@ void Flow::shapeFlow(TShape shape,
         entries.push_back(TableEntry(bcaOutput.energySolution,"IT " + std::to_string(i)));
 
         currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(i,2) + ".pgm";
-        exportImageFromDigitalSet(bcaOutput.energySolution.outputDS,
-                                  solutionDomain,currImagePath);
+
+
+        exportImageFromDigitalSet(bcaOutput.energySolution.outputDS,currImagePath);
+
         ++i;
     }while(i<bcFlowInput.maxIterations);
 
