@@ -44,9 +44,9 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
                                  new DGtal::CustomColors(Color::White,Color::White) )
           << domain;
 
-    auto itS = begin;
+    SetPointSequenceIterator itS;
     int jump = 0;
-    for(auto itS=begin;itS!=end;++itS,++c,--jump)
+    for(itS=begin;itS!=end;++itS,++c,--jump)
     {
         if(jump>0) continue;
 
@@ -82,7 +82,7 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
     while( di!=boost::filesystem::directory_iterator() )
     {
         currPath = di->path();
-        if(boost::filesystem::is_regular_file(currPath))
+        if(boost::filesystem::is_regular_file(currPath) && currPath.extension().string()==".pgm")
         {
             vectorOfImgPath.push_back(currPath.string());
         }
@@ -113,6 +113,7 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
         Neigh8 a(boundaryDS,ds);
 
         sp.insert(boundaryDS.begin(),boundaryDS.end());
+
         setPointFamily.push_back(sp);
     }
 
