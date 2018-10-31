@@ -91,7 +91,7 @@ Flow::Flow(const BCFlowInput& bcFLowInput,
     Ball ball(0,0,r);
     Flower flower(0,0,r,20,2,1);
     NGon triangle(0,0,r,3,1);
-    NGon square(0,0,r,4,1);
+    NGon square(0,0,r,4,3.1415/4.0);
     NGon pentagon(0,0,r,5,1);
     NGon heptagon(0,0,r,7,1);
     Ellipse ellipse(0,0,r,r-10,0);

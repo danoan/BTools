@@ -38,19 +38,6 @@ int main(int argc, char* argv[])
               outputFilePath,
               false);
 
-    boost::filesystem::path srcImagePath = outputFilePath;
-    boost::filesystem::directory_iterator di(srcImagePath);
-    while(di!=boost::filesystem::directory_iterator())
-    {
-        if( boost::filesystem::is_directory(*di) )
-        {
-            std::string name = di->path().stem().string();
-            std::string outputImagePath = srcImagePath.string() + "/" + name + ".eps";
-            OneImageFlow oif(di->path().string(),outputImagePath,2);
-        }
-        ++di;
-    }
-
     return 0;
 }
 
