@@ -89,7 +89,7 @@ void Flow::shapeFlow(TShape shape,
 
         entries.push_back(TableEntry(bcaOutput.energySolution,"IT " + std::to_string(i)));
 
-        currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(i,2) + ".pgm";
+        currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
 
 
         const BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
