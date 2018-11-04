@@ -16,7 +16,7 @@ git clone --single-branch -b interpixels https://github.com/danoan/DIPaCUS $DIPA
 
 GEOC_DIR=$EXT_PROJECT_DIR/geoc
 mkdir $GEOC_DIR -p
-git clone https://github.com/danoan/GEOC $GEOC_DIR
+git clone --single-branch -b interpixels https://github.com/danoan/GEOC $GEOC_DIR
 
 
 #--------------SCaBOliC----------------

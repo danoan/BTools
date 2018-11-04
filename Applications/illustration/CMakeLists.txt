@@ -5,7 +5,8 @@ find_package(DGtal REQUIRED)
 
 add_executable(illustration
         illustration.cpp
-        src/AroundBoundaryReasoning.cpp)
+        src/AroundBoundaryReasoning.cpp
+        src/ContributionSurface.cpp)
 
 target_compile_definitions(illustration PRIVATE -DPROJECT_DIR=\"${CMAKE_SOURCE_DIR}\")
 

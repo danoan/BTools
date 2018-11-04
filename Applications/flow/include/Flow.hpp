@@ -28,10 +28,10 @@ void Flow::shapeFlow(TShape shape,
     DigitalSet _ds(gd.getDomain());
     Shapes::digitalShaper(_ds,gd);
 
-    DigitalSet ds = DIPaCUS::Transform::BottomLeftBoundingBoxAtOrigin(_ds,Point(20,20));
+    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(20,20));
     Domain flowDomain = ds.domain();
 
-    std::string currImagePath = flowFolder + "/00.pgm";
+    std::string currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(0,4) + ".pgm";
     exportImageFromDigitalSet(ds,flowDomain,currImagePath);
 
     os << "Image: " << imageName << "\n"
@@ -44,6 +44,17 @@ void Flow::shapeFlow(TShape shape,
     MockDistribution bkDistr;
 
 
+    std::function<Point(int)> MCFN;
+
+
+    if(bcFlowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_POINTEL)
+        if(bcFlowInput.flowConfigInput.flowProfile==FlowConfigInput::FlowProfile::DoubleStep)
+            MCFN = [](int nit){ return nit%2==0?Point(1,1):Point(1,1); };
+        else
+            MCFN = [](int nit){ return nit%2==0?Point(1,1):Point(0,0); };
+
+    else
+        MCFN = [](int nit){ return Point(0,0); };
 
 
     std::vector<TableEntry> entries;
@@ -52,35 +63,20 @@ void Flow::shapeFlow(TShape shape,
     firstSolution.outputDS = ds;
     firstSolution.energyValue = -1;
     entries.push_back(TableEntry(firstSolution,"IT 0"));
-
-    std::function<Point(int)> MCFN;
-
-
-    if(bcFlowInput.flowConfigInput.flowProfile==FlowConfigInput::FlowProfile::SingleStep)
-        if(bcFlowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_POINTEL)
-            MCFN = [](int nit){ return nit%2==0?Point(-1,-1):Point(0,0); };
-        else
-            MCFN = [](int nit){ return Point(0,0); };
-    else
-        if(bcFlowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_POINTEL)
-            MCFN = [&bcFlowInput](int nit){ return bcFlowInput.flowConfigInput.spaceMode==FlowConfigInput::SpaceMode::Pixel?Point(0,0):Point(-1,-1); };
-        else
-            MCFN = [](int nit){ return Point(0,0); };
-
     
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
     int i=1;
     do
     {
-        img = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
+        cv::Mat imgTT = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
         
         BCAInput bcaInput(bcFlowInput.bcInput,
                           bcFlowInput.flowConfigInput,
                           frDistr,
                           bkDistr,
-                          img,
-                          img);
-        
+                          imgTT,
+                          imgTT);
+
         BCAOutput bcaOutput(bcaInput);
         
         BinOCS::BoundaryCorrection::BCApplication BCA(bcaOutput,
@@ -94,12 +90,12 @@ void Flow::shapeFlow(TShape shape,
 
         const BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
         DigitalSet translatedBackDS( Domain( Point(0,0),
-                                             Point(img.cols-1,img.rows-1)
+                                             Point(imgTT.cols-1,imgTT.rows-1)
         ) );
 
         for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
         {
-            translatedBackDS.insert(*it + bcaInput.translation + MCFN(i-1));
+            translatedBackDS.insert(*it + bcaInput.translation + MCFN(i-1) );
         }
             
 
