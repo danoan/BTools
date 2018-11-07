@@ -23,6 +23,7 @@
 #include "BTools/utils/strUtils.h"
 #include "BTools/model/input/BCFlowInput.h"
 #include "MockDistribution.h"
+#include "ContributionSurface.h"
 
 
 namespace BTools

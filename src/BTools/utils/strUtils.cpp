@@ -21,7 +21,7 @@ std::string Utils::fixedStrLength(int l,std::string str)
 std::string Utils::nDigitsString(int num, int digits)
 {
     std::string s = "";
-    int numSize = num/10 + 1;
+    int numSize = log10(num) + 1;
     int lZero = digits - numSize;
     while(lZero>0)
     {

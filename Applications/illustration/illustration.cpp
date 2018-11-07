@@ -1,4 +1,5 @@
 #include "AroundBoundaryReasoning.h"
+#include "ElasticaProblem/ElasticaProblem.h"
 
 namespace BTools
 {
@@ -10,10 +11,14 @@ namespace BTools
     }
 }
 
-using namespace BTools::Application;
+using namespace BTools::Application::Illustration;
 
 int main(int argc, char* argv[])
 {
-    AroundBoundaryReasoning abr(outputDir + "/illustration/ab-reasoning");
+    //AroundBoundaryReasoning abr(outputDir + "/illustration/ab-reasoning");
+
+    //ElasticaProblem::testElasticaInput();
+    ElasticaProblem::example();
+
     return 0;
 }
