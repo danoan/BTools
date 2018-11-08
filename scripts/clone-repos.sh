@@ -23,7 +23,7 @@ git clone https://github.com/danoan/GEOC $GEOC_DIR
 
 SCABOLIC_DIR=$EXT_PROJECT_DIR/SCaBOliC
 mkdir $SCABOLIC_DIR -p
-git clone interpixels https://github.com/danoan/SCaBOliC $SCABOLIC_DIR
+git clone https://github.com/danoan/SCaBOliC $SCABOLIC_DIR
 
 
 
@@ -31,4 +31,4 @@ git clone interpixels https://github.com/danoan/SCaBOliC $SCABOLIC_DIR
 
 BINOCS_DIR=$EXT_PROJECT_DIR/BinOCS
 mkdir $BINOCS_DIR -p
-git clone interpixels https://github.com/danoan/BinOCS $BINOCS_DIR
+git clone https://github.com/danoan/BinOCS $BINOCS_DIR
