@@ -43,12 +43,6 @@ void Flow::shapeFlow(TShape shape,
     MockDistribution frDistr;
     MockDistribution bkDistr;
 
-
-    std::function<Point(int)> MCFN;
-
-    MCFN = [](int nit){ return Point(0,0); };
-
-
     std::vector<TableEntry> entries;
 
     BCAOutput::EnergySolution firstSolution(ds.domain());
@@ -56,8 +50,6 @@ void Flow::shapeFlow(TShape shape,
     firstSolution.energyValue = -1;
     entries.push_back(TableEntry(firstSolution,"IT 0"));
 
-    std::vector<IBCControlVisitor*> visitors;
-    visitors.push_back(new ContributionSurface() );
     
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
     int i=1;
@@ -76,9 +68,7 @@ void Flow::shapeFlow(TShape shape,
         
         BinOCS::BoundaryCorrection::BCApplication BCA(bcaOutput,
                                                       bcaInput,
-                                                      1,
-                                                      visitors.begin(),
-                                                      visitors.end());
+                                                      1);
 
         entries.push_back(TableEntry(bcaOutput.energySolution,"IT " + std::to_string(i)));
 
@@ -92,7 +82,7 @@ void Flow::shapeFlow(TShape shape,
 
         for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
         {
-            translatedBackDS.insert(*it + bcaInput.translation + MCFN(i-1) );
+            translatedBackDS.insert(*it + bcaInput.translation );
         }
             
 
@@ -102,8 +92,6 @@ void Flow::shapeFlow(TShape shape,
         ++i;
     }while(i<bcFlowInput.maxIterations);
 
-
-    delete visitors[0];
 
     printTable(entries,os);
 
