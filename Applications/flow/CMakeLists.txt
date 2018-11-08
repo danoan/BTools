@@ -12,7 +12,6 @@ add_executable(flow
         flow.cpp
         src/Flow.cpp
         src/OneImageFlow.cpp
-        src/ContributionSurface.cpp
         src/InputReader.cpp
         ${CMAKE_SOURCE_DIR}/src/BTools/utils/strUtils.cpp
         ${CMAKE_SOURCE_DIR}/src/BTools/utils/imgUtils.cpp
