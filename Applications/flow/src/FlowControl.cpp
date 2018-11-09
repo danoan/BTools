@@ -1,11 +1,11 @@
-#include "Flow.h"
+#include "FlowControl.h"
 
-using namespace BTools::Application::Illustration;
+using namespace BTools::Application::Flow;
 using namespace BTools::Application;
 
 
-void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
-                                     const std::string& outputFilepath)
+void FlowControl::exportImageFromDigitalSet(const DigitalSet& ds,
+                                            const std::string& outputFilepath)
 {
     DGtal::Z2i::Point lb,ub;
     ds.computeBoundingBox(lb,ub);
@@ -17,9 +17,9 @@ void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
     DGtal::GenericWriter<Image2D>::exportFile(outputFilepath, image);
 }
 
-void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
-                                     const Domain& domain,
-                                     const std::string& outputFilepath)
+void FlowControl::exportImageFromDigitalSet(const DigitalSet& ds,
+                                            const Domain& domain,
+                                            const std::string& outputFilepath)
 {
 
     Image2D image( domain );
@@ -28,11 +28,11 @@ void Flow::exportImageFromDigitalSet(const DigitalSet& ds,
     DGtal::GenericWriter<Image2D>::exportFile(outputFilepath, image);
 }
 
-void Flow::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
+void FlowControl::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
 {
     int colLength=20;
     std::string(*fnD)(int,double) = Utils::fixedStrLength;
-    
+
     double IIValue,MDCAValue;
     SCaBOliC::Utils::IIISQEvaluation(IIValue,ds);
     SCaBOliC::Utils::MDCAISQEvaluation(MDCAValue,ds);
@@ -42,7 +42,7 @@ void Flow::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
 }
 
 
-void Flow::printTable(const std::vector<TableEntry> &entries, std::ostream &os)
+void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostream &os)
 {
     int colLength=20;
 
@@ -66,9 +66,9 @@ void Flow::printTable(const std::vector<TableEntry> &entries, std::ostream &os)
     }
 }
 
-Flow::Flow(const BCFlowInput& bcFLowInput,
-           const std::string& outputFolder, 
-           bool exportRegions)
+FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
+                         const std::string& outputFolder,
+                         bool exportRegions)
 {
     boost::filesystem::create_directories(outputFolder);
     std::ofstream ofs(outputFolder + "/input-data.txt");

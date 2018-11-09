@@ -1,5 +1,5 @@
-#ifndef BTOOLS_APPLICATION_FLOW_MOCKDISTRIBUTION_H
-#define BTOOLS_APPLICATION_FLOW_MOCKDISTRIBUTION_H
+#ifndef BTOOLS_APPLICATION_ILLUSTRATION_ELASTICA_PROBLEM_MOCKDISTRIBUTION_H
+#define BTOOLS_APPLICATION_ILLUSTRATION_ELASTICA_PROBLEM_MOCKDISTRIBUTION_H
 
 #include <SCaBOliC/Energy/ISQ/Terms/Data/IProbabilityDistribution.h>
 #include <cstdlib>
@@ -8,7 +8,7 @@ namespace BTools
 {
     namespace Application
     {
-        namespace Flow
+        namespace Illustration
         {
             class MockDistribution:public SCaBOliC::Energy::ISQ::IProbabilityDistribution<double>
             {
@@ -29,4 +29,4 @@ namespace BTools
     }
 }
 
-#endif //BTOOLS_APPLICATION_FLOW_MOCKDISTRIBUTION_H
+#endif //BTOOLS_APPLICATION_ILLUSTRATION_ELASTICA_PROBLEM_MOCKDISTRIBUTION_H

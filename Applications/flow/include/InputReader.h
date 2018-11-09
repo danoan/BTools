@@ -1,5 +1,5 @@
-#ifndef BTOOLS_APPLICATION_ILLUSTRATION_INPUTREADER_H
-#define BTOOLS_APPLICATION_ILLUSTRATION_INPUTREADER_H
+#ifndef BTOOLS_APPLICATION_FLOW_INPUTREADER_H
+#define BTOOLS_APPLICATION_FLOW_INPUTREADER_H
 
 #include <iostream>
 #include <unistd.h>
@@ -11,7 +11,7 @@ namespace BTools
 {
     namespace Application
     {
-        namespace Illustration
+        namespace Flow
         {
             class InputReader
             {
@@ -23,6 +23,10 @@ namespace BTools
                     std::string flowName;
                     int radius;
                     int iterations;
+                    bool useDigitalArea;
+                    int neighborhood;
+                    int levels;
+                    std::string outputFolder;
 
                     FlowConfigInput::ApplicationCenter ac;
                     FlowConfigInput::CountingMode cm;
@@ -33,9 +37,12 @@ namespace BTools
                 static void readInput(InputData& id,
                                       int argc,
                                       char** argv);
+
+            private:
+                static void defaultValues(InputData& id);
             };
         }
     }
 }
 
-#endif //BTOOLS_APPLICATION_FROMSEED_INPUTREADER_H
+#endif //BTOOLS_APPLICATION_FLOW_INPUTREADER_H
