@@ -1,6 +1,6 @@
 #include <InputReader.h>
 #include "OneImageFlow.h"
-#include "Flow.h"
+#include "FlowControl.h"
 
 namespace BTools
 {
@@ -11,7 +11,7 @@ namespace BTools
     }
 }
 
-using namespace BTools::Application::Illustration;
+using namespace BTools::Application::Flow;
 using namespace BTools::Application;
 
 int main(int argc, char* argv[])
@@ -19,24 +19,24 @@ int main(int argc, char* argv[])
     InputReader::InputData id;
     InputReader::readInput(id,argc,argv);
 
-    Flow::BCConfigInput bcInput(id.radius,
-                                0,
-                                1.0,
-                                0,
-                                Flow::BCConfigInput::QPBOSolverType::Probe);
+    FlowControl::BCConfigInput bcInput(id.radius,
+                                       0,
+                                       1.0,
+                                       0,
+                                       FlowControl::BCConfigInput::QPBOSolverType::Probe);
 
     FlowConfigInput fci(id.fp,id.ac,id.cm,id.sm);
 
-    Flow::BCFlowInput bcFlowInput("Digital Shapes Flow",
-                                  bcInput,
-                                  fci,
-                                  id.iterations);
+    FlowControl::BCFlowInput bcFlowInput("Digital Shapes Flow",
+                                         bcInput,
+                                         fci,
+                                         id.iterations);
 
-    std::string outputFilePath = outputDir +"/flow/" + id.flowName;
+    std::string outputFilePath = outputDir +"/flow-ab1/" + id.flowName;
 
-    Flow flow(bcFlowInput,
-              outputFilePath,
-              false);
+    FlowControl flow(bcFlowInput,
+                     outputFilePath,
+                     false);
 
     return 0;
 }

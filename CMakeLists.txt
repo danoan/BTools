@@ -34,6 +34,7 @@ link_directories(ext/lib
 add_subdirectory(Applications/dataset)
 add_subdirectory(Applications/fromSeed)
 add_subdirectory(Applications/interactive)
+add_subdirectory(Applications/illustration)
 add_subdirectory(Applications/multipleSelector)
 add_subdirectory(Applications/flow)
 add_subdirectory(Test)

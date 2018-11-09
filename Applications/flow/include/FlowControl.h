@@ -1,5 +1,5 @@
-#ifndef BTOOLS_APPLICATION_ILLUSTRATION_FLOW_H
-#define BTOOLS_APPLICATION_ILLUSTRATION_FLOW_H
+#ifndef BTOOLS_APPLICATION_FLOWCONTROL_H
+#define BTOOLS_APPLICATION_FLOWCONTROL_H
 
 #include <ostream>
 
@@ -23,15 +23,16 @@
 #include "BTools/utils/strUtils.h"
 #include "BTools/model/input/BCFlowInput.h"
 #include "MockDistribution.h"
+#include "PotentialMap.h"
 
 
 namespace BTools
 {
     namespace Application
     {
-        namespace Illustration
+        namespace Flow
         {
-            class Flow
+            class FlowControl
             {
             public:
                 typedef DGtal::Z2i::DigitalSet DigitalSet;
@@ -62,9 +63,9 @@ namespace BTools
                 };
 
             public:
-                Flow(const BCFlowInput& bcFlowInput,
-                     const std::string& outputFolder,
-                     bool exportRegions);
+                FlowControl(const BCFlowInput& bcFlowInput,
+                            const std::string& outputFolder,
+                            bool exportRegions);
 
             private:
                 template<class TShape>
@@ -90,6 +91,6 @@ namespace BTools
     }
 }
 
-#include "Flow.hpp"
+#include "FlowControl.hpp"
 
-#endif //BTOOLS_APPLICATION_ILLUSTRATION_FLOW_H
+#endif //BTOOLS_APPLICATION_FLOWCONTROL_H

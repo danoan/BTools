@@ -10,9 +10,10 @@ find_package(OpenCV REQUIRED)
 
 add_executable(flow
         flow.cpp
-        src/Flow.cpp
+        src/FlowControl.cpp
         src/OneImageFlow.cpp
         src/InputReader.cpp
+        src/PotentialMap.cpp
         ${CMAKE_SOURCE_DIR}/src/BTools/utils/strUtils.cpp
         ${CMAKE_SOURCE_DIR}/src/BTools/utils/imgUtils.cpp
         )

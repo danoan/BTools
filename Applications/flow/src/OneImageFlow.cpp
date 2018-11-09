@@ -1,6 +1,6 @@
 #include "OneImageFlow.h"
 
-using namespace BTools::Application::Illustration;
+using namespace BTools::Application::Flow;
 
 OneImageFlow::Domain OneImageFlow::commonDomain(SetPointSequenceIterator begin,
                                                 SetPointSequenceIterator end)

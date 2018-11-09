@@ -1,16 +1,15 @@
-#include "Flow.h"
+#include "FlowControl.h"
 
-using namespace BTools::Application::Illustration;
-using namespace BTools::Application;
+using namespace BTools::Application::Flow;
 
 
 template<class TShape>
-void Flow::shapeFlow(TShape shape,
-                     const BCFlowInput& bcFlowInput,
-                     double h,
-                     std::string imageName,
-                     std::string outputFolder,
-                     bool exportRegions)
+void FlowControl::shapeFlow(TShape shape,
+                            const BCFlowInput& bcFlowInput,
+                            double h,
+                            std::string imageName,
+                            std::string outputFolder,
+                            bool exportRegions)
 {
     std::cerr << "Flow Start: " << imageName << "\n";
     std::cerr << "Iterations (" << bcFlowInput.maxIterations << "): ";
@@ -41,8 +40,8 @@ void Flow::shapeFlow(TShape shape,
        << std::endl;
 
     cv::Mat img = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
-    
-    
+
+
     MockDistribution frDistr;
     MockDistribution bkDistr;
 
@@ -53,15 +52,18 @@ void Flow::shapeFlow(TShape shape,
     firstSolution.energyValue = -1;
     entries.push_back(TableEntry(firstSolution,"IT 0"));
 
-    
+
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
     int i=1;
     do
     {
         std::cerr << "|";
 
+        std::vector<IBCControlVisitor*> visitors;
+        visitors.push_back(new Flow::PotentialMap(flowFolder + "/" + BTools::Utils::nDigitsString(i,4) + "-pm.eps") );
+
         cv::Mat imgTT = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
-        
+
         BCAInput bcaInput(bcFlowInput.bcInput,
                           bcFlowInput.flowConfigInput,
                           frDistr,
@@ -70,7 +72,7 @@ void Flow::shapeFlow(TShape shape,
                           imgTT);
 
         BCAOutput bcaOutput(bcaInput);
-        
+
         BinOCS::BoundaryCorrection::BCApplication BCA(bcaOutput,
                                                       bcaInput,
                                                       1);
@@ -89,12 +91,14 @@ void Flow::shapeFlow(TShape shape,
         {
             translatedBackDS.insert(*it + bcaInput.translation );
         }
-            
+
 
 
         exportImageFromDigitalSet(translatedBackDS,flowDomain,currImagePath);
 
         ++i;
+
+        delete visitors[0];
     }while(i<bcFlowInput.maxIterations);
 
 

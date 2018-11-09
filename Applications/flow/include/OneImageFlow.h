@@ -1,5 +1,5 @@
-#ifndef BTOOLS_APPLICATION_ILLUSTRATION_ONEIMAGEFLOW_H
-#define BTOOLS_APPLICATION_ILLUSTRATION_ONEIMAGEFLOW_H
+#ifndef BTOOLS_APPLICATION_FLOW_ONEIMAGEFLOW_H
+#define BTOOLS_APPLICATION_FLOW_ONEIMAGEFLOW_H
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -17,7 +17,7 @@ namespace BTools
 {
     namespace Application
     {
-        namespace Illustration
+        namespace Flow
         {
             class OneImageFlow
             {
@@ -56,4 +56,4 @@ namespace BTools
     }
 }
 
-#endif //BTOOLS_APPLICATION_ILLUSTRATION_ONEIMAGEFLOW_H
+#endif //BTOOLS_APPLICATION_FLOW_ONEIMAGEFLOW_H
