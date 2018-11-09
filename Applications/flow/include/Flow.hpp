@@ -12,6 +12,9 @@ void Flow::shapeFlow(TShape shape,
                      std::string outputFolder,
                      bool exportRegions)
 {
+    std::cerr << "Flow Start: " << imageName << "\n";
+    std::cerr << "Iterations (" << bcFlowInput.maxIterations << "): ";
+
     std::string flowFolder = outputFolder
                              + "/" + imageName;
     boost::filesystem::create_directories(flowFolder);
@@ -55,6 +58,8 @@ void Flow::shapeFlow(TShape shape,
     int i=1;
     do
     {
+        std::cerr << "|";
+
         cv::Mat imgTT = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
         
         BCAInput bcaInput(bcFlowInput.bcInput,
@@ -93,6 +98,8 @@ void Flow::shapeFlow(TShape shape,
     }while(i<bcFlowInput.maxIterations);
 
 
+    std::cerr << "\nWriting Results...";
     printTable(entries,os);
+    std::cerr << "\n\n";
 
 }
