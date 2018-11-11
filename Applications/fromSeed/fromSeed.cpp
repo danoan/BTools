@@ -19,6 +19,7 @@ void fromSeed(const FromSeed::InputReader::InputData& inputData)
 {
     typedef BinOCS::GrabCut::GrabCutApplication GCApplication;
     typedef BTools::Model::SeedSequenceInput SeedSequenceInput;
+    typedef BTools::Model::BCFlowInput BCFlowInput;
 
     SeedSequenceInput seedInput = BTools::DataReader::read(inputData.seedDataFilePath);
 
@@ -28,15 +29,34 @@ void fromSeed(const FromSeed::InputReader::InputData& inputData)
     pOutputFolder.append("From-Seed-Selection-Highlight");
     pOutputFolder.append(pFile.filename().string());
 
+    BCConfigInput bcInput(inputData.radius,
+                          inputData.dtWeight,
+                          inputData.sqWeight,
+                          inputData.lgWeight,
+                          BCConfigInput::QPBOSolverType::Probe);
+
+    ODRConfigInput odrConfigInput(inputData.ac,
+                                  inputData.cm,
+                                  inputData.sm,
+                                  inputData.levels,
+                                  inputData.neighborhood);
+
+    BCFlowInput bcFlowInput("noname",
+                            bcInput,
+                            odrConfigInput,
+                            inputData.fp,
+                            inputData.iterations);
+
+
     FromSeedControl::SelectorOutput selectorOutput;
-    FromSeedControl::OptOutput optOutput(inputData.bcFlowInput,seedInput);
+    FromSeedControl::OptOutput optOutput(bcFlowInput,seedInput);
     selectorOutput.baseImage = cv::imread(seedInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
     for(int i=0;i<seedInput.numSeed();++i)
     {
         seedInput.getSelector(selectorOutput,i);
         FromSeedControl(optOutput,
                         seedInput.imgFilePath,
-                        inputData.bcFlowInput,
+                        bcFlowInput,
                         selectorOutput,
                         pOutputFolder.string() + "/ROI-" + std::to_string(i) );
     }

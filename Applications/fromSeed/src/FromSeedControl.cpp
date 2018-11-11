@@ -20,18 +20,20 @@ FromSeedControl::FromSeedControl(OptOutput& output,
     CVMatDistribution bgDistr(baseImage,
                               result.bgModel);
 
+    ImageDataInput imageDataInput(fgDistr,
+                                  bgDistr,baseImage,
+                                  result.foreground);
+
 
     BCAInput bcaInput(bcFlowInput.bcInput,
-                      bcFlowInput.flowConfigInput,
-                      fgDistr,
-                      bgDistr,
-                      result.baseImage,
-                      result.foreground);
+                      imageDataInput,
+                      bcFlowInput.odrConfigInput,
+                      bcFlowInput.flowProfile);
 
 
     BinOCS::API::SegCorrect::BCAOutput bcaOutput = BinOCS::API::correct(bcaInput,
                                                                         bcFlowInput.maxIterations);
-    const Solution& solution = bcaOutput.energySolution;
+    const BCSolution& solution = bcaOutput.energySolution;
 
     
     output.optEnergyValue = solution.energyValue;

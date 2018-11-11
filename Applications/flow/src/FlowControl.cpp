@@ -49,7 +49,7 @@ void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostrea
     std::string(*fnS)(int,std::string) = BTools::Utils::fixedStrLength;
     std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
-    os  << fnS(colLength,"Iteration") << "\t"
+    os  << "#" << fnS(colLength,"Iteration") << "\t"
         << fnS(colLength,"Opt. Energy") << "\t"
         << fnS(colLength,"Elastica II") << "\t"
         << fnS(colLength,"Elastica MDCA") << "\t"
@@ -58,7 +58,7 @@ void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostrea
 
     for(auto it=entries.begin();it!=entries.end();++it)
     {
-        const Solution &curr = (it->solution);
+        const EnergySolution &curr = (it->solution);
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
         outputElasticaEnergy(it->solution.outputDS,os);
@@ -70,18 +70,11 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
                          const std::string& outputFolder,
                          bool exportRegions)
 {
+
     boost::filesystem::create_directories(outputFolder);
     std::ofstream ofs(outputFolder + "/input-data.txt");
 
-    if( bcFLowInput.flowConfigInput.flowProfile==FlowConfigInput::FlowProfile::SingleStep ) ofs << "Flow Profile: Single Step \n";
-    if( bcFLowInput.flowConfigInput.flowProfile==FlowConfigInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
-    if( bcFLowInput.flowConfigInput.applicationCenter==FlowConfigInput::ApplicationCenter::AC_PIXEL) ofs << "Application Center: Pixel \n";
-    if( bcFLowInput.flowConfigInput.applicationCenter==FlowConfigInput::ApplicationCenter::AC_POINTEL) ofs << "Application Center: Pointel \n";
-    if( bcFLowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_PIXEL) ofs << "Counting Mode: Pixel \n";
-    if( bcFLowInput.flowConfigInput.countingMode==FlowConfigInput::CountingMode::CM_POINTEL) ofs << "Counting Mode: Pointel \n";
-    if( bcFLowInput.flowConfigInput.spaceMode==FlowConfigInput::SpaceMode::Pixel) ofs << "Space Mode: Pixel \n";
-    if( bcFLowInput.flowConfigInput.spaceMode==FlowConfigInput::SpaceMode::Interpixel) ofs << "Space Mode: Interpixel \n";
-
+    printFlowMetadata(bcFLowInput,ofs);
     ofs.flush();
     ofs.close();
 
@@ -103,4 +96,19 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     shapeFlow(pentagon,bcFLowInput,h,"Pentagon",outputFolder,exportRegions);
     shapeFlow(heptagon,bcFLowInput,h,"Heptagon",outputFolder,exportRegions);
     shapeFlow(ellipse,bcFLowInput,h,"Ellipse",outputFolder,exportRegions);
+}
+
+void FlowControl::printFlowMetadata(const BCFlowInput &bcFlowInput,
+                                    std::ofstream &ofs)
+{
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStep ) ofs << "Flow Profile: Single Step \n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
+    if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_PIXEL) ofs << "Application Center: Pixel \n";
+    if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_POINTEL) ofs << "Application Center: Pointel \n";
+    if( bcFlowInput.odrConfigInput.countingMode==BCFlowInput::ODRConfigInput::CountingMode::CM_PIXEL) ofs << "Counting Mode: Pixel \n";
+    if( bcFlowInput.odrConfigInput.countingMode==BCFlowInput::ODRConfigInput::CountingMode::CM_POINTEL) ofs << "Counting Mode: Pointel \n";
+    if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Pixel) ofs << "Space Mode: Pixel \n";
+    if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Interpixel) ofs << "Space Mode: Interpixel \n";
+
+
 }

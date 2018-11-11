@@ -17,13 +17,33 @@ using namespace BTools::Application;
 
 void interactive(const Interactive::InputReader::InputData& inputData)
 {
+    typedef BTools::Model::BCFlowInput BCFlowInput;
+
     boost::filesystem::path pFile(inputData.imageFilePath);
     boost::filesystem::path pOutputFolder(outputDir);
 
     pOutputFolder.append("Interactive");
     pOutputFolder.append(pFile.filename().string());
 
-    InteractiveControl(inputData.bcFlowInput,
+    BCConfigInput bcInput(inputData.radius,
+                          inputData.dtWeight,
+                          inputData.sqWeight,
+                          inputData.lgWeight,
+                          BCConfigInput::QPBOSolverType::Probe);
+
+    ODRConfigInput odrConfigInput(inputData.ac,
+                                  inputData.cm,
+                                  inputData.sm,
+                                  inputData.levels,
+                                  inputData.neighborhood);
+
+    BCFlowInput bcFlowInput("noname",
+                            bcInput,
+                            odrConfigInput,
+                            inputData.fp,
+                            inputData.iterations);
+
+    InteractiveControl(bcFlowInput,
                        inputData.imageFilePath,
                        pOutputFolder.string());
 }

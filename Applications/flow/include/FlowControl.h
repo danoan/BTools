@@ -18,7 +18,7 @@
 #include <DIPaCUS/base/Representation.h>
 
 #include <BinOCS/BoundaryCorrection/BCApplication.h>
-#include <BinOCS/BoundaryCorrection/model/BCApplicationInput.h>
+#include <BinOCS/BoundaryCorrection/model/input/BCApplicationInput.h>
 
 #include "BTools/utils/strUtils.h"
 #include "BTools/model/input/BCFlowInput.h"
@@ -48,17 +48,19 @@ namespace BTools
                 typedef DGtal::Ellipse2D<Space> Ellipse;
 
                 typedef BinOCS::BoundaryCorrection::BCApplication::BCAOutput BCAOutput;
+                typedef BCAOutput::EnergySolution EnergySolution;
                 typedef BinOCS::BoundaryCorrection::BCApplicationInput BCAInput;
                 typedef BinOCS::BoundaryCorrection::BCConfigInput BCConfigInput;
 
                 typedef BTools::Model::BCFlowInput BCFlowInput;
 
+
             private:
                 struct TableEntry
                 {
-                    TableEntry(Solution& solution, std::string name):solution(solution),
+                    TableEntry(EnergySolution& solution, std::string name):solution(solution),
                                                                      name(name){}
-                    Solution solution;
+                    EnergySolution solution;
                     std::string name;
                 };
 
@@ -84,8 +86,13 @@ namespace BTools
                                                const std::string& outputFilepath);
 
 		        void outputElasticaEnergy(const DigitalSet& ds, std::ostream& os);
+
                 void printTable(const std::vector<TableEntry> &entries,
                                 std::ostream &os);
+
+                void printFlowMetadata(const BCFlowInput& bcFlowInput,
+                                       std::ofstream& ofs);
+
             };
         }
     }

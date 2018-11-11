@@ -104,23 +104,27 @@ ElasticaProblem::Solution ElasticaProblem::boundaryCorrection(const ODRModel& OD
                              0,
                              Point(0,0));
 
+    ODRPixels odrFactory(ApplicationCenter::AC_PIXEL,
+                         CountingMode::CM_PIXEL,
+                         energyInput.radius);
 
-    MyISQEnergy energy(energyInput);
+    ISQEnergy energy(energyInput,odrFactory.handle());
     Solution solution(ODR.domain);
     solution.init(energy.numVars());
 
     solution.labelsVector.setZero();
     energy.template solve<QPBOProbeSolver>(solution);
 
-    updateSet(solution,appMode,energyInput,energy);
+    updateSet(solution,odrFactory,appMode,energyInput,energy);
 
     return solution;
 }
 
 void ElasticaProblem::updateSet(Solution& solution,
+                                const ODRInterface& odrFactory,
                                 const ApplicationMode& appMode,
                                 const ISQInputData& energyInput,
-                                const MyISQEnergy& energy)
+                                const ISQEnergy& energy)
 {
     DigitalSet initialDS(energyInput.optimizationRegions.domain);
     DigitalSet tempOutDS(energyInput.optimizationRegions.domain);
@@ -128,7 +132,7 @@ void ElasticaProblem::updateSet(Solution& solution,
     const DigitalSet& optRegion = energyInput.optimizationRegions.optRegion;
     Solution::LabelsVector labelsVector = solution.labelsVector;
 
-    if(appMode==IBCProfile::ApplicationMode::AM_InverseAroundBoundary)
+    if(appMode==ApplicationMode::AM_InverseAroundBoundary)
     {
         //Invert Solution
         for (int i = 0; i < labelsVector.rows(); ++i)
@@ -144,13 +148,11 @@ void ElasticaProblem::updateSet(Solution& solution,
     }
 
 
-    ODRPixels odrFactory;
-    odrFactory.solutionSet(tempOutDS,
-                           initialDS,
-                           energyInput.optimizationRegions,
-                           labelsVector.data(),
-                           energy.vm().pim,
-                           CountingMode::CM_PIXEL);
+    odrFactory.handle()->solutionSet(tempOutDS,
+                                    initialDS,
+                                    energyInput.optimizationRegions,
+                                    labelsVector.data(),
+                                    energy.vm().pim);
 
     solution.outputDS.clear();
     solution.outputDS.insert(tempOutDS.begin(),tempOutDS.end());
