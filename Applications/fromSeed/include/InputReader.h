@@ -16,15 +16,36 @@ namespace BTools
             public:
                 struct InputData
                 {
-                    typedef BTools::Model::BCFlowInput BCFlowInput;
+                    typedef BinOCS::BoundaryCorrection::ODRConfigInput ODRConfigInput;
+                    typedef BinOCS::BoundaryCorrection::IFlowProfile::FlowProfile FlowProfile;
 
-                    BCFlowInput bcFlowInput;
+
+                    int radius;
+                    int iterations;
+                    bool useDigitalArea;
+
+
+                    ODRConfigInput::ApplicationCenter ac;
+                    ODRConfigInput::CountingMode cm;
+                    ODRConfigInput::SpaceMode  sm;
+                    ODRConfigInput::NeighborhoodType neighborhood;
+                    int levels;
+
+                    FlowProfile fp;
+
+                    double sqWeight;
+                    double dtWeight;
+                    double lgWeight;
+
                     std::string seedDataFilePath;
                 };
 
                 static void readInput(InputData& id,
                                       int argc,
                                       char** argv);
+
+            private:
+                static void defaultValues(InputData& id);
             };
         }
     }

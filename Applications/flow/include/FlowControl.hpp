@@ -36,10 +36,10 @@ void FlowControl::shapeFlow(TShape shape,
     std::string currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(0,4) + ".pgm";
     exportImageFromDigitalSet(ds,flowDomain,currImagePath);
 
-    os << "Image: " << imageName << "\n"
-       << std::endl;
+    os << "#Image: " << imageName << "\n#\n";
 
     cv::Mat img = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
+    Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
 
 
     MockDistribution frDistr;
@@ -50,10 +50,8 @@ void FlowControl::shapeFlow(TShape shape,
     BCAOutput::EnergySolution firstSolution(ds.domain());
     firstSolution.outputDS = ds;
     firstSolution.energyValue = -1;
-    entries.push_back(TableEntry(firstSolution,"IT 0"));
+    entries.push_back(TableEntry(firstSolution,"0"));
 
-
-    Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
     int i=1;
     do
     {
@@ -64,40 +62,50 @@ void FlowControl::shapeFlow(TShape shape,
 
         cv::Mat imgTT = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
 
-        BCAInput bcaInput(bcFlowInput.bcInput,
-                          bcFlowInput.flowConfigInput,
-                          frDistr,
-                          bkDistr,
-                          imgTT,
-                          imgTT);
-
-        BCAOutput bcaOutput(bcaInput);
-
-        BinOCS::BoundaryCorrection::BCApplication BCA(bcaOutput,
-                                                      bcaInput,
-                                                      1);
-
-        entries.push_back(TableEntry(bcaOutput.energySolution,"IT " + std::to_string(i)));
-
-        currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
-
-
-        const BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
-        DigitalSet translatedBackDS( Domain( Point(0,0),
-                                             Point(imgTT.cols-1,imgTT.rows-1)
-        ) );
-
-        for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
+        try
         {
-            translatedBackDS.insert(*it + bcaInput.translation );
+            ImageDataInput imageDataInput(frDistr,
+                                          bkDistr,
+                                          imgTT,
+                                          imgTT);
+
+            BCAInput bcaInput(bcFlowInput.bcInput,
+                              imageDataInput,
+                              bcFlowInput.odrConfigInput,
+                              bcFlowInput.flowProfile);
+
+            BCAOutput bcaOutput(bcaInput);
+
+            BinOCS::BoundaryCorrection::BCApplication BCA(bcaOutput,
+                                                          bcaInput,
+                                                          1);
+
+
+
+            entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
+
+            currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
+
+
+            const BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
+            DigitalSet translatedBackDS( Domain( Point(0,0),
+                                                 Point(imgTT.cols-1,imgTT.rows-1)
+            ) );
+
+            for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
+            {
+                translatedBackDS.insert(*it + imageDataInput.translation );
+            }
+
+
+            exportImageFromDigitalSet(translatedBackDS,flowDomain,currImagePath);
+        }catch(std::exception ex)
+        {
+            std::cerr << "Flow error: Image probably too small or too big.";
+            break;
         }
 
-
-
-        exportImageFromDigitalSet(translatedBackDS,flowDomain,currImagePath);
-
         ++i;
-
         delete visitors[0];
     }while(i<bcFlowInput.maxIterations);
 

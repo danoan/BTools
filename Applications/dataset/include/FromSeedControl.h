@@ -9,7 +9,7 @@
 
 #include "BinOCS/BoundaryCorrection/model/CVMatDistribution.h"
 #include "BinOCS/BoundaryCorrection/BCApplication.h"
-#include "BinOCS/BoundaryCorrection/model/BCConfigInput.h"
+#include "BinOCS/BoundaryCorrection/model/input/BCConfigInput.h"
 #include "BinOCS//GrabCut/GrabCutApplication.h"
 #include <BinOCS/API.h>
 

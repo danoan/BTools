@@ -7,12 +7,16 @@ void InputReader::defaultValues(InputData& id)
     id.radius=3;
     id.iterations=10;
     id.useDigitalArea = false;
-    id.neighborhood=4;
+    id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.levels=id.radius;
-    id.ac = InputData::FlowConfigInput::ApplicationCenter::AC_PIXEL;
-    id.cm = InputData::FlowConfigInput::CountingMode::CM_PIXEL;
-    id.sm = InputData::FlowConfigInput::SpaceMode::Pixel;
-    id.fp = InputData::FlowConfigInput::FlowProfile::DoubleStep;
+    id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
+    id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
+    id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
+    id.fp = InputData::FlowProfile::DoubleStep;
+
+    id.dtWeight = 0.5;
+    id.sqWeight = 1.0;
+    id.lgWeight = 0.2;
 }
 
 void InputReader::readInput(InputData& id,
@@ -22,7 +26,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:"))!=-1)
     {
         switch(opt)
         {
@@ -33,48 +37,61 @@ void InputReader::readInput(InputData& id,
                 id.iterations= atoi(optarg);
                 break;
             case 'a':
-                if(atoi(optarg)==0) id.ac = InputData::FlowConfigInput::ApplicationCenter::AC_PIXEL;
-                else if(atoi(optarg)==1) id.ac = InputData::FlowConfigInput::ApplicationCenter::AC_POINTEL;
+                if(atoi(optarg)==0) id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
+                else if(atoi(optarg)==1) id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_POINTEL;
                 break;
             case 'c':
-                if(atoi(optarg)==0) id.cm = InputData::FlowConfigInput::CountingMode::CM_PIXEL;
-                else if(atoi(optarg)==1) id.cm = InputData::FlowConfigInput::CountingMode::CM_POINTEL;
+                if(atoi(optarg)==0) id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
+                else if(atoi(optarg)==1) id.cm = InputData::ODRConfigInput::CountingMode::CM_POINTEL;
                 break;
             case 's':
-                if(atoi(optarg)==0) id.sm = InputData::FlowConfigInput::SpaceMode::Pixel;
-                else if(atoi(optarg)==1) id.sm = InputData::FlowConfigInput::SpaceMode::Interpixel;
+                if(atoi(optarg)==0) id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
+                else if(atoi(optarg)==1) id.sm = InputData::ODRConfigInput::SpaceMode::Interpixel;
                 break;
             case 'p':
-                if(strcmp(optarg,"single")==0 ) id.fp = InputData::FlowConfigInput::FlowProfile::SingleStep;
-                else if(strcmp(optarg,"double")==0 ) id.fp = InputData::FlowConfigInput::FlowProfile::DoubleStep;
+                if(strcmp(optarg,"single")==0 ) id.fp = InputData::FlowProfile::SingleStep;
+                else if(strcmp(optarg,"double")==0 ) id.fp = InputData::FlowProfile::DoubleStep;
                 break;
             case 'n':
+            {
                 int n = atoi(optarg);
-                if(n==4) id.neighborhood = 4;
-                else if(n==8) id.neighborhood = 8;
+                if(n==4) id.neighborhood = InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+                else if(n==8) id.neighborhood = InputData::ODRConfigInput::NeighborhoodType::EightNeighborhood;
                 else throw std::runtime_error("Neighborhood value must be 4 or 8.");
                 break;
+            }
             case 'd':
                 id.useDigitalArea=true;
                 break;
             case 'l':
                 id.levels = atoi(optarg);
                 break;
+            case 'q':
+                id.sqWeight = atof(optarg);
+                break;
+            case 't':
+                id.dtWeight = atof(optarg);
+                break;
+            case 'g':
+                id.lgWeight = atof(optarg);
+                break;
             default:
-                std::cerr << "Usage: [-r Ball Radius] "
-                        "[-i Max Iterations ] "
-                        "[-a Computation Center 0 Pixel 1 Pointel] "
-                        "[-c Counting Mode 0 Pixel 1 Pointel] "
-                        "[-s Space Mode 0 Pixel 1 Interpixel] "
-                        "[-p FlowProfile single double] "
-                        "[-n Neighborhood 4 or 8] "
-                        "[-d Use digital area] "
-                        "[-l Computation levels] "
-                        "[FLOW_NAME] {FLOW_FOLDER} " << std::endl;
+                std::cerr << "Usage: [-r Ball Radius default 3] "
+                        "[-i Max Iterations default 10] "
+                        "[-a Computation Center 0 Pixel 1 Pointel default Pixel] "
+                        "[-c Counting Mode 0 Pixel 1 Pointel default Pixel] "
+                        "[-s Space Mode 0 Pixel 1 Interpixel default Pixel] "
+                        "[-p FlowProfile single double default double] "
+                        "[-n Neighborhood 4 or 8 default: 4] "
+                        "[-d Use digital area default: false] "
+                        "[-l Computation levels default: Ball radius] "
+                        "[-q Squared Curvature Term weight default: 1.0] "
+                        "[-t Data Term weight default: 1.0] "
+                        "[-g Length Term weight default: 1.0] "
+                        "FLOW_NAME FLOW_FOLDER " << std::endl;
                 exit(1);
         }
-
-        id.flowName = argv[optind++];
-        id.outputFolder = argv[optind];
     }
+    id.flowName = argv[optind++];
+    id.outputFolder = argv[optind];
 }

@@ -25,12 +25,15 @@ namespace BTools
                 typedef SCaBOliC::Core::ODRModel ODRModel;
                 typedef ODRModel::OptimizationMode  OptimizationMode;
                 typedef ODRModel::ApplicationMode ApplicationMode;
+
+                typedef ODRModel::ApplicationCenter ApplicationCenter;
                 typedef ODRModel::CountingMode CountingMode;
 
                 typedef SCaBOliC::Core::ODRPixels ODRPixels;
-                typedef SCaBOliC::Energy::ISQEnergy<ODRPixels> MyISQEnergy;
-                typedef MyISQEnergy::InputData ISQInputData;
-                typedef MyISQEnergy::Solution Solution;
+                typedef SCaBOliC::Core::ODRInterface ODRInterface;
+                typedef SCaBOliC::Energy::ISQEnergy ISQEnergy;
+                typedef ISQEnergy::InputData ISQInputData;
+                typedef ISQEnergy::Solution Solution;
 
                 struct IterationData
                 {
@@ -56,9 +59,10 @@ namespace BTools
                                             const unsigned int radius);
 
                 void updateSet(Solution& solution,
+                               const ODRInterface& odrFactory,
                                const ApplicationMode& appMode,
                                const ISQInputData& energyInput,
-                               const MyISQEnergy& energy);
+                               const ISQEnergy& energy);
 
                 DigitalSet aroundBoundary(const DigitalSet& optRegionDS,
                                           const ElasticaInput& ei,

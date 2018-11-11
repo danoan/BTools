@@ -2,7 +2,7 @@
 #include <boost/filesystem/operations.hpp>
 #include "OneImageFlow.h"
 
-using namespace BTools::Application::Illustration;
+using namespace BTools::Application::Flow;
 
 int main(int argc, char* argv[])
 {

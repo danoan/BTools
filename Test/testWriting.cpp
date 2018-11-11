@@ -1,11 +1,9 @@
 #include <opencv2/core/types.hpp>
+
 #include <BTools/model/instance/Study.h>
-#include "BTools/model/instance/Instance.h"
 #include "BTools/DataWriter.h"
-#include "MockDistribution.h"
 
 
-using namespace BTools::Lab::Test;
 using namespace BTools::Model;
 
 cv::Rect randomRect()
@@ -20,6 +18,9 @@ cv::Rect randomRect()
 
 int main()
 {
+    typedef BinOCS::BoundaryCorrection::ODRConfigInput ODRConfigInput;
+    typedef BinOCS::BoundaryCorrection::IFlowProfile::FlowProfile FlowProfile;
+
     srand(time(NULL));
 
     std::vector<Study> vectorOfStudies;
@@ -27,7 +28,11 @@ int main()
     int numVariation = 4;
     int numStudies = 4;
 
-    BinOCS::BoundaryCorrection::FlowConfigInput fci;
+    ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
+                                  ODRConfigInput::CountingMode::CM_PIXEL,
+                                  ODRConfigInput::SpaceMode::Pixel,
+                                  3,
+                                  ODRConfigInput::NeighborhoodType::FourNeighborhood);
 
     double curvatureWeight[numVariation] = {0.25,0.5,1.0,2.0};
     for(int i=0;i<numStudies;++i)
@@ -45,7 +50,8 @@ int main()
 
             BCFlowInput bcFlowInput("alpha = " + std::to_string(curvatureWeight[j]),
                                     bcInput,
-                                    fci,
+                                    odrConfigInput,
+                                    FlowProfile::DoubleStep,
                                     5);
 
             Instance::SeedSequenceInput seedInput;

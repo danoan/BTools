@@ -2,41 +2,96 @@
 
 using namespace BTools::Application::FromSeed;
 
+void InputReader::defaultValues(InputData& id)
+{
+    id.radius=3;
+    id.iterations=10;
+    id.useDigitalArea = false;
+    id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+    id.levels=id.radius;
+    id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
+    id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
+    id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
+    id.fp = InputData::FlowProfile::DoubleStep;
+
+    id.dtWeight = 0.5;
+    id.sqWeight = 1.0;
+    id.lgWeight = 0.2;
+}
+
 void InputReader::readInput(InputData& id,
                             int argc,
                             char** argv)
 {
+    defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"c:d:l:b:i:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:"))!=-1)
     {
         switch(opt)
         {
-            case 'c':
-                id.bcFlowInput.bcInput.sqTermWeight = atof(optarg);
-                break;
-            case 'd':
-                id.bcFlowInput.bcInput.dataTermWeight = atof(optarg);
-                break;
-            case 'l':
-                id.bcFlowInput.bcInput.lengthTermWeight = atof(optarg);
-                break;
-            case 'b':
-                id.bcFlowInput.bcInput.radius = atoi(optarg);
+            case 'r':
+                id.radius = atoi(optarg);
                 break;
             case 'i':
-                id.bcFlowInput.maxIterations = atoi(optarg);
+                id.iterations= atoi(optarg);
                 break;
-
+            case 'a':
+                if(atoi(optarg)==0) id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
+                else if(atoi(optarg)==1) id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_POINTEL;
+                break;
+            case 'c':
+                if(atoi(optarg)==0) id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
+                else if(atoi(optarg)==1) id.cm = InputData::ODRConfigInput::CountingMode::CM_POINTEL;
+                break;
+            case 's':
+                if(atoi(optarg)==0) id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
+                else if(atoi(optarg)==1) id.sm = InputData::ODRConfigInput::SpaceMode::Interpixel;
+                break;
+            case 'p':
+                if(strcmp(optarg,"single")==0 ) id.fp = InputData::FlowProfile::SingleStep;
+                else if(strcmp(optarg,"double")==0 ) id.fp = InputData::FlowProfile::DoubleStep;
+                break;
+            case 'n':
+            {
+                int n = atoi(optarg);
+                if (n == 4) id.neighborhood = InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+                else if (n == 8) id.neighborhood = InputData::ODRConfigInput::NeighborhoodType::EightNeighborhood;
+                else throw std::runtime_error("Neighborhood value must be 4 or 8.");
+                break;
+            }
+            case 'd':
+                id.useDigitalArea=true;
+                break;
+            case 'l':
+                id.levels = atoi(optarg);
+                break;
+            case 'q':
+                id.sqWeight = atof(optarg);
+                break;
+            case 't':
+                id.dtWeight = atof(optarg);
+                break;
+            case 'g':
+                id.lgWeight = atof(optarg);
+                break;
             default:
-                std::cerr << "Usage: %s DATA_SEED_PATH [-c Curvature Weight] "
-                        "[-d Data Weight] [-l Length Weight] [-b Ball Radius] "
-                        "[-i Max Iterations]" << std::endl;
-
+                std::cerr << "Usage: fromSeed [-r Ball Radius default 3] "
+                        "[-i Max Iterations default 10] "
+                        "[-a Computation Center 0 Pixel 1 Pointel default Pixel] "
+                        "[-c Counting Mode 0 Pixel 1 Pointel default Pixel] "
+                        "[-s Space Mode 0 Pixel 1 Interpixel default Pixel] "
+                        "[-p FlowProfile single double default double] "
+                        "[-n Neighborhood 4 or 8 default: 4] "
+                        "[-d Use digital area default: false] "
+                        "[-l Computation levels default: Ball radius] "
+                        "[-q Squared Curvature Term weight default: 1.0] "
+                        "[-t Data Term weight default: 1.0] "
+                        "[-g Length Term weight default: 1.0] "
+                        "DATA_SEED_PATH " << std::endl;
+                exit(1);
         }
     }
 
     id.seedDataFilePath= argv[optind];
-    id.bcFlowInput.bcInput.solverType = InputData::BCFlowInput::BCConfigInput::QPBOSolverType::Probe;
-    // id.bcFlowInput.flowConfigInput NEED TO ENTER FLOW_CONFIG DATA
 }

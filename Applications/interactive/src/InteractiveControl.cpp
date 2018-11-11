@@ -12,10 +12,9 @@ InteractiveControl::InteractiveControl(const BCFlowInput& bcFlowInput,
     typedef BinOCS::API::SegCorrect::BCAOutput BCAOutput;
     BCAOutput bcaOutput = BinOCS::API::segCorrect(imageFilePath,
                                                   bcFlowInput.bcInput,
-                                                  bcFlowInput.flowConfigInput,
                                                   bcFlowInput.maxIterations);
 
-    const Solution& solution = bcaOutput.energySolution;
+    const BCSolution& solution = bcaOutput.energySolution;
 
 
 

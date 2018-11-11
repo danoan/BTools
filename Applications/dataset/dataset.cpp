@@ -17,11 +17,30 @@ using namespace BTools::Application;
 template<typename TInstanceProfile>
 void dataset(const std::string& prefix, const Dataset::InputReader::InputData& inputData)
 {
+    typedef BTools::Model::BCFlowInput BCFlowInput;
     std::string outputFolder = outputDir + "/Dataset-" + prefix +
-                               std::to_string(inputData.bcFlowInput.maxIterations) + "it";
+                               std::to_string(inputData.iterations) + "it";
+
+    BCConfigInput bcInput(inputData.radius,
+                          inputData.dtWeight,
+                          inputData.sqWeight,
+                          inputData.lgWeight,
+                          BCConfigInput::QPBOSolverType::Probe);
+
+    ODRConfigInput odrConfigInput(inputData.ac,
+                                  inputData.cm,
+                                  inputData.sm,
+                                  inputData.levels,
+                                  inputData.neighborhood);
+
+    BCFlowInput bcFlowInput("Noname",
+                            bcInput,
+                            odrConfigInput,
+                            inputData.fp,
+                            inputData.iterations);
     
     DatasetControl::runFlowOnDataset<TInstanceProfile>(inputData.datasetPath,
-                                                       inputData.bcFlowInput,
+                                                       bcFlowInput,
                                                        outputFolder);
 }
 

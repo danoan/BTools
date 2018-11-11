@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <BTools/model/input/BCFlowInput.h>
 
-#include "BinOCS/BoundaryCorrection/model/FlowConfigInput.h"
 
 namespace BTools
 {
@@ -18,20 +17,28 @@ namespace BTools
             public:
                 struct InputData
                 {
-                    typedef BinOCS::BoundaryCorrection::FlowConfigInput FlowConfigInput;
+                    typedef BinOCS::BoundaryCorrection::ODRConfigInput ODRConfigInput;
+                    typedef BinOCS::BoundaryCorrection::IFlowProfile::FlowProfile FlowProfile;
 
                     std::string flowName;
+                    std::string outputFolder;
+
                     int radius;
                     int iterations;
                     bool useDigitalArea;
-                    int neighborhood;
-                    int levels;
-                    std::string outputFolder;
 
-                    FlowConfigInput::ApplicationCenter ac;
-                    FlowConfigInput::CountingMode cm;
-                    FlowConfigInput::SpaceMode  sm;
-                    FlowConfigInput::FlowProfile fp;
+
+                    ODRConfigInput::ApplicationCenter ac;
+                    ODRConfigInput::CountingMode cm;
+                    ODRConfigInput::SpaceMode  sm;
+                    ODRConfigInput::NeighborhoodType neighborhood;
+                    int levels;
+
+                    FlowProfile fp;
+
+                    double sqWeight;
+                    double dtWeight;
+                    double lgWeight;
                 };
 
                 static void readInput(InputData& id,

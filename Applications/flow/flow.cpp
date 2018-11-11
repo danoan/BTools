@@ -20,19 +20,24 @@ int main(int argc, char* argv[])
     InputReader::readInput(id,argc,argv);
 
     FlowControl::BCConfigInput bcInput(id.radius,
-                                       0,
-                                       1.0,
-                                       0,
+                                       id.dtWeight,
+                                       id.sqWeight,
+                                       id.lgWeight,
                                        FlowControl::BCConfigInput::QPBOSolverType::Probe);
 
-    FlowConfigInput fci(id.fp,id.ac,id.cm,id.sm);
+    ODRConfigInput odrConfigInput(id.ac,
+                                  id.cm,
+                                  id.sm,
+                                  id.levels,
+                                  id.neighborhood);
 
     FlowControl::BCFlowInput bcFlowInput("Digital Shapes Flow",
                                          bcInput,
-                                         fci,
+                                         odrConfigInput,
+                                         id.fp,
                                          id.iterations);
 
-    std::string outputFilePath = outputDir +"/flow-ab1/" + id.flowName;
+    std::string outputFilePath = outputDir + "/flow/" + id.outputFolder + "/" + id.flowName;
 
     FlowControl flow(bcFlowInput,
                      outputFilePath,
