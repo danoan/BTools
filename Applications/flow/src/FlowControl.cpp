@@ -58,6 +58,8 @@ void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostrea
 
     for(auto it=entries.begin();it!=entries.end();++it)
     {
+        if(it->solution.outputDS.size()==0) continue;
+
         const EnergySolution &curr = (it->solution);
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";

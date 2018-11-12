@@ -25,9 +25,9 @@ namespace BTools
                 typedef SCaBOliC::Core::ODRModel ODRModel;
                 typedef ODRModel::OptimizationMode  OptimizationMode;
                 typedef ODRModel::ApplicationMode ApplicationMode;
-
                 typedef ODRModel::ApplicationCenter ApplicationCenter;
                 typedef ODRModel::CountingMode CountingMode;
+                typedef ODRModel::NeighborhoodType NeighborhoodType;
 
                 typedef SCaBOliC::Core::ODRPixels ODRPixels;
                 typedef SCaBOliC::Core::ODRInterface ODRInterface;
