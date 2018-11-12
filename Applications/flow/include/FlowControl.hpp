@@ -97,11 +97,24 @@ void FlowControl::shapeFlow(TShape shape,
                 translatedBackDS.insert(*it + imageDataInput.translation );
             }
 
-
+            Point lb,ub;
+            translatedBackDS.computeBoundingBox(lb,ub);
+            
+            if(lb(0) <= flowDomain.lowerBound()(0)+1 ||
+               lb(1) <= flowDomain.lowerBound()(1)+1 ||
+               ub(0) >= flowDomain.upperBound()(0)-1 ||
+               ub(1) >= flowDomain.upperBound()(1)-1 )
+            {
+                throw std::runtime_error("Result image is too big.");
+            }
+            
+            if(translatedBackDS.size()<4) throw std::runtime_error("Result image is too small.");
+                
+            
             exportImageFromDigitalSet(translatedBackDS,flowDomain,currImagePath);
         }catch(std::exception ex)
         {
-            std::cerr << "Flow error: Image probably too small or too big.";
+            std::cerr << ex.what();
             break;
         }
 

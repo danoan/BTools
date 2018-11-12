@@ -106,7 +106,8 @@ ElasticaProblem::Solution ElasticaProblem::boundaryCorrection(const ODRModel& OD
 
     ODRPixels odrFactory(ApplicationCenter::AC_PIXEL,
                          CountingMode::CM_PIXEL,
-                         energyInput.radius);
+                         energyInput.radius,
+                         NeighborhoodType::FourNeighborhood);
 
     ISQEnergy energy(energyInput,odrFactory.handle());
     Solution solution(ODR.domain);
