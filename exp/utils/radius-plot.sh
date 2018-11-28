@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PROJECT_FOLDER="/home-local/dantu1/GIT/PhD/BTools"
-GRAPH_PLOT_APP="${PROJECT_FOLDER}/exp/graph-plot.sh"
+GRAPH_PLOT_APP="${PROJECT_FOLDER}/exp/utils/graph-plot.sh"
 
 MAIN_FOLDER=${1}; shift;
 TITLE=${1}; shift;
