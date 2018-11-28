@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PROJECT_FOLDER=/home-local/dantu1/GIT/PhD/BTools
-RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/radius-plot.sh
+RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/utils/radius-plot.sh
 FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/flow
 SUMMARY_FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/make-summary-flow
 MAX_IT=50

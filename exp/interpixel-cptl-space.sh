@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PROJECT_FOLDER=/home-local/dantu1/GIT/PhD/BTools
-RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/radius-plot.sh
+RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/utils/radius-plot.sh
 FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/flow
 SUMMARY_FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/make-summary-flow
 MAX_IT=50
@@ -61,7 +61,7 @@ $FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0 sing
 $FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0 double-cptl-r7 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPXL-RADIUS
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-RADIUS
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
 
 
@@ -75,7 +75,7 @@ $FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 8 -l 3 -q 1 -t 0 -g 0  sin
 $FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 8 -l 3 -q 1 -t 0 -g 0  double-cptl-n8 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPXL-NEIGH
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-NEIGH
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
 
 
@@ -91,5 +91,5 @@ $FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 2 -q 1 -t 0 -g 0  dou
 $FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-l3 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPXL-LEVELS
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-LEVELS
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}

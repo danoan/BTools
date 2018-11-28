@@ -4,7 +4,7 @@ PROJECT_FOLDER=/home-local/dantu1/GIT/PhD/BTools
 RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/utils/radius-plot.sh
 FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/flow
 SUMMARY_FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/make-summary-flow
-MAX_IT=50
+MAX_IT=30
 
 list_of_folders()
 {
@@ -52,45 +52,27 @@ create_plots()
 }
 
 #-------------RADIUS----------------
-OUTPUT_SUBFOLDER=pixel/radius
+OUTPUT_SUBFOLDER=real/
 
 $FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-ps-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 3 -q 1 -t 0 -g 0 double-ps-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-ps-r3 $OUTPUT_SUBFOLDER&
 
 $FLOW_APP -r 7 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 7 -q 1 -t 0 -g 0 single-ps-r7 $OUTPUT_SUBFOLDER&
 $FLOW_APP -r 7 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 7 -q 1 -t 0 -g 0 double-ps-r7 $OUTPUT_SUBFOLDER&
 
-wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} PS-RADIUS
-summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
+
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-r3 $OUTPUT_SUBFOLDER&
+
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0  single-cptl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0  double-cptl-r7 $OUTPUT_SUBFOLDER&
 
 
+$FLOW_APP -r 3 -i $MAX_IT -a 1 -c 0 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cpxl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 1 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cpxl-r3 $OUTPUT_SUBFOLDER&
 
-#-------------NEIGHBORHOOD----------------
-OUTPUT_SUBFOLDER=pixel/neighborhood
-
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-ps-n4 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-ps-n4 $OUTPUT_SUBFOLDER&
-
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 8 -l 3 -q 1 -t 0 -g 0  single-ps-n8 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 8 -l 3 -q 1 -t 0 -g 0  double-ps-n8 $OUTPUT_SUBFOLDER&
-
-wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} PS-NEIGH
-summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
-
-
-#-------------LEVELS----------------
-OUTPUT_SUBFOLDER=pixel/levels
-
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 1 -q 1 -t 0 -g 0  single-ps-l1 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 2 -q 1 -t 0 -g 0  single-ps-l2 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-ps-l3 $OUTPUT_SUBFOLDER&
-
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 1 -q 1 -t 0 -g 0  double-ps-l1 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 2 -q 1 -t 0 -g 0  double-ps-l2 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-ps-l3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 1 -c 0 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0  single-cpxl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 1 -c 0 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0  double-cpxl-r7 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} PS-LEVELS
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
