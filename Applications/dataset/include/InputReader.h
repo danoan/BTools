@@ -26,6 +26,7 @@ namespace BTools
 
 
                     ODRConfigInput::ApplicationCenter ac;
+                    ODRConfigInput::ApplicationMode am;
                     ODRConfigInput::CountingMode cm;
                     ODRConfigInput::SpaceMode  sm;
                     ODRConfigInput::NeighborhoodType neighborhood;

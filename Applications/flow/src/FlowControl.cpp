@@ -41,6 +41,39 @@ void FlowControl::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
        << fnD(colLength,MDCAValue) << "\t";
 }
 
+void FlowControl::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
+{
+    int colLength=20;
+    std::string(*fnD)(int,double) = Utils::fixedStrLength;
+
+    double perimeter;
+
+    typedef DIPaCUS::Representation::Image2D Image2D;
+
+    Image2D tempImage(ds.domain());
+    DIPaCUS::Representation::digitalSetToImage(tempImage,ds);
+
+    Curve curve;
+    DIPaCUS::Misc::ComputeBoundaryCurve(tempImage,curve,1);
+
+    KSpace kspace;
+    kspace.init(ds.domain().lowerBound(),ds.domain().upperBound(),true);
+
+
+    typedef DGtal::ConstRangeAdapter<Curve::ConstIterator,DGtal::functors::SCellToPoint<KSpace>,Point> MyConstRangeAdapter;
+    MyConstRangeAdapter curvePointAdapter(curve.begin(),
+                                          curve.end(),
+                                          DGtal::functors::SCellToPoint<KSpace>(kspace));
+
+
+    DGtal::MLPLengthEstimator<MyConstRangeAdapter::ConstIterator> mlpLengthEstimator;
+    mlpLengthEstimator.init(1,curvePointAdapter.begin(),curvePointAdapter.end(),true);
+
+    perimeter = mlpLengthEstimator.eval();
+
+    os << fnD(colLength,perimeter) << "\t";
+}
+
 
 void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostream &os)
 {
@@ -53,6 +86,7 @@ void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostrea
         << fnS(colLength,"Opt. Energy") << "\t"
         << fnS(colLength,"Elastica II") << "\t"
         << fnS(colLength,"Elastica MDCA") << "\t"
+        << fnS(colLength,"Perimeter") << "\t"
         << fnS(colLength,"Unlabeled") << "\t"
         << std::endl;
 
@@ -64,6 +98,7 @@ void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostrea
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
         outputElasticaEnergy(it->solution.outputDS,os);
+        outputShapePerimeter(it->solution.outputDS,os);
         os << fnD(colLength,curr.unlabeled) << "\t\n";
     }
 }
@@ -104,13 +139,28 @@ void FlowControl::printFlowMetadata(const BCFlowInput &bcFlowInput,
                                     std::ofstream &ofs)
 {
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStep ) ofs << "Flow Profile: Single Step \n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepOpt ) ofs << "Flow Profile: Single Step Opt \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepOpt) ofs << "Flow Profile: Double Step \n";
+
     if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_PIXEL) ofs << "Application Center: Pixel \n";
     if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_POINTEL) ofs << "Application Center: Pointel \n";
+    if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_LINEL) ofs << "Application Center: Linel \n";
+
+    if( bcFlowInput.odrConfigInput.applicationMode==BCFlowInput::ODRConfigInput::ApplicationMode::AM_AroundBoundary) ofs << "Application Mode: Around Boundary\n";
+    if( bcFlowInput.odrConfigInput.applicationMode==BCFlowInput::ODRConfigInput::ApplicationMode::AM_OptimizationBoundary) ofs << "Application Mode: Optimization Boundary \n";
+
     if( bcFlowInput.odrConfigInput.countingMode==BCFlowInput::ODRConfigInput::CountingMode::CM_PIXEL) ofs << "Counting Mode: Pixel \n";
     if( bcFlowInput.odrConfigInput.countingMode==BCFlowInput::ODRConfigInput::CountingMode::CM_POINTEL) ofs << "Counting Mode: Pointel \n";
+
     if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Pixel) ofs << "Space Mode: Pixel \n";
     if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Interpixel) ofs << "Space Mode: Interpixel \n";
+
+    ofs << "Levels: " << bcFlowInput.odrConfigInput.levels << "\n";
+
+    if( bcFlowInput.odrConfigInput.neighborhood==BCFlowInput::ODRConfigInput::NeighborhoodType::FourNeighborhood ) ofs << "Neighborhood: 4\n";
+    if( bcFlowInput.odrConfigInput.neighborhood==BCFlowInput::ODRConfigInput::NeighborhoodType::EightNeighborhood ) ofs << "Neighborhood: 8\n";
+
 
 
 }
