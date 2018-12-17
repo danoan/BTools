@@ -29,6 +29,7 @@ int main()
     int numStudies = 4;
 
     ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
+                                  ODRConfigInput::ApplicationMode::AM_AroundBoundary,
                                   ODRConfigInput::CountingMode::CM_PIXEL,
                                   ODRConfigInput::SpaceMode::Pixel,
                                   3,

@@ -12,6 +12,7 @@
 #include <DGtal/shapes/parametric/Ellipse2D.h>
 #include <DGtal/shapes/Shapes.h>
 #include <DGtal/io/writers/GenericWriter.h>
+#include <DGtal/geometry/curves/estimation/MLPLengthEstimator.h>
 
 #include <SCaBOliC/Utils/Utils.h>
 
@@ -86,6 +87,7 @@ namespace BTools
                                                const std::string& outputFilepath);
 
 		        void outputElasticaEnergy(const DigitalSet& ds, std::ostream& os);
+                void outputShapePerimeter(const DigitalSet& ds, std::ostream& os);
 
                 void printTable(const std::vector<TableEntry> &entries,
                                 std::ostream &os);

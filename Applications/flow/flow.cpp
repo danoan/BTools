@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
                                        FlowControl::BCConfigInput::QPBOSolverType::Probe);
 
     ODRConfigInput odrConfigInput(id.ac,
+                                  id.am,
                                   id.cm,
                                   id.sm,
                                   id.levels,

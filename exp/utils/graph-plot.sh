@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#$1: Output filename
+#$2: Graph title
+#$3: Energy/Length Mode
+#$4-..: (Datafile,Plot title)
+
 gp_save()
 {
 	printf "set size 1.0, 0.6;
@@ -12,20 +17,58 @@ gp_save()
 
 gp_plot_config()
 {
-	printf "set title '$1';
-		set xlabel 'Iterations';
-		set ylabel 'MDCA';" 
+    mode=$1;shift;
+
+	if [ $mode = 0 ]
+	then
+        printf "set title '$1';
+        set xlabel 'Iterations';
+        set ylabel 'MDCA';"
+    elif [ $mode = 1 ]
+    then
+        printf "set title '$1';
+        set xlabel 'Iterations';
+        set ylabel 'MDCA/Perimeter';"
+    elif [ $mode = 2 ]
+    then
+        printf "set title '$1';
+        set xlabel 'Iterations';
+        set ylabel 'Unlabeled';"
+    fi
 }
 
 
 gp_add_plot()
 {
-	printf "'$1' u 1:4 w l title '$2',"
+    mode=$1;shift;
+
+    if [ $mode = 0 ]
+    then
+	    printf "'$1' u 1:4 w l title '$2',"
+	elif [ $mode = 1 ]
+	then
+	    printf "'$1' u 1:(\$4/\$5) w l title '$2',"
+    elif [ $mode = 2 ]
+    then
+    	printf "'$1' u 1:6 w l title '$2',"
+	fi
+
 }
 
 gp_last_plot()
 {
-	printf "'$1' u 1:4 w l title '$2';"
+    mode=$1;shift;
+
+    if [ $mode = 0 ]
+    then
+	    printf "'$1' u 1:4 w l title '$2';"
+	elif [ $mode = 1 ]
+	then
+	    printf "'$1' u 1:(\$4/\$5) w l title '$2';"
+	elif [ $mode = 2 ]
+	then
+	    printf "'$1' u 1:6 w l title '$2';"
+	fi
 }
 
 
@@ -33,15 +76,16 @@ run()
 {
 	fileoutput=$1;shift;
 	graphtitle=$1;shift;
+	mode=$1;shift;
 
-	buffer="$(gp_plot_config $graphtitle)plot "
+	buffer="$(gp_plot_config $mode $graphtitle)plot "
 	i=0
 	num_plots=`expr ${#} / 2 - 1`
 	while [ ${i} -lt ${num_plots} ]
 	do
 		filepath=$1
 		title=$2
-		buffer="${buffer}$(gp_add_plot $filepath $title)"  
+		buffer="${buffer}$(gp_add_plot $mode $filepath $title)"
 		shift; shift;
 
 		i=`expr $i + 1`
@@ -49,9 +93,9 @@ run()
 	
 	if [ $num_plots -eq 0 ]
 	then
-		buffer="${buffer}$(gp_last_plot $1 $2)"
+		buffer="${buffer}$(gp_last_plot $mode $1 $2)"
 	else	
-		buffer="${buffer}$(gp_last_plot $1 $2)"
+		buffer="${buffer}$(gp_last_plot $mode $1 $2)"
 	fi
 
 	buffer="${buffer}$(gp_save)"
