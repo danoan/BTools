@@ -32,7 +32,6 @@ void interactive(const Interactive::InputReader::InputData& inputData)
                           BCConfigInput::QPBOSolverType::Probe);
 
     ODRConfigInput odrConfigInput(inputData.ac,
-                                  inputData.am,
                                   inputData.cm,
                                   inputData.sm,
                                   inputData.levels,

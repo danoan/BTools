@@ -9,7 +9,6 @@ void InputReader::defaultValues(InputData& id)
     id.useDigitalArea = false;
     id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.levels=id.radius;
-    id.am = InputData::ODRConfigInput::ApplicationMode::AM_AroundBoundary;
     id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
     id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
     id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
@@ -27,7 +26,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:m:c:s:p:n:dl:q:t:g:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:"))!=-1)
     {
         switch(opt)
         {
@@ -42,10 +41,6 @@ void InputReader::readInput(InputData& id,
                 else if(atoi(optarg)==1) id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_POINTEL;
                 else if(atoi(optarg)==2) id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_LINEL;
                 break;
-            case 'm':
-                if(strcmp(optarg,"around")==0) id.am = InputData::ODRConfigInput::ApplicationMode::AM_AroundBoundary;
-                else if(strcmp(optarg,"opt")==0) id.am = InputData::ODRConfigInput::ApplicationMode::AM_OptimizationBoundary;
-                break;
             case 'c':
                 if(atoi(optarg)==0) id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
                 else if(atoi(optarg)==1) id.cm = InputData::ODRConfigInput::CountingMode::CM_POINTEL;
@@ -57,6 +52,8 @@ void InputReader::readInput(InputData& id,
             case 'p':
                 if(strcmp(optarg,"single")==0 ) id.fp = InputData::FlowProfile::SingleStep;
                 else if(strcmp(optarg,"double")==0 ) id.fp = InputData::FlowProfile::DoubleStep;
+                else if(strcmp(optarg,"single-opt")==0 ) id.fp = InputData::FlowProfile::SingleStepOpt;
+                else if(strcmp(optarg,"double-opt")==0 ) id.fp = InputData::FlowProfile::DoubleStepOpt;
                 break;
             case 'n':
             {
@@ -88,7 +85,7 @@ void InputReader::readInput(InputData& id,
                         "[-m Computation Mode 'around' 'opt' default 'around'] "
                         "[-c Counting Mode 0 Pixel 1 Pointel default Pixel] "
                         "[-s Space Mode 0 Pixel 1 Interpixel default Pixel] "
-                        "[-p FlowProfile single double default double] "
+                        "[-p FlowProfile single double single-opt double-opt default double] "
                         "[-n Neighborhood 4 or 8 default: 4] "
                         "[-d Use digital area default: false] "
                         "[-l Computation levels default: Ball radius] "

@@ -56,11 +56,11 @@ create_plots()
 #-------------RADIUS----------------
 OUTPUT_SUBFOLDER=linel/radius
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0 linel-around-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0 linel-opt-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 3 -q 1 -t 0 -g 0 linel-around-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 3 -q 1 -t 0 -g 0 linel-opt-r3 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0 linel-around-r7 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0 linel-opt-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 7 -q 1 -t 0 -g 0 linel-around-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 7 -q 1 -t 0 -g 0 linel-opt-r7 $OUTPUT_SUBFOLDER&
 
 wait
 create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPXL-RADIUS
@@ -70,11 +70,11 @@ summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
 #-------------NEIGHBORHOOD----------------
 OUTPUT_SUBFOLDER=linel/neighborhood
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  linel-around-n4 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  linel-opt-n4 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 3 -q 1 -t 0 -g 0  linel-around-n4 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 3 -q 1 -t 0 -g 0  linel-opt-n4 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 8 -l 3 -q 1 -t 0 -g 0  linel-around-n8 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 8 -l 3 -q 1 -t 0 -g 0  linel-opt-n8 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 8 -l 3 -q 1 -t 0 -g 0  linel-around-n8 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 8 -l 3 -q 1 -t 0 -g 0  linel-opt-n8 $OUTPUT_SUBFOLDER&
 
 wait
 create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPXL-NEIGH
@@ -85,13 +85,13 @@ summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
 #-------------LEVELS----------------
 OUTPUT_SUBFOLDER=linel/levels
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 4 -l 1 -q 1 -t 0 -g 0  linel-around-l1 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 4 -l 2 -q 1 -t 0 -g 0  linel-around-l2 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 2 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  linel-around-l3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 1 -q 1 -t 0 -g 0  linel-around-l1 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 2 -q 1 -t 0 -g 0  linel-around-l2 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 3 -q 1 -t 0 -g 0  linel-around-l3 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 3 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 4 -l 1 -q 1 -t 0 -g 0  linel-opt-l1 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 4 -l 2 -q 1 -t 0 -g 0  linel-opt-l2 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m opt -a 2 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  linel-opt-l3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 1 -q 1 -t 0 -g 0  linel-opt-l1 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 2 -q 1 -t 0 -g 0  linel-opt-l2 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 2 -c 0 -s 1 -p double-opt -n 4 -l 3 -q 1 -t 0 -g 0  linel-opt-l3 $OUTPUT_SUBFOLDER&
 
 wait
 create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPXL-LEVELS

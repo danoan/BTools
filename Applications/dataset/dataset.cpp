@@ -28,7 +28,6 @@ void dataset(const std::string& prefix, const Dataset::InputReader::InputData& i
                           BCConfigInput::QPBOSolverType::Probe);
 
     ODRConfigInput odrConfigInput(inputData.ac,
-                                  inputData.am,
                                   inputData.cm,
                                   inputData.sm,
                                   inputData.levels,
