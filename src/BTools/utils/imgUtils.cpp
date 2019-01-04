@@ -35,8 +35,6 @@ cv::Rect Utils::computeBoundingBox(const cv::Mat &img)
 
 void Utils::setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
 {
-    std::cout << "Highlight!" << std::endl;
-
     cv::Mat dilated = img.clone();
     cv::dilate(img,dilated,cv::getStructuringElement(cv::MORPH_RECT,cv::Size(3,3),cv::Point(1,1)));
 

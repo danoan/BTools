@@ -23,11 +23,10 @@ void DatasetControl::runFlowOnDataset(const std::string &datasetPathStr,
             SeedSequenceInput seedInput = DataReader::read(dataPath);
 
 
+            MyInstanceProfile instanceProfile;
             boost::filesystem::path outputPath(outputFolder);
             outputPath.append(imageName);
-            boost::filesystem::create_directories(outputPath);
-
-            MyInstanceProfile instanceProfile;
+            outputPath.append("Profile-" + instanceProfile.profileIdentifier());
 
             BTools::Model::Study study;
             study.studyName = instanceProfile.profileIdentifier() + "Study";
@@ -38,10 +37,17 @@ void DatasetControl::runFlowOnDataset(const std::string &datasetPathStr,
             SelectorOutput selectorOutput;
             selectorOutput.baseImage = cv::imread(seedInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
 
+            int instanceNum=0;
             while (instanceProfile.fillInstance(bcFlowInputModel))
             {
                 for (int i = 0; i < totalSeed; ++i)
                 {
+                    boost::filesystem::path currentOutputPath(outputPath);
+                    currentOutputPath.append("Instance-"+std::to_string((instanceNum)));
+                    currentOutputPath.append("ROI-"+std::to_string(i));
+
+                    boost::filesystem::create_directories(currentOutputPath);
+
                     OptOutput output(bcFlowInputModel,seedInput);
                     seedInput.getSelector(selectorOutput,i);
 
@@ -49,11 +55,11 @@ void DatasetControl::runFlowOnDataset(const std::string &datasetPathStr,
                                                          seedInput.imgFilePath,
                                                          bcFlowInputModel,
                                                          selectorOutput,
-                                                         outputPath.string());
+                                                         currentOutputPath.string());
 
                     study.vectorOfOptOutput.push_back(output);
                 }
-
+                instanceNum++;
             }
 
             std::ofstream ofs( (outputPath.string() + "/" + instanceProfile.profileIdentifier() + "values.txt").c_str() );

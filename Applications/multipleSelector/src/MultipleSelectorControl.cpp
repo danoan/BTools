@@ -2,6 +2,9 @@
 
 using namespace BTools::Application;
 
+const char MultipleSelectorControl::ESCAPE=27;
+const char MultipleSelectorControl::ESPACE=32;
+
 MultipleSelectorControl::MultipleSelectorControl(std::string imgFilePath,
                                                  std::string windowName,
                                                  std::string outputFilepath)
@@ -10,15 +13,25 @@ MultipleSelectorControl::MultipleSelectorControl(std::string imgFilePath,
 
     msi.imgFilePath = imgFilePath;
     bool onExecution=true;
+    int key;
     while(onExecution)
     {
-        int key = cv::waitKey(0);
+        key = cv::waitKey(0);
         switch(key)
         {
-            case 27:
+            case ESPACE:    //NEXT
             {
-                onExecution = false;
+                onExecution=false;
                 break;
+            }
+            case ESCAPE:    //REMOVE last selection and do it again
+            {
+                if(msi.vsp.size()>0)
+                {
+                    msi.vsp.erase(msi.vsp.begin()+msi.vsp.size());
+                    msi.vectorOfROI.erase(msi.vectorOfROI.begin()+msi.vectorOfROI.size());
+                }
+
             }
             default:
             {
@@ -36,10 +49,10 @@ MultipleSelectorControl::MultipleSelectorControl(std::string imgFilePath,
                 msi.height = imgSize.height;
 
                 msi.vectorOfROI.push_back(selectorOutput.possibleFrg);
+
+                break;
             }
-
         }
-
     }
 
     DataWriter::write(msi,outputFilepath);

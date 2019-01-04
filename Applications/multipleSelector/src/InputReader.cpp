@@ -8,11 +8,11 @@ void InputReader::readInput(InputData& id,
 {
 
     int opt;
-    while( (opt=getopt(argc,argv,"c:d:l:b:i:"))!=-1)
+    while( (opt=getopt(argc,argv,"h"))!=-1)
     {
         switch(opt)
         {
-            default:
+            case 'h':
                 std::cerr << "Usage: multipleSelector IMAGE_DATASET_PATH" << std::endl;
         }
     }

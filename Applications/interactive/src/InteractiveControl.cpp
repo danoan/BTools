@@ -17,23 +17,26 @@ InteractiveControl::InteractiveControl(const BCFlowInput& bcFlowInput,
 
     const Solution& solution = bcaOutput.energySolution;
 
+    std::string graphCutSegFilepath = outputFolder + "/gc-seg.jpg";
+    std::string correctedSegFilepath = outputFolder +"/corrected-seg.jpg";
 
+    cv::imwrite(graphCutSegFilepath,bcaOutput.imgSeg);
+    cv::imwrite(correctedSegFilepath,bcaOutput.imgOutput);
 
     double outputElasticaEnergy,inputElasticaEnergy;
     SCaBOliC::Utils::MDCAISQEvaluation(outputElasticaEnergy,
                                        solution.outputDS);
 
-    DigitalSet baseImageDS(solution.outputDS.domain());
-    DIPaCUS::Representation::imageAsDigitalSet(baseImageDS,imageFilePath);
+    DGtal::Z2i::Domain baseImageDomain( Point(0,0),Point(bcaOutput.imgSeg.cols,bcaOutput.imgSeg.rows) );
+    DigitalSet baseImageDS( baseImageDomain );
+
+    DIPaCUS::Representation::imageAsDigitalSet(baseImageDS,graphCutSegFilepath);
     SCaBOliC::Utils::MDCAISQEvaluation(inputElasticaEnergy,baseImageDS);
 
     std::ofstream ofs(outputFolder + "/energy.txt");
     ofs << "GrabCut Segmentation Elastica Energy: " << inputElasticaEnergy << "\n"
         << "Boundary Correction Elastica Energy: " << outputElasticaEnergy << std::endl;
     ofs.close();
-
-    cv::imwrite(outputFolder + "/gc-seg.jpg",bcaOutput.imgSeg);
-    cv::imwrite(outputFolder +"/corrected-seg.jpg",bcaOutput.imgOutput);
 
     cv::destroyAllWindows();
 
