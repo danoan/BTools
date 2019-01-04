@@ -17,7 +17,7 @@ using namespace BTools::Application;
 template<typename TInstanceProfile>
 void dataset(const std::string& prefix, const Dataset::InputReader::InputData& inputData)
 {
-    std::string outputFolder = outputDir + "dataset/" + prefix +
+    std::string outputFolder = outputDir + "/dataset/" + prefix +
                                std::to_string(inputData.bcFlowInput.maxIterations) + "it";
     
     DatasetControl::runFlowOnDataset<TInstanceProfile>(inputData.datasetPath,
