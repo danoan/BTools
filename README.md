@@ -13,7 +13,7 @@ Build instructions can be found in INSTALL.txt
 This source contains five applications. For detailed description,
 type: [application] -h
 
-###flow
+### flow
 
 Evolves the digital curvature flow for a set of predefined digital shapes (ball, flower, 
 ellipse, triangle, square, pentagon, heptagon) as shown in DGCI19 paper.
@@ -24,7 +24,7 @@ Usage: flow [-r Ball Radius] [-i Max Iterations] [-a Application Center 0 Pixel 
 [-c Counting Mode 0 Pixel 1 Pointel] [-s Space Mode 0 Pixel 1 Interpixel] 
 [-p FlowProfile single double] "FLOW_NAME"
 
-###interactive
+### interactive
 
 Read image file and let user to manually set seeds.
 Execute graph cut segmentation accordingly to seed input and digital 
@@ -38,7 +38,7 @@ The output files are written in output/interactive
 Usage: IMAGE_FILE_PATH [-c Curvature Weight] [-d Data Weight] 
 [-l Length Weight] [-b Ball Radius] [-i Max Iterations]
 
-###multipleSelector
+### multipleSelector
 
 Read all images in IMAGE_DATASET_PATH and let user 
 to manually set seeds for each of them. For each image, one dataSeed file 
@@ -48,7 +48,7 @@ The output files are written in output/multipleSelector.
 
 Usage: IMAGE_DATASET_PATH 
 
-###fromSeed
+### fromSeed
 
 Read single data seed file and execute graph cut segmentation 
 accordingly. Next, execute digital curvature flow post-processing with 
@@ -60,7 +60,7 @@ Usage: DATA_SEED_FILE_PATH [-c Curvature Weight] [-d Data Weight]
 [-l Length Weight] [-b Ball Radius] [-i Max Iterations]
 
 
-###dataset
+### dataset
 
 Read all data seed files in DATA_SEED_FOLDER_PATH and execute 
 graph cut segmentation for each of them accordingly. Next, for each data seed,
