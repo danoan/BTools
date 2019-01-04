@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
                                   fci,
                                   id.iterations);
 
-    std::string outputFilePath = outputDir +"/flow-dev/" + id.flowName;
+    std::string outputFilePath = outputDir +"/flow/" + id.flowName;
 
     Flow flow(bcFlowInput,
               outputFilePath,
