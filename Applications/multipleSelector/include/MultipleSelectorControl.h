@@ -28,6 +28,9 @@ namespace BTools
             void includePointsFromGCMask(std::vector<cv::Point>& vp,
                                          cv::Mat gcMask);
 
+        private:
+            static const char ESCAPE;
+            static const char ESPACE;
         };
     }
 }

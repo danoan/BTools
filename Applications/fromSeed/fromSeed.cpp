@@ -25,7 +25,7 @@ void fromSeed(const FromSeed::InputReader::InputData& inputData)
     boost::filesystem::path pFile(seedInput.imgFilePath);
     boost::filesystem::path pOutputFolder(outputDir);
 
-    pOutputFolder.append("From-Seed-Selection-Highlight");
+    pOutputFolder.append("fromSeed");
     pOutputFolder.append(pFile.filename().string());
 
     FromSeedControl::SelectorOutput selectorOutput;

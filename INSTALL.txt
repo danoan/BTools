@@ -1,4 +1,6 @@
-./setUp.sh #Download and make repositories: DIPaCUS,GEOC,SCaBOliC and BinOCS
+#Download auxiliar projects and build them: DIPaCUS,GEOC,SCaBOliC and BinOCS
+
+./setUp.sh [FIND_PACKAGE_EXTRA_LOOK_UP_DIRS]
 mkdir build
 cd build
 cmake ..

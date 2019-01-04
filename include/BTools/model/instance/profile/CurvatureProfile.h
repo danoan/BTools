@@ -20,7 +20,7 @@ namespace BTools
 
             bool fillInstance(Model::BCFlowInput& producedInput)
             {
-                if(currI >=4 ) return false;
+                if(currI >=2 ) return false;
 
                 std::string inputName = profileIdentifier() + std::to_string( weights[currI]);
                 producedInput.inputName = inputName;
