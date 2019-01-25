@@ -2,7 +2,7 @@
 
 PROJECT_FOLDER=/home-local/dantu1/GIT/PhD/BTools
 RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/utils/radius-plot.sh
-MODE=1  #0 MDCA; 1 MDCA/Perimeter; 2 Unlabeled
+#MODE=1  #0 MDCA; 1 MDCA*Perimeter; 2 Unlabeled
 
 create_plots()
 {
@@ -10,6 +10,7 @@ create_plots()
     SUFFIX=$2
 
     LIST_FLOW_FOLDER=$3
+    MODE=$4
 
 
     $RADIUS_PLOT_APP $FLOW_FOLDER BALL-$SUFFIX Ball.txt $MODE ${LIST_FLOW_FOLDER}
@@ -27,4 +28,6 @@ LIST_FLOW_FOLDER="pixel/levels/double-ps-l2 pixel/levels/double-ps-l3 \
 interpixel-cptl/radius/double-cptl-r7 interpixel-cpxl/levels/double-cpxl-l2 \
 interpixel-cpxl/levels/double-cpxl-l3 interpixel-cptl/radius/single-cptl-r7"
 
-create_plots $FLOW_FOLDER "BEST-PLOT" "$LIST_FLOW_FOLDER"
+create_plots $FLOW_FOLDER "BEST-PLOT" "$LIST_FLOW_FOLDER" 0
+create_plots $FLOW_FOLDER "BEST-PLOT" "$LIST_FLOW_FOLDER" 1
+create_plots $FLOW_FOLDER "BEST-PLOT" "$LIST_FLOW_FOLDER" 2

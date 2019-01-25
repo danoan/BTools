@@ -41,6 +41,7 @@ create_plots()
 {
     FLOW_FOLDER=$1
     SUFFIX=$2
+    MODE=$3
 
     LIST_FLOW_FOLDER=$(list_of_folders $FLOW_FOLDER)
 
@@ -56,25 +57,26 @@ create_plots()
 #-------------RADIUS----------------
 OUTPUT_SUBFOLDER=real/
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 0 -s 0 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-ps-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 0 -s 0 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-ps-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-ps-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-ps-r3 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 0 -c 0 -s 0 -p single -n 4 -l 7 -q 1 -t 0 -g 0 single-ps-r7 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 0 -c 0 -s 0 -p double -n 4 -l 7 -q 1 -t 0 -g 0 double-ps-r7 $OUTPUT_SUBFOLDER&
-
-
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-r3 $OUTPUT_SUBFOLDER&
-
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0  single-cptl-r7 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0  double-cptl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 0 -s 0 -p single -n 4 -l 7 -q 1 -t 0 -g 0 single-ps-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 0 -s 0 -p double -n 4 -l 7 -q 1 -t 0 -g 0 double-ps-r7 $OUTPUT_SUBFOLDER&
 
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 1 -c 0 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cpxl-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 1 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cpxl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-r3 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 1 -c 0 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0  single-cpxl-r7 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 1 -c 0 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0  double-cpxl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0  single-cptl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0  double-cptl-r7 $OUTPUT_SUBFOLDER&
+
+
+$FLOW_APP -r 3 -i $MAX_IT -a 1 -c 0 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cpxl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 1 -c 0 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cpxl-r3 $OUTPUT_SUBFOLDER&
+
+$FLOW_APP -r 7 -i $MAX_IT -a 1 -c 0 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0  single-cpxl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 1 -c 0 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0  double-cpxl-r7 $OUTPUT_SUBFOLDER&
 
 wait
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} DIG-REAL-AREA 0
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}

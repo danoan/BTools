@@ -108,7 +108,7 @@ void FlowControl::shapeFlow(TShape shape,
                 throw std::runtime_error("Result image is too big.");
             }
             
-            if(translatedBackDS.size()<4) throw std::runtime_error("Result image is too small.");
+            if(translatedBackDS.size()<10) throw std::runtime_error("Result image is too small.");
                 
             
             exportImageFromDigitalSet(translatedBackDS,flowDomain,currImagePath);

@@ -27,6 +27,7 @@ target_include_directories(interactive PRIVATE
 
 target_link_libraries(interactive
         -lbinocs-application
+        -lscabolic-utils
         -lscabolic-energy
         -lscabolic-core
         -lscabolic-optimization

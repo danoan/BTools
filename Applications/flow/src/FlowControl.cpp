@@ -34,8 +34,11 @@ void FlowControl::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
     std::string(*fnD)(int,double) = Utils::fixedStrLength;
 
     double IIValue,MDCAValue;
-    SCaBOliC::Utils::IIISQEvaluation(IIValue,ds);
-    SCaBOliC::Utils::MDCAISQEvaluation(MDCAValue,ds);
+    SCaBOliC::Utils::ISQEvaluation(IIValue,ds,
+                                   SCaBOliC::Utils::ISQEvaluation::II);
+
+    SCaBOliC::Utils::ISQEvaluation(MDCAValue,ds,
+                                   SCaBOliC::Utils::ISQEvaluation::MDCA);
 
     os << fnD(colLength,IIValue) << "\t"
        << fnD(colLength,MDCAValue) << "\t";
