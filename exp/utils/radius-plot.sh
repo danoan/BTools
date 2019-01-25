@@ -16,12 +16,20 @@ MODE=${1}; shift;
 
 NUM_FLOWS=${#}
 
-cmd="${GRAPH_PLOT_APP} ${MAIN_FOLDER}/${TITLE}.eps ${TITLE} $MODE "
+PLOT_FOLDER=${MAIN_FOLDER}/plots/mode-${MODE}
+mkdir -p $PLOT_FOLDER
+
+cmd="${GRAPH_PLOT_APP} ${PLOT_FOLDER}/${TITLE}.eps ${TITLE} $MODE "
 i=0
 
 while [ $i -lt $NUM_FLOWS ]
 do
-    cmd="${cmd} ${MAIN_FOLDER}/${1}/${DATA_FILENAME} ${1} "
+    if [ "$1" != "plots" ]
+    then
+        DATA_FILE_FOLDER=${MAIN_FOLDER}/${1}
+        cmd="${cmd} ${DATA_FILE_FOLDER}/${DATA_FILENAME} ${1} "
+    fi
+
     shift
     i=`expr $i + 1`
 done

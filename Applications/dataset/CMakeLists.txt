@@ -27,6 +27,7 @@ target_include_directories(dataset PRIVATE
 
 target_link_libraries(dataset
         -lbinocs-application
+        -lscabolic-utils
         -lscabolic-energy
         -lscabolic-core
         -lscabolic-optimization

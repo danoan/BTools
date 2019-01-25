@@ -32,6 +32,7 @@ target_include_directories(flow PRIVATE
 
 target_link_libraries(flow
         -lbinocs-application
+        -lscabolic-utils
         -lscabolic-energy
         -lscabolic-core
         -lscabolic-optimization

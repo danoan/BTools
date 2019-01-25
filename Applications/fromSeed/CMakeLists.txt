@@ -26,6 +26,7 @@ target_include_directories(fromseed PRIVATE
 
 target_link_libraries(fromseed
         -lbinocs-application
+        -lscabolic-utils
         -lscabolic-energy
         -lscabolic-core
         -lscabolic-optimization

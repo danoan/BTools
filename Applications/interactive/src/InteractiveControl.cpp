@@ -19,12 +19,14 @@ InteractiveControl::InteractiveControl(const BCFlowInput& bcFlowInput,
 
 
     double outputElasticaEnergy,inputElasticaEnergy;
-    SCaBOliC::Utils::MDCAISQEvaluation(outputElasticaEnergy,
-                                       solution.outputDS);
+    SCaBOliC::Utils::ISQEvaluation(outputElasticaEnergy,
+                                   solution.outputDS,
+                                   SCaBOliC::Utils::ISQEvaluation::MDCA);
 
     DigitalSet baseImageDS(solution.outputDS.domain());
     DIPaCUS::Representation::imageAsDigitalSet(baseImageDS,imageFilePath);
-    SCaBOliC::Utils::MDCAISQEvaluation(inputElasticaEnergy,baseImageDS);
+    SCaBOliC::Utils::ISQEvaluation(inputElasticaEnergy,baseImageDS,
+                                   SCaBOliC::Utils::ISQEvaluation::MDCA);
 
     std::ofstream ofs(outputFolder + "/energy.txt");
     ofs << "GrabCut Segmentation Elastica Energy: " << inputElasticaEnergy << "\n"

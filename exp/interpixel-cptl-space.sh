@@ -6,7 +6,7 @@ FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/flow
 SUMMARY_FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/make-summary-flow
 MAX_IT=50
 
-MODE=1  #0 MDCA; 1 MDCA/Perimeter; 2 Unlabeled
+#MODE=1  #0 MDCA; 1 MDCA/Perimeter; 2 Unlabeled
 
 list_of_folders()
 {
@@ -41,6 +41,7 @@ create_plots()
 {
     FLOW_FOLDER=$1
     SUFFIX=$2
+    MODE=$3
 
     LIST_FLOW_FOLDER=$(list_of_folders $FLOW_FOLDER)
 
@@ -56,42 +57,47 @@ create_plots()
 #-------------RADIUS----------------
 OUTPUT_SUBFOLDER=interpixel-cptl/radius
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0 double-cptl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0 double-cptl-r3 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0 single-cptl-r7 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0 double-cptl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 7 -q 1 -t 0 -g 0 single-cptl-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 7 -q 1 -t 0 -g 0 double-cptl-r7 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-RADIUS
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-RADIUS 0
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-RADIUS 1
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-RADIUS 2
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
 
-
-#-------------NEIGHBORHOOD----------------
+##-------------NEIGHBORHOOD----------------
 OUTPUT_SUBFOLDER=interpixel-cptl/neighborhood
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-n4 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-n4 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-n4 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-n4 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 8 -l 3 -q 1 -t 0 -g 0  single-cptl-n8 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 8 -l 3 -q 1 -t 0 -g 0  double-cptl-n8 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 8 -l 3 -q 1 -t 0 -g 0  single-cptl-n8 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 8 -l 3 -q 1 -t 0 -g 0  double-cptl-n8 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-NEIGH
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-NEIGH 0
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-NEIGH 1
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-NEIGH 2
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
 
 
-#-------------LEVELS----------------
+##-------------LEVELS----------------
 OUTPUT_SUBFOLDER=interpixel-cptl/levels
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 1 -q 1 -t 0 -g 0  single-cptl-l1 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 2 -q 1 -t 0 -g 0  single-cptl-l2 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-l3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 1 -q 1 -t 0 -g 0  single-cptl-l1 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 2 -q 1 -t 0 -g 0  single-cptl-l2 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p single -n 4 -l 3 -q 1 -t 0 -g 0  single-cptl-l3 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 1 -q 1 -t 0 -g 0  double-cptl-l1 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 2 -q 1 -t 0 -g 0  double-cptl-l2 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i $MAX_IT -m around -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-l3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 1 -q 1 -t 0 -g 0  double-cptl-l1 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 2 -q 1 -t 0 -g 0  double-cptl-l2 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i $MAX_IT -a 0 -c 1 -s 1 -p double -n 4 -l 3 -q 1 -t 0 -g 0  double-cptl-l3 $OUTPUT_SUBFOLDER&
 
 wait
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-LEVELS
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-LEVELS 0
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-LEVELS 1
+create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} CPTL-LEVELS 2
 summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}

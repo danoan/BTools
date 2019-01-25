@@ -42,8 +42,9 @@ FromSeedControl::FromSeedControl(OptOutput& output,
     output.outputImage = bcaOutput.imgOutput;
 
 
-    SCaBOliC::Utils::MDCAISQEvaluation(output.MDCAElasticaValue,
-                                       solution.outputDS);
+    SCaBOliC::Utils::ISQEvaluation(output.MDCAElasticaValue,
+                                   solution.outputDS,
+                                   SCaBOliC::Utils::ISQEvaluation::MDCA);
 
 
     /*    SCaBOliC::Utils::IIISQEvaluation(output.IIElasticaValue,
