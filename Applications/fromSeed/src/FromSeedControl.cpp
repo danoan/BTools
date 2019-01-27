@@ -11,7 +11,7 @@ FromSeedControl::FromSeedControl(OptOutput& output,
     boost::filesystem::create_directories(outputFolder);
 
     GrabCutResult result;
-    cv::Mat baseImage = cv::imread(imgFilePath,CV_LOAD_IMAGE_COLOR);
+    cv::Mat baseImage = cv::imread(imgFilePath,cv::IMREAD_COLOR);
     GCApplication::executeFromSeed(result,selectorOutput);
 
     CVMatDistribution fgDistr(baseImage,

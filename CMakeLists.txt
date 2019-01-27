@@ -3,6 +3,8 @@ project(btools)
 
 
 #CMAKE_INSTALL_PREFIX: install location
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -12,6 +14,7 @@ message("Build files at: ${CMAKE_BINARY_DIR}")
 message("Installation at: ${CMAKE_INSTALL_PREFIX}")
 
 set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
+set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path." )
 
 set(DIPACUS_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "DIPaCUS include location path.")
 set(DIPACUS_LIBS_DIR /usr/local/lib CACHE PATH "DIPaCUS libraries location path.")
@@ -27,8 +30,10 @@ set(BINOCS_LIBS_DIR /usr/local/lib CACHE PATH "BinOCS libraries location path.")
 set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 
 
-link_directories(ext/lib
-        ${CMAKE_PREFIX_PATH})
+link_directories(${DIPACUS_LIBS_DIR}
+        ${SCABOLIC_LIBS_DIR}
+        ${BINOCS_LIBS_DIR}
+        ${BOOST_LIBS_DIR})
 
 
 add_subdirectory(Applications/dataset)
@@ -37,5 +42,9 @@ add_subdirectory(Applications/interactive)
 add_subdirectory(Applications/illustration)
 add_subdirectory(Applications/multipleSelector)
 add_subdirectory(Applications/flow)
-add_subdirectory(Test)
+
+if(${BUILD_TESTS})
+    add_subdirectory(Test)
+endif()
+
 

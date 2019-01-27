@@ -41,11 +41,11 @@ void Utils::setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
     cv::dilate(img,dilated,cv::getStructuringElement(cv::MORPH_RECT,cv::Size(3,3),cv::Point(1,1)));
 
     cv::Mat imgFilter = cv::Mat::zeros(img.size(),CV_8UC1);
-    cv::cvtColor(img,imgFilter,CV_BGRA2GRAY);
+    cv::cvtColor(img,imgFilter,cv::COLOR_BGRA2GRAY);
 
     dilated.setTo(0,imgFilter);
 
     cv::Mat dilatedFilter = cv::Mat::zeros(dilated.size(),CV_8UC1);
-    cv::cvtColor(dilated,dilatedFilter,CV_BGRA2GRAY);
+    cv::cvtColor(dilated,dilatedFilter,cv::COLOR_BGRA2GRAY);
     img.setTo(color,dilatedFilter);
 }
