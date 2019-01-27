@@ -36,7 +36,7 @@ void DatasetControl::runFlowOnDataset(const std::string &datasetPathStr,
             int totalSeed = seedInput.numSeed();
 
             SelectorOutput selectorOutput;
-            selectorOutput.baseImage = cv::imread(seedInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
+            selectorOutput.baseImage = cv::imread(seedInput.imgFilePath,cv::IMREAD_COLOR);
 
             while (instanceProfile.fillInstance(bcFlowInputModel))
             {

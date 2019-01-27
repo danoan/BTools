@@ -50,7 +50,7 @@ void fromSeed(const FromSeed::InputReader::InputData& inputData)
 
     FromSeedControl::SelectorOutput selectorOutput;
     FromSeedControl::OptOutput optOutput(bcFlowInput,seedInput);
-    selectorOutput.baseImage = cv::imread(seedInput.imgFilePath,CV_LOAD_IMAGE_COLOR);
+    selectorOutput.baseImage = cv::imread(seedInput.imgFilePath,cv::ImreadModes::IMREAD_COLOR);
     for(int i=0;i<seedInput.numSeed();++i)
     {
         seedInput.getSelector(selectorOutput,i);

@@ -38,7 +38,7 @@ void FlowControl::shapeFlow(TShape shape,
 
     os << "#Image: " << imageName << "\n#\n";
 
-    cv::Mat img = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
+    cv::Mat img = cv::imread(currImagePath,cv::IMREAD_COLOR);
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
 
 
@@ -60,7 +60,7 @@ void FlowControl::shapeFlow(TShape shape,
         std::vector<IBCControlVisitor*> visitors;
         visitors.push_back(new Flow::PotentialMap(flowFolder + "/" + BTools::Utils::nDigitsString(i,4) + "-pm.eps") );
 
-        cv::Mat imgTT = cv::imread(currImagePath,CV_LOAD_IMAGE_COLOR);
+        cv::Mat imgTT = cv::imread(currImagePath,cv::IMREAD_COLOR);
 
         try
         {
