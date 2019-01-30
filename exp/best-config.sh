@@ -24,9 +24,7 @@ create_plots()
 
 OUTPUT_SUBFOLDER=best-plot
 FLOW_FOLDER="${PROJECT_FOLDER}/output/flow"
-LIST_FLOW_FOLDER="pixel/levels/double-ps-l2 pixel/levels/double-ps-l3 \
-interpixel-cptl/radius/double-cptl-r7 interpixel-cpxl/levels/double-cpxl-l2 \
-interpixel-cpxl/levels/double-cpxl-l3 interpixel-cptl/radius/single-cptl-r7"
+LIST_FLOW_FOLDER="improve/pixel/levels/double-ps-l2 improve/pixel/levels/double-ps-l3 "
 
 create_plots $FLOW_FOLDER "BEST-PLOT" "$LIST_FLOW_FOLDER" 0
 create_plots $FLOW_FOLDER "BEST-PLOT" "$LIST_FLOW_FOLDER" 1

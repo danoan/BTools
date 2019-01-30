@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <BTools/model/input/BCFlowInput.h>
+#include <BinOCS/BoundaryCorrection/model/input/BCConfigInput.h>
 
 
 namespace BTools
@@ -19,6 +20,8 @@ namespace BTools
                 {
                     typedef BinOCS::BoundaryCorrection::ODRConfigInput ODRConfigInput;
                     typedef BinOCS::BoundaryCorrection::IFlowProfile::FlowProfile FlowProfile;
+
+                    typedef BinOCS::BoundaryCorrection::BCConfigInput::QPBOSolverType OptMethod;
 
                     std::string flowName;
                     std::string outputFolder;
@@ -39,6 +42,8 @@ namespace BTools
                     double sqWeight;
                     double dtWeight;
                     double lgWeight;
+
+                    OptMethod optMethod;
                 };
 
                 static void readInput(InputData& id,
