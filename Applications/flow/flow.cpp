@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
                                        id.dtWeight,
                                        id.sqWeight,
                                        id.lgWeight,
-                                       FlowControl::BCConfigInput::QPBOSolverType::Probe);
+                                       id.optMethod);
 
     ODRConfigInput odrConfigInput(id.ac,
                                   id.cm,

@@ -34,14 +34,14 @@ void FlowControl::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
     std::string(*fnD)(int,double) = Utils::fixedStrLength;
 
     double IIValue,MDCAValue;
-    SCaBOliC::Utils::ISQEvaluation(IIValue,ds,
-                                   SCaBOliC::Utils::ISQEvaluation::II);
+//    SCaBOliC::Utils::ISQEvaluation(IIValue,ds,
+//                                   SCaBOliC::Utils::ISQEvaluation::II);
 
     SCaBOliC::Utils::ISQEvaluation(MDCAValue,ds,
                                    SCaBOliC::Utils::ISQEvaluation::MDCA);
 
-    os << fnD(colLength,IIValue) << "\t"
-       << fnD(colLength,MDCAValue) << "\t";
+//    os << fnD(colLength,IIValue) << "\t"
+      os << fnD(colLength,MDCAValue) << "\t";
 }
 
 void FlowControl::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
@@ -62,11 +62,12 @@ void FlowControl::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
     KSpace kspace;
     kspace.init(ds.domain().lowerBound(),ds.domain().upperBound(),true);
 
+    DGtal::functors::SCellToPoint<KSpace> myFunctor(kspace);
 
     typedef DGtal::ConstRangeAdapter<Curve::ConstIterator,DGtal::functors::SCellToPoint<KSpace>,Point> MyConstRangeAdapter;
     MyConstRangeAdapter curvePointAdapter(curve.begin(),
                                           curve.end(),
-                                          DGtal::functors::SCellToPoint<KSpace>(kspace));
+                                          myFunctor);
 
 
     DGtal::MLPLengthEstimator<MyConstRangeAdapter::ConstIterator> mlpLengthEstimator;
@@ -87,7 +88,7 @@ void FlowControl::printTable(const std::vector<TableEntry> &entries, std::ostrea
 
     os  << "#" << fnS(colLength,"Iteration") << "\t"
         << fnS(colLength,"Opt. Energy") << "\t"
-        << fnS(colLength,"Elastica II") << "\t"
+//        << fnS(colLength,"Elastica II") << "\t"
         << fnS(colLength,"Elastica MDCA") << "\t"
         << fnS(colLength,"Perimeter") << "\t"
         << fnS(colLength,"Unlabeled") << "\t"
@@ -129,7 +130,7 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     NGon heptagon(0,0,r,7,1);
     Ellipse ellipse(0,0,r,r-10,0);
 
-    shapeFlow(ball,bcFLowInput,h,"Ball",outputFolder,exportRegions);
+//    shapeFlow(ball,bcFLowInput,h,"Ball",outputFolder,exportRegions);
     shapeFlow(flower,bcFLowInput,h,"Flower",outputFolder,exportRegions);
     shapeFlow(triangle,bcFLowInput,h,"Triangle",outputFolder,exportRegions);
     shapeFlow(square,bcFLowInput,h,"Square",outputFolder,exportRegions);
