@@ -28,14 +28,14 @@ then
 fi
 
 
-#-------------RADIUS----------------
+##-------------RADIUS----------------
 OUTPUT_SUBFOLDER=${INPUT_PREFIX_FOLDER}/linel/radius
 
-$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r3 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 3 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r3 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r3-l0 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r3-l0 $OUTPUT_SUBFOLDER&
 
-$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r7 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 7 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r7 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r7-l0 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r7-l0 $OUTPUT_SUBFOLDER&
 
 
 #-------------LEVELS----------------
