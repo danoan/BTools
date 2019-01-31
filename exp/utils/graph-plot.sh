@@ -44,7 +44,7 @@ gp_add_plot()
 
     if [ $mode = 0 ]
     then
-	    printf "'$1' u 1:4 w l title '$2',"
+	    printf "'$1' u 1:3 w l title '$2',"
 	elif [ $mode = 1 ]
 	then
 	    printf "'$1' u 1:(\$3/\$4) w l title '$2',"
@@ -61,7 +61,7 @@ gp_last_plot()
 
     if [ $mode = 0 ]
     then
-	    printf "'$1' u 1:4 w l title '$2';"
+	    printf "'$1' u 1:3 w l title '$2';"
 	elif [ $mode = 1 ]
 	then
 	    printf "'$1' u 1:(\$3/\$4) w l title '$2';"
