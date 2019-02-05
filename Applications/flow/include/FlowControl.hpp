@@ -86,7 +86,6 @@ void FlowControl::shapeFlow(TShape shape,
 
             currImagePath = flowFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
 
-
             const BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
             DigitalSet translatedBackDS( Domain( Point(0,0),
                                                  Point(imgTT.cols-1,imgTT.rows-1)
@@ -96,6 +95,7 @@ void FlowControl::shapeFlow(TShape shape,
             {
                 translatedBackDS.insert(*it + imageDataInput.translation );
             }
+
 
             Point lb,ub;
             translatedBackDS.computeBoundingBox(lb,ub);

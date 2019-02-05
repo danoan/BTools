@@ -10,6 +10,7 @@ void InputReader::defaultValues(InputData& id)
     id.useDigitalArea = false;
     id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.levels=id.radius;
+    id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
     id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
     id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
     id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
@@ -20,6 +21,9 @@ void InputReader::defaultValues(InputData& id)
     id.lgWeight = 0.2;
 
     id.optMethod = InputData::OptMethod::Probe;
+
+    id.invertFrgBkg = false;
+    id.optRegionInApplication = false;
 }
 
 void InputReader::readInput(InputData& id,
@@ -29,7 +33,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:ox"))!=-1)
     {
         switch(opt)
         {
@@ -75,6 +79,9 @@ void InputReader::readInput(InputData& id,
                 break;
             case 'l':
                 id.levels = atoi(optarg);
+                if(id.levels<0) id.ld = InputData::ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
+                else id.ld = id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+                id.levels = abs(id.levels);
                 break;
             case 'q':
                 id.sqWeight = atof(optarg);
@@ -89,6 +96,12 @@ void InputReader::readInput(InputData& id,
                 if(strcmp(optarg,"probe")==0) id.optMethod = InputData::OptMethod::Probe;
                 else if(strcmp(optarg,"improve")==0) id.optMethod = InputData::OptMethod::Improve;
                 break;
+            case 'o':
+                id.optRegionInApplication = true;
+                break;
+            case 'x':
+                id.invertFrgBkg = true;
+                break;
             default:
                 std::cerr << "Usage: [-r Ball Radius default 3] "
                         "[-i Max Iterations default 10] "
@@ -99,11 +112,13 @@ void InputReader::readInput(InputData& id,
                         "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] "
                         "[-n Neighborhood 4 or 8 default: 4] "
                         "[-d Use digital area default: false] "
-                        "[-l Computation levels default: Ball radius] "
+                        "[-l Computation levels default. if negative, select LD_FartherFromCenter: Ball radius] "
                         "[-q Squared Curvature Term weight default: 1.0] "
                         "[-t Data Term weight default: 1.0] "
                         "[-g Length Term weight default: 1.0] "
                         "[-m Opt method 'probe' 'improve' default: probe] "
+                        "[-o Include optimization region in the application region default: false "
+                        "[-x Invert foreground with background default: false "
                         "FLOW_NAME FLOW_FOLDER " << std::endl;
                 exit(1);
         }

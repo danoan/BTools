@@ -6,8 +6,8 @@
 #$4: Mode (0: Energy; 1:Energy/Length)
 #$5-..: List of flow folder path relative to flow root folder
 
-PROJECT_FOLDER="/home-local/dantu1/GIT/PhD/BTools"
-GRAPH_PLOT_APP="${PROJECT_FOLDER}/exp/utils/graph-plot.sh"
+MY_PROJECT_FOLDER="/home-local/dantu1/GIT/PhD/BTools"
+GRAPH_PLOT_APP="${MY_PROJECT_FOLDER}/exp/utils/graph-plot.sh"
 
 MAIN_FOLDER=${1}; shift;
 TITLE=${1}; shift;

@@ -9,6 +9,7 @@ void InputReader::defaultValues(InputData& id)
     id.useDigitalArea = false;
     id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.levels=id.radius;
+    id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
     id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
     id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
     id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
@@ -17,6 +18,11 @@ void InputReader::defaultValues(InputData& id)
     id.dtWeight = 0.5;
     id.sqWeight = 1.0;
     id.lgWeight = 0.2;
+
+    id.optMethod = InputData::OptMethod::Probe;
+
+    id.invertFrgBkg = false;
+    id.optRegionInApplication = false;
 }
 
 void InputReader::readInput(InputData& id,
@@ -26,7 +32,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:ox"))!=-1)
     {
         switch(opt)
         {
@@ -78,20 +84,34 @@ void InputReader::readInput(InputData& id,
             case 'g':
                 id.lgWeight = atof(optarg);
                 break;
+            case 'm':
+                if(strcmp(optarg,"probe")==0) id.optMethod = InputData::OptMethod::Probe;
+                else if(strcmp(optarg,"improve")==0) id.optMethod = InputData::OptMethod::Improve;
+                break;
+            case 'o':
+                id.optRegionInApplication = true;
+                break;
+            case 'x':
+                id.invertFrgBkg = true;
+                break;
             default:
-                std::cerr << "Usage: fromSeed [-r Ball Radius default 3] "
+                std::cerr << "Usage: [-r Ball Radius default 3] "
                         "[-i Max Iterations default 10] "
                         "[-a Computation Center 0 Pixel 1 Pointel default Pixel] "
+                        "[-m Computation Mode 'around' 'opt' default 'around'] "
                         "[-c Counting Mode 0 Pixel 1 Pointel default Pixel] "
                         "[-s Space Mode 0 Pixel 1 Interpixel default Pixel] "
-                        "[-p FlowProfile single double single-opt double-opt default double] "
+                        "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] "
                         "[-n Neighborhood 4 or 8 default: 4] "
                         "[-d Use digital area default: false] "
-                        "[-l Computation levels default: Ball radius] "
+                        "[-l Computation levels default. if negative, select LD_FartherFromCenter: Ball radius] "
                         "[-q Squared Curvature Term weight default: 1.0] "
                         "[-t Data Term weight default: 1.0] "
                         "[-g Length Term weight default: 1.0] "
-                        "IMAGE_FILE_PATH " << std::endl;
+                        "[-m Opt method 'probe' 'improve' default: probe] "
+                        "[-o Include optimization region in the application region default: false "
+                        "[-x Invert foreground with background default: false "
+                        "FLOW_NAME FLOW_FOLDER " << std::endl;
                 exit(1);
         }
     }

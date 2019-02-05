@@ -28,6 +28,7 @@ namespace BTools
                 typedef ODRModel::ApplicationCenter ApplicationCenter;
                 typedef ODRModel::CountingMode CountingMode;
                 typedef ODRModel::NeighborhoodType NeighborhoodType;
+                typedef ODRModel::LevelDefinition LevelDefinition;
 
                 typedef SCaBOliC::Core::ODRPixels ODRPixels;
                 typedef SCaBOliC::Core::ODRInterface ODRInterface;
@@ -62,6 +63,7 @@ namespace BTools
                                const ODRInterface& odrFactory,
                                const ApplicationMode& appMode,
                                const ISQInputData& energyInput,
+                               bool invertFrgBkg,
                                const ISQEnergy& energy);
 
                 DigitalSet aroundBoundary(const DigitalSet& optRegionDS,
@@ -77,6 +79,7 @@ namespace BTools
                                    const DigitalSet& inputDS,
                                    const OptimizationMode& optMode,
                                    const ApplicationMode& appMode,
+                                   bool invertFrgBkg,
                                    unsigned int radius);
 
                 Curve curveSegment(const Curve& curve, const Point& A, const Point& B);

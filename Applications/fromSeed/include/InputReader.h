@@ -19,6 +19,7 @@ namespace BTools
                     typedef BinOCS::BoundaryCorrection::ODRConfigInput ODRConfigInput;
                     typedef BinOCS::BoundaryCorrection::IFlowProfile::FlowProfile FlowProfile;
 
+                    typedef BinOCS::BoundaryCorrection::BCConfigInput::QPBOSolverType OptMethod;
 
                     int radius;
                     int iterations;
@@ -30,6 +31,7 @@ namespace BTools
                     ODRConfigInput::SpaceMode  sm;
                     ODRConfigInput::NeighborhoodType neighborhood;
                     int levels;
+                    ODRConfigInput::LevelDefinition ld;
 
                     FlowProfile fp;
 
@@ -38,6 +40,11 @@ namespace BTools
                     double lgWeight;
 
                     std::string seedDataFilePath;
+
+                    OptMethod optMethod;
+
+                    bool optRegionInApplication;
+                    bool invertFrgBkg;
                 };
 
                 static void readInput(InputData& id,

@@ -134,9 +134,9 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     shapeFlow(flower,bcFLowInput,h,"Flower",outputFolder,exportRegions);
     shapeFlow(triangle,bcFLowInput,h,"Triangle",outputFolder,exportRegions);
     shapeFlow(square,bcFLowInput,h,"Square",outputFolder,exportRegions);
-    shapeFlow(pentagon,bcFLowInput,h,"Pentagon",outputFolder,exportRegions);
-    shapeFlow(heptagon,bcFLowInput,h,"Heptagon",outputFolder,exportRegions);
-    shapeFlow(ellipse,bcFLowInput,h,"Ellipse",outputFolder,exportRegions);
+//    shapeFlow(pentagon,bcFLowInput,h,"Pentagon",outputFolder,exportRegions);
+//    shapeFlow(heptagon,bcFLowInput,h,"Heptagon",outputFolder,exportRegions);
+//    shapeFlow(ellipse,bcFLowInput,h,"Ellipse",outputFolder,exportRegions);
 }
 
 void FlowControl::printFlowMetadata(const BCFlowInput &bcFlowInput,
