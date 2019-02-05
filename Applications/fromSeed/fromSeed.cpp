@@ -39,7 +39,10 @@ void fromSeed(const FromSeed::InputReader::InputData& inputData)
                                   inputData.cm,
                                   inputData.sm,
                                   inputData.levels,
-                                  inputData.neighborhood);
+                                  inputData.ld,
+                                  inputData.neighborhood,
+                                  inputData.optRegionInApplication,
+                                  inputData.invertFrgBkg);
 
     BCFlowInput bcFlowInput("noname",
                             bcInput,

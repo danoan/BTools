@@ -1,5 +1,7 @@
-RADIUS_PLOT_APP=${PROJECT_FOLDER}/exp/utils/radius-plot.sh
-SUMMARY_FLOW_APP=${PROJECT_FOLDER}/cmake-build-debug/Applications/flow/make-summary-flow
+MY_PROJECT_FOLDER=/home-local/dantu1/GIT/PhD/BTools
+
+RADIUS_PLOT_APP=${MY_PROJECT_FOLDER}/exp/utils/radius-plot.sh
+SUMMARY_FLOW_APP=${MY_PROJECT_FOLDER}/cmake-build-debug/Applications/flow/make-summary-flow
 
 list_of_folders()
 {

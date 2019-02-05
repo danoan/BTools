@@ -19,8 +19,8 @@ then
     DOUBLE_FLOW="double-opt"
 elif [ "${INPUT_APP_MODE}" = "around" ]
 then
-    SINGLE_FLOW="single"
-    DOUBLE_FLOW="double"
+    SINGLE_FLOW="single-around"
+    DOUBLE_FLOW="double-around"
 elif [ "${INPUT_APP_MODE}" = "inner" ]
 then
     SINGLE_FLOW="single-inner"
@@ -29,45 +29,45 @@ fi
 
 
 ##-------------RADIUS----------------
-OUTPUT_SUBFOLDER=${INPUT_PREFIX_FOLDER}/linel/radius
+OUTPUT_FOLDER=${PROJECT_FOLDER}/output/flow/${INPUT_PREFIX_FOLDER}/linel/radius
 
-$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r3-l0 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r3-l0 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r3-l0 $OUTPUT_FOLDER&
+$FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r3-l0 $OUTPUT_FOLDER&
 
-$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r7-l0 $OUTPUT_SUBFOLDER&
-$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r7-l0 $OUTPUT_SUBFOLDER&
+$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-r7-l0 $OUTPUT_FOLDER&
+$FLOW_APP -r 7 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-r7-l0 $OUTPUT_FOLDER&
 
 
 #-------------LEVELS----------------
-OUTPUT_SUBFOLDER=${INPUT_PREFIX_FOLDER}/linel/levels
+OUTPUT_FOLDER=${PROJECT_FOLDER}/output/flow/${INPUT_PREFIX_FOLDER}/linel/levels
 
 if [ "${INPUT_APP_MODE}" = "inner" ]
 then
-    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-l0 $OUTPUT_SUBFOLDER&
-    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 1 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-l1 $OUTPUT_SUBFOLDER&
-    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 2 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-l2 $OUTPUT_SUBFOLDER&
+    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-l0 $OUTPUT_FOLDER&
+    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 1 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-l1 $OUTPUT_FOLDER&
+    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${DOUBLE_FLOW} -n 4 -l 2 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${DOUBLE_FLOW}-l2 $OUTPUT_FOLDER&
 
-    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-l0 $OUTPUT_SUBFOLDER&
-    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 1 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-l1 $OUTPUT_SUBFOLDER&
-    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 2 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-l2 $OUTPUT_SUBFOLDER&
+    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 0 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-l0 $OUTPUT_FOLDER&
+    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 1 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-l1 $OUTPUT_FOLDER&
+    $FLOW_APP -r 3 -i ${INPUT_MAX_IT} -a 2 -c 0 -s 1 -p ${SINGLE_FLOW} -n 4 -l 2 -q 1 -t 0 -g 0 -m ${INPUT_OPTMETHOD} linel-${SINGLE_FLOW}-l2 $OUTPUT_FOLDER&
 fi
 
 wait
 
 #RADIUS PLOTS
-OUTPUT_SUBFOLDER=${INPUT_PREFIX_FOLDER}/linel/radius
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} LINELS-RADIUS 0
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} LINELS-RADIUS 1
-create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} LINELS-RADIUS 2
-summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
+OUTPUT_FOLDER=${PROJECT_FOLDER}/output/flow/${INPUT_PREFIX_FOLDER}/linel/radius
+create_plots ${OUTPUT_FOLDER} LINELS-RADIUS 0
+create_plots ${OUTPUT_FOLDER} LINELS-RADIUS 1
+create_plots ${OUTPUT_FOLDER} LINELS-RADIUS 2
+summary_flow ${OUTPUT_FOLDER}
 
 
 #LEVELS PLOTS
 if [ "${INPUT_APP_MODE}" = "inner" ]
 then
-    OUTPUT_SUBFOLDER=${INPUT_PREFIX_FOLDER}/linel/levels
-    create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} LINELS-LEVELS 0
-    create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} LINELS-LEVELS 1
-    create_plots ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER} LINELS-LEVELS 2
-    summary_flow ${PROJECT_FOLDER}/output/flow/${OUTPUT_SUBFOLDER}
+    OUTPUT_FOLDER=${PROJECT_FOLDER}/output/flow/${INPUT_PREFIX_FOLDER}/linel/levels
+    create_plots ${OUTPUT_FOLDER} LINELS-LEVELS 0
+    create_plots ${OUTPUT_FOLDER} LINELS-LEVELS 1
+    create_plots ${OUTPUT_FOLDER} LINELS-LEVELS 2
+    summary_flow ${OUTPUT_FOLDER}
 fi

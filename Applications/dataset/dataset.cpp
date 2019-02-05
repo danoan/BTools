@@ -31,7 +31,10 @@ void dataset(const std::string& prefix, const Dataset::InputReader::InputData& i
                                   inputData.cm,
                                   inputData.sm,
                                   inputData.levels,
-                                  inputData.neighborhood);
+                                  inputData.ld,
+                                  inputData.neighborhood,
+                                  inputData.optRegionInApplication,
+                                  inputData.invertFrgBkg);
 
     BCFlowInput bcFlowInput("Noname",
                             bcInput,

@@ -35,6 +35,7 @@ namespace BTools
                     ODRConfigInput::CountingMode cm;
                     ODRConfigInput::SpaceMode  sm;
                     ODRConfigInput::NeighborhoodType neighborhood;
+                    ODRConfigInput::LevelDefinition ld;
                     int levels;
 
                     FlowProfile fp;
@@ -44,6 +45,9 @@ namespace BTools
                     double lgWeight;
 
                     OptMethod optMethod;
+
+                    bool optRegionInApplication;
+                    bool invertFrgBkg;
                 };
 
                 static void readInput(InputData& id,

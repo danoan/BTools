@@ -53,6 +53,7 @@ void ElasticaProblem::example()
                                  inputDS,
                                  ID.optMode,
                                  ID.appMode,
+                                 LevelDefinition::LD_CloserFromCenter,
                                  radius);
 
         SCaBOliC::Core::Display::DisplayODR(ODR,"ODR.eps");
@@ -79,7 +80,7 @@ void ElasticaProblem::example()
 ElasticaProblem::IterationData ElasticaProblem::nextIterationData(const int iteration)
 {
     if(iteration%2==0) return IterationData(OptimizationMode::OM_OriginalBoundary,ApplicationMode::AM_AroundBoundary);
-    else return IterationData(OptimizationMode::OM_DilationBoundary,ApplicationMode::AM_InverseAroundBoundary);
+    else return IterationData(OptimizationMode::OM_DilationBoundary,ApplicationMode::AM_AroundBoundary);
 }
 
 ElasticaProblem::Solution ElasticaProblem::boundaryCorrection(const ODRModel& ODR,
@@ -107,6 +108,7 @@ ElasticaProblem::Solution ElasticaProblem::boundaryCorrection(const ODRModel& OD
     ODRPixels odrFactory(ApplicationCenter::AC_PIXEL,
                          CountingMode::CM_PIXEL,
                          energyInput.radius,
+                         LevelDefinition::LD_CloserFromCenter,
                          NeighborhoodType::FourNeighborhood);
 
     ISQEnergy energy(energyInput,odrFactory.handle());
@@ -116,7 +118,7 @@ ElasticaProblem::Solution ElasticaProblem::boundaryCorrection(const ODRModel& OD
     solution.labelsVector.setZero();
     energy.template solve<QPBOProbeSolver>(solution);
 
-    updateSet(solution,odrFactory,appMode,energyInput,energy);
+    updateSet(solution,odrFactory,appMode,energyInput,false,energy);
 
     return solution;
 }
@@ -125,6 +127,7 @@ void ElasticaProblem::updateSet(Solution& solution,
                                 const ODRInterface& odrFactory,
                                 const ApplicationMode& appMode,
                                 const ISQInputData& energyInput,
+                                bool invertFrgBkg,
                                 const ISQEnergy& energy)
 {
     DigitalSet initialDS(energyInput.optimizationRegions.domain);
@@ -133,7 +136,7 @@ void ElasticaProblem::updateSet(Solution& solution,
     const DigitalSet& optRegion = energyInput.optimizationRegions.optRegion;
     Solution::LabelsVector labelsVector = solution.labelsVector;
 
-    if(appMode==ApplicationMode::AM_InverseAroundBoundary)
+    if(invertFrgBkg)
     {
         //Invert Solution
         for (int i = 0; i < labelsVector.rows(); ++i)
@@ -186,6 +189,7 @@ ElasticaProblem::ODRModel ElasticaProblem::createODR(const ElasticaInput& ei,
                                                      const DigitalSet& inputDS,
                                                      const OptimizationMode& optMode,
                                                      const ApplicationMode& appMode,
+                                                     bool invertFrgBkg,
                                                      unsigned int radius)
 {
     const DigitalSet& original = inputDS;
@@ -199,28 +203,6 @@ ElasticaProblem::ODRModel ElasticaProblem::createODR(const ElasticaInput& ei,
 
     optRegionDS = optRegion(ei,inputDS,optMode);
 
-
-    switch (appMode)
-    {
-        case ApplicationMode::AM_AroundBoundary: {
-//            DigitalSet temp = SCaBOliC::Core::ODRPixels::amAroundBoundary(original,optRegionDS,radius);
-            DigitalSet temp = aroundBoundary(optRegionDS,ei,2);
-            appRegionDS.insert(temp.begin(),temp.end());
-            break;
-        }
-        case ApplicationMode::AM_InverseAroundBoundary: {
-//            DigitalSet temp = SCaBOliC::Core::ODRPixels::amAroundBoundary(original,optRegionDS,radius);
-            DigitalSet temp = aroundBoundary(optRegionDS,ei,2);
-            appRegionDS.insert(temp.begin(),temp.end());
-            break;
-        }
-    }
-
-    for(int i=1;i<5;++i)
-    {
-        optRegionDS.erase(ei.A+Point(0,1)*i);
-        optRegionDS.erase(ei.B+Point(0,1)*i);
-    }
 
     DigitalSet extendedOriginal(original.domain());
     extendedOriginal.insert(original.begin(),original.end());
@@ -242,17 +224,33 @@ ElasticaProblem::ODRModel ElasticaProblem::createODR(const ElasticaInput& ei,
     tempp += optRegionDS;
 
 
-
-
     trustBKG.assignFromComplement(tempp);
 
 
-    if(appMode==ApplicationMode::AM_InverseAroundBoundary)
+    if(invertFrgBkg)
     {
         DigitalSet swap = trustFRG;
         trustFRG = trustBKG;
         trustBKG = swap;
     }
+
+    switch (appMode)
+    {
+        case ApplicationMode::AM_AroundBoundary: {
+//            DigitalSet temp = SCaBOliC::Core::ODRPixels::amAroundBoundary(original,optRegionDS,radius);
+            DigitalSet temp = aroundBoundary(optRegionDS,ei,2);
+            appRegionDS.insert(temp.begin(),temp.end());
+            break;
+        }
+    }
+
+    for(int i=1;i<5;++i)
+    {
+        optRegionDS.erase(ei.A+Point(0,1)*i);
+        optRegionDS.erase(ei.B+Point(0,1)*i);
+    }
+
+
 
     return ODRModel(domain,
                     original,

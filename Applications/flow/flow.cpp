@@ -29,7 +29,10 @@ int main(int argc, char* argv[])
                                   id.cm,
                                   id.sm,
                                   id.levels,
-                                  id.neighborhood);
+                                  id.ld,
+                                  id.neighborhood,
+                                  id.optRegionInApplication,
+                                  id.invertFrgBkg);
 
     FlowControl::BCFlowInput bcFlowInput("Digital Shapes Flow",
                                          bcInput,
@@ -37,7 +40,7 @@ int main(int argc, char* argv[])
                                          id.fp,
                                          id.iterations);
 
-    std::string outputFilePath = outputDir + "/flow/" + id.outputFolder + "/" + id.flowName;
+    std::string outputFilePath = id.outputFolder + "/" + id.flowName;
 
     FlowControl flow(bcFlowInput,
                      outputFilePath,
