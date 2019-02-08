@@ -35,19 +35,19 @@ void fromSeed(const FromSeed::InputReader::InputData& inputData)
                           inputData.lgWeight,
                           BCConfigInput::QPBOSolverType::Probe);
 
-    ODRConfigInput odrConfigInput(inputData.ac,
-                                  inputData.cm,
-                                  inputData.sm,
-                                  inputData.levels,
-                                  inputData.ld,
-                                  inputData.neighborhood,
-                                  inputData.optRegionInApplication,
-                                  inputData.invertFrgBkg);
+    ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
+                                  ODRConfigInput::CountingMode::CM_PIXEL,
+                                  ODRConfigInput::SpaceMode::Pixel,
+    2,
+            ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+            ODRConfigInput::NeighborhoodType::FourNeighborhood,
+            false,
+            false);
 
     BCFlowInput bcFlowInput("noname",
                             bcInput,
                             odrConfigInput,
-                            inputData.fp,
+                            BCFlowInput::FlowProfile::DoubleStep,
                             inputData.iterations);
 
 

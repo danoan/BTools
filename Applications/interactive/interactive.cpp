@@ -29,21 +29,21 @@ void interactive(const Interactive::InputReader::InputData& inputData)
                           inputData.dtWeight,
                           inputData.sqWeight,
                           inputData.lgWeight,
-                          BCConfigInput::QPBOSolverType::Probe);
+                          inputData.optMethod);
 
-    ODRConfigInput odrConfigInput(inputData.ac,
-                                  inputData.cm,
-                                  inputData.sm,
-                                  inputData.levels,
-                                  inputData.ld,
-                                  inputData.neighborhood,
-                                  inputData.optRegionInApplication,
-                                  inputData.invertFrgBkg);
+    ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
+                                  ODRConfigInput::CountingMode::CM_PIXEL,
+                                  ODRConfigInput::SpaceMode::Pixel,
+    2,
+            ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+            ODRConfigInput::NeighborhoodType::FourNeighborhood,
+            false,
+            false);
 
     BCFlowInput bcFlowInput("noname",
                             bcInput,
                             odrConfigInput,
-                            inputData.fp,
+                            BCFlowInput::FlowProfile::DoubleStep,
                             inputData.iterations);
 
     InteractiveControl(bcFlowInput,

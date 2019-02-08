@@ -23,17 +23,6 @@ namespace BTools
 
                     int radius;
                     int iterations;
-                    bool useDigitalArea;
-
-
-                    ODRConfigInput::ApplicationCenter ac;
-                    ODRConfigInput::CountingMode cm;
-                    ODRConfigInput::SpaceMode  sm;
-                    ODRConfigInput::NeighborhoodType neighborhood;
-                    int levels;
-                    ODRConfigInput::LevelDefinition ld;
-
-                    FlowProfile fp;
 
                     double sqWeight;
                     double dtWeight;
@@ -41,9 +30,6 @@ namespace BTools
 
                     std::string datasetPath;
                     OptMethod optMethod;
-
-                    bool optRegionInApplication;
-                    bool invertFrgBkg;
                 };
 
                 static void readInput(InputData& id,

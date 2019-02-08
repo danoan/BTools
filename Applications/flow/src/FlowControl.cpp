@@ -130,9 +130,9 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     NGon heptagon(0,0,r,7,1);
     Ellipse ellipse(0,0,r,r-10,0);
 
-    shapeFlow(ball,bcFLowInput,h,"Ball",outputFolder,exportRegions);
-    shapeFlow(flower,bcFLowInput,h,"Flower",outputFolder,exportRegions);
-    shapeFlow(triangle,bcFLowInput,h,"Triangle",outputFolder,exportRegions);
+//    shapeFlow(ball,bcFLowInput,h,"Ball",outputFolder,exportRegions);
+//    shapeFlow(flower,bcFLowInput,h,"Flower",outputFolder,exportRegions);
+//    shapeFlow(triangle,bcFLowInput,h,"Triangle",outputFolder,exportRegions);
     shapeFlow(square,bcFLowInput,h,"Square",outputFolder,exportRegions);
 //    shapeFlow(pentagon,bcFLowInput,h,"Pentagon",outputFolder,exportRegions);
 //    shapeFlow(heptagon,bcFLowInput,h,"Heptagon",outputFolder,exportRegions);
