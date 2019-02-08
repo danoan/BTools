@@ -37,7 +37,7 @@ void interactive(const Interactive::InputReader::InputData& inputData)
     2,
             ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
             ODRConfigInput::NeighborhoodType::FourNeighborhood,
-            false,
+            true,
             false);
 
     BCFlowInput bcFlowInput("noname",
