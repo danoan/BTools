@@ -47,6 +47,7 @@ namespace BTools
                 typedef DGtal::Ball2D<Space> Ball;
                 typedef DGtal::NGon2D<Space> NGon;
                 typedef DGtal::Ellipse2D<Space> Ellipse;
+                typedef DGtal::Z2i::DigitalSet Bone;
 
                 typedef BinOCS::BoundaryCorrection::BCApplication::BCAOutput BCAOutput;
                 typedef BCAOutput::EnergySolution EnergySolution;
@@ -72,9 +73,11 @@ namespace BTools
 
             private:
                 template<class TShape>
-                void shapeFlow(TShape s,
+                DigitalSet digitizeShape(const TShape shape,
+                                         double h);
+
+                void shapeFlow(const DigitalSet& _ds,
                                const BCFlowInput& bcFlowInput,
-                               double h,
                                std::string name,
                                std::string imageOutputFolder,
                                bool exportRegions);

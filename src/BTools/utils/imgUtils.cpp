@@ -29,6 +29,10 @@ cv::Rect Utils::computeBoundingBox(const cv::Mat &img)
             high.y = i>high.y?i:high.y;
         }
     }
+    low.x-=2;
+    low.y-=2;
+    high.x+=2;
+    high.y+=2;
 
     return cv::Rect(low,high);
 }
@@ -41,11 +45,11 @@ void Utils::setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
     cv::dilate(img,dilated,cv::getStructuringElement(cv::MORPH_RECT,cv::Size(3,3),cv::Point(1,1)));
 
     cv::Mat imgFilter = cv::Mat::zeros(img.size(),CV_8UC1);
-    cv::cvtColor(img,imgFilter,cv::COLOR_BGRA2GRAY);
+    cv::cvtColor(img,imgFilter,cv::COLOR_BGR2GRAY);
 
     dilated.setTo(0,imgFilter);
 
     cv::Mat dilatedFilter = cv::Mat::zeros(dilated.size(),CV_8UC1);
-    cv::cvtColor(dilated,dilatedFilter,cv::COLOR_BGRA2GRAY);
+    cv::cvtColor(dilated,dilatedFilter,cv::COLOR_BGR2GRAY);
     img.setTo(color,dilatedFilter);
 }

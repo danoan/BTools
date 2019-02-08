@@ -33,7 +33,7 @@ void dataset(const std::string& prefix, const Dataset::InputReader::InputData& i
                                   2,
                                   ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
                                   ODRConfigInput::NeighborhoodType::FourNeighborhood,
-                                  false,
+                                  true,
                                   false);
 
     BCFlowInput bcFlowInput("Noname",
