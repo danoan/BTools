@@ -27,19 +27,19 @@ void dataset(const std::string& prefix, const Dataset::InputReader::InputData& i
                           inputData.lgWeight,
                           BCConfigInput::QPBOSolverType::Probe);
 
-    ODRConfigInput odrConfigInput(inputData.ac,
-                                  inputData.cm,
-                                  inputData.sm,
-                                  inputData.levels,
-                                  inputData.ld,
-                                  inputData.neighborhood,
-                                  inputData.optRegionInApplication,
-                                  inputData.invertFrgBkg);
+    ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
+                                  ODRConfigInput::CountingMode::CM_PIXEL,
+                                  ODRConfigInput::SpaceMode::Pixel,
+                                  2,
+                                  ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+                                  ODRConfigInput::NeighborhoodType::FourNeighborhood,
+                                  false,
+                                  false);
 
     BCFlowInput bcFlowInput("Noname",
                             bcInput,
                             odrConfigInput,
-                            inputData.fp,
+                            BCFlowInput::FlowProfile::DoubleStep,
                             inputData.iterations);
     
     DatasetControl::runFlowOnDataset<TInstanceProfile>(inputData.datasetPath,
