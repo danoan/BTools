@@ -23,12 +23,12 @@ gp_plot_config()
 	then
         printf "set title '$1';
         set xlabel 'Iterations';
-        set ylabel 'MDCA';"
+        set ylabel 'Integral Square Curvature (MDCA+MDSS)';"
     elif [ $mode = 1 ]
     then
         printf "set title '$1';
         set xlabel 'Iterations';
-        set ylabel 'MDCA/Perimeter';"
+        set ylabel 'Integral Square Curvature (MDCA+MDSS)/Perimeter';"
     elif [ $mode = 2 ]
     then
         printf "set title '$1';

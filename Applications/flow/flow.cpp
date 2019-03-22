@@ -2,6 +2,8 @@
 #include "OneImageFlow.h"
 #include "FlowControl.h"
 
+int flowCounter=0;
+
 namespace BTools
 {
     namespace Application
