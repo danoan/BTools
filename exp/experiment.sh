@@ -1,25 +1,52 @@
 #!/bin/bash
 
-MAX_IT=50
+MAX_IT=100
 PROJECT_FOLDER=/home-local/dantu1/GIT/PhD/BTools
 FLOW_SCRIPTS=${PROJECT_FOLDER}/exp/flows
 
-#bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} probe "probe" opt
-#wait
-#bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} probe "probe" around
-#wait
-bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} improve "improve" opt
-wait
-bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} improve "improve" around
-wait
+#--------------LINELS---------------
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} probe "probe" inner no-opt $l
+    wait
+done
+
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} probe "probe" inner add-opt $l
+    wait
+done
 
 
-#bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} probe "probe" opt
-#wait
-#bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} probe "probe" inner
-#wait
-bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} improve "improve" opt
-wait
-bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} improve "improve" inner
-wait
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} probe "probe" around-inner no-opt $l
+    wait
+done
 
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/linels.sh ${MAX_IT} probe "probe" around-inner add-opt $l
+    wait
+done
+
+
+
+#--------------PIXELS---------------
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} probe "probe" opt no-opt $l closer
+    wait
+done
+
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} probe "probe" around no-opt $l farther
+    wait
+done
+
+for l in 0 0.5 1.0 2.0
+do
+    bash ${FLOW_SCRIPTS}/pixel-space.sh ${MAX_IT} probe "probe" around no-opt $l closer
+    wait
+done

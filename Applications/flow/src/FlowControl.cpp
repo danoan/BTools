@@ -131,15 +131,20 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     Ellipse ellipse(0,0,r,r-10,0);
 
     Bone bone(Bone::Domain(Bone::Point(0,0),Bone::Point(300,150)));
+    Bone flag(Bone::Domain(Bone::Point(0,0),Bone::Point(200,150)));
     std::string boneImgPath = PROJECT_DIR;
+    std::string flagImgPath = PROJECT_DIR;
     boneImgPath += "/images/dataset/bone.pgm";
+    flagImgPath += "/images/dataset/flag.pgm";
     DIPaCUS::Representation::imageAsDigitalSet(bone,boneImgPath);
+    DIPaCUS::Representation::imageAsDigitalSet(flag,flagImgPath);
 
 //    shapeFlow( digitizeShape(ball,h),bcFLowInput,"Ball",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(flower,h),bcFLowInput,"Flower",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(triangle,h),bcFLowInput,"Triangle",outputFolder,exportRegions);
-//    shapeFlow( digitizeShape(square,h),bcFLowInput,"Square",outputFolder,exportRegions);
-    shapeFlow(bone,bcFLowInput,"Bone",outputFolder,exportRegions);
+    shapeFlow( digitizeShape(square,h),bcFLowInput,"Square",outputFolder,exportRegions);
+//    shapeFlow(bone,bcFLowInput,"Bone",outputFolder,exportRegions);
+//    shapeFlow(flag,bcFLowInput,"Flag",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(pentagon,h),bcFLowInput,"Pentagon",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(heptagon,h),bcFLowInput,"Heptagon",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(ellipse,h),bcFLowInput,"Ellipse",outputFolder,exportRegions);
@@ -267,6 +272,10 @@ void FlowControl::printFlowMetadata(const BCFlowInput &bcFlowInput,
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepOpt ) ofs << "Flow Profile: Single Step Opt \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepOpt) ofs << "Flow Profile: Double Step Opt\n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepInner) ofs << "Flow Profile: Single Step Inner\n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepInner) ofs << "Flow Profile: Double Step Inner\n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepAroundInner) ofs << "Flow Profile: Single Step Single-Inner\n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepAroundInner) ofs << "Flow Profile: Double Step Around-Inner\n";
 
     if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_PIXEL) ofs << "Application Center: Pixel \n";
     if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_POINTEL) ofs << "Application Center: Pointel \n";
@@ -279,9 +288,15 @@ void FlowControl::printFlowMetadata(const BCFlowInput &bcFlowInput,
     if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Interpixel) ofs << "Space Mode: Interpixel \n";
 
     ofs << "Levels: " << bcFlowInput.odrConfigInput.levels << "\n";
+    ofs << "Radius: " << bcFlowInput.bcInput.radius << "\n";
 
     if( bcFlowInput.odrConfigInput.neighborhood==BCFlowInput::ODRConfigInput::NeighborhoodType::FourNeighborhood ) ofs << "Neighborhood: 4\n";
     if( bcFlowInput.odrConfigInput.neighborhood==BCFlowInput::ODRConfigInput::NeighborhoodType::EightNeighborhood ) ofs << "Neighborhood: 8\n";
+
+
+    ofs << "Squared Curvature Weight: " << bcFlowInput.bcInput.sqTermWeight << " \n";
+    ofs << "Length Weight: " << bcFlowInput.bcInput.lengthTermWeight << " \n";
+    ofs << "Data Weight: " << bcFlowInput.bcInput.dataTermWeight << " \n";
 
 
 
