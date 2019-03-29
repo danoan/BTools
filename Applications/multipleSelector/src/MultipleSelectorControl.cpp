@@ -15,7 +15,7 @@ MultipleSelectorControl::MultipleSelectorControl(std::string imgFilePath,
         int key = cv::waitKey(0);
         switch(key)
         {
-            case 27:
+            case 113:
             {
                 onExecution = false;
                 break;

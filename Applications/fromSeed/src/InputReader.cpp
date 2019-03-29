@@ -59,5 +59,6 @@ void InputReader::readInput(InputData& id,
     }
 
     
-    id.seedDataFilePath= argv[optind];
+    id.seedDataFilePath= argv[optind++];
+    id.instanceName = argv[optind];
 }

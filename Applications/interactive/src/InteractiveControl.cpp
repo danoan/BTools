@@ -45,7 +45,7 @@ InteractiveControl::InteractiveControl(const BCFlowInput& bcFlowInput,
     DGtal::Z2i::Domain baseImageDomain( Point(0,0),Point(bcaOutput.imgSeg.cols,bcaOutput.imgSeg.rows) );
     DigitalSet baseImageDS( baseImageDomain );
 
-    DIPaCUS::Representation::imageAsDigitalSet(baseImageDS,graphCutSegFilepath);
+    DIPaCUS::Representation::CVMatToDigitalSet(baseImageDS,bcaOutput.imgSeg);
     SCaBOliC::Utils::ISQEvaluation(inputElasticaEnergy,
                                    baseImageDS,SCaBOliC::Utils::ISQEvaluation::MDCA);
 

@@ -137,7 +137,7 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     boneImgPath += "/images/dataset/bone.pgm";
     flagImgPath += "/images/dataset/flag.pgm";
     DIPaCUS::Representation::imageAsDigitalSet(bone,boneImgPath);
-    DIPaCUS::Representation::imageAsDigitalSet(flag,flagImgPath);
+    //DIPaCUS::Representation::imageAsDigitalSet(flag,flagImgPath);
 
 //    shapeFlow( digitizeShape(ball,h),bcFLowInput,"Ball",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(flower,h),bcFLowInput,"Flower",outputFolder,exportRegions);

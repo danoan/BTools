@@ -29,6 +29,7 @@ namespace BTools
                     double lgWeight;
 
                     std::string seedDataFilePath;
+                    std::string instanceName;
 
                     OptMethod optMethod;
                 };
