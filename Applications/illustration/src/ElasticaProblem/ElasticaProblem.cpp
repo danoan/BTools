@@ -273,7 +273,7 @@ ElasticaProblem::DigitalSet ElasticaProblem::optRegion(const ElasticaInput &ei,
     DIPaCUS::Representation::digitalSetToImage(imageDS,inputDS);
 
     Curve curve;
-    DIPaCUS::Misc::ComputeBoundaryCurve(imageDS,curve,1);
+    DIPaCUS::Misc::computeBoundaryCurve(curve,imageDS,1);
 
     Point A = ei.A;
     Point B = ei.B;

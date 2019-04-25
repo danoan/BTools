@@ -57,7 +57,7 @@ void FlowControl::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
     DIPaCUS::Representation::digitalSetToImage(tempImage,ds);
 
     Curve curve;
-    DIPaCUS::Misc::ComputeBoundaryCurve(tempImage,curve,1);
+    DIPaCUS::Misc::computeBoundaryCurve(curve,tempImage,1);
 
     KSpace kspace;
     kspace.init(ds.domain().lowerBound(),ds.domain().upperBound(),true);
@@ -140,9 +140,9 @@ FlowControl::FlowControl(const BCFlowInput& bcFLowInput,
     //DIPaCUS::Representation::imageAsDigitalSet(flag,flagImgPath);
 
 //    shapeFlow( digitizeShape(ball,h),bcFLowInput,"Ball",outputFolder,exportRegions);
-//    shapeFlow( digitizeShape(flower,h),bcFLowInput,"Flower",outputFolder,exportRegions);
+    shapeFlow( digitizeShape(flower,h),bcFLowInput,"Flower",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(triangle,h),bcFLowInput,"Triangle",outputFolder,exportRegions);
-    shapeFlow( digitizeShape(square,h),bcFLowInput,"Square",outputFolder,exportRegions);
+//    shapeFlow( digitizeShape(square,h),bcFLowInput,"Square",outputFolder,exportRegions);
 //    shapeFlow(bone,bcFLowInput,"Bone",outputFolder,exportRegions);
 //    shapeFlow(flag,bcFLowInput,"Flag",outputFolder,exportRegions);
 //    shapeFlow( digitizeShape(pentagon,h),bcFLowInput,"Pentagon",outputFolder,exportRegions);

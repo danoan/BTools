@@ -110,7 +110,7 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
         DIPaCUS::Representation::CVMatToDigitalSet(ds,grayscale);
 
         DigitalSet boundaryDS(ds.domain());
-        Neigh8 a(boundaryDS,ds);
+        DIPaCUS::Misc::digitalBoundary<Pred8>(boundaryDS,ds);
 
         sp.insert(boundaryDS.begin(),boundaryDS.end());
 
