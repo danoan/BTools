@@ -34,7 +34,6 @@ namespace BTools
 
                 typedef DIPaCUS::Representation::Image2D Image2D;
                 typedef DIPaCUS::Neighborhood::EightNeighborhoodPredicate Pred8;
-                typedef DIPaCUS::Misc::DigitalBoundary<Pred8> Neigh8;
 
 
             public:

@@ -10,7 +10,7 @@ int AroundBoundaryReasoning::createAndSavePicture(int radius,
     const Domain& domain = baseSet.domain();
 
     DigitalSet dsBall(domain);
-    DIPaCUS::Misc::DigitalBallIntersection::digitalBall(dsBall,center,radius);
+    dsBall = DIPaCUS::Shapes::ball(1.0,center[0],center[1],radius);
 
     DIPaCUS::Misc::DigitalBallIntersection dbi(radius,baseSet);
     DigitalSet dsIntersection(domain);

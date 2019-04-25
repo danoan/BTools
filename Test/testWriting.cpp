@@ -32,7 +32,8 @@ int main()
                                   ODRConfigInput::CountingMode::CM_PIXEL,
                                   ODRConfigInput::SpaceMode::Pixel,
                                   3,
-                                  ODRConfigInput::NeighborhoodType::FourNeighborhood);
+                                  ODRConfigInput::LevelDefinition::LD_CloserFromCenter,
+                                  ODRConfigInput::NeighborhoodType::FourNeighborhood,false,false);
 
     double curvatureWeight[numVariation] = {0.25,0.5,1.0,2.0};
     for(int i=0;i<numStudies;++i)
