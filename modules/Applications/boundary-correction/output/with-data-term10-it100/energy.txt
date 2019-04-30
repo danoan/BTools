@@ -1,0 +1,2 @@
+GrabCut Segmentation Elastica Energy: 73.4433
+Boundary Correction Elastica Energy: 14.6722
