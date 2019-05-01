@@ -1,0 +1,13 @@
+modules/Applications/boundary-correction/output
+modules/Applications/grabcut/output
+modules/Applications/seed-selector/output
+modules/Applications/shape-flow/output
+modules/Applications/summary-flow/output
+.idea
+cmake-build-debug
+cmake-build-release
+update.sh
+ext
+ext-build
+build.sh
+output
