@@ -58,5 +58,3 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH  \
 -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 make
 make install
-
-

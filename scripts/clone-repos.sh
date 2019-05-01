@@ -14,26 +14,19 @@ rm $INSTALL_PATH -r -f
 
 DIPACUS_DIR=$EXT_PROJECT_DIR/DIPaCUS
 mkdir $DIPACUS_DIR -p
-git clone --single-branch --branch dev https://github.com/danoan/DIPaCUS $DIPACUS_DIR
+git clone --single-branch --branch master https://github.com/danoan/DIPaCUS $DIPACUS_DIR
 
 
 #--------------GEOC----------------
 
 GEOC_DIR=$EXT_PROJECT_DIR/geoc
 mkdir $GEOC_DIR -p
-git clone --single-branch --branch dev https://github.com/danoan/GEOC $GEOC_DIR
+git clone --single-branch --branch master https://github.com/danoan/GEOC $GEOC_DIR
 
 
 #--------------SCaBOliC----------------
 
 SCABOLIC_DIR=$EXT_PROJECT_DIR/SCaBOliC
 mkdir $SCABOLIC_DIR -p
-git clone --single-branch --branch dev https://github.com/danoan/SCaBOliC $SCABOLIC_DIR
+git clone --single-branch --branch master https://github.com/danoan/SCaBOliC $SCABOLIC_DIR
 
-
-
-#--------------BTools----------------
-
-BTools_DIR=$EXT_PROJECT_DIR/BTools
-mkdir $BTools_DIR -p
-git clone --single-branch --branch dev https://github.com/danoan/BTools $BTools_DIR
