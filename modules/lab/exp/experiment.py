@@ -1,14 +1,8 @@
 import subprocess,sys,os
 
-PROJECT_FOLDER="/home-local/dantu1/GIT/PhD/BTools"
-BIN_FOLDER="%s/%s" % (PROJECT_FOLDER,"cmake-build-debug/modules/Applications")
-BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
-
-if 'GUROBI_HOME' in os.environ.keys():
-    GUROBI_HOME=os.environ['GUROBI_HOME']
-else:
-    print("GUROBI_HOME is not defined.")
-    exit()
+PROJECT_FOLDER="set-via-parameter"
+BIN_FOLDER="set-in-read-input"
+BASE_OUTPUT_FOLDER="set-in-read-input"
 
 def recCombinations(maxList,curr,combList):
 
@@ -76,35 +70,60 @@ def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,
     return outputFolder
 
 def boundary_correction(c):
+
     outputFolder = resolve_output_folder(*c)
     shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt = c
 
+    #print("output folder:",outputFolder)
+    # print("shape:",shape)
+    # print("radius:",radius)
+    # print("iterations:",iterations)
+    # print("cc:",cc)
+    # print("cm:",cm)
+    # print("sm:",sm)
+    # print("profile:",profile)
+    # print("neigh:",neigh)
+    # print("levels:",levels)
+    # print("length:",length)
+    # print("sq:",sq)
+    # print("data:",data)
+    # print("method:",method)
+    # print("opt:",opt)
 
-    binary = "%s/%s" % (BIN_FOLDER,"boundary-correction/boundary-correction")
+    binary = "%s/%s" % (BIN_FOLDER,"shape-flow/shape-flow")
     subprocess.call( [binary,
                       outputFolder,
-                      "%s %s" % ("-S",shape),
-                      "%s %d" % ("-r",radius),
-                      "%s %d" % ("-i",iterations),
-                      "%s %s" % ("-a",cc),
-                      "%s %s" % ("-c",cm),
-                      "%s %s" % ("-s",sm),
-                      "%s %s" % ("-p",profile),
-                      "%s %d" % ("-n",neigh),
-                      "%s %d" % ("-l",levels),
-                      "%s %f" % ("-q",sq),
-                      "%s %f" % ("-t",data),
-                      "%s %f" % ("-g",length),
-                      "%s %s" % ("-m",method),
+                      "%s%s" % ("-S",shape),
+                      "%s%d" % ("-r",radius),
+                      "%s%d" % ("-i",iterations),
+                      "%s%s" % ("-a",cc),
+                      "%s%s" % ("-c",cm),
+                      "%s%s" % ("-s",sm),
+                      "%s%s" % ("-p",profile),
+                      "%s%d" % ("-n",neigh),
+                      "%s%d" % ("-l",levels),
+                      "%s%f" % ("-q",sq),
+                      "%s%f" % ("-t",data),
+                      "%s%f" % ("-g",length),
+                      "%s%s" % ("-m",method),
                       "%s" % ("-o" if opt else "")
                       ] )
 
+def read_input():
+    if len(sys.argv)<2:
+        print("Pass it the project folder!")
+        exit(1)
+
+    global PROJECT_FOLDER,BIN_FOLDER, BASE_OUTPUT_FOLDER
+    PROJECT_FOLDER=sys.argv[1]
+    BIN_FOLDER="%s/%s" % (PROJECT_FOLDER,"cmake-build-debug/modules/Applications")
+    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
 
 def main():
+    read_input()
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
             boundary_correction(c)
-            break
 
 
 
