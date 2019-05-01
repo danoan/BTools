@@ -6,27 +6,22 @@ using namespace SummaryFlow;
 
 int main(int argc, char* argv[])
 {
-    if(argc<2)
+    if(argc<3)
     {
-        std::cerr << "Usage " << argv[0] << " Flow_Images_Folder_Path [Jump_Step]" <<std::endl;
+        std::cerr << "Usage " << argv[0] << " Flow_Images_Folder_Path Output_Name [Jump_Step]" <<std::endl;
         exit(1);
     }
 
     int jumpStep = 2;
-    if(argc==3) jumpStep = atoi(argv[2]);
+    if(argc==4) jumpStep = atoi(argv[3]);
 
-    boost::filesystem::path srcImagePath = argv[1];
-    boost::filesystem::directory_iterator di(srcImagePath);
-    while(di!=boost::filesystem::directory_iterator())
-    {
-        if( boost::filesystem::is_directory(*di) )
-        {
-            std::string name = di->path().stem().string();
-            std::string outputImagePath = srcImagePath.string() + "/" + name + ".eps";
-            OneImageFlow oif(di->path().string(),outputImagePath,jumpStep   );
-        }
-        ++di;
-    }
+    std::string flowImagesFolderPath = argv[1];
+    std::string outputName = argv[2];
+    boost::filesystem::path srcImagePath( flowImagesFolderPath );
+
+    std::string name = srcImagePath.stem().string();
+    std::string outputImagePath = srcImagePath.string() + "/" + outputName + ".eps";
+    OneImageFlow oif(srcImagePath.string(),outputImagePath,jumpStep);
 
     return 0;
 }

@@ -2,6 +2,7 @@ import subprocess,sys,os
 
 PROJECT_FOLDER="set-via-parameter"
 BIN_FOLDER="set-in-read-input"
+SCRIPT_FOLDER="set-in-read-input"
 BASE_OUTPUT_FOLDER="set-in-read-input"
 
 def recCombinations(maxList,curr,combList):
@@ -24,9 +25,9 @@ def combinations(configList):
         yield tuple( configList[i][0][c[i]] for i in range(numParams) )
 
 
-SHAPES=["triangle","square","pentagon","hexagon","ball","ellipse","flower"]
+SHAPES=["triangle","square","pentagon","heptagon","ball","ellipse","flower"]
 RADIUS=[3,5]
-ITERATIONS=[100]
+ITERATIONS=[10]
 COMPUTATION_CENTER=["pixel","pointel","linel"]
 COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
@@ -53,13 +54,13 @@ def valid_combination(c):
 
     flag=True
     if cc=="pixel":
-        flag=flag and cm=="pixel"
+        flag=flag and sm=="pixel"
 
     if cc=="pointel" or cc=="linel":
-        flag=flag and cm=="interpixel"
+        flag=flag and sm=="interpixel"
 
     if profile=="single-inner" or profile=="double-inner":
-        flag=flag and cm=="linel"
+        flag=flag and cc=="linel"
 
     if sm=="interpixel":
         flag=flag and (levels>0)
@@ -67,34 +68,19 @@ def valid_combination(c):
     if sm=="pixel":
         flag=flag and (levels<0)
 
+
     return flag
 
 def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt):
-    baseFolder = "%s/%s/%s/%s/%s/radius_%d" % (BASE_OUTPUT_FOLDER,shape,method,cc,profile,radius)
+    baseFolder = "%s/%s/%s/%s/%s/radius_%d" % (BASE_OUTPUT_FOLDER,shape,method,sm,profile,radius)
     outputFolder = "%s/level%d_%s" % (baseFolder,levels,"opt" if opt else "")
 
     return outputFolder
 
-def boundary_correction(c):
+def shape_flow(c):
 
     outputFolder = resolve_output_folder(*c)
     shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt = c
-
-    #print("output folder:",outputFolder)
-    # print("shape:",shape)
-    # print("radius:",radius)
-    # print("iterations:",iterations)
-    # print("cc:",cc)
-    # print("cm:",cm)
-    # print("sm:",sm)
-    # print("profile:",profile)
-    # print("neigh:",neigh)
-    # print("levels:",levels)
-    # print("length:",length)
-    # print("sq:",sq)
-    # print("data:",data)
-    # print("method:",method)
-    # print("opt:",opt)
 
     binary = "%s/%s" % (BIN_FOLDER,"shape-flow/shape-flow")
     subprocess.call( [binary,
@@ -115,15 +101,26 @@ def boundary_correction(c):
                       "%s" % ("-o" if opt else "")
                       ] )
 
-def read_input():
-    if len(sys.argv)<2:
-        print("Pass it the project folder!")
-        exit(1)
+def summary_flow(c):
+    binary = "%s/%s" % (BIN_FOLDER,"summary-flow/summary-flow")
+    flow_images_folder_path=resolve_output_folder(*c)
+    shape=c[0]
+    jump=5
+    subprocess.call( [binary,
+                      flow_images_folder_path,
+                      shape,
+                      str(jump)])
 
-    global PROJECT_FOLDER,BIN_FOLDER, BASE_OUTPUT_FOLDER
-    PROJECT_FOLDER=sys.argv[1]
-    BIN_FOLDER="%s/%s" % (PROJECT_FOLDER,"cmake-build-debug/modules/Applications")
-    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
+def create_plots(shape,output_folder):
+    binary = "%s/%s" % (SCRIPT_FOLDER,"create-plots.sh")
+    data_folder=BASE_OUTPUT_FOLDER
+    mode=0
+
+    subprocess.call( [binary,
+                      shape,
+                      data_folder,
+                      output_folder,
+                      str(mode)])
 
 def total_combinations():
     total=0
@@ -133,13 +130,28 @@ def total_combinations():
             total+=1
     return total
 
+def read_input():
+    if len(sys.argv)<2:
+        print("Project folder is missing!")
+        exit(1)
+
+    global PROJECT_FOLDER,BIN_FOLDER, BASE_OUTPUT_FOLDER, SCRIPT_FOLDER
+    PROJECT_FOLDER=sys.argv[1]
+    BIN_FOLDER="%s/%s" % (PROJECT_FOLDER,"cmake-build-debug/modules/Applications")
+    SCRIPT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/plot-scripts")
+    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
+
 def main():
     read_input()
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
-            boundary_correction(c)
+            shape_flow(c)
+            summary_flow(c)
+            pass
 
+    for shape in SHAPES:
+        create_plots(shape,"%s/%s" % (BASE_OUTPUT_FOLDER,"plots") )
 
 
 if __name__=='__main__':

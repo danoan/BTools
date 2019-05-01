@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 gp_save()
 {
@@ -76,6 +76,7 @@ create_multiplot()
 	buffer="$(gp_plot_config $mode $plottitle)plot "
 	i=0
 	num_plots=`expr ${#} / 2 - 1`
+
 	while [ ${i} -lt ${num_plots} ]
 	do
 		subplotDataFile=$1
