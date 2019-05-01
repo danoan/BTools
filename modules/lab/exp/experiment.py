@@ -25,13 +25,13 @@ def combinations(configList):
 
 
 SHAPES=["triangle","square","pentagon","hexagon","ball","ellipse","flower"]
-RADIUS=[3,5,7,9]
+RADIUS=[3,5]
 ITERATIONS=[100]
 COMPUTATION_CENTER=["pixel","pointel","linel"]
 COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
 PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
-NEIGHBORHOOD=[4,8]
+NEIGHBORHOOD=[4]
 LEVELS=[-2,-3]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
@@ -64,8 +64,8 @@ def valid_combination(c):
     return flag
 
 def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt):
-    baseFolder = "%s/%s/%s/%s/%s" % (BASE_OUTPUT_FOLDER,method,shape,cc,profile)
-    outputFolder = "%s/level%d_neigh%d_radius%d_%s" % (baseFolder,levels,neigh,radius,"opt" if opt else "")
+    baseFolder = "%s/%s/%s/%s/radius_%d" % (BASE_OUTPUT_FOLDER,method,cc,profile,radius)
+    outputFolder = "%s/level%d_%s" % (baseFolder,levels,"opt" if opt else "")
 
     return outputFolder
 
@@ -119,8 +119,16 @@ def read_input():
     BIN_FOLDER="%s/%s" % (PROJECT_FOLDER,"cmake-build-debug/modules/Applications")
     BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
 
+def total_combinations():
+    total=0
+    combs = combinations(CONFIG_LIST)
+    for c in combs:
+        total+=1
+    return total
+
 def main():
     read_input()
+    print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
             boundary_correction(c)
