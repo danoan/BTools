@@ -34,3 +34,7 @@ target_link_libraries(boundary-correction-app
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+install(TARGETS boundary-correction-app
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
+

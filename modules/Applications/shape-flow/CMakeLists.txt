@@ -38,3 +38,6 @@ target_link_libraries(shape-flow
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+install(TARGETS shape-flow
+        DESTINATION ${CMAKE_INSTALL_PREFIX})

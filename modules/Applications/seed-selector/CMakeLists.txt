@@ -19,3 +19,5 @@ target_link_libraries(seed-selector
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
 
+install(TARGETS seed-selector
+        DESTINATION ${CMAKE_INSTALL_PREFIX})

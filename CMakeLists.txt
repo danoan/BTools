@@ -7,7 +7,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 find_package(DGtal 0.9 REQUIRED)
-find_package(OpenCV 3.3.0 REQUIRED)
+find_package(OpenCV REQUIRED)
 
 message("Project Root Dir: ${CMAKE_SOURCE_DIR}")
 message("Build files at: ${CMAKE_BINARY_DIR}")

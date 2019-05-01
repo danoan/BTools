@@ -22,7 +22,12 @@ void BCApplication::prepareProductImage(BCAOutput& bcaOutput,
     ) );
 
     for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
-        translatedBackDS.insert(*it + imageDataInput.translation );
+    {
+        Point pt = *it + imageDataInput.translation;
+        if( translatedBackDS.domain().isInside(pt) )
+            translatedBackDS.insert(pt);
+    }
+
 
     cv::Mat outputMask = cv::Mat::zeros(imageDataInput.baseImage.size(),
                                         CV_8UC1);

@@ -11,7 +11,7 @@ void InputReader::defaultValues(InputData& id)
     id.sqWeight = 1.0;
     id.lgWeight = 0.2;
 
-    id.optMethod = InputData::OptMethod::Probe;
+    id.optMethod = InputData::OptMethod::Improve;
     id.showIterations=false;
 }
 
@@ -22,7 +22,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:s:o:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:"))!=-1)
     {
         switch(opt)
         {
@@ -58,8 +58,8 @@ void InputReader::readInput(InputData& id,
                         "[-q Squared Curvature Term weight default: 1.0] \n"
                         "[-t Data Term weight default: 1.0] \n"
                         "[-g Length Term weight default: 1.0] \n"
-                        "[-m Opt method 'probe' 'improve' default: probe] \n"
-                        "[-s Show iterations default: true] \n"
+                        "[-m Opt method 'probe' 'improve' default: improve] \n"
+                        "[-s Show iterations default: false] \n"
                         "[-o Output folder default: \"\" (no output generated)] \n"
                         << std::endl;
                 exit(1);

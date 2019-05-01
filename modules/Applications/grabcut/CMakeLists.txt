@@ -12,3 +12,6 @@ target_link_libraries(grab-cut
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+install(TARGETS grab-cut
+        DESTINATION ${CMAKE_INSTALL_PREFIX})

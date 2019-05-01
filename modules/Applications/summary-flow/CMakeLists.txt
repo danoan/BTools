@@ -25,3 +25,6 @@ target_link_libraries(summary-flow
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+install(TARGETS summary-flow
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
