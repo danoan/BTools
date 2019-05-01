@@ -16,7 +16,6 @@ target_include_directories(boundary-correction-app PRIVATE
         ${DIPACUS_INCLUDE_DIRS}
         ${GEOC_INCLUDE_DIRS}
         ${SCABOLIC_INCLUDE_DIRS}
-        ${BTools_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 

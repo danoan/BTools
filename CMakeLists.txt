@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.2)
-project(BTools)
+project(btools)
 
 
 #CMAKE_INSTALL_PREFIX: install location
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-find_package(DGtal 0.9 REQUIRED)
+find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
 
 message("Project Root Dir: ${CMAKE_SOURCE_DIR}")
@@ -16,26 +14,24 @@ message("Installation at: ${CMAKE_INSTALL_PREFIX}")
 set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
 set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path." )
 
-set(DIPACUS_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "Include directory of Digital Processing Primitive Library.")
-set(DIPACUS_LIBS_DIR /usr/local/lib CACHE PATH "Libraries directory of Digital Processing Primitive Library.")
+set(DIPACUS_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "DIPaCUS include location path.")
+set(DIPACUS_LIBS_DIR /usr/local/lib CACHE PATH "DIPaCUS libraries location path.")
 
-set(GEOC_INCLUDE_DIRS /usr/local/include/geoc CACHE PATH "Include directory of Geometric Estimators Library.")
+set(GEOC_INCLUDE_DIRS /usr/local/include/geoc CACHE PATH "geoc include location path.")
 
-set(SCABOLIC_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "Include directory of Energy Optimization Library.")
-set(SCABOLIC_LIBS_DIR /usr/local/lib CACHE PATH "Libraries directory of Energy Optimization Library.")
+set(SCABOLIC_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "SCaBOliC include location path.")
+set(SCABOLIC_LIBS_DIR /usr/local/lib CACHE PATH "SCaBOliC libraries location path.")
 
 set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 
 
 link_directories(${DIPACUS_LIBS_DIR}
+        ${GEOC_LIBS_DIR}
         ${SCABOLIC_LIBS_DIR}
-        ${BTools_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core)
 
-add_subdirectory(modules/core)
-add_subdirectory(modules/utils)
 
 add_subdirectory(modules/Applications/grabcut)
 add_subdirectory(modules/Applications/seed-selector)

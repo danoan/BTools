@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 
 PROJECT_FOLDER=$PWD
 GRAB_CUT_APP=$1
