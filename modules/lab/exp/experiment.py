@@ -27,7 +27,7 @@ def combinations(configList):
 
 SHAPES=["triangle","square","pentagon","heptagon","ball","ellipse","flower"]
 RADIUS=[3,5]
-ITERATIONS=[10]
+ITERATIONS=[100]
 COMPUTATION_CENTER=["pixel","pointel","linel"]
 COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
