@@ -94,7 +94,6 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
 
     for(auto it=vectorOfImgPath.begin();it!=vectorOfImgPath.end();++it)
     {
-        std::cout << *it << std::endl;
         SetPoint sp;
         cv::Mat cvImg = cv::imread(*it);
 

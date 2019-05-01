@@ -8,13 +8,13 @@ using namespace ShapeFlow;
 
 std::string resolveShapeName(Shape shape)
 {
-    if(shape==Shape::Triangle) return "Triangle";
-    else if(shape==Shape::Square) return "Square";
-    else if(shape==Shape::Pentagon) return "Pentagon";
-    else if(shape==Shape::Heptagon) return "Heptagon";
-    else if(shape==Shape::Ball) return "Ball";
-    else if(shape==Shape::Ellipse) return "Ellipse";
-    else if(shape==Shape::Flower) return "Flower";
+    if(shape==Shape::Triangle) return "triangle";
+    else if(shape==Shape::Square) return "square";
+    else if(shape==Shape::Pentagon) return "pentagon";
+    else if(shape==Shape::Heptagon) return "heptagon";
+    else if(shape==Shape::Ball) return "ball";
+    else if(shape==Shape::Ellipse) return "ellipse";
+    else if(shape==Shape::Flower) return "elower";
     else return "";
 }
 
