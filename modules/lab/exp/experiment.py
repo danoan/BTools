@@ -64,7 +64,7 @@ def valid_combination(c):
     return flag
 
 def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt):
-    baseFolder = "%s/%s/%s/%s/radius_%d" % (BASE_OUTPUT_FOLDER,method,cc,profile,radius)
+    baseFolder = "%s/%s/%s/%s/%s/radius_%d" % (BASE_OUTPUT_FOLDER,shape,method,cc,profile,radius)
     outputFolder = "%s/level%d_%s" % (baseFolder,levels,"opt" if opt else "")
 
     return outputFolder
