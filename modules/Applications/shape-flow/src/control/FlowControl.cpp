@@ -61,7 +61,7 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlow
 
     BCAOutput bcaOutput(bcaInput);
 
-    BinOCS::Core::BCApplication BCA(bcaOutput,
+    BTools::Core::BCApplication BCA(bcaOutput,
                                     bcaInput,
                                     1,
                                     false);
@@ -113,7 +113,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
 
     boost::filesystem::create_directories(outputFolder);
-    std::string currImagePath = outputFolder + "/" + BinOCS::Utils::nDigitsString(0,4) + ".pgm";
+    std::string currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(0,4) + ".pgm";
     std::ofstream os(outputFolder + "/" + bcFlowInput.inputName + ".txt");
 
 
@@ -121,7 +121,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
     Domain flowDomain = ds.domain();
 
 
-    BinOCS::Utils::exportImageFromDigitalSet(ds,flowDomain,currImagePath);
+    BTools::Utils::exportImageFromDigitalSet(ds,flowDomain,currImagePath);
     std::vector<TableEntry> entries = initEntries(ds);
 
     cv::Mat img = cv::imread(currImagePath,cv::IMREAD_COLOR);
@@ -146,8 +146,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
             checkBounds(correctedSet,flowDomain);
 
 
-            currImagePath = outputFolder + "/" + BinOCS::Utils::nDigitsString(i,4) + ".pgm";
-            BinOCS::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
+            currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
+            BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
         }catch(std::exception ex)
         {
             osLog << ex.what();

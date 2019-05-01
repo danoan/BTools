@@ -1,6 +1,6 @@
-#include "BinOCS/core/pool/FlowPool.h"
+#include "BTools/core/pool/FlowPool.h"
 
-using namespace BinOCS::Core;
+using namespace BTools::Core;
 
 FlowSingleStep<Correct> FlowPool::flowSingleStep;
 FlowSingleStep<CorrectOpt> FlowPool::flowSingleStepOpt;

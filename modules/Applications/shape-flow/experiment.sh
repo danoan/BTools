@@ -1,35 +1,36 @@
 #!/usr/bin/env bash
 
-APP="$HOME/GIT/PhD/BinOCS/cmake-build-debug/modules/Applications/shape-flow/shape-flow"
+SF_APP=$1
+OUTPUT_FOLDER=$2
 
 IT=100
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q 1.0 -t 0 -g 0 -m improve -o -S triangle \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/triangle
+$OUTPUT_FOLDER/triangle&
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q1.0 -t0 -g0 -m improve -o -S square \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/square
+$OUTPUT_FOLDER/square&
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q1.0 -t0 -g0 -m improve -o -S pentagon \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/pentagon
+$OUTPUT_FOLDER/pentagon&
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q1.0 -t0 -g0 -m improve -o -S heptagon \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/heptagon
+$OUTPUT_FOLDER/heptagon&
 
 wait
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q1.0 -t0 -g0 -m improve -o -S ball \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/ball
+$OUTPUT_FOLDER/ball&
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q1.0 -t0 -g0 -m improve -o -S flower \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/flower
+$OUTPUT_FOLDER/flower&
 
-$APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
+$SF_APP -r 3 -i $IT -a pixel -c pixel -s pixel -p double -n 4 \
 -l -2 -q1.0 -t0 -g0 -m improve -o -S ellipse \
-/home-local/dantu1/GIT/PhD/BinOCS/modules/Applications/shape-flow/output/ellipse
+$OUTPUT_FOLDER/ellipse

@@ -1,7 +1,7 @@
 #ifndef BTOOLS_POTENTIALMAP_H
 #define BTOOLS_POTENTIALMAP_H
 
-#include <BinOCS/BoundaryCorrection/interface/IBCControlVisitor.h>
+#include <BTools/BoundaryCorrection/interface/IBCControlVisitor.h>
 #include <DGtal/io/boards/Board2D.h>
 
 namespace BTools
@@ -10,7 +10,7 @@ namespace BTools
     {
         namespace Flow
         {
-            typedef BinOCS::BoundaryCorrection::IBCControlVisitor IBCControlVisitor;
+            typedef BTools::BoundaryCorrection::IBCControlVisitor IBCControlVisitor;
 
             class PotentialMap:public IBCControlVisitor
             {

@@ -1,5 +1,5 @@
-#ifndef BINOCS_GUIDATA_H
-#define BINOCS_GUIDATA_H
+#ifndef BTools_GUIDATA_H
+#define BTools_GUIDATA_H
 
 #include <boost/filesystem.hpp>
 #include "MaskSelector.h"
@@ -53,4 +53,4 @@ namespace SeedSelector
     };
 }
 
-#endif //BINOCS_GUIDATA_H
+#endif //BTools_GUIDATA_H

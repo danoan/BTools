@@ -1,6 +1,6 @@
-#include "BinOCS/utils/DataWriter.h"
+#include "BTools/utils/DataWriter.h"
 
-using namespace BinOCS::Utils;
+using namespace BTools::Utils;
 
 std::string DataWriter::resolveQPBOSolverType(QPBOSolverType solverType)
 {
@@ -42,9 +42,9 @@ void DataWriter::write(const OptOutput& optOutput,
 
     os << Utils::fixedStrLength(colLength,optOutput.bcFlowInput.inputName) << "\t";
 
-    os << BinOCS::Utils::fixedStrLength(colLength,optOutput.optEnergyValue) << "\t"
-       << BinOCS::Utils::fixedStrLength(colLength,optOutput.IIElasticaValue) << "\t"
-       << BinOCS::Utils::fixedStrLength(colLength,optOutput.MDCAElasticaValue) << "\t"
-       << BinOCS::Utils::fixedStrLength(colLength,optOutput.unlabeled) << std::endl;
+    os << BTools::Utils::fixedStrLength(colLength,optOutput.optEnergyValue) << "\t"
+       << BTools::Utils::fixedStrLength(colLength,optOutput.IIElasticaValue) << "\t"
+       << BTools::Utils::fixedStrLength(colLength,optOutput.MDCAElasticaValue) << "\t"
+       << BTools::Utils::fixedStrLength(colLength,optOutput.unlabeled) << std::endl;
 
 }

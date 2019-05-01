@@ -1,5 +1,5 @@
-#ifndef BINOCS_INPUTDATA_H
-#define BINOCS_INPUTDATA_H
+#ifndef BTools_INPUTDATA_H
+#define BTools_INPUTDATA_H
 
 #include <iostream>
 #include <string>
@@ -25,4 +25,4 @@ namespace SeedSelector
     InputData readInput(int argc, char* argv[]);
 }
 
-#endif //BINOCS_INPUTDATA_H
+#endif //BTools_INPUTDATA_H

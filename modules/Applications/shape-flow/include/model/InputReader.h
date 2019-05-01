@@ -4,9 +4,9 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "BinOCS/core/model/input/BCConfigInput.h"
-#include "BinOCS/core/model/input/ODRConfigInput.h"
-#include "BinOCS/core/interface/IFlowProfile.h"
+#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/ODRConfigInput.h"
+#include "BTools/core/interface/IFlowProfile.h"
 
 #include "Types.h"
 
@@ -17,9 +17,9 @@ namespace ShapeFlow
     public:
         struct InputData
         {
-            typedef BinOCS::Core::ODRConfigInput ODRConfigInput;
-            typedef BinOCS::Core::IFlowProfile::FlowProfile FlowProfile;
-            typedef BinOCS::Core::BCConfigInput::QPBOSolverType OptMethod;
+            typedef BTools::Core::ODRConfigInput ODRConfigInput;
+            typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
+            typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
 
             std::string outputFolder;
 

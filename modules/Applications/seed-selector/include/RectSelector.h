@@ -1,5 +1,5 @@
-#ifndef BINOCS_RECTSELECTOR_H
-#define BINOCS_RECTSELECTOR_H
+#ifndef BTools_RECTSELECTOR_H
+#define BTools_RECTSELECTOR_H
 
 #include <iostream>
 #include <vector>
@@ -30,7 +30,7 @@ namespace SeedSelector
             void restart(const cv::Mat& mask)
             {
                 std::vector<std::vector<cv::Point> > contours;
-                cv::findContours( mask, contours, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+                cv::findContours( mask, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
                 cv::Rect r = cv::boundingRect(contours[0]);
 
@@ -76,4 +76,4 @@ namespace SeedSelector
     }
 }
 
-#endif //BINOCS_RECTSELECTOR_H
+#endif //BTools_RECTSELECTOR_H

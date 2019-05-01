@@ -20,7 +20,7 @@ target_link_libraries(summary-flow
         -ldipacus-derivates
         -ldipacus-components
         -ldipacus-base
-        -lbinocs-utils
+        -lbtools-utils
         -lboost_filesystem
         -lboost_system
         ${DGTAL_LIBRARIES}

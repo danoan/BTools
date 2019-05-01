@@ -32,8 +32,8 @@ git clone --single-branch --branch dev https://github.com/danoan/SCaBOliC $SCABO
 
 
 
-#--------------BinOCS----------------
+#--------------BTools----------------
 
-BINOCS_DIR=$EXT_PROJECT_DIR/BinOCS
-mkdir $BINOCS_DIR -p
-git clone --single-branch --branch dev https://github.com/danoan/BinOCS $BINOCS_DIR
+BTools_DIR=$EXT_PROJECT_DIR/BTools
+mkdir $BTools_DIR -p
+git clone --single-branch --branch dev https://github.com/danoan/BTools $BTools_DIR

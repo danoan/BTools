@@ -11,15 +11,15 @@
 #include <SCaBOliC/Utils/Utils.h>
 #include <DIPaCUS/base/Representation.h>
 
-#include <BinOCS/core/model/input/ODRConfigInput.h>
-#include <BinOCS/core/model/input/BCApplicationInput.h>
-#include <BinOCS/core/model/input/BCFlowInput.h>
-#include <BinOCS/core/model/input/BCConfigInput.h>
-#include <BinOCS/core/model/input/ImageDataInput.h>
-#include <BinOCS/core/model/BCAOutput.h>
-#include <BinOCS/core/BCApplication.h>
-#include <BinOCS/utils/imgUtils.h>
-#include <BinOCS/utils/strUtils.h>
+#include <BTools/core/model/input/ODRConfigInput.h>
+#include <BTools/core/model/input/BCApplicationInput.h>
+#include <BTools/core/model/input/BCFlowInput.h>
+#include <BTools/core/model/input/BCConfigInput.h>
+#include <BTools/core/model/input/ImageDataInput.h>
+#include <BTools/core/model/BCAOutput.h>
+#include <BTools/core/BCApplication.h>
+#include <BTools/utils/imgUtils.h>
+#include <BTools/utils/strUtils.h>
 
 #include "model/MockDistribution.h"
 #include "model/Types.h"
@@ -38,12 +38,12 @@ namespace ShapeFlow
         typedef DGtal::Shapes<Domain> Shapes;
         typedef DIPaCUS::Representation::Image2D Image2D;
 
-        typedef BinOCS::Core::ODRConfigInput ODRConfigInput;
-        typedef BinOCS::Core::BCApplicationInput BCAInput;
-        typedef BinOCS::Core::BCConfigInput BCConfigInput;
-        typedef BinOCS::Core::ImageDataInput ImageDataInput;
-        typedef BinOCS::Core::BCFlowInput BCFlowInput;
-        typedef BinOCS::Core::BCApplicationOutput BCAOutput;
+        typedef BTools::Core::ODRConfigInput ODRConfigInput;
+        typedef BTools::Core::BCApplicationInput BCAInput;
+        typedef BTools::Core::BCConfigInput BCConfigInput;
+        typedef BTools::Core::ImageDataInput ImageDataInput;
+        typedef BTools::Core::BCFlowInput BCFlowInput;
+        typedef BTools::Core::BCApplicationOutput BCAOutput;
         typedef BCAOutput::EnergySolution EnergySolution;
 
         typedef DataWriter::TableEntry TableEntry;

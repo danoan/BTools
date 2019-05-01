@@ -1,6 +1,6 @@
 import subprocess,sys,os
 
-PROJECT_FOLDER="/home-local/dantu1/GIT/PhD/BinOCS"
+PROJECT_FOLDER="/home-local/dantu1/GIT/PhD/BTools"
 BIN_FOLDER="%s/%s" % (PROJECT_FOLDER,"cmake-build-debug/modules/Applications")
 BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
 

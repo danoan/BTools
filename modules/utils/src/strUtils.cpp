@@ -1,6 +1,6 @@
-#include "BinOCS/utils/strUtils.h"
+#include "BTools/utils/strUtils.h"
 
-using namespace BinOCS;
+using namespace BTools;
 
 std::string Utils::fixedStrLength(int l,double v)
 {

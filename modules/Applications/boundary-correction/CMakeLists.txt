@@ -4,7 +4,7 @@ project(boundary-correction-app)
 add_executable(boundary-correction-app boundary-correction.cpp
         src/InputReader.cpp)
 
-add_dependencies(boundary-correction-app binocs-core binocs-utils)
+add_dependencies(boundary-correction-app btools-core btools-utils)
 
 target_compile_features(boundary-correction-app PRIVATE cxx_auto_type)
 target_compile_options(boundary-correction-app PRIVATE -fext-numeric-literals)
@@ -16,13 +16,13 @@ target_include_directories(boundary-correction-app PRIVATE
         ${DIPACUS_INCLUDE_DIRS}
         ${GEOC_INCLUDE_DIRS}
         ${SCABOLIC_INCLUDE_DIRS}
-        ${BINOCS_INCLUDE_DIRS}
+        ${BTools_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(boundary-correction-app
-        -lbinocs-core
-        -lbinocs-utils
+        -lbtools-core
+        -lbtools-utils
         -lscabolic-utils
         -lscabolic-energy
         -lscabolic-core
