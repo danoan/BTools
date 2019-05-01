@@ -1,5 +1,5 @@
-#ifndef BINOCS_MOUSEEVENT_H
-#define BINOCS_MOUSEEVENT_H
+#ifndef BTools_MOUSEEVENT_H
+#define BTools_MOUSEEVENT_H
 
 namespace SeedSelector
 {
@@ -19,4 +19,4 @@ namespace SeedSelector
     };
 }
 
-#endif //BINOCS_MOUSEEVENT_H
+#endif //BTools_MOUSEEVENT_H

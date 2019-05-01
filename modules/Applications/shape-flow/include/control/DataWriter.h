@@ -1,5 +1,5 @@
-#ifndef BINOCS_DATAWRITER_H
-#define BINOCS_DATAWRITER_H
+#ifndef BTools_DATAWRITER_H
+#define BTools_DATAWRITER_H
 
 #include <vector>
 #include <iostream>
@@ -10,9 +10,9 @@
 #include <DIPaCUS/derivates/Misc.h>
 #include <SCaBOliC/Utils/Utils.h>
 
-#include <BinOCS/core/model/BCAOutput.h>
-#include <BinOCS/core/model/input/BCFlowInput.h>
-#include <BinOCS/utils/strUtils.h>
+#include <BTools/core/model/BCAOutput.h>
+#include <BTools/core/model/input/BCFlowInput.h>
+#include <BTools/utils/strUtils.h>
 
 namespace ShapeFlow
 {
@@ -20,8 +20,8 @@ namespace ShapeFlow
     {
         typedef DGtal::Z2i::DigitalSet DigitalSet;
         typedef DGtal::Z2i::Curve Curve;
-        typedef BinOCS::Core::BCFlowInput BCFlowInput;
-        typedef BinOCS::Core::BCApplicationOutput::EnergySolution EnergySolution;
+        typedef BTools::Core::BCFlowInput BCFlowInput;
+        typedef BTools::Core::BCApplicationOutput::EnergySolution EnergySolution;
 
         struct TableEntry
         {
@@ -43,4 +43,4 @@ namespace ShapeFlow
 
 
 
-#endif //BINOCS_DATAWRITER_H
+#endif //BTools_DATAWRITER_H

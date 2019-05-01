@@ -1,5 +1,5 @@
-#ifndef BINOCS_SEEDPICKER_MASKSELECTOR_H
-#define BINOCS_SEEDPICKER_MASKSELECTOR_H
+#ifndef BTools_SEEDPICKER_MASKSELECTOR_H
+#define BTools_SEEDPICKER_MASKSELECTOR_H
 
 #include <iostream>
 
@@ -68,4 +68,4 @@ namespace SeedSelector
     }
 }
 
-#endif //BINOCS_SEEDPICKER_MASKSELECTOR_H
+#endif //BTools_SEEDPICKER_MASKSELECTOR_H

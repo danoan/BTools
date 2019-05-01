@@ -1,5 +1,5 @@
-#ifndef BINOCS_GRABCUTOUTPUT_H
-#define BINOCS_GRABCUTOUTPUT_H
+#ifndef BTools_GRABCUTOUTPUT_H
+#define BTools_GRABCUTOUTPUT_H
 
 namespace GrabCut
 {
@@ -10,4 +10,4 @@ namespace GrabCut
     };
 }
 
-#endif //BINOCS_GRABCUTOUTPUT_H
+#endif //BTools_GRABCUTOUTPUT_H

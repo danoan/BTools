@@ -22,13 +22,13 @@ void RectSelector::MouseEvent::callbackFn(int event,
     me->change(true);
     switch(event)
     {
-        case CV_EVENT_LBUTTONDOWN:
+        case cv::EVENT_LBUTTONDOWN:
         {
-            me->_p1 = cvPoint(x,y);
+            me->_p1 = cv::Point(x,y);
             me->_flagDrawRect = true;
             break;
         }
-        case CV_EVENT_MOUSEMOVE:
+        case cv::EVENT_MOUSEMOVE:
         {
             if(!me->_flagDrawRect) break;
             me->_blendImage = me->_cvImg.clone();
@@ -39,13 +39,13 @@ void RectSelector::MouseEvent::callbackFn(int event,
             if(x<0) x = 0;
             if(y<0) y = 0;
 
-            me->_p2 = cvPoint(x,y);
+            me->_p2 = cv::Point(x,y);
             cv::rectangle( me->_blendImage,me->_p1,me->_p2, 255,4);
             cv::rectangle( me->_mask,me->_p1,me->_p2, 255,cv::FILLED);
 
             break;
         }
-        case CV_EVENT_LBUTTONUP:
+        case cv::EVENT_LBUTTONUP:
         {
             me->_flagDrawRect = false;
             break;

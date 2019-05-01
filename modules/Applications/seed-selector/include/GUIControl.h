@@ -1,5 +1,5 @@
-#ifndef BINOCS_GUICONTROL_H
-#define BINOCS_GUICONTROL_H
+#ifndef BTools_GUICONTROL_H
+#define BTools_GUICONTROL_H
 
 #include "GUIData.h"
 
@@ -20,4 +20,4 @@ namespace SeedSelector
     void saveCallback(int state, void* userdata);
 }
 
-#endif //BINOCS_GUICONTROL_H
+#endif //BTools_GUICONTROL_H

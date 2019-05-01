@@ -1,7 +1,7 @@
 #ifndef BTOOLS_POTENTIALGRAPH_H
 #define BTOOLS_POTENTIALGRAPH_H
 
-#include <BinOCS/BoundaryCorrection/interface/IBCControlVisitor.h>
+#include <BTools/BoundaryCorrection/interface/IBCControlVisitor.h>
 
 namespace BTools
 {
@@ -9,7 +9,7 @@ namespace BTools
     {
         namespace Flow
         {
-            typedef BinOCS::BoundaryCorrection::IBCControlVisitor IBCControlVisitor;
+            typedef BTools::BoundaryCorrection::IBCControlVisitor IBCControlVisitor;
 
             class PotentialGraph:public IBCControlVisitor
             {

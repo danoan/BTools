@@ -1,6 +1,6 @@
-#include "BinOCS/utils/dispUtils.h"
+#include "BTools/utils/dispUtils.h"
 
-using namespace BinOCS;
+using namespace BTools;
 
 void Utils::showManyImages(std::string title,int nArgs, const cv::Mat& img1, const cv::Mat& img2)
 {

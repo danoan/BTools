@@ -1,6 +1,6 @@
-#include "BinOCS/core/BCApplication.h"
+#include "BTools/core/BCApplication.h"
 
-using namespace BinOCS::Core;
+using namespace BTools::Core;
 
 BCApplication::BCApplication(BCAOutput& bcaOutput,
                              const BCAInput& bcaInput,

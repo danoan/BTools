@@ -6,21 +6,21 @@
 
 #include <SCaBOliC/Utils/Utils.h>
 
-#include "BinOCS/core/model/input/ImageDataInput.h"
-#include "BinOCS/core/model/input/BCFlowInput.h"
-#include "BinOCS/core/model/input/BCApplicationInput.h"
-#include "BinOCS/core/model/BCAOutput.h"
-#include "BinOCS/core/model/input/ODRConfigInput.h"
-#include "BinOCS/core/model/input/BCConfigInput.h"
-#include "BinOCS/core/model/CVMatDistribution.h"
-#include "BinOCS/core/BCApplication.h"
+#include "BTools/core/model/input/ImageDataInput.h"
+#include "BTools/core/model/input/BCFlowInput.h"
+#include "BTools/core/model/input/BCApplicationInput.h"
+#include "BTools/core/model/BCAOutput.h"
+#include "BTools/core/model/input/ODRConfigInput.h"
+#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/CVMatDistribution.h"
+#include "BTools/core/BCApplication.h"
 
-#include "BinOCS/utils/imgUtils.h"
+#include "BTools/utils/imgUtils.h"
 
 #include "InputReader.h"
 
 
-using namespace BinOCS::Core;
+using namespace BTools::Core;
 using namespace DGtal::Z2i;
 
 using namespace BoundaryCorrection;
@@ -61,11 +61,11 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 
     cv::Mat _bgdSamples( (int)bgdSamples.size(), 3, CV_32FC1, &bgdSamples[0][0] );
     cv::kmeans( _bgdSamples, GMM::componentsCount, bgdLabels,
-                cv::TermCriteria( CV_TERMCRIT_ITER, kMeansItCount, 0.0), 0, kMeansType );
+                cv::TermCriteria( cv::TermCriteria::MAX_ITER, kMeansItCount, 0.0), 0, kMeansType );
 
     cv::Mat _fgdSamples( (int)fgdSamples.size(), 3, CV_32FC1, &fgdSamples[0][0] );
     cv::kmeans( _fgdSamples, GMM::componentsCount, fgdLabels,
-                cv::TermCriteria( CV_TERMCRIT_ITER, kMeansItCount, 0.0), 0, kMeansType );
+                cv::TermCriteria( cv::TermCriteria::MAX_ITER, kMeansItCount, 0.0), 0, kMeansType );
 
     bgdGMM.initLearning();
     for( int i = 0; i < (int)bgdSamples.size(); i++ )
@@ -81,7 +81,7 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 
 BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutOutput& gco)
 {
-    typedef BinOCS::Core::BCFlowInput BCFlowInput;
+    typedef BTools::Core::BCFlowInput BCFlowInput;
     int levels = 2;
     bool optInApplicationRegion=false;
 
@@ -136,7 +136,7 @@ cv::Mat highlightBorder(const DigitalSet& ds)
     cv::Mat maskBoundaryImgColor( maskBoundaryImgGS.size(),CV_8UC3);
     cv::cvtColor(maskBoundaryImgGS,maskBoundaryImgColor,cv::COLOR_GRAY2RGB);
 
-    BinOCS::Utils::setHighlightedBorder(maskBoundaryImgColor,cv::Vec3b(255,255,0));
+    BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,cv::Vec3b(255,255,0));
     return maskBoundaryImgColor;
 }
 

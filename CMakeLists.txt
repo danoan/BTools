@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(binocs)
+project(BTools)
 
 
 #CMAKE_INSTALL_PREFIX: install location
@@ -29,7 +29,7 @@ set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 
 link_directories(${DIPACUS_LIBS_DIR}
         ${SCABOLIC_LIBS_DIR}
-        ${BINOCS_LIBS_DIR}
+        ${BTools_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core)
@@ -44,7 +44,7 @@ add_subdirectory(modules/Applications/shape-flow)
 add_subdirectory(modules/Applications/summary-flow)
 
 if(${BUILD_TESTS})
-    add_subdirectory(modules/lab/Test)
+    #add_subdirectory(modules/lab/Test)
 endif()
 
 

@@ -5,7 +5,7 @@ using namespace ShapeFlow;
 void DataWriter::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
 {
     int colLength=20;
-    std::string(*fnD)(int,double) = BinOCS::Utils::fixedStrLength;
+    std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
     double IIValue,MDCAValue;
 
@@ -18,7 +18,7 @@ void DataWriter::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
 void DataWriter::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
 {
     int colLength=20;
-    std::string(*fnD)(int,double) = BinOCS::Utils::fixedStrLength;
+    std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
     double perimeter;
 
@@ -54,8 +54,8 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
     os << "#Image: " << inputName << "\n#\n";
     int colLength=20;
 
-    std::string(*fnS)(int,std::string) = BinOCS::Utils::fixedStrLength;
-    std::string(*fnD)(int,double) = BinOCS::Utils::fixedStrLength;
+    std::string(*fnS)(int,std::string) = BTools::Utils::fixedStrLength;
+    std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
     os  << "#" << fnS(colLength,"Iteration") << "\t"
         << fnS(colLength,"Opt. Energy") << "\t"

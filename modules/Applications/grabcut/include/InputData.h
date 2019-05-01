@@ -1,5 +1,5 @@
-#ifndef BINOCS_INPUTDATA_H
-#define BINOCS_INPUTDATA_H
+#ifndef BTools_INPUTDATA_H
+#define BTools_INPUTDATA_H
 
 #include <iostream>
 #include <unistd.h>
@@ -26,4 +26,4 @@ namespace GrabCut
 
 }
 
-#endif //BINOCS_INPUTDATA_H
+#endif //BTools_INPUTDATA_H

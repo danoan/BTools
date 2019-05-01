@@ -1,6 +1,6 @@
-#include "BinOCS/utils/imgUtils.h"
+#include "BTools/utils/imgUtils.h"
 
-using namespace BinOCS;
+using namespace BTools;
 
 void Utils::setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
 {

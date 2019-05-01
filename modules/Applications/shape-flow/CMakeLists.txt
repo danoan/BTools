@@ -25,8 +25,8 @@ target_include_directories(shape-flow PRIVATE
         )
 
 target_link_libraries(shape-flow
-        -lbinocs-utils
-        -lbinocs-core
+        -lbtools-utils
+        -lbtools-core
         -lscabolic-utils
         -lscabolic-energy
         -lscabolic-core

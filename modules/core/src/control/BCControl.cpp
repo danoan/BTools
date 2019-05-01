@@ -1,6 +1,6 @@
-#include "BinOCS/core/control/BCControl.h"
+#include "BTools/core/control/BCControl.h"
 
-using namespace BinOCS::Core;
+using namespace BTools::Core;
 
 BCControl::BCControl(Solution& solution,
                      const BCConfigInput& bcInput,
