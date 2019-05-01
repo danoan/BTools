@@ -135,8 +135,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
         std::vector<IBCControlVisitor*> visitors;
         cv::Mat currentImage = cv::imread(currImagePath,cv::IMREAD_COLOR);
 
-        try
-        {
+
             Point translation;
             BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,translation);
 
@@ -148,11 +147,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
             currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
             BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
-        }catch(std::exception ex)
-        {
-            osLog << ex.what();
-            break;
-        }
+
 
         ++i;
     }while(i<bcFlowInput.maxIterations);

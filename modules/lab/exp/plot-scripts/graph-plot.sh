@@ -1,10 +1,5 @@
 #!/bin/sh
 
-#$1: Output filename
-#$2: Graph title
-#$3: Energy/Length Mode
-#$4-..: (Datafile,Plot title)
-
 gp_save()
 {
 	printf "set size 1.0, 0.6;
@@ -72,20 +67,20 @@ gp_last_plot()
 }
 
 
-run()
+create_multiplot()
 {
 	fileoutput=$1;shift;
-	graphtitle=$1;shift;
+	plottitle=$1;shift;
 	mode=$1;shift;
 
-	buffer="$(gp_plot_config $mode $graphtitle)plot "
+	buffer="$(gp_plot_config $mode $plottitle)plot "
 	i=0
 	num_plots=`expr ${#} / 2 - 1`
 	while [ ${i} -lt ${num_plots} ]
 	do
-		filepath=$1
-		title=$2
-		buffer="${buffer}$(gp_add_plot $mode $filepath $title)"
+		subplotDataFile=$1
+		subplotTitle=$2
+		buffer="${buffer}$(gp_add_plot $mode $subplotDataFile $subplotTitle)"
 		shift; shift;
 
 		i=`expr $i + 1`
@@ -105,4 +100,9 @@ run()
 }
 
 
-run $@
+
+#$1: Output filename
+#$2: Graph title
+#$3: Energy/Length Mode
+#$4-..: (Plot datafile,Plot subtitle)
+create_multiplot $@

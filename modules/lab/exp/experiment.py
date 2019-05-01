@@ -32,7 +32,7 @@ COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
 PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
 NEIGHBORHOOD=[4]
-LEVELS=[-2,-3]
+LEVELS=[-2,-3,2,3]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
@@ -49,7 +49,7 @@ CONFIG_LIST=[ (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
 
 
 def valid_combination(c):
-    _,_,_,cc,cm,sm,profile,_,_,_,_,_,_,_ = c
+    _,_,_,cc,cm,sm,profile,_,levels,_,_,_,_,_ = c
 
     flag=True
     if cc=="pixel":
@@ -60,6 +60,12 @@ def valid_combination(c):
 
     if profile=="single-inner" or profile=="double-inner":
         flag=flag and cm=="linel"
+
+    if sm=="interpixel":
+        flag=flag and (levels>0)
+
+    if sm=="pixel":
+        flag=flag and (levels<0)
 
     return flag
 
@@ -123,7 +129,8 @@ def total_combinations():
     total=0
     combs = combinations(CONFIG_LIST)
     for c in combs:
-        total+=1
+        if valid_combination(c):
+            total+=1
     return total
 
 def main():
