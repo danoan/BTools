@@ -14,4 +14,4 @@ target_link_libraries(grab-cut
         ${OpenCV_LIBS})
 
 install(TARGETS grab-cut
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

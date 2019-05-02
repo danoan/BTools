@@ -27,4 +27,4 @@ target_link_libraries(summary-flow
         ${OpenCV_LIBS})
 
 install(TARGETS summary-flow
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

@@ -1,6 +1,6 @@
 #Download auxiliar projects and build them: DIPaCUS,GEOC,SCaBOliC
 
-./setUp.sh [FIND_PACKAGE_EXTRA_LOOK_UP_DIRS] [BOOT_LIBS_DIR]
+./setUp.sh [FIND_PACKAGE_EXTRA_LOOK_UP_DIRS] [BOOT_LIBS_DIR] [debug|release]
 mkdir build
 cd build
 cmake ..

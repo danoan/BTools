@@ -195,8 +195,12 @@ int main(int argc, char* argv[])
     GrabCutOutput gco(inputData.grabcutFile);
     BCApplicationOutput bcaOutput = boundaryCorrection(inputData,gco);
 
-    boost::filesystem::create_directories(inputData.outputFolder);
-    outputImages(bcaOutput,gco,inputData.outputFolder);
-    outputEnergy(bcaOutput,gco,inputData.outputFolder);
+    if(inputData.outputFolder!="")
+    {
+        boost::filesystem::create_directories(inputData.outputFolder);
+        outputImages(bcaOutput,gco,inputData.outputFolder);
+        outputEnergy(bcaOutput,gco,inputData.outputFolder);
+    }
+
 
 }

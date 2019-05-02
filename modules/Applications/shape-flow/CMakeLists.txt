@@ -42,4 +42,4 @@ target_link_libraries(shape-flow
         ${OpenCV_LIBS})
 
 install(TARGETS shape-flow
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

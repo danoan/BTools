@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.2)
 project(btools-utils)
 
-add_library(btools-utils
+set(LIBRARY_ACTION "STATIC")
+if(${CREATE_SHARED_LIBRARIES})
+    set(LIBRARY_ACTION "SHARED")
+endif()
+
+add_library(btools-utils ${LIBRARY_ACTION}
         src/dispUtils.cpp
         src/DataWriter.cpp
         src/imgUtils.cpp
@@ -18,3 +23,10 @@ target_include_directories(btools-utils PRIVATE
 target_link_libraries(btools-utils
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+install(DIRECTORY include
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+install(TARGETS btools-utils
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

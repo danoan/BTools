@@ -23,6 +23,7 @@ set(SCABOLIC_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/ext/include CACHE PATH "SCaBOliC i
 set(SCABOLIC_LIBS_DIR /usr/local/lib CACHE PATH "SCaBOliC libraries location path.")
 
 set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
+set(CREATE_SHARED_LIBRARIES OFF CACHE BOOL "Create shared libraries. If off, create static libraries.")
 
 
 link_directories(${DIPACUS_LIBS_DIR}

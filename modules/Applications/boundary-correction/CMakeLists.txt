@@ -35,5 +35,5 @@ target_link_libraries(boundary-correction-app
         ${OpenCV_LIBS})
 
 install(TARGETS boundary-correction-app
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
