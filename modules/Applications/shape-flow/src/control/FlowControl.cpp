@@ -128,30 +128,35 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
 
     int i=1;
-    do
+    try
     {
-        osLog << "|";
+        do
+        {
+            osLog << "|";
 
-        std::vector<IBCControlVisitor*> visitors;
-        cv::Mat currentImage = cv::imread(currImagePath,cv::IMREAD_COLOR);
-
-
-            Point translation;
-            BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,translation);
-
-            entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
-
-            DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
-            checkBounds(correctedSet,flowDomain);
+            std::vector<IBCControlVisitor*> visitors;
+            cv::Mat currentImage = cv::imread(currImagePath,cv::IMREAD_COLOR);
 
 
-            currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
-            BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
+                Point translation;
+                BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,translation);
+
+                entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
+
+                DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
+                checkBounds(correctedSet,flowDomain);
 
 
-        ++i;
-    }while(i<bcFlowInput.maxIterations);
+                currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
+                BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
 
+
+            ++i;
+        }while(i<bcFlowInput.maxIterations);
+    }catch(std::exception ex)
+    {
+        osLog << ex.what() << "\n";
+    }
 
     osLog << "\nWriting Results...";
     DataWriter::printTable(bcFlowInput.inputName,entries,os);

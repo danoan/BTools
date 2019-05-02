@@ -32,6 +32,8 @@ link_directories(${DIPACUS_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core)
 
+add_subdirectory(modules/core)
+add_subdirectory(modules/utils)
 
 add_subdirectory(modules/Applications/grabcut)
 add_subdirectory(modules/Applications/seed-selector)
