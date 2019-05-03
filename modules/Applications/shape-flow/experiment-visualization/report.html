@@ -253,7 +253,13 @@
         function init()
         {
             basePath=window.prompt("Enter images base folder");
-            basePath="file://".concat(basePath);
+            if(basePath=="")
+	    {
+	            basePath=window.location.toString();
+        	    basePath=basePath.substring(0, basePath.lastIndexOf("/") );
+	    }else{
+		    basePath="file://".concat(basePath);
+	    }
             default_buttons();
             document.body.style.visibility="visible";
         }
