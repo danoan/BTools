@@ -14,12 +14,12 @@ function create_plot_space()
 {
     SHAPE=$1
     DATA_FOLDER=$(realpath $2)
-    OUTPUT_FOLDER="$3/space" && mkdir -p ${OUTPUT_FOLDER}
+    OUTPUT_FOLDER="$3/$1/space" && mkdir -p ${OUTPUT_FOLDER}
     OUTPUT_FOLDER=$(realpath $OUTPUT_FOLDER)
     MODE=$4
 
-    DATA_PIXEL=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level-2_/${SHAPE}.txt
-    DATA_INTERPIXEL=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double/radius_3/level2_/${SHAPE}.txt
+    DATA_PIXEL=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_-2/no-opt/${SHAPE}.txt
+    DATA_INTERPIXEL=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double/radius_3/level_2/no-opt${SHAPE}.txt
 
     $GRAPH_PLOT_APP "$OUTPUT_FOLDER/space.eps" "Pixel_x_Interpixel" $MODE \
     $DATA_PIXEL "Pixel_Space" \

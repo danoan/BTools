@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape flow experiment report</title>
+
+    <style>
+        .row{
+            width:100%;
+            height:250px;
+            background-color:blue;
+            font-size:10px;
+            font-family: "Open Sans", "DejaVu Sans", sans;
+            margin-bottom:1em;
+        }
+        .collumn{
+            display:inline-block;
+            width:150px;
+            background-color:pink;
+            margin:1em;
+            text-align:center;
+            float:left;
+        }
+
+        .collumn li
+        {
+            padding:0.5rem 0rem;
+        }
+
+        .row ul{
+            list-style:none;
+            padding:0;
+            margin:0;
+        }
+
+        .row::after{
+            clear:both;
+            display:block;
+            content: "";
+            border-top: .2rem solid silver;
+            width: 100%;
+        }
+
+        .header{
+            font-weight: bold;
+            padding-bottom:1em;
+        }
+
+        .button{
+            cursor: pointer;
+        }
+
+        .selected{
+            background-color: #c8c8c8;
+            color:yellow;
+            font-weight:bold;
+        }
+
+        .display
+        {
+            width:95%;
+            height:400px;
+            text-align:center;
+        }
+
+        .display-1
+        {
+            height:100%;
+            text-align:center;
+        }
+
+        .display-1 img
+        {
+            height:100%;
+        }
+
+        .display-2
+        {
+            height:100%;
+            text-align:center;
+        }
+
+        .display-2 img
+        {
+            height:100%;
+        }
+
+        .display > div
+        {
+            float:left;
+            display:inline-block;
+        }
+
+        .summary-flow{
+            height:100%;
+        }
+
+        .image-sequence{
+            float:none;
+            height:100%;
+        }
+
+        .hidden{
+            display:none !important;
+        }
+
+        .full{
+            width:100%;
+        }
+
+        .half{
+            width:50%;
+        }
+
+        body{
+            visibility:hidden;
+        }
+
+    </style>
+
+    <script>
+        var basePath;
+        function build_path()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length-1;
+            var relPath="";
+            var shapeName="";
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                var buttons=c.children[0].children;
+                for(var j=0;j<buttons.length;j++)
+                {
+                    if(buttons[j].classList.contains("selected"))
+                    {
+                        relPath=relPath.concat(buttons[j].getAttribute("path"),"/");
+                        if(i==0) shapeName=buttons[j].getAttribute("path");
+                    }
+                }
+            }
+
+            relPath=relPath.concat(shapeName.toLowerCase(),".svg");
+
+            return relPath;
+        }
+
+        function get_current_display()
+        {
+            var display = document.getElementsByClassName("display")[0];
+            for(var i=0;i<display.children.length;++i)
+            {
+                if(display.children[i].classList.contains("active"))
+                {
+                    return display.children[i];
+                }
+            }
+        }
+
+        function load_figure()
+        {
+            var relPath=build_path();
+            var fullPath=basePath.concat("/",relPath);
+
+            var activeDisplay=get_current_display();
+            activeDisplay.children[1].children[0].setAttribute("src",fullPath);
+            console.log(fullPath);
+
+        }
+
+
+        function select(el)
+        {
+            _select(el,true);
+        }
+
+        function _select(el,load_flag)
+        {
+            var list_li=el.parentElement.children;
+            for (var i=1;i<list_li.length;i++)
+            {
+                list_li[i].className="button";
+            }
+            el.className="button selected";
+            if(load_flag)
+            {
+                load_figure();
+            }
+
+        }
+
+        function default_buttons()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length-1;
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                var buttons=c.children[0].children;
+                var first=buttons[1];
+                _select( first,false );
+            }
+        }
+
+        function freeze(el)
+        {
+            var display = document.getElementsByClassName("display")[0];
+
+            if(el.innerHTML=="Freeze")
+            {
+                el.innerHTML="Unfreeze";
+                for(var i=0;i<display.children.length;i++)
+                {
+                    display.children[i].classList.remove("full");
+                    display.children[i].classList.remove("hidden");
+                    display.children[i].classList.remove("active");
+                    display.children[i].classList.add("half");
+                }
+                display.children[1].classList.add("active");
+            }else
+            {
+                el.innerHTML="Freeze";
+                for(var i=0;i<display.children.length;i++)
+                {
+                    display.children[i].classList.remove("half");
+                }
+
+                display.children[0].classList.add("full");
+                display.children[0].classList.add("active");
+                display.children[1].classList.add("hidden");
+            }
+        }
+
+
+        function summary(el)
+        {
+            var display = document.getElementsByClassName("display")[0];
+            var display_1 = display.children[0];
+
+            if(el.innerHTML=="Summary")
+            {
+                el.innerHTML="Image Sequence";
+                display_1.children[0].classList.add("hidden");
+                display_1.children[1].classList.remove("hidden");
+            }else
+            {
+                el.innerHTML="Summary";
+                display_1.children[1].classList.add("hidden");
+                display_1.children[0].classList.remove("hidden");
+            }
+        }
+
+        function init()
+        {
+            basePath=window.prompt("Enter images base folder");
+            basePath="file://".concat(basePath);
+            default_buttons();
+            document.body.style.visibility="visible";
+        }
+
+        window.onload=init;
+
+
+    </script>
+</head>
+<body>
+
+<h1>Shape flow visualization</h1>
+<div class="row">
+    <div class="collumn">
+        <ul>
+            <li class="header">Shape</li>
+            <li class="button" onclick="select(this)" path="triangle">Triangle</li>
+            <li class="button" onclick="select(this)" path="square">Square</li>
+            <li class="button" onclick="select(this)" path="pentagon" >Pentagon</li>
+            <li class="button" onclick="select(this)" path="heptagon">Heptagon</li>
+            <li class="button" onclick="select(this)" path="ball">Ball</li>
+            <li class="button" onclick="select(this)" path="ellipse">Ellipse</li>
+            <li class="button" onclick="select(this)" path="flower">Flower</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Method</li>
+            <li class="button" onclick="select(this)" path="probe">Probe</li>
+            <li class="button" onclick="select(this)" path="improve">Improve</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Space</li>
+            <li class="button" onclick="select(this)" path="pixel-space">Pixel</li>
+            <li class="button" onclick="select(this)" path="interpixel-space">Interpixel</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Computation Center</li>
+            <li class="button" onclick="select(this)" path="pixel">Pixel</li>
+            <li class="button" onclick="select(this)" path="linel">Linel</li>
+            <li class="button" onclick="select(this)" path="pointel">Pointel</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Profile</li>
+            <li class="button" onclick="select(this)" path="single">Single</li>
+            <li class="button" onclick="select(this)" path="double">Double</li>
+            <li class="button" onclick="select(this)" path="single-opt">Single-Opt</li>
+            <li class="button" onclick="select(this)" path="double-opt">Double-Opt</li>
+            <li class="button" onclick="select(this)" path="single-inner">Single-Inner</li>
+            <li class="button" onclick="select(this)" path="double-inner">Double-Inner</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Radius</li>
+            <li class="button" onclick="select(this)" path="radius_3">3</li>
+            <li class="button" onclick="select(this)" path="radius_5">5</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Levels</li>
+            <li class="button" onclick="select(this)" path="level_3">3</li>
+            <li class="button" onclick="select(this)" path="level_2">2</li>
+            <li class="button" onclick="select(this)" path="level_-3">-3</li>
+            <li class="button" onclick="select(this)" path="level_-2">-2</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Opt</li>
+            <li class="button" onclick="select(this)" path="opt">True</li>
+            <li class="button" onclick="select(this)" path="no-opt">False</li>
+        </ul>
+    </div>
+
+    <div class="collumn">
+        <ul>
+            <li class="header">Actions</li>
+            <li class="button" onclick="freeze(this)">Freeze</li>
+            <li class="button" onclick="summary(this)">Image Sequence</li>
+        </ul>
+    </div>
+</div>
+
+<div class="display">
+    <div class="display-1 full active">
+        <div class="image-sequence hidden">
+            <img src="triangle.svg" />
+            Image Sequence
+        </div>
+
+        <div class="summary-flow">
+            <img src="test.svg" />
+            Summary Flow
+        </div>
+    </div>
+
+    <div class="display-2 half hidden">
+        <div class="image-sequence hidden">
+            <img src="test.svg" />
+            Image Sequence
+        </div>
+
+        <div class="summary-flow">
+            <img src="test.svg" />
+            Summary Flow
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

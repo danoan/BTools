@@ -27,7 +27,8 @@ OneImageFlow::Domain OneImageFlow::commonDomain(SetPointSequenceIterator begin,
 void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
                                       SetPointSequenceIterator begin,
                                       SetPointSequenceIterator end,
-                                      int seqStep)
+                                      int seqStep,
+                                      ImageOutputType iot)
 {
     Domain domain = commonDomain(begin,end);
     DigitalSet ds(domain);
@@ -67,12 +68,15 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
                                  new DGtal::CustomColors(blue,blue) )
           << ds;
 
-    board.saveEPS(imgOutputPath.c_str());
+    if(iot==SVG) board.saveSVG( (imgOutputPath + ".svg").c_str() );
+    else board.saveEPS( (imgOutputPath + ".eps").c_str() );
+
 }
 
 OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
                            const std::string& imageOutputPath,
-                           int seqStep)
+                           int seqStep,
+                           ImageOutputType iot)
 {
     boost::filesystem::path imageSrcPath(imageSrcFolder);
     boost::filesystem::directory_iterator di(imageSrcPath);
@@ -119,6 +123,7 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
     createUnifiedImage(imageOutputPath,
                        setPointFamily.begin(),
                        setPointFamily.end(),
-                       seqStep);
+                       seqStep,
+                       iot);
 
 }

@@ -14,7 +14,7 @@ std::string resolveShapeName(Shape shape)
     else if(shape==Shape::Heptagon) return "heptagon";
     else if(shape==Shape::Ball) return "ball";
     else if(shape==Shape::Ellipse) return "ellipse";
-    else if(shape==Shape::Flower) return "elower";
+    else if(shape==Shape::Flower) return "flower";
     else return "";
 }
 

@@ -31,11 +31,14 @@ namespace SummaryFlow
         typedef DIPaCUS::Representation::Image2D Image2D;
         typedef DIPaCUS::Neighborhood::EightNeighborhoodPredicate Pred8;
 
+        enum ImageOutputType{SVG,EPS};
+
 
     public:
         OneImageFlow(const std::string& imageSrcFolder,
                      const std::string& imageOutputPath,
-                     int seqTep=1);
+                     int seqTep=1,
+                     ImageOutputType=SVG);
 
     private:
         Domain commonDomain(SetPointSequenceIterator begin,
@@ -44,7 +47,8 @@ namespace SummaryFlow
         void createUnifiedImage(const std::string& imgOutputPath,
                                 SetPointSequenceIterator begin,
                                 SetPointSequenceIterator end,
-                                int seqStep);
+                                int seqStep,
+                                ImageOutputType iot);
     };
 
 }
