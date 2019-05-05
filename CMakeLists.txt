@@ -41,6 +41,7 @@ add_subdirectory(modules/Applications/seed-selector)
 add_subdirectory(modules/Applications/boundary-correction)
 add_subdirectory(modules/Applications/shape-flow)
 add_subdirectory(modules/Applications/summary-flow)
+add_subdirectory(modules/Applications/regions-of-interest)
 
 if(${BUILD_TESTS})
     #add_subdirectory(modules/lab/Test)

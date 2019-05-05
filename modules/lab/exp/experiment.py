@@ -33,7 +33,7 @@ COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
 PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
 NEIGHBORHOOD=[4]
-LEVELS=[-2,-3,2,3]
+LEVELS=[-2,-3,1,2,3]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
@@ -77,6 +77,26 @@ def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,
                                                                     "opt" if opt else "no-opt")
 
     return outputFolder
+
+def regions_of_interest(c):
+    outputFolder = resolve_output_folder(*c)
+    shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt = c
+
+    outputFilepath="%s/%s" % (outputFolder,"odr.svg")
+
+    binary = "%s/%s" % (BIN_FOLDER,"regions-of-interest/regions-of-interest")
+    subprocess.call( [binary,
+                      outputFilepath,
+                      "%s%s" % ("-S",shape),
+                      "%s%d" % ("-r",radius),
+                      "%s%s" % ("-a",cc),
+                      "%s%s" % ("-c",cm),
+                      "%s%s" % ("-s",sm),
+                      "%s%s" % ("-p",profile),
+                      "%s%d" % ("-n",neigh),
+                      "%s%d" % ("-l",levels),
+                      "%s" % ("-o" if opt else "")
+                      ] )
 
 def shape_flow(c):
 
@@ -149,7 +169,9 @@ def main():
         if valid_combination(c):
             shape_flow(c)
             summary_flow(c)
-            pass
+            regions_of_interest(c)
+            return 1
+
 
     for shape in SHAPES:
         create_plots(shape,"%s/%s" % (BASE_OUTPUT_FOLDER,"plots") )
