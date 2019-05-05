@@ -170,7 +170,6 @@ def main():
             shape_flow(c)
             summary_flow(c)
             regions_of_interest(c)
-            return 1
 
 
     for shape in SHAPES:
