@@ -198,7 +198,14 @@ IFlowProfile& getProfile(const InputData& id)
 
 DigitalSet getShape(Shape shape)
 {
-    return DIPaCUS::Shapes::square();
+    int radius=40;
+    if(shape==Shape::Triangle) return DIPaCUS::Shapes::triangle(1.0,0,0,radius);
+    else if(shape==Shape::Square) return DIPaCUS::Shapes::square(1.1,0,0,radius);
+    else if(shape==Shape::Pentagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,5);
+    else if(shape==Shape::Heptagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,7);
+    else if(shape==Shape::Ball) return DIPaCUS::Shapes::ball(1.0,0,0,radius);
+    else if(shape==Shape::Flower) return DIPaCUS::Shapes::flower(1.0,0,0,radius,radius/2.0,2);
+    else if(shape==Shape::Ellipse) return DIPaCUS::Shapes::ellipse(1.0,0,0,radius,radius/2);
 }
 
 void saveODR(const ODRModel& ODR,std::string outputPath)

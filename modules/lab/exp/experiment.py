@@ -33,11 +33,11 @@ COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
 PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
 NEIGHBORHOOD=[4]
-LEVELS=[-2,-3,1,2,3]
+LEVELS=[-1,-2,-3,1,2,3]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
-METHOD=["improve","probe"]
+METHOD=["improve"]
 OPT_IN_COMPUTATION=[True,False]
 
 CONFIG_LIST=[ (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
@@ -50,7 +50,7 @@ CONFIG_LIST=[ (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
 
 
 def valid_combination(c):
-    _,_,_,cc,cm,sm,profile,_,levels,_,_,_,_,_ = c
+    _,_,_,cc,cm,sm,profile,_,levels,_,_,_,_,opt = c
 
     flag=True
     if cc=="pixel":
@@ -67,6 +67,10 @@ def valid_combination(c):
 
     if sm=="pixel":
         flag=flag and (levels<0)
+
+    if profile=="single-opt" or profile=="double-opt":
+        flag=flag and (levels==1)
+        flag=flag and (opt==True)
 
 
     return flag
@@ -167,13 +171,13 @@ def main():
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
-            shape_flow(c)
-            summary_flow(c)
+            #shape_flow(c)
+            #summary_flow(c)
             regions_of_interest(c)
 
 
-    for shape in SHAPES:
-        create_plots(shape,"%s/%s" % (BASE_OUTPUT_FOLDER,"plots") )
+    #for shape in SHAPES:
+        #create_plots(shape,"%s/%s" % (BASE_OUTPUT_FOLDER,"plots") )
 
 
 if __name__=='__main__':
