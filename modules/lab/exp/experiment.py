@@ -171,13 +171,13 @@ def main():
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
-            #shape_flow(c)
-            #summary_flow(c)
+            shape_flow(c)
+            summary_flow(c)
             regions_of_interest(c)
 
 
-    #for shape in SHAPES:
-        #create_plots(shape,"%s/%s" % (BASE_OUTPUT_FOLDER,"plots") )
+    for shape in SHAPES:
+        create_plots(shape,"%s/%s" % (BASE_OUTPUT_FOLDER,"plots") )
 
 
 if __name__=='__main__':
