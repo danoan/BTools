@@ -168,10 +168,9 @@ def main():
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
-            # shape_flow(c)
-            # summary_flow(c)
-            # regions_of_interest(c)
-            pass
+            shape_flow(c)
+            summary_flow(c)
+            regions_of_interest(c)
 
 
     for shape in SHAPES:
