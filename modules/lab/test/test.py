@@ -26,19 +26,19 @@ def combinations(configList):
 
 
 SHAPES=["triangle","square","pentagon","heptagon","ball","ellipse","flower"]
-RADIUS=[3,5]
-ITERATIONS=[100]
+RADIUS=[3]
+ITERATIONS=[5]
 COMPUTATION_CENTER=["pixel","pointel","linel"]
 COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
-PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
+PROFILE=["double","double-inner"]
 NEIGHBORHOOD=[4]
-LEVELS=[1,2,3,-3,-2,-1]
+LEVELS=[3,-3]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
 METHOD=["improve"]
-OPT_IN_COMPUTATION=[True,False]
+OPT_IN_COMPUTATION=[False]
 
 CONFIG_LIST=[ (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
               (COMPUTATION_CENTER,"computation_center"),
@@ -161,16 +161,17 @@ def read_input():
     PROJECT_FOLDER=sys.argv[1]
     BIN_FOLDER="%s/%s/%s" % (PROJECT_FOLDER,sys.argv[2],"modules/Applications")
     SCRIPT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/plot-scripts")
-    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/output")
+    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/test/output")
 
 def main():
     read_input()
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if valid_combination(c):
-            shape_flow(c)
-            summary_flow(c)
-            regions_of_interest(c)
+            # shape_flow(c)
+            # summary_flow(c)
+            # regions_of_interest(c)
+            pass
 
 
     for shape in SHAPES:

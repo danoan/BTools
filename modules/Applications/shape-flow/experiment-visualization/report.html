@@ -112,11 +112,13 @@
 
         .summary-flow{
             height:100%;
+            cursor:pointer;
         }
 
         .odr-model
         {
             height:100%;
+            cursor:pointer;
         }
 
         .image-sequence{
@@ -224,7 +226,7 @@
 
             var odr_model = get_active_odr_model();
             var odr_image_path = fullPath.substr(0,fullPath.lastIndexOf("/"));
-            odr_image_path=odr_image_path.concat("/","odr-model.svg");
+            odr_image_path=odr_image_path.concat("/","odr.svg");
             odr_model.children[0].setAttribute("src",odr_image_path);
 
             console.log(odr_image_path);
@@ -321,6 +323,11 @@
             }
         }
 
+        function open_src(el)
+        {
+            document.location.href=el.getAttribute("src");
+        }
+
         function init()
         {
             basePath=window.prompt("Enter images base folder");
@@ -359,7 +366,7 @@
     <div class="collumn" menu>
         <ul>
             <li class="header">Method</li>
-            <li class="button" onclick="select(this)" path="probe" type="method">Probe</li>
+            <!--<li class="button" onclick="select(this)" path="probe" type="method">Probe</li>-->
             <li class="button" onclick="select(this)" path="improve" type="method">Improve</li>
         </ul>
     </div>
@@ -404,10 +411,13 @@
     <div class="collumn" menu>
         <ul>
             <li class="header">Levels</li>
-            <li class="button" onclick="select(this)" path="level_3" type="levels">3</li>
-            <li class="button" onclick="select(this)" path="level_2" type="levels">2</li>
             <li class="button" onclick="select(this)" path="level_-3" type="levels">-3</li>
             <li class="button" onclick="select(this)" path="level_-2" type="levels">-2</li>
+            <li class="button" onclick="select(this)" path="level_-1" type="levels">-1</li>
+            <li class="button" onclick="select(this)" path="level_1" type="levels">1</li>
+            <li class="button" onclick="select(this)" path="level_2" type="levels">2</li>
+            <li class="button" onclick="select(this)" path="level_3" type="levels">3</li>
+
         </ul>
     </div>
 
@@ -432,7 +442,7 @@
     <div class="display-1 full active">
 
         <div class="odr-model">
-            <img src="test.svg" /><br>
+            <img src="test.svg" onclick="open_src(this)" /><br>
             ODR-Model
         </div>
 
@@ -442,7 +452,7 @@
         </div>
 
         <div class="summary-flow">
-            <img src="test.svg" /><br>
+            <img src="test.svg" onclick="open_src(this)" /><br>
             Summary Flow
         </div>
     </div>
@@ -454,12 +464,12 @@
         </div>
 
         <div class="summary-flow">
-            <img src="test.svg" /><br>
+            <img src="test.svg" onclick="open_src(this)" /><br>
             Summary Flow
         </div>
 
         <div class="odr-model">
-            <img src="test.svg" /><br>
+            <img src="test.svg" onclick="open_src(this)" /><br>
             ODR-Model
         </div>
     </div>

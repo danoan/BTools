@@ -211,9 +211,6 @@ DigitalSet getShape(Shape shape)
 void saveODR(const ODRModel& ODR,std::string outputPath)
 {
     DGtal::Board2D board;
-    board << DGtal::SetMode(ODR.domain.className(),"Paving")
-          << ODR.domain;
-
     std::string specificStyle = ODR.original.className() + "/Paving";
     board << DGtal::SetMode(ODR.original.className(),"Paving");
 
@@ -236,6 +233,7 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
     board << optAppIntersection;
 
     board.saveSVG( outputPath.c_str() );
+
 }
 
 

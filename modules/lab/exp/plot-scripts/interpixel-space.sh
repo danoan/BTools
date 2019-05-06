@@ -24,12 +24,20 @@ function create_plot_levels_interpixel()
     OUTPUT_FOLDER=$(realpath $OUTPUT_FOLDER)
     MODE=$4
 
-    DATA_LEVEL3=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_3/no-opt/${SHAPE}.txt
+    DATA_LEVEL_3=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_-3/no-opt/${SHAPE}.txt
+    DATA_LEVEL_2=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_-2/no-opt/${SHAPE}.txt
+    DATA_LEVEL_1=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_-1/no-opt/${SHAPE}.txt
+    DATA_LEVEL1=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_1/no-opt/${SHAPE}.txt
     DATA_LEVEL2=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_2/no-opt/${SHAPE}.txt
+    DATA_LEVEL3=$DATA_FOLDER/$SHAPE/improve/interpixel-space/linel/double-inner/radius_3/level_3/no-opt/${SHAPE}.txt
 
     $GRAPH_PLOT_APP "$OUTPUT_FOLDER/levels.eps" "Level_3_x_Level_2" $MODE \
-    $DATA_LEVEL3 "Level_-3" \
-    $DATA_LEVEL2 "Level_-2"
+    $DATA_LEVEL_3 "Level_-3" \
+    $DATA_LEVEL_2 "Level_-2" \
+    $DATA_LEVEL_1 "Level_-1" \
+    $DATA_LEVEL1 "Level_1" \
+    $DATA_LEVEL2 "Level_2" \
+    $DATA_LEVEL3 "Level_3"
 }
 
 function create_plot_radius_interpixel()
@@ -92,7 +100,7 @@ function create_all_plots_interpixel()
     MODE=$4
 
     create_plot_levels_interpixel $@
-    create_plot_method_interpixel $@
+    #create_plot_method_interpixel $@
     create_plot_opt_interpixel $@
     create_plot_profile_interpixel $@
     create_plot_radius_interpixel $@

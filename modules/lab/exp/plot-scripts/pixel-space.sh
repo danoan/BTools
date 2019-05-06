@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-GRAPH_PLOT_APP=$(realpath plot-scripts/graph-plot.sh)
-
 function create_plot_opt_pixel()
 {
     SHAPE=$1
@@ -26,12 +24,21 @@ function create_plot_levels_pixel()
     OUTPUT_FOLDER=$(realpath $OUTPUT_FOLDER)
     MODE=$4
 
-    DATA_LEVEL3=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_-3/no-opt/${SHAPE}.txt
-    DATA_LEVEL2=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_-2/no-opt${SHAPE}.txt
+    DATA_LEVEL_3=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_-3/no-opt/${SHAPE}.txt
+    DATA_LEVEL_2=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_-2/no-opt${SHAPE}.txt
+    DATA_LEVEL_1=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_-1/no-opt${SHAPE}.txt
 
-    $GRAPH_PLOT_APP "$OUTPUT_FOLDER/levels.eps" "Level_-3_x_Level_-2" $MODE \
-    $DATA_LEVEL3 "Level_-3" \
-    $DATA_LEVEL2 "Level_-2"
+    DATA_LEVEL3=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_3/no-opt/${SHAPE}.txt
+    DATA_LEVEL2=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_2/no-opt${SHAPE}.txt
+    DATA_LEVEL1=$DATA_FOLDER/$SHAPE/improve/pixel-space/pixel/double/radius_3/level_1/no-opt${SHAPE}.txt
+
+    $GRAPH_PLOT_APP "$OUTPUT_FOLDER/levels.eps" "Levels" $MODE \
+    $DATA_LEVEL3 "Level_+3" \
+    $DATA_LEVEL2 "Level_+2" \
+    $DATA_LEVEL1 "Level_+1" \
+    $DATA_LEVEL_1 "Level_-1" \
+    $DATA_LEVEL_2 "Level_-2" \
+    $DATA_LEVEL_3 "Level_-3"
 }
 
 function create_plot_radius_pixel()
@@ -95,7 +102,7 @@ function create_all_plots_pixel()
     MODE=$4
 
     create_plot_levels_pixel $@
-    create_plot_method_pixel $@
+    #create_plot_method_pixel $@
     create_plot_opt_pixel $@
     create_plot_profile_pixel $@
     create_plot_radius_pixel $@

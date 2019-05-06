@@ -10,6 +10,8 @@ SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
 source ${SCRIPT_FOLDER}/interpixel-space.sh
 source ${SCRIPT_FOLDER}/pixel-space.sh
 
+GRAPH_PLOT_APP=${SCRIPT_FOLDER}/graph-plot.sh
+
 function create_plot_space()
 {
     SHAPE=$1
