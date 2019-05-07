@@ -83,7 +83,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
 {
     typedef BTools::Core::BCFlowInput BCFlowInput;
     int levels = 2;
-    bool optInApplicationRegion=false;
+    bool optInApplicationRegion=true;
 
     BCConfigInput bcConfigInput(inputData.radius,
                                 inputData.dtWeight,
@@ -115,7 +115,8 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     BCApplicationInput bcaInput(bcConfigInput,
                                 imageDataInput,
                                 odrConfigInput,
-                                BCFlowInput::FlowProfile::DoubleStep);
+                                BCFlowInput::FlowProfile::DoubleStep,
+                                inputData.showProgress);
 
     BCApplicationOutput bcaOutput(bcaInput);
     BCApplication bca(bcaOutput,

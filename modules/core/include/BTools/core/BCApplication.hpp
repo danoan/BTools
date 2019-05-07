@@ -32,6 +32,9 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
         inputDS.clear();
         inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
 
+        if(flowProfile.currentIteration()%5==0 && bcaInput.showProgress)
+            std::cout << flowProfile.currentIteration() << "/" << maxIterations << std::endl;
+
 
         if(displayEachIteration)
         {

@@ -13,6 +13,7 @@ void InputReader::defaultValues(InputData& id)
 
     id.optMethod = InputData::OptMethod::Improve;
     id.showIterations=false;
+    id.showProgress=false;
 }
 
 void InputReader::readInput(InputData& id,
@@ -22,7 +23,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:v"))!=-1)
     {
         switch(opt)
         {
@@ -50,7 +51,10 @@ void InputReader::readInput(InputData& id,
                 break;
             case 'o':
                 id.outputFolder = optarg;
-                break;                
+                break;
+            case 'b':
+                id.showProgress = true;
+                break;
             default:
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
@@ -61,6 +65,7 @@ void InputReader::readInput(InputData& id,
                         "[-m Opt method 'probe' 'improve' default: improve] \n"
                         "[-s Show iterations default: false] \n"
                         "[-o Output folder default: \"\" (no output generated)] \n"
+                        "[-v Show progress status default: false] \n"
                         << std::endl;
                 exit(1);
         }

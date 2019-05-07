@@ -34,6 +34,7 @@ namespace BoundaryCorrection
 
             std::string outputFolder;
             bool showIterations;
+            bool showProgress;
         };
 
         static void readInput(InputData& id,

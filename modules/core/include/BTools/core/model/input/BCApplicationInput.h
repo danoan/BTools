@@ -19,10 +19,12 @@ namespace BTools
             BCApplicationInput(const BCConfigInput& bcConfigInput,
                                const ImageDataInput& imageDataInput,
                                const ODRConfigInput& odrConfigInput,
-                               const FlowProfile& flowProfile): bcConfigInput(bcConfigInput),
-                                                                odrConfigInput(odrConfigInput),
-                                                                imageDataInput(imageDataInput),
-                                                                flowProfile(flowProfile)
+                               const FlowProfile& flowProfile,
+                               bool showProgress=false): bcConfigInput(bcConfigInput),
+                                                         odrConfigInput(odrConfigInput),
+                                                         imageDataInput(imageDataInput),
+                                                         flowProfile(flowProfile),
+                                                         showProgress(showProgress)
             {}
 
             const FlowProfile flowProfile;
@@ -30,6 +32,7 @@ namespace BTools
             const BCConfigInput bcConfigInput;
             const ImageDataInput imageDataInput;
             const ODRConfigInput odrConfigInput;
+            bool showProgress;
 
         };
     }

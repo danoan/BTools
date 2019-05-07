@@ -12,6 +12,8 @@ target_include_directories(regions-of-interest PRIVATE
 target_link_libraries(regions-of-interest
         -lbtools-core
         -lscabolic-core
+        -lscabolic-optimization
+        -lscabolic-energy
         -ldipacus-derivates
         -ldipacus-components
         -ldipacus-base
