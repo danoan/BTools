@@ -102,7 +102,6 @@ def main():
 	for c in combinations(CONFIG_LIST):
 		boundary_correction(c)
 		export_seed_mask(c)
-		break
 
 
 if __name__=='__main__':
