@@ -6,9 +6,11 @@
 #include "InputData.h"
 #include "GrabCutOutput.h"
 #include "GrabCutApplication.h"
+#include "BTools/utils/model/GrabCutObject.h"
 
 
 using namespace GrabCut;
+using namespace BTools::Utils::GrabCutIO;
 
 GrabCutOutput runGrabCut(const std::string& imgPath,
                          const std::string& unknownMask,
@@ -25,15 +27,29 @@ GrabCutOutput runGrabCut(const std::string& imgPath,
     return gca.run();
 }
 
-void saveOutput(const GrabCutOutput& gco,const cv::Mat& inputImage, const std::string& outputPath)
+cv::Mat constructSeedMask( const std::string& inputImagePath,
+                           const std::string& fgSeedMaskPath,
+                           const std::string& bgSeedMaskPath,
+                           const std::string& unknownMaskPath)
 {
-    boost::filesystem::path p(outputPath);
-    boost::filesystem::create_directories(p.remove_filename());
-    cv::FileStorage gcOutputFile(outputPath,cv::FileStorage::WRITE);
-    gcOutputFile << "grabCutMask" << gco.grabCutMask;
-    gcOutputFile << "segMask" << gco.segMaskResult;
-    gcOutputFile << "inputImage" << inputImage;
-    gcOutputFile.release();
+    cv::Mat outImg = cv::imread(inputImagePath,cv::IMREAD_COLOR);
+    cv::Mat fg = cv::imread(fgSeedMaskPath,CV_8UC1);
+    cv::Mat bg = cv::imread(bgSeedMaskPath,CV_8UC1);
+
+    outImg.setTo(cv::Scalar(0,255,0),fg);
+    outImg.setTo(cv::Scalar(120,120,120),bg);
+    if(unknownMaskPath!="")
+    {
+        cv::Mat pbfg = cv::imread(unknownMaskPath,CV_8UC1);
+        std::vector<std::vector<cv::Point> > contours;
+        cv::findContours( pbfg, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+
+        cv::Rect r = cv::boundingRect(contours[0]);
+        cv::rectangle(outImg,r,cv::Scalar(0,0,255),4);
+
+    }
+
+    return outImg;
 }
 
 int main(int argc, char* argv[])
@@ -42,8 +58,13 @@ int main(int argc, char* argv[])
 
     cv::Mat inputImg = cv::imread(id.imgPath);
     GrabCutOutput gco = runGrabCut(id.imgPath,id.unknownMask,id.fgSeedMask,id.bgSeedMask);
-    saveOutput(gco,inputImg,id.outputObject);
 
+    GrabCutObject gcObject;
+    gcObject.grabCutMask = gco.grabCutMask;
+    gcObject.segMask = gco.segMaskResult;
+    gcObject.inputImage = inputImg;
+    gcObject.seeds = constructSeedMask(id.imgPath,id.fgSeedMask,id.bgSeedMask,id.unknownMask);
+    BTools::Utils::GrabCutIO::write(gcObject,id.outputObject);
 
     cv::Mat segResultImg = cv::Mat::zeros(inputImg.size(),CV_8UC4);
 

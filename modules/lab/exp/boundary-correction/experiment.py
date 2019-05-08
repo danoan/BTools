@@ -1,5 +1,5 @@
 #!/use/bin/python3
-import subprocess,sys,os
+import subprocess,sys,os,time
 
 PROJECT_FOLDER="set in read input"
 BINARY_FOLDER="set in read  input"
@@ -7,10 +7,10 @@ INPUT_FOLDER="set in read input"
 
 GC_OBJECT=["butterfly/gc-object.xml","cow/gc-object.xml","giraffe/gc-object.xml","honeybee/gc-object.xml"]
 RADIUS=[3]
-ITERATIONS=[10,20,50]
+ITERATIONS=[10,20,50,100]
 SQ_TERM=[1.0]
-DATA_TERM=[0,0.1,0.5,1.0]
-LENGTH_TERM=[0]
+DATA_TERM=[0,0.1,0.5,1.0,2.0,5.0]
+LENGTH_TERM=[0,0.5,1.0,2.0]
 METHOD=["improve"]
 
 CONFIG_LIST=[ (GC_OBJECT,"gc_object"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
@@ -60,6 +60,7 @@ def boundary_correction(c):
 
 	print("Running experiment: ",*c)
 
+	tstart = time.time()
 	binary = "%s/%s" % (BINARY_FOLDER,"boundary-correction-app")
 	subprocess.call( [binary,
 			  resolve_gcobject(c),
@@ -70,6 +71,19 @@ def boundary_correction(c):
 			  "%s%f" % ("-g",lt),
 			  "%s%s" % ("-m",method),
 			  "%s%s" % ("-o",outputFolder)])
+	tend=time.time()
+
+	print("*****Done in: %f seconds" % (tend-tstart,))
+
+def export_seed_mask(c):
+	gcobject,radius,iterations,sq,dt,lt,method = c
+
+	outputFolder=resolve_output_folder(c)
+
+	binary = "%s/%s" % (BINARY_FOLDER,"export-seed-mask")
+	subprocess.call( [binary,
+					  resolve_gcobject(c),
+					  "%s/%s" % (outputFolder,"seeds.png")])
 
 
 def read_input():
@@ -87,6 +101,8 @@ def main():
 	read_input()
 	for c in combinations(CONFIG_LIST):
 		boundary_correction(c)
+		export_seed_mask(c)
+		break
 
 
 if __name__=='__main__':

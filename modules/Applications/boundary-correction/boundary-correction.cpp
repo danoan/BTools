@@ -16,6 +16,7 @@
 #include "BTools/core/BCApplication.h"
 
 #include "BTools/utils/imgUtils.h"
+#include "BTools/utils/model/GrabCutObject.h"
 
 #include "InputReader.h"
 
@@ -24,21 +25,7 @@ using namespace BTools::Core;
 using namespace DGtal::Z2i;
 
 using namespace BoundaryCorrection;
-
-struct GrabCutOutput
-{
-    GrabCutOutput(const std::string& grabCutFile)
-    {
-        cv::FileStorage grabcutFile(grabCutFile,cv::FileStorage::READ);
-        grabcutFile["grabCutMask"] >> grabCutMask;
-        grabcutFile["segMask"] >> segMask;
-        grabcutFile["inputImage"] >> inputImage;
-    }
-
-    cv::Mat grabCutMask;
-    cv::Mat segMask;
-    cv::Mat inputImage;
-};
+using namespace BTools::Utils::GrabCutIO;
 
 void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM )
 {
@@ -79,7 +66,7 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 }
 
 
-BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutOutput& gco)
+BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
     typedef BTools::Core::BCFlowInput BCFlowInput;
     int levels = 2;
@@ -141,7 +128,7 @@ cv::Mat highlightBorder(const DigitalSet& ds)
     return maskBoundaryImgColor;
 }
 
-void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutOutput& gco, const std::string& outputFolder)
+void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutObject& gco, const std::string& outputFolder)
 {
     const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
 
@@ -159,7 +146,7 @@ void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutOutput& gco
     cv::imwrite(maskBoundaryFilepath,highlightBorder(bcaOutput.energySolution.outputDS));
 }
 
-void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutOutput& gco, const std::string& outputFolder)
+void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco, const std::string& outputFolder)
 {
     const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
 
@@ -193,7 +180,7 @@ int main(int argc, char* argv[])
     InputReader::InputData inputData;
     InputReader::readInput(inputData,argc,argv);
 
-    GrabCutOutput gco(inputData.grabcutFile);
+    GrabCutObject gco = read(inputData.grabcutFile);
     BCApplicationOutput bcaOutput = boundaryCorrection(inputData,gco);
 
     if(inputData.outputFolder!="")

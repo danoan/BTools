@@ -10,7 +10,8 @@ add_library(btools-utils ${LIBRARY_ACTION}
         src/dispUtils.cpp
         src/DataWriter.cpp
         src/imgUtils.cpp
-        src/strUtils.cpp)
+        src/strUtils.cpp
+        src/GrabCutIO.cpp)
 
 target_include_directories(btools-utils PRIVATE
         include
@@ -21,6 +22,8 @@ target_include_directories(btools-utils PRIVATE
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(btools-utils
+        -lboost_filesystem
+        -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
 
