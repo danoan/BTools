@@ -221,7 +221,7 @@
         function default_buttons()
         {
             var r=document.getElementsByClassName("row")[0];
-            var l=r.children.length-1;
+            var l=r.children.length;
             for(var i=0;i<l;i++)
             {
                 var c=r.children[i];
@@ -251,6 +251,7 @@
 		        basePath="file://".concat(basePath);
           }
             default_buttons();
+	    load_figure();
             document.body.style.visibility="visible";
 
         }
@@ -296,6 +297,8 @@
             <li class="button" onclick="select(this)" path="data_0.10" type="data-term">0.1</li>
             <li class="button" onclick="select(this)" path="data_0.50" type="data-term">0.5</li>
             <li class="button" onclick="select(this)" path="data_1.00" type="data-term">1.0</li>
+            <li class="button" onclick="select(this)" path="data_2.00" type="data-term">2.0</li>
+            <li class="button" onclick="select(this)" path="data_5.00" type="data-term">5.0</li>
         </ul>
     </div>
 
@@ -310,6 +313,9 @@
         <ul>
             <li class="header">Length Term</li>
             <li class="button" onclick="select(this)" path="lt_0.00" type="length-term">0.0</li>
+            <li class="button" onclick="select(this)" path="lt_0.50" type="length-term">0.5</li>
+            <li class="button" onclick="select(this)" path="lt_1.00" type="length-term">1.0</li>
+            <li class="button" onclick="select(this)" path="lt_2.00" type="length-term">2.0</li>
         </ul>
     </div>
 
@@ -319,6 +325,7 @@
             <li class="button" onclick="select(this)" path="it_10" type="iterations">10</li>
             <li class="button" onclick="select(this)" path="it_20" type="iterations">20</li>
             <li class="button" onclick="select(this)" path="it_50" type="iterations">50</li>
+            <li class="button" onclick="select(this)" path="it_100" type="iterations">100</li>
         </ul>
     </div>
 

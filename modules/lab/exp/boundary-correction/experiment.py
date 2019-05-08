@@ -5,7 +5,8 @@ PROJECT_FOLDER="set in read input"
 BINARY_FOLDER="set in read  input"
 INPUT_FOLDER="set in read input"
 
-GC_OBJECT=["butterfly/gc-object.xml","cow/gc-object.xml","giraffe/gc-object.xml","honeybee/gc-object.xml"]
+GC_OBJECT=["butterfly/gc-object.xml","cow/gc-object.xml","giraffe/gc-object.xml","honeybee/gc-object.xml",
+		   "cameraman/gc-object.xml","quixote/gc-object.xml"]
 RADIUS=[3]
 ITERATIONS=[10,20,50,100]
 SQ_TERM=[1.0]
