@@ -52,7 +52,7 @@ void InputReader::readInput(InputData& id,
             case 'o':
                 id.outputFolder = optarg;
                 break;
-            case 'b':
+            case 'v':
                 id.showProgress = true;
                 break;
             default:

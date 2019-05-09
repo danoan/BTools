@@ -87,7 +87,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                   optInApplicationRegion);
 
 
-    cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),CV_8UC4);
+    cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(segResultImg,gco.segMask);
 
     cv::Mat fgModel,bgModel;
@@ -137,7 +137,7 @@ void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutObject& gco
     std::string maskBoundaryFilepath = outputFolder +"/mask-boundary.png";
 
 
-    cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),CV_8UC4);
+    cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(gcSegImg ,gco.segMask);
 
 
@@ -154,7 +154,7 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco,
     SCaBOliC::Utils::ISQEvaluation(outputElasticaEnergy,
                                    solution.outputDS,SCaBOliC::Utils::ISQEvaluation::MDCA);
 
-    cv::Mat gcSegImage = cv::Mat::zeros(gco.inputImage.size(),CV_8UC4);
+    cv::Mat gcSegImage = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(gcSegImage ,gco.segMask);
 
     DGtal::Z2i::Domain baseImageDomain( Point(0,0),
@@ -181,6 +181,7 @@ int main(int argc, char* argv[])
     InputReader::readInput(inputData,argc,argv);
 
     GrabCutObject gco = read(inputData.grabcutFile);
+
     BCApplicationOutput bcaOutput = boundaryCorrection(inputData,gco);
 
     if(inputData.outputFolder!="")

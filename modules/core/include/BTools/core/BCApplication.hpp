@@ -18,37 +18,48 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
     BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
     DigitalSet inputDS = bcaInput.imageDataInput.inputDS;
 
-    while(flowProfile.currentIteration()<maxIterations)
+    BCAOutput lastValidSolution(bcaInput);
+
+    try
     {
-        BCControl(solution,
-                  bcaInput.bcConfigInput,
-                  bcaInput.imageDataInput,
-                  odrInterface,
-                  flowProfile.nextStep(),
-                  inputDS,
-                  begin,
-                  end);
-
-        inputDS.clear();
-        inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
-
-        if(flowProfile.currentIteration()%5==0 && bcaInput.showProgress)
-            std::cout << flowProfile.currentIteration() << "/" << maxIterations << std::endl;
-
-
-        if(displayEachIteration)
+        while(flowProfile.currentIteration()<maxIterations)
         {
-            prepareProductImage(bcaOutput,
-                                bcaInput.imageDataInput);
+            BCControl(solution,
+                      bcaInput.bcConfigInput,
+                      bcaInput.imageDataInput,
+                      odrInterface,
+                      flowProfile.nextStep(),
+                      inputDS,
+                      begin,
+                      end);
 
-            std::string windowName="Iteration: " + std::to_string(flowProfile.currentIteration());
-            cv::namedWindow(windowName);
-            cv::imshow(windowName,bcaOutput.imgOutput);
-            cv::waitKey(0);
-            cv::destroyAllWindows();
+            inputDS.clear();
+            inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
+
+            if(flowProfile.currentIteration()%5==0 && bcaInput.showProgress)
+                std::cout << flowProfile.currentIteration() << "/" << maxIterations << std::endl;
+
+            if(displayEachIteration)
+            {
+                prepareProductImage(bcaOutput,
+                                    bcaInput.imageDataInput);
+
+                std::string windowName="Iteration_" + std::to_string(flowProfile.currentIteration());
+                cv::namedWindow(windowName);
+                cv::imshow(windowName,bcaOutput.imgOutput);
+                cv::waitKey(0);
+                cv::destroyAllWindows();
+
+            }
+
+            lastValidSolution = bcaOutput;
         }
+    }catch(std::exception ex)
+    {
+        std::cerr << "Error in iteration " << flowProfile.currentIteration() << ". Saving current solution.\n";
     }
 
+    bcaOutput = lastValidSolution;
     prepareProductImage(bcaOutput,
                         bcaInput.imageDataInput);
 }
