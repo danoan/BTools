@@ -9,9 +9,9 @@ GC_OBJECT=["butterfly/gc-object.xml","cow/gc-object.xml","giraffe/gc-object.xml"
 		   "cameraman/gc-object.xml","quixote/gc-object.xml"]
 RADIUS=[3]
 ITERATIONS=[10,20,50,100]
-SQ_TERM=[1.0]
+SQ_TERM=[0,0.5,1.0]
 DATA_TERM=[0,0.1,0.5,1.0,2.0,5.0]
-LENGTH_TERM=[0,0.5,1.0,2.0]
+LENGTH_TERM=[0,0.1,0.5,1.0,2.0]
 METHOD=["improve"]
 
 CONFIG_LIST=[ (GC_OBJECT,"gc_object"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
