@@ -43,6 +43,7 @@ add_subdirectory(modules/Applications/shape-flow)
 add_subdirectory(modules/Applications/summary-flow)
 add_subdirectory(modules/Applications/regions-of-interest)
 add_subdirectory(modules/Applications/export-seed-mask)
+add_subdirectory(modules/Applications/most-extern-contribution)
 
 if(${BUILD_TESTS})
     #add_subdirectory(modules/lab/Test)
