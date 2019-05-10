@@ -20,6 +20,7 @@
 #include <DGtal/io/boards/Board2D.h>
 
 #include <boost/filesystem.hpp>
+#include <DGtal/io/writers/GenericWriter.h>
 
 enum Shape{Triangle,Square,Pentagon,Heptagon,Ball,Ellipse,Flower};
 
@@ -42,12 +43,15 @@ struct InputData
         om = ODRModel::OptimizationMode::OM_OriginalBoundary;
         am = ODRModel::ApplicationMode::AM_OptimizationBoundary;
 
+        seType = ODRConfigInput::StructuringElementType::RECT;
+
         fp = FlowProfile::DoubleStep;
 
         levels=3;
         optRegionInApplication = false;
 
         shape = Shape::Square;
+        gridStep = 1.0;
     }
     std::string outputFilepath;
 
@@ -58,6 +62,7 @@ struct InputData
     ODRConfigInput::SpaceMode  sm;
     ODRConfigInput::NeighborhoodType neighborhood;
     ODRConfigInput::LevelDefinition ld;
+    ODRConfigInput::StructuringElementType  seType;
 
     ODRModel::OptimizationMode  om;
     ODRModel::ApplicationMode  am;
@@ -68,6 +73,7 @@ struct InputData
     int levels;
 
     Shape shape;
+    double gridStep;
 };
 
 void usage()
@@ -81,7 +87,10 @@ void usage()
               << "[-p FlowProfile (single double single-opt double-opt single-inner double-inner) (default double)]\n"
               << "[-n neighborhood (4,8) (default:4)]\n"
               << "[-l levels (positive means levels grows from contour; negative leans that levels grows towards the contour (default:3)]\n"
-              << "[-o include optimization region in the computation region (default:false)]\n";
+              << "[-o include optimization region in the computation region (default:false)]\n"
+              << "[-t Structuring element type (rect cross) (default:rect)]\n"
+              << "[-h Grid step (default:1.0)]\n";
+
 }
 
 InputData readInput(int argc, char* argv[])
@@ -93,7 +102,7 @@ InputData readInput(int argc, char* argv[])
     }
     InputData id;
     int opt;
-    while( (opt=getopt(argc,argv,"S:r:a:c:s:p:n:l:o"))!=-1 )
+    while( (opt=getopt(argc,argv,"S:r:a:c:s:p:n:l:oy:h:"))!=-1 )
     {
         switch(opt)
         {
@@ -166,6 +175,18 @@ InputData readInput(int argc, char* argv[])
                 else throw std::runtime_error("Unrecognized shape!");
                 break;
             }
+            case 'y':
+            {
+                if(strcmp("rect",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
+                else if(strcmp("cross",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::CROSS;
+                else throw std::runtime_error("Structuring element type not recognized.");
+                break;
+            }
+            case 'h':
+            {
+                id.gridStep = std::atof(optarg);
+                break;
+            }
             default:
             {
                 usage();
@@ -186,7 +207,7 @@ using namespace SCaBOliC::Core;
 ODRInterface& getFactory(const InputData& id)
 {
     ODRConfigInput odrConfigInput(id.ac,id.cm,id.sm,id.levels,
-            id.ld,id.neighborhood,id.optRegionInApplication);
+            id.ld,id.neighborhood,id.seType,id.optRegionInApplication);
 
     return ODRPool::get(odrConfigInput);
 }
@@ -196,16 +217,16 @@ IFlowProfile& getProfile(const InputData& id)
     return FlowPool::getFlow(id.fp,id.optRegionInApplication);
 }
 
-DigitalSet getShape(Shape shape)
+DigitalSet getShape(Shape shape,double gridStep)
 {
-    int radius=40;
-    if(shape==Shape::Triangle) return DIPaCUS::Shapes::triangle(1.0,0,0,radius);
-    else if(shape==Shape::Square) return DIPaCUS::Shapes::square(1.1,0,0,radius);
-    else if(shape==Shape::Pentagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,5);
-    else if(shape==Shape::Heptagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,7);
-    else if(shape==Shape::Ball) return DIPaCUS::Shapes::ball(1.0,0,0,radius);
-    else if(shape==Shape::Flower) return DIPaCUS::Shapes::flower(1.0,0,0,radius,radius/2.0,2);
-    else if(shape==Shape::Ellipse) return DIPaCUS::Shapes::ellipse(1.0,0,0,radius,radius/2);
+    int radius=20;
+    if(shape==Shape::Triangle) return DIPaCUS::Shapes::triangle(gridStep,0,0,radius);
+    else if(shape==Shape::Square) return DIPaCUS::Shapes::square(gridStep,0,0,radius);
+    else if(shape==Shape::Pentagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,5);
+    else if(shape==Shape::Heptagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,7);
+    else if(shape==Shape::Ball) return DIPaCUS::Shapes::ball(gridStep,0,0,radius);
+    else if(shape==Shape::Flower) return DIPaCUS::Shapes::flower(gridStep,0,0,radius,radius/2.0,2);
+    else if(shape==Shape::Ellipse) return DIPaCUS::Shapes::ellipse(gridStep,0,0,radius,radius/2);
 }
 
 void saveODR(const ODRModel& ODR,std::string outputPath)
@@ -214,8 +235,8 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
     std::string specificStyle = ODR.original.className() + "/Paving";
     board << DGtal::SetMode(ODR.original.className(),"Paving");
 
-    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Silver));
-    board << ODR.trustBKG;
+//    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Silver));
+//    board << ODR.trustBKG;
 
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Blue));
     board << ODR.trustFRG;
@@ -232,7 +253,7 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Yellow, DGtal::Color::Yellow));
     board << optAppIntersection;
 
-    board.saveSVG( outputPath.c_str() );
+    board.saveSVG(outputPath.c_str(),200,200,10);
 
 }
 
@@ -249,7 +270,8 @@ int main(int argc, char* argv[])
     const IFlowStepConfig& flowStepConfig = profile.nextStep();
     ODRModel odrModel = factory.createODR(flowStepConfig.optimizationMode(),
                                           flowStepConfig.applicationMode(),
-                                          id.radius,getShape(id.shape),
+                                          (int) id.radius*(1.0/id.gridStep),
+                                          getShape(id.shape,id.gridStep),
                                           id.optRegionInApplication);
 
     boost::filesystem::path p(id.outputFilepath);

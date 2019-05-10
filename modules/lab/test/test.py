@@ -31,14 +31,16 @@ ITERATIONS=[5]
 COMPUTATION_CENTER=["pixel","pointel","linel"]
 COUNTING_MODE=["pixel"]
 SPACE_MODE=["pixel","interpixel"]
-PROFILE=["double","double-inner"]
+PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
 NEIGHBORHOOD=[4]
-LEVELS=[3,-3]
+LEVELS=[1,2,3,-3,-2,-1]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
 METHOD=["improve"]
-OPT_IN_COMPUTATION=[False]
+OPT_IN_COMPUTATION=[True,False]
+STRUCTURING_ELEMENT=["cross","rect"]
+GRID_STEP=[1.0,0.5,0.25]
 
 CONFIG_LIST=[ (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
               (COMPUTATION_CENTER,"computation_center"),
@@ -46,11 +48,13 @@ CONFIG_LIST=[ (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
               (PROFILE,"profile"), (NEIGHBORHOOD,"neighborhood"),
               (LEVELS,"levels"), (LENGTH_TERM,"length"),
               (SQ_TERM,"sq_term"), (DATA_TERM,"data_term"), (METHOD,"method"),
-              (OPT_IN_COMPUTATION,"opt_in_computation") ]
+              (OPT_IN_COMPUTATION,"opt_in_computation"),
+              (STRUCTURING_ELEMENT,"structuring_element_type"),
+              (GRID_STEP,"grid_step")]
 
 
 def valid_combination(c):
-    _,_,_,cc,cm,sm,profile,_,levels,_,_,_,_,opt = c
+    _,_,_,cc,cm,sm,profile,_,levels,_,_,_,_,opt,_,_ = c
 
     flag=True
     if cc=="pixel":
@@ -72,16 +76,17 @@ def valid_combination(c):
 
     return flag
 
-def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt):
-    outputFolder = "%s/%s/%s/%s-space/%s/%s/radius_%d/level_%d/%s" % (BASE_OUTPUT_FOLDER,shape,method,
-                                                                    sm,cc,profile,radius,levels,
-                                                                    "opt" if opt else "no-opt")
+def resolve_output_folder(shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType,gs):
+    outputFolder = "%s/%s/%s/%s-space/%s/%s/radius_%d/level_%d/%s/%s/gs_%.2f" % (BASE_OUTPUT_FOLDER,shape,method,
+                                                                                 sm,cc,profile,radius,levels,
+                                                                                 "opt" if opt else "no-opt",
+                                                                                 seType,gs)
 
     return outputFolder
 
 def regions_of_interest(c):
     outputFolder = resolve_output_folder(*c)
-    shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt = c
+    shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType,gs = c
 
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
@@ -96,13 +101,21 @@ def regions_of_interest(c):
                       "%s%s" % ("-p",profile),
                       "%s%d" % ("-n",neigh),
                       "%s%d" % ("-l",levels),
-                      "%s" % ("-o" if opt else "")
+                      "%s" % ("-o" if opt else ""),
+                      "%s%s" % ("-y", seType),
+                      "%s%f" % ("-h", gs)
                       ] )
+
+def print_instance(c):
+    shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType,gs = c
+    print("Running instance: radius %d gs %.2f...\n" % (radius,gs) )
 
 def shape_flow(c):
 
     outputFolder = resolve_output_folder(*c)
-    shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt = c
+    shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType,gs = c
+
+    print_instance(c)
 
     binary = "%s/%s" % (BIN_FOLDER,"shape-flow/shape-flow")
     subprocess.call( [binary,
@@ -120,7 +133,9 @@ def shape_flow(c):
                       "%s%f" % ("-t",data),
                       "%s%f" % ("-g",length),
                       "%s%s" % ("-m",method),
-                      "%s" % ("-o" if opt else "")
+                      "%s" % ("-o" if opt else ""),
+                      "%s%s" % ("-y", seType),
+                      "%s%f" % ("-h", gs)
                       ] )
 
 def summary_flow(c):

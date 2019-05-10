@@ -84,6 +84,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                   levels,
                                   ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
                                   ODRConfigInput::NeighborhoodType::FourNeighborhood,
+                                  ODRConfigInput::StructuringElementType::RECT,
                                   optInApplicationRegion);
 
 

@@ -40,7 +40,8 @@ namespace BTools
                                          odrConfigInput.countingMode,
                                          odrConfigInput.levels,
                                          odrConfigInput.levelDefinition,
-                                         odrConfigInput.neighborhood);
+                                         odrConfigInput.neighborhood,
+                                         odrConfigInput.seType);
                 }
                 else if(odrConfigInput.spaceMode==ODRConfigInput::SpaceMode::Interpixel)
                 {
@@ -48,7 +49,8 @@ namespace BTools
                                               odrConfigInput.countingMode,
                                               odrConfigInput.levels,
                                               odrConfigInput.levelDefinition,
-                                              odrConfigInput.neighborhood);
+                                              odrConfigInput.neighborhood,
+                                              odrConfigInput.seType);
                 }
 
             }

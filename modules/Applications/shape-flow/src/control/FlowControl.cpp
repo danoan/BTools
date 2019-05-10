@@ -2,20 +2,21 @@
 
 using namespace ShapeFlow;
 
-FlowControl::DigitalSet FlowControl::resolveShape(Shape shape)
+FlowControl::DigitalSet FlowControl::resolveShape(Shape shape,double gridStep)
 {
-    int radius=40;
-    if(shape==Shape::Triangle) return DIPaCUS::Shapes::triangle(1.0,0,0,radius);
-    else if(shape==Shape::Square) return DIPaCUS::Shapes::square(1.1,0,0,radius);
-    else if(shape==Shape::Pentagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,5);
-    else if(shape==Shape::Heptagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,7);
-    else if(shape==Shape::Ball) return DIPaCUS::Shapes::ball(1.0,0,0,radius);
-    else if(shape==Shape::Flower) return DIPaCUS::Shapes::flower(1.0,0,0,radius,radius/2.0,2);
-    else if(shape==Shape::Ellipse) return DIPaCUS::Shapes::ellipse(1.0,0,0,radius,radius/2);
+    int radius=20;
+    if(shape==Shape::Triangle) return DIPaCUS::Shapes::triangle(gridStep,0,0,radius);
+    else if(shape==Shape::Square) return DIPaCUS::Shapes::square(gridStep,0,0,radius);
+    else if(shape==Shape::Pentagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,5);
+    else if(shape==Shape::Heptagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,7);
+    else if(shape==Shape::Ball) return DIPaCUS::Shapes::ball(gridStep,0,0,radius);
+    else if(shape==Shape::Flower) return DIPaCUS::Shapes::flower(gridStep,0,0,radius,radius/2.0,2);
+    else if(shape==Shape::Ellipse) return DIPaCUS::Shapes::ellipse(gridStep,0,0,radius,radius/2);
 }
 
 FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
                          Shape shape,
+                         double gridStep,
                          const std::string& outputFolder,
                          std::ostream& osLog)
 {
@@ -26,7 +27,7 @@ FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
     ofs.flush();
     ofs.close();
 
-    DigitalSet ds = resolveShape(shape);
+    DigitalSet ds = resolveShape(shape,gridStep);
     shapeFlow( ds,bcFlowInput,outputFolder,osLog );
 }
 

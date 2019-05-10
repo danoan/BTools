@@ -41,9 +41,9 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
     int colorIndex;
 
     Board2D board;
-    board << DGtal::CustomStyle( domain.className(),
-                                 new DGtal::CustomColors(Color::White,Color::White) )
-          << domain;
+//    board << DGtal::CustomStyle( domain.className(),
+//                                 new DGtal::CustomColors(Color::White,Color::White) )
+//          << domain;
 
     SetPointSequenceIterator itS;
     int jump = 0;
@@ -68,8 +68,8 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
                                  new DGtal::CustomColors(blue,blue) )
           << ds;
 
-    if(iot==SVG) board.saveSVG( (imgOutputPath + ".svg").c_str() );
-    else board.saveEPS( (imgOutputPath + ".eps").c_str() );
+    if(iot==SVG) board.saveSVG( (imgOutputPath + ".svg").c_str(),200,200,10 );
+    else board.saveEPS( (imgOutputPath + ".eps").c_str(),200,200,10 );
 
 }
 

@@ -23,19 +23,20 @@ int main(int argc, char* argv[])
     InputReader::InputData id;
     InputReader::readInput(id,argc,argv);
 
-    FlowControl::BCConfigInput bcInput(id.radius,
+    FlowControl::BCConfigInput bcInput((int) id.radius*(1.0/id.gridStep),
                                        id.dtWeight,
                                        id.sqWeight,
                                        id.lgWeight,
                                        id.optMethod);
 
     FlowControl::ODRConfigInput odrConfigInput(id.ac,
-                                  id.cm,
-                                  id.sm,
-                                  id.levels,
-                                  id.ld,
-                                  id.neighborhood,
-                                  id.optRegionInApplication);
+                                               id.cm,
+                                               id.sm,
+                                               id.levels,
+                                               id.ld,
+                                               id.neighborhood,
+                                               id.seType,
+                                               id.optRegionInApplication);
 
     FlowControl::BCFlowInput bcFlowInput(resolveShapeName(id.shape),
                                          bcInput,
@@ -46,6 +47,7 @@ int main(int argc, char* argv[])
 
     FlowControl flow(bcFlowInput,
                      id.shape,
+                     id.gridStep,
                      id.outputFolder,
                      std::cerr);
 

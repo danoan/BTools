@@ -16,6 +16,7 @@ void InputReader::defaultValues(InputData& id)
     id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
     id.levels=id.radius;
     id.optRegionInApplication = false;
+    id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
 
 
     id.fp = InputData::FlowProfile::DoubleStep;
@@ -27,6 +28,7 @@ void InputReader::defaultValues(InputData& id)
     id.optMethod = InputData::OptMethod::Improve;
 
     id.shape = Shape::Square;
+    id.gridStep=1.0;
 }
 
 void InputReader::readInput(InputData& id,
@@ -36,7 +38,7 @@ void InputReader::readInput(InputData& id,
     defaultValues(id);
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:y:h:"))!=-1)
     {
         switch(opt)
         {
@@ -113,22 +115,36 @@ void InputReader::readInput(InputData& id,
                 else if(strcmp(optarg,"dumbell")==0) id.shape = Shape::Dumbell;
                 else throw std::runtime_error("Unrecognized shape!");
                 break;
+            case 'y':
+            {
+                if(strcmp("rect",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
+                else if(strcmp("cross",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::CROSS;
+                else throw std::runtime_error("Structuring element type not recognized.");
+                break;
+            }
+            case 'h':
+            {
+                id.gridStep = std::atof(optarg);
+                break;
+            }
             default:
-                std::cerr << "Usage: [-r Ball Radius default 3] "
-                        "[-i Max Iterations default 10] "
-                        "[-a Computation Center (pixel or linel or pointel) default pixel] "
-                        "[-c Counting Mode (pixel or pointel) default pixel] "
-                        "[-s Space Mode (pixel or interpixel) default pixel] "
-                        "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] "
-                        "[-n Neighborhood 4 or 8 default: 4] "
-                        "[-d Use digital area default: false] "
-                        "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] "
-                        "[-q Squared Curvature Term weight default: 1.0] "
-                        "[-t Data Term weight default: 1.0] "
-                        "[-g Length Term weight default: 1.0] "
-                        "[-m Opt method 'probe' 'improve' default: improve] "
-                        "[-o Include optimization region in the application region default: false "
-                        "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square"
+                std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
+                        "[-i Max Iterations default 10] \n"
+                        "[-a Computation Center (pixel or linel or pointel) default pixel] \n"
+                        "[-c Counting Mode (pixel or pointel) default pixel] \n"
+                        "[-s Space Mode (pixel or interpixel) default pixel] \n"
+                        "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] \n"
+                        "[-n Neighborhood 4 or 8 default: 4] \n"
+                        "[-d Use digital area default: false] \n"
+                        "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
+                        "[-q Squared Curvature Term weight default: 1.0] \n"
+                        "[-t Data Term weight default: 1.0] \n"
+                        "[-g Length Term weight default: 1.0] \n"
+                        "[-m Opt method 'probe' 'improve' default: improve] \n"
+                        "[-o Include optimization region in the application region default: false \n"
+                        "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
+                        "[-t Structuring element type (rect cross) (default:rect)]\n"
+                        "[-h Grid step (default:1.0)]\n"
                         "FLOW_OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }

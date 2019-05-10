@@ -52,11 +52,12 @@ namespace ShapeFlow
     public:
         FlowControl(const BCFlowInput& bcFlowInput,
                     Shape  shape,
+                    double gridStep,
                     const std::string& outputFolder,
                     std::ostream& osLog);
 
     private:
-        DigitalSet resolveShape(Shape shape);
+        DigitalSet resolveShape(Shape shape,double gridStep);
 
         std::vector<TableEntry> initEntries(const DigitalSet& ds);
         BCAOutput boundaryCorrection(const BCFlowInput& bcFlowInput,

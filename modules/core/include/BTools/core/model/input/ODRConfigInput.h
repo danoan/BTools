@@ -15,6 +15,7 @@ namespace BTools
             typedef SCaBOliC::Core::ODRModel::SpaceMode SpaceMode;
             typedef SCaBOliC::Core::ODRModel::NeighborhoodType NeighborhoodType;
             typedef SCaBOliC::Core::ODRModel::LevelDefinition LevelDefinition;
+            typedef SCaBOliC::Core::ODRModel::StructuringElementType StructuringElementType;
 
             ODRConfigInput(ApplicationCenter ac,
                            CountingMode cm,
@@ -22,12 +23,14 @@ namespace BTools
                            int levels,
                            LevelDefinition ld,
                            NeighborhoodType nt,
+                           StructuringElementType seType,
                            bool optInApplicationRegion):applicationCenter(ac),
                                                         countingMode(cm),
                                                         spaceMode(sm),
                                                         levels(levels),
                                                         levelDefinition(ld),
                                                         neighborhood(nt),
+                                                        seType(seType),
                                                         optInApplicationRegion(optInApplicationRegion)
             {}
 
@@ -37,6 +40,7 @@ namespace BTools
                        && other.applicationCenter==this->applicationCenter
                        && other.countingMode==this->countingMode
                        && other.spaceMode==this->spaceMode
+                       && other.seType==this->seType
                        && other.optInApplicationRegion==this->optInApplicationRegion;
 
             }
@@ -47,6 +51,7 @@ namespace BTools
             const CountingMode countingMode;
             const SpaceMode spaceMode;
             const LevelDefinition levelDefinition;
+            const StructuringElementType seType;
 
             bool optInApplicationRegion;
         };

@@ -33,6 +33,8 @@ namespace ShapeFlow
             ODRConfigInput::SpaceMode  sm;
             ODRConfigInput::NeighborhoodType neighborhood;
             ODRConfigInput::LevelDefinition ld;
+            ODRConfigInput::StructuringElementType seType;
+
             bool optRegionInApplication;
             int levels;
 
@@ -44,6 +46,7 @@ namespace ShapeFlow
 
             OptMethod optMethod;
             Shape shape;
+            double gridStep;
 
         };
 
