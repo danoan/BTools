@@ -33,6 +33,12 @@ namespace MostExternContribution
             Shape shape;
             double gridStep;
 
+            int levels;
+            ODRConfigInput::LevelDefinition ld;
+            bool opt;
+
+            bool ignoreOptIntersection;
+
         };
 
         InputData readInput(int argc,

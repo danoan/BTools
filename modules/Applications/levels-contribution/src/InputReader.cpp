@@ -11,6 +11,12 @@ InputReader::InputData::InputData()
 
     shape = Shape::Square;
     gridStep=1.0;
+
+    levels=0;
+    ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+    opt=true;
+
+    ignoreOptIntersection = false;
 }
 
 InputReader::InputData InputReader::readInput(int argc,
@@ -19,7 +25,7 @@ InputReader::InputData InputReader::readInput(int argc,
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:S:y:h:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:S:y:h:l:x"))!=-1)
     {
         switch(opt)
         {
@@ -37,7 +43,6 @@ InputReader::InputData InputReader::readInput(int argc,
                 else if(strcmp(optarg,"ball")==0) id.shape = Shape::Ball;
                 else if(strcmp(optarg,"ellipse")==0) id.shape = Shape::Ellipse;
                 else if(strcmp(optarg,"flower")==0) id.shape = Shape::Flower;
-                else if(strcmp(optarg,"dumbell")==0) id.shape = Shape::Dumbell;
                 else throw std::runtime_error("Unrecognized shape!");
                 break;
             case 'y':
@@ -52,12 +57,40 @@ InputReader::InputData InputReader::readInput(int argc,
                 id.gridStep = std::atof(optarg);
                 break;
             }
+            case 'l':
+            {
+                id.levels = std::atoi(optarg);
+                id.opt=false;
+
+                if(id.levels<0)
+                {
+                    id.ld = InputData::ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
+                    id.levels=-id.levels;
+                }
+                else if(id.levels>0)
+                {
+                    id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+                }
+                else
+                {
+                    id.opt = true;
+                }
+
+                break;
+            }
+            case 'x':
+            {
+                id.ignoreOptIntersection = true;
+                break;
+            }
             default:
                 std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
                         "[-i Max Iterations default 10] \n"
                         "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
                         "[-t Structuring element type (rect cross) (default:rect)]\n"
                         "[-h Grid step (default:1.0)]\n"
+                        "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
+                        "[-x Ignore optIntersection. Default: false] \n"
                         "OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }

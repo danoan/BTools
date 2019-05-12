@@ -18,15 +18,18 @@ FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
                          Shape shape,
                          double gridStep,
                          const std::string& outputFolder,
+                         bool ignoreOptIntersection,
                          std::ostream& osLog)
 {
     boost::filesystem::create_directories(outputFolder);
 
     DigitalSet ds = resolveShape(shape,gridStep);
-    shapeFlow( ds,bcFlowInput,outputFolder,osLog );
+    shapeFlow( ds,bcFlowInput,outputFolder,ignoreOptIntersection,osLog );
 }
 
-void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput, const std::string& outputPath)
+void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput,
+        const std::string& outputPath,
+        bool ignoreOptIntersection)
 {
     ODRInterface& odrFactory = ODRPool::get(bcaInput.odrConfigInput);
 
@@ -38,21 +41,29 @@ void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput, c
 
     const DigitalSet& appRegion = odr.applicationRegion;
     const DigitalSet& optRegion = odr.optRegion;
+    const DigitalSet& trustFRG = odr.trustFRG;
 
     std::map<DGtal::Z2i::Point,int> hits;
     for(auto it=optRegion.begin();it!=optRegion.end();++it) hits[*it] = 0;
 
+    int ballArea = odrFactory.handle()->pixelArea(bcaInput.bcConfigInput.radius);
 
-    DigitalSet temp(optRegion.domain());
-    DIPaCUS::Misc::DigitalBallIntersection DBI(bcaInput.bcConfigInput.radius,odr.optRegion);
+    DigitalSet optIntersection(optRegion.domain());
+    DigitalSet trustIntersection(optRegion.domain());
+
+    DIPaCUS::Misc::DigitalBallIntersection DBIO(bcaInput.bcConfigInput.radius,optRegion);
+    DIPaCUS::Misc::DigitalBallIntersection DBIT(bcaInput.bcConfigInput.radius,trustFRG);
     for(auto it=appRegion.begin();it!=appRegion.end();++it)
     {
-        DBI(temp,*it);
-        for(auto ito=temp.begin();ito!=temp.end();++ito)
+        DBIO(optIntersection,*it);
+        DBIT(trustIntersection,*it);
+        for(auto ito=optIntersection.begin();ito!=optIntersection.end();++ito)
         {
-            hits[*ito] += 1;
+            if(ignoreOptIntersection) hits[*ito] +=  pow( ( (ballArea - optIntersection.size())/2.0 - trustIntersection.size() ),2);
+            else hits[*ito] +=  pow( (ballArea/2.0 - (trustIntersection.size() + optIntersection.size() ) ),2);
         }
-        temp.clear();
+        optIntersection.clear();
+        trustIntersection.clear();
     }
 
     DGtal::Board2D board;
@@ -106,6 +117,7 @@ void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput, c
 FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlowInput,
                                                        const cv::Mat& currentImage,
                                                        const std::string& outputPath,
+                                                       bool ignoreOptIntersection,
                                                        Point& translation)
 {
     MockDistribution frDistr;
@@ -122,7 +134,7 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlow
                       bcFlowInput.odrConfigInput,
                       bcFlowInput.flowProfile);
 
-    createMostExternContributionFigure(bcaInput,outputPath);
+    createMostExternContributionFigure(bcaInput,outputPath,ignoreOptIntersection);
 
     BCAOutput bcaOutput(bcaInput);
 
@@ -143,6 +155,7 @@ FlowControl::DigitalSet FlowControl::correctTranslation(const BCAOutput::EnergyS
     DigitalSet translatedBackDS( Domain( Point(0,0),
                                          Point(currentImage.cols-1,currentImage.rows-1)
     ) );
+
 
     for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
     {
@@ -171,6 +184,7 @@ void FlowControl::checkBounds(const DigitalSet& ds, const Domain& domain)
 void FlowControl::shapeFlow(const DigitalSet& _ds,
                             const BCFlowInput& bcFlowInput,
                             const std::string& outputFolder,
+                            bool ignoreOptIntersection,
                             std::ostream& osLog)
 {
     osLog << "Flow Start: " << bcFlowInput.inputName << "\n";
@@ -204,7 +218,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
             Point translation;
             std::string contributionFigurePath = outputFolder + "/contrib_" + BTools::Utils::nDigitsString(i,4) + ".svg";
-            BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,contributionFigurePath,translation);
+            BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,contributionFigurePath,ignoreOptIntersection,translation);
 
             DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
             checkBounds(correctedSet,flowDomain);

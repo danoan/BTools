@@ -28,11 +28,11 @@ int main(int argc, char* argv[])
     FlowControl::ODRConfigInput odrConfigInput(InputReader::InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL,
                                                InputReader::InputData::ODRConfigInput::CountingMode::CM_PIXEL,
                                                InputReader::InputData::ODRConfigInput::SpaceMode::Pixel,
-                                               1,
-                                               InputReader::InputData::ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+                                               id.levels,
+                                               id.ld,
                                                InputReader::InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood,
                                                id.seType,
-                                               false);
+                                               id.opt);
 
     FlowControl::BCFlowInput bcFlowInput(resolveShapeName(id.shape),
                                          bcInput,
@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
                      id.shape,
                      id.gridStep,
                      id.outputFolder,
+                     id.ignoreOptIntersection,
                      std::cerr);
 
     return 0;

@@ -52,15 +52,18 @@ namespace MostExternContribution
                     Shape  shape,
                     double gridStep,
                     const std::string& outputFolder,
+                    bool ignoreOptIntersection,
                     std::ostream& osLog);
 
     private:
         DigitalSet resolveShape(Shape shape,double gridStep);
-        void createMostExternContributionFigure(const BCAInput& bcaInput,const std::string& outputPath);
+        void createMostExternContributionFigure(const BCAInput& bcaInput,
+                const std::string& outputPath, bool ignoreOptIntersection);
 
         BCAOutput boundaryCorrection(const BCFlowInput& bcFlowInput,
                                      const cv::Mat& currentImage,
                                      const std::string& outputPath,
+                                     bool ignoreOptIntersection,
                                      Point& translation);
 
         DigitalSet correctTranslation(const BCAOutput::EnergySolution& solution,
@@ -71,6 +74,7 @@ namespace MostExternContribution
         void shapeFlow(const DigitalSet& _ds,
                        const BCFlowInput& bcFlowInput,
                        const std::string& outputFolder,
+                       bool ignoreOptIntersection,
                        std::ostream& osLog);
     };
 }
