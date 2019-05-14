@@ -13,18 +13,19 @@ BCControl::BCControl(Solution& solution,
 {
     ISQInputData::OptimizationDigitalRegions ODR = odrFactory.createODR(flowStepConfig.optimizationMode(),
                                                                         flowStepConfig.applicationMode(),
-                                                                        bcInput.radius,
                                                                         inputDS,
                                                                         flowStepConfig.optInApplicationRegion());
 
     ISQInputData energyInput(ODR,
                              imageDataInput.baseImage,
-                             bcInput.radius,
                              imageDataInput.fgDistr,
                              imageDataInput.bgDistr,
+                             bcInput.excludeOptPointsFromAreaComputation,
+                             bcInput.penalizationMode,
                              bcInput.dataTermWeight,
                              bcInput.sqTermWeight,
                              bcInput.lengthTermWeight,
+                             bcInput.penalizationWeight,
                              imageDataInput.translation);
 
 

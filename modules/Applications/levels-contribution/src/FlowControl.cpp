@@ -33,9 +33,8 @@ void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput,
 {
     ODRInterface& odrFactory = ODRPool::get(bcaInput.odrConfigInput);
 
-    ODRModel odr = odrFactory.createODR(ODRModel::OptimizationMode::OM_OriginalBoundary,
+    ODRModel odr = odrFactory.createODR(ODRModel::OptimizationMode::OM_CorrectConvexities,
                                        ODRModel::ApplicationMode::AM_AroundBoundary,
-                                       bcaInput.bcConfigInput.radius,
                                        bcaInput.imageDataInput.inputDS,
                                        bcaInput.odrConfigInput.optInApplicationRegion);
 
@@ -46,13 +45,14 @@ void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput,
     std::map<DGtal::Z2i::Point,int> hits;
     for(auto it=optRegion.begin();it!=optRegion.end();++it) hits[*it] = 0;
 
-    int ballArea = odrFactory.handle()->pixelArea(bcaInput.bcConfigInput.radius);
+    int ballArea = odrFactory.handle()->pixelArea();
 
     DigitalSet optIntersection(optRegion.domain());
     DigitalSet trustIntersection(optRegion.domain());
 
-    DIPaCUS::Misc::DigitalBallIntersection DBIO(bcaInput.bcConfigInput.radius,optRegion);
-    DIPaCUS::Misc::DigitalBallIntersection DBIT(bcaInput.bcConfigInput.radius,trustFRG);
+
+    DIPaCUS::Misc::DigitalBallIntersection DBIO = odrFactory.handle()->intersectionComputer(optRegion);
+    DIPaCUS::Misc::DigitalBallIntersection DBIT = odrFactory.handle()->intersectionComputer(trustFRG);
     for(auto it=appRegion.begin();it!=appRegion.end();++it)
     {
         DBIO(optIntersection,*it);
@@ -76,38 +76,43 @@ void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput,
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Green, DGtal::Color::Green));
     board << odr.optRegion;
 
+//    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Yellow));
+//    board << odr.trustBKG;
+
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Red, DGtal::Color::Red));
     board << odr.applicationRegion;
 
     DGtal::Z2i::Point pt = *appRegion.begin();
-    DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0,pt(0),pt(1),bcaInput.bcConfigInput.radius);
-    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Yellow));
+
+    DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0,pt(0),pt(1),odrFactory.handle()->scaledRadius());
+    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Cyan));
     board << ballDS;
 
 
-    int min,max;
-    min=hits[*optRegion.begin()];
-    max=hits[*optRegion.begin()];
-    for(auto it=optRegion.begin();it!=optRegion.end();++it)
-    {
-        if(hits[*it]<min) min = hits[*it];
-        if(hits[*it]>max) max = hits[*it];
-    }
-
-    std::cout << max << " :: " << min << std::endl;
-
-    DGtal::GradientColorMap<double,
-            DGtal::ColorGradientPreset::CMAP_GRAYSCALE> cmap_jet(min,max);
-
-    board << DGtal::SetMode( optRegion.begin()->className(), "Paving" );
-    std::string pointStyle = optRegion.begin()->className() + "/Paving";
-
-    for(auto it=optRegion.begin();it!=optRegion.end();++it)
-    {
-        board << DGtal::CustomStyle(pointStyle, new DGtal::CustomColors(DGtal::Color::Black,
-                                                                           cmap_jet( hits[*it] )));
-        board << *it;
-    }
+//    int min,max;
+//    min=hits[*optRegion.begin()];
+//    max=hits[*optRegion.begin()];
+//    for(auto it=optRegion.begin();it!=optRegion.end();++it)
+//    {
+//        if(hits[*it]<min) min = hits[*it];
+//        if(hits[*it]>max) max = hits[*it];
+//    }
+//
+//    std::cout << max << " :: " << min << std::endl;
+//    if(min==max) max = min+1;
+//
+//    DGtal::GradientColorMap<double,
+//            DGtal::ColorGradientPreset::CMAP_GRAYSCALE> cmap_jet(min,max);
+//
+//    board << DGtal::SetMode( optRegion.begin()->className(), "Paving" );
+//    std::string pointStyle = optRegion.begin()->className() + "/Paving";
+//
+//    for(auto it=optRegion.begin();it!=optRegion.end();++it)
+//    {
+//        board << DGtal::CustomStyle(pointStyle, new DGtal::CustomColors(DGtal::Color::Black,
+//                                                                           cmap_jet( hits[*it] )));
+//        board << *it;
+//    }
 
 
     board.saveSVG(outputPath.c_str(),200,200,10);
@@ -116,7 +121,7 @@ void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput,
 
 FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlowInput,
                                                        const cv::Mat& currentImage,
-                                                       const std::string& outputPath,
+                                                       const std::string& prefix,
                                                        bool ignoreOptIntersection,
                                                        Point& translation)
 {
@@ -134,16 +139,22 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlow
                       bcFlowInput.odrConfigInput,
                       bcFlowInput.flowProfile);
 
-    createMostExternContributionFigure(bcaInput,outputPath,ignoreOptIntersection);
+    createMostExternContributionFigure(bcaInput,prefix + ".svg",ignoreOptIntersection);
 
     BCAOutput bcaOutput(bcaInput);
+
+
+    std::vector<IBCControlVisitor*> visitors = { new BTools::Visitors::PotentialMap(prefix + "_map.svg") };
 
     BTools::Core::BCApplication BCA(bcaOutput,
                                     bcaInput,
                                     1,
-                                    false);
+                                    false,
+                                    visitors.begin(),
+                                    visitors.end());
 
     translation = imageDataInput.translation;
+    delete visitors[0];
 
     return bcaOutput;
 }
@@ -217,8 +228,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
 
             Point translation;
-            std::string contributionFigurePath = outputFolder + "/contrib_" + BTools::Utils::nDigitsString(i,4) + ".svg";
-            BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,contributionFigurePath,ignoreOptIntersection,translation);
+            std::string prefix = outputFolder + "/contrib_" + BTools::Utils::nDigitsString(i,4);
+            BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,prefix,ignoreOptIntersection,translation);
 
             DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
             checkBounds(correctedSet,flowDomain);

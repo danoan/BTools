@@ -12,21 +12,22 @@
 
 namespace ShapeFlow
 {
-    class InputReader
+    namespace InputReader
     {
-    public:
         struct InputData
         {
             typedef BTools::Core::ODRConfigInput ODRConfigInput;
             typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
             typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
+            typedef ShapeFlow::Shape Shape;
+            typedef BTools::Core::BCConfigInput::PenalizationMode PenalizationMode;
+
+            InputData();
 
             std::string outputFolder;
 
             int radius;
             int iterations;
-            bool useDigitalArea;
-
 
             ODRConfigInput::ApplicationCenter ac;
             ODRConfigInput::CountingMode cm;
@@ -43,20 +44,21 @@ namespace ShapeFlow
             double sqWeight;
             double dtWeight;
             double lgWeight;
+            double penalizationWeight;
 
             OptMethod optMethod;
             Shape shape;
             double gridStep;
 
+            bool excludeOptPointsFromAreaComputation;
+            PenalizationMode penalizationMode;
+
         };
 
-        static void readInput(InputData& id,
-                              int argc,
-                              char** argv);
+        InputData readInput(int argc,
+                            char** argv);
 
-    private:
-        static void defaultValues(InputData& id);
-    };
+    }
 }
 
 #endif //BTOOLS_APPLICATION_FLOW_INPUTREADER_H

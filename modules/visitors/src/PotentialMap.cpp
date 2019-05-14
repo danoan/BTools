@@ -1,6 +1,6 @@
-#include "PotentialMap.h"
+#include "BTools/visitors/PotentialMap.h"
 
-using namespace BTools::Application::Flow;
+using namespace BTools::Visitors;
 
 void PotentialMap::gatherPotentialValues(PotentialValues& potentialValues,
                                          const OptimizationData &optData,
@@ -55,7 +55,7 @@ void PotentialMap::draw(const PotentialValues& pv,
     potentialMap << domain;
 
     DGtal::GradientColorMap<double,
-            DGtal::ColorGradientPreset::CMAP_JET> cmap_jet(min,max);
+            DGtal::ColorGradientPreset::CMAP_GRAYSCALE> cmap_jet(min,max);
 
     potentialMap << DGtal::SetMode( optRegion.begin()->className(), "Paving" );
     std::string specificStyle = optRegion.begin()->className() + "/Paving";
@@ -68,7 +68,10 @@ void PotentialMap::draw(const PotentialValues& pv,
         potentialMap << *it;
     }
 
-    potentialMap.saveEPS(outputPath.c_str());
+    boost::filesystem::path p(outputPath);
+    boost::filesystem::create_directories(p.remove_filename());
+
+    potentialMap.saveSVG(outputPath.c_str(),200,200,10);
 
 }
 

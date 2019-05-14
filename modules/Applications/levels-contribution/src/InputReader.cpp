@@ -14,9 +14,12 @@ InputReader::InputData::InputData()
 
     levels=0;
     ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
-    opt=true;
+    opt=false;
 
-    ignoreOptIntersection = false;
+    neighborhood = InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+
+    excludeOptPointsFromAreaComputation = false;
+    penalizationMode = PenalizationMode::No_Penalization;
 }
 
 InputReader::InputData InputReader::readInput(int argc,
@@ -25,7 +28,7 @@ InputReader::InputData InputReader::readInput(int argc,
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:S:y:h:l:x"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:S:y:h:l:xzo"))!=-1)
     {
         switch(opt)
         {
@@ -45,6 +48,14 @@ InputReader::InputData InputReader::readInput(int argc,
                 else if(strcmp(optarg,"flower")==0) id.shape = Shape::Flower;
                 else throw std::runtime_error("Unrecognized shape!");
                 break;
+            case 'n':
+            {
+                int n = atoi(optarg);
+                if(n==4) id.neighborhood = InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+                else if(n==8) id.neighborhood = InputData::ODRConfigInput::NeighborhoodType::EightNeighborhood;
+                else throw std::runtime_error("Neighborhood value must be 4 or 8.");
+                break;
+            }
             case 'y':
             {
                 if(strcmp("rect",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
@@ -78,19 +89,31 @@ InputReader::InputData InputReader::readInput(int argc,
 
                 break;
             }
+            case 'o':
+            {
+                id.opt = true;
+                break;
+            }
             case 'x':
             {
-                id.ignoreOptIntersection = true;
+                id.excludeOptPointsFromAreaComputation = true;
+                break;
+            }
+            case 'z':
+            {
+                id.penalizationMode = InputData::PenalizationMode::Penalize_Ones;
                 break;
             }
             default:
                 std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
                         "[-i Max Iterations default 10] \n"
                         "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
-                        "[-t Structuring element type (rect cross) (default:rect)]\n"
+                        "[-y Structuring element type (rect cross) (default:rect)]\n"
+                        "[-n Neighborhood 4 or 8 default: 4] \n"
                         "[-h Grid step (default:1.0)]\n"
                         "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
-                        "[-x Ignore optIntersection. Default: false] \n"
+                        "[-x Exclude opt points from computation area default: false] \n"
+                        "[-z Penalize changes default: false] \n"
                         "OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }

@@ -76,12 +76,16 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                 inputData.dtWeight,
                                 inputData.sqWeight,
                                 inputData.lgWeight,
+                                inputData.penalizationWeight,
+                                inputData.excludeOptPointsFromAreaComputation,
+                                inputData.penalizationMode,
                                 inputData.optMethod);
 
     ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
                                   ODRConfigInput::CountingMode::CM_PIXEL,
                                   ODRConfigInput::SpaceMode::Pixel,
                                   levels,
+                                  inputData.radius, 1.0,
                                   ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
                                   ODRConfigInput::NeighborhoodType::FourNeighborhood,
                                   ODRConfigInput::StructuringElementType::RECT,
@@ -178,8 +182,7 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco,
 
 int main(int argc, char* argv[])
 {
-    InputReader::InputData inputData;
-    InputReader::readInput(inputData,argc,argv);
+    InputReader::InputData inputData = InputReader::readInput(argc,argv);
 
     GrabCutObject gco = read(inputData.grabcutFile);
 

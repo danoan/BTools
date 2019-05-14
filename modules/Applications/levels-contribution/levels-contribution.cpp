@@ -19,20 +19,25 @@ int main(int argc, char* argv[])
 {
     InputReader::InputData id = InputReader::readInput(argc, argv);
 
-    FlowControl::BCConfigInput bcInput((int) id.radius*(1.0/id.gridStep),
+    FlowControl::BCConfigInput bcInput(id.radius,
                                        0,
                                        1.0,
                                        0,
+                                       0,
+                                       id.excludeOptPointsFromAreaComputation,
+                                       id.penalizationMode,
                                        InputReader::InputData::OptMethod::Improve);
 
     FlowControl::ODRConfigInput odrConfigInput(InputReader::InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL,
                                                InputReader::InputData::ODRConfigInput::CountingMode::CM_PIXEL,
                                                InputReader::InputData::ODRConfigInput::SpaceMode::Pixel,
-                                               id.levels,
-                                               id.ld,
-                                               InputReader::InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood,
-                                               id.seType,
-                                               id.opt);
+    id.levels,
+            id.radius,
+            id.gridStep,
+            id.ld,
+            id.neighborhood,
+            id.seType,
+            id.opt);
 
     FlowControl::BCFlowInput bcFlowInput(resolveShapeName(id.shape),
                                          bcInput,
@@ -45,7 +50,7 @@ int main(int argc, char* argv[])
                      id.shape,
                      id.gridStep,
                      id.outputFolder,
-                     id.ignoreOptIntersection,
+                     id.excludeOptPointsFromAreaComputation,
                      std::cerr);
 
     return 0;

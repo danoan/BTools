@@ -12,15 +12,17 @@
 
 namespace BoundaryCorrection
 {
-    class InputReader
+    namespace InputReader
     {
-    public:
         struct InputData
         {
             typedef BTools::Core::ODRConfigInput ODRConfigInput;
             typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
 
             typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
+            typedef BTools::Core::BCConfigInput::PenalizationMode PenalizationMode;
+
+            InputData();
 
             int radius;
             int iterations;
@@ -28,22 +30,22 @@ namespace BoundaryCorrection
             double sqWeight;
             double dtWeight;
             double lgWeight;
+            double penalizationWeight;
 
             std::string grabcutFile;
             OptMethod optMethod;
+
+            bool excludeOptPointsFromAreaComputation;
+            PenalizationMode penalizationMode;
 
             std::string outputFolder;
             bool showIterations;
             bool showProgress;
         };
 
-        static void readInput(InputData& id,
-                              int argc,
-                              char** argv);
+        InputData readInput(int argc,char** argv);
 
-    private:
-        static void defaultValues(InputData& id);
-    };
+    }
 }
 
 #endif //BTOOLS_APPLICATION_INTERACTIVE_INPUTREADER_H

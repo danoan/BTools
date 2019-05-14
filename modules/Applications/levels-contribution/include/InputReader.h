@@ -20,6 +20,7 @@ namespace MostExternContribution
             typedef BTools::Core::ODRConfigInput ODRConfigInput;
             typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
             typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
+            typedef BTools::Core::BCConfigInput::PenalizationMode PenalizationMode;
 
             InputData();
 
@@ -37,7 +38,10 @@ namespace MostExternContribution
             ODRConfigInput::LevelDefinition ld;
             bool opt;
 
-            bool ignoreOptIntersection;
+            ODRConfigInput::NeighborhoodType neighborhood;
+
+            bool excludeOptPointsFromAreaComputation;
+            PenalizationMode penalizationMode;
 
         };
 

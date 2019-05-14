@@ -2,43 +2,43 @@
 
 using namespace ShapeFlow;
 
-void InputReader::defaultValues(InputData& id)
+InputReader::InputData::InputData()
 {
-    id.radius=3;
-    id.iterations=10;
-    id.useDigitalArea = false;
+    radius=3;
+    iterations=10;
+
+    neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+    ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+    ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
+    cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
+    sm = InputData::ODRConfigInput::SpaceMode::Pixel;
+    levels= this->radius;
+    optRegionInApplication = false;
+    seType = InputData::ODRConfigInput::StructuringElementType::RECT;
 
 
-    id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
-    id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
-    id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
-    id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
-    id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
-    id.levels=id.radius;
-    id.optRegionInApplication = false;
-    id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
+    fp = InputData::FlowProfile::DoubleStep;
 
+    dtWeight = 0.5;
+    sqWeight = 1.0;
+    lgWeight = 0.2;
+    penalizationWeight = 0.0;
 
-    id.fp = InputData::FlowProfile::DoubleStep;
+    optMethod = InputData::OptMethod::Improve;
 
-    id.dtWeight = 0.5;
-    id.sqWeight = 1.0;
-    id.lgWeight = 0.2;
+    shape = Shape::Square;
+    gridStep=1.0;
 
-    id.optMethod = InputData::OptMethod::Improve;
-
-    id.shape = Shape::Square;
-    id.gridStep=1.0;
+    excludeOptPointsFromAreaComputation = false;
+    penalizationMode = PenalizationMode::No_Penalization;
 }
 
-void InputReader::readInput(InputData& id,
-                            int argc,
-                            char** argv)
+InputReader::InputData InputReader::readInput(int argc,char** argv)
 {
-    defaultValues(id);
+    InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:y:h:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:y:h:z:x"))!=-1)
     {
         switch(opt)
         {
@@ -79,9 +79,6 @@ void InputReader::readInput(InputData& id,
                 else throw std::runtime_error("Neighborhood value must be 4 or 8.");
                 break;
             }
-            case 'd':
-                id.useDigitalArea=true;
-                break;
             case 'l':
                 id.levels = atoi(optarg);
                 if(id.levels<0) id.ld = InputData::ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
@@ -105,14 +102,13 @@ void InputReader::readInput(InputData& id,
                 id.optRegionInApplication = true;
                 break;
             case 'S':
-                if(strcmp(optarg,"triangle")==0) id.shape = Shape::Triangle;
-                else if(strcmp(optarg,"square")==0) id.shape = Shape::Square;
-                else if(strcmp(optarg,"pentagon")==0) id.shape = Shape::Pentagon;
-                else if(strcmp(optarg,"heptagon")==0) id.shape = Shape::Heptagon;
-                else if(strcmp(optarg,"ball")==0) id.shape = Shape::Ball;
-                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape::Ellipse;
-                else if(strcmp(optarg,"flower")==0) id.shape = Shape::Flower;
-                else if(strcmp(optarg,"dumbell")==0) id.shape = Shape::Dumbell;
+                if(strcmp(optarg,"triangle")==0) id.shape = InputData::Shape::Triangle;
+                else if(strcmp(optarg,"square")==0) id.shape = InputData::Shape::Square;
+                else if(strcmp(optarg,"pentagon")==0) id.shape = InputData::Shape::Pentagon;
+                else if(strcmp(optarg,"heptagon")==0) id.shape = InputData::Shape::Heptagon;
+                else if(strcmp(optarg,"ball")==0) id.shape = InputData::Shape::Ball;
+                else if(strcmp(optarg,"ellipse")==0) id.shape = InputData::Shape::Ellipse;
+                else if(strcmp(optarg,"flower")==0) id.shape = InputData::Shape::Flower;
                 else throw std::runtime_error("Unrecognized shape!");
                 break;
             case 'y':
@@ -125,6 +121,17 @@ void InputReader::readInput(InputData& id,
             case 'h':
             {
                 id.gridStep = std::atof(optarg);
+                break;
+            }
+            case 'x':
+            {
+                id.excludeOptPointsFromAreaComputation = true;
+                break;
+            }
+            case 'z':
+            {
+                id.penalizationMode = InputData::PenalizationMode::Penalize_Ones;
+                id.penalizationWeight = std::atof(optarg);
                 break;
             }
             default:
@@ -145,10 +152,13 @@ void InputReader::readInput(InputData& id,
                         "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
                         "[-t Structuring element type (rect cross) (default:rect)]\n"
                         "[-h Grid step (default:1.0)]\n"
+                        "[-x Exclude opt points from computation area default: false] \n"
+                        "[-z Penalization weight default: 0.0] \n"
                         "FLOW_OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }
     }
 
     id.outputFolder = argv[optind];
+    return id;
 }

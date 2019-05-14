@@ -12,15 +12,16 @@
 #include <SCaBOliC/Utils/Utils.h>
 #include <DIPaCUS/base/Representation.h>
 
-#include <BTools/core/model/input/ODRConfigInput.h>
-#include <BTools/core/model/input/BCApplicationInput.h>
-#include <BTools/core/model/input/BCFlowInput.h>
-#include <BTools/core/model/input/BCConfigInput.h>
-#include <BTools/core/model/input/ImageDataInput.h>
-#include <BTools/core/model/BCAOutput.h>
-#include <BTools/core/BCApplication.h>
-#include <BTools/utils/imgUtils.h>
-#include <BTools/utils/strUtils.h>
+#include "BTools/core/model/input/ODRConfigInput.h"
+#include "BTools/core/model/input/BCApplicationInput.h"
+#include "BTools/core/model/input/BCFlowInput.h"
+#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/ImageDataInput.h"
+#include "BTools/core/model/BCAOutput.h"
+#include "BTools/core/BCApplication.h"
+#include "BTools/utils/imgUtils.h"
+#include "BTools/utils/strUtils.h"
+#include "BTools/visitors/PotentialMap.h"
 
 #include "MockDistribution.h"
 #include "Types.h"

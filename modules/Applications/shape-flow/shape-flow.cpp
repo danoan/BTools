@@ -20,19 +20,23 @@ std::string resolveShapeName(Shape shape)
 
 int main(int argc, char* argv[])
 {
-    InputReader::InputData id;
-    InputReader::readInput(id,argc,argv);
+    InputReader::InputData id = InputReader::readInput(argc,argv);
 
-    FlowControl::BCConfigInput bcInput((int) id.radius*(1.0/id.gridStep),
+    FlowControl::BCConfigInput bcInput(id.radius,
                                        id.dtWeight,
                                        id.sqWeight,
                                        id.lgWeight,
+                                       id.penalizationWeight,
+                                       id.excludeOptPointsFromAreaComputation,
+                                       id.penalizationMode,
                                        id.optMethod);
 
     FlowControl::ODRConfigInput odrConfigInput(id.ac,
                                                id.cm,
                                                id.sm,
                                                id.levels,
+                                               id.radius,
+                                               id.gridStep,
                                                id.ld,
                                                id.neighborhood,
                                                id.seType,

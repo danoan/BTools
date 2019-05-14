@@ -39,6 +39,7 @@ void BCControl::updateSet(Solution& solution,
     odrFactory.handle()->solutionSet(tempOutDS,
                                      initialDS,
                                      energyInput.optimizationRegions,
+                                     flowStepConfig.optimizationMode(),
                                      labelsVector.data(),
                                      energy.vm().pim);
 

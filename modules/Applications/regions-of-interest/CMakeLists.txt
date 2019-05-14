@@ -21,3 +21,6 @@ target_link_libraries(regions-of-interest
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+INSTALL(TARGETS regions-of-interest
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

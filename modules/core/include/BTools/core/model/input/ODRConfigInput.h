@@ -21,6 +21,8 @@ namespace BTools
                            CountingMode cm,
                            SpaceMode sm,
                            int levels,
+                           double radius,
+                           double gridStep,
                            LevelDefinition ld,
                            NeighborhoodType nt,
                            StructuringElementType seType,
@@ -28,6 +30,8 @@ namespace BTools
                                                         countingMode(cm),
                                                         spaceMode(sm),
                                                         levels(levels),
+                                                        radius(radius),
+                                                        gridStep(gridStep),
                                                         levelDefinition(ld),
                                                         neighborhood(nt),
                                                         seType(seType),
@@ -46,6 +50,8 @@ namespace BTools
             }
 
             const int levels;
+            const double radius;
+            const double gridStep;
             const NeighborhoodType neighborhood;
             const ApplicationCenter applicationCenter;
             const CountingMode countingMode;

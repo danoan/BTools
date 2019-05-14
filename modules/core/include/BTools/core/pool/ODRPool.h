@@ -7,7 +7,6 @@
 #include "BTools/core/model/input/ODRConfigInput.h"
 #include "SCaBOliC/Core/ODRInterface.h"
 #include "SCaBOliC/Core/ODRPixels.h"
-#include "SCaBOliC/Core/ODRDistance.h"
 #include "SCaBOliC/Core/ODRInterpixels.h"
 
 namespace BTools
@@ -37,25 +36,22 @@ namespace BTools
             {
                 if(odrConfigInput.spaceMode==ODRConfigInput::SpaceMode::Pixel)
                 {
-                    //TODO::Temporary change
-//                    return new ODRPixels(odrConfigInput.applicationCenter,
-//                                         odrConfigInput.countingMode,
-//                                         odrConfigInput.levels,
-//                                         odrConfigInput.levelDefinition,
-//                                         odrConfigInput.neighborhood,
-//                                         odrConfigInput.seType);
-
-                    return new ODRDistance(odrConfigInput.applicationCenter,
+                    return new ODRPixels(odrConfigInput.applicationCenter,
                                          odrConfigInput.countingMode,
+                                         odrConfigInput.radius,
+                                         odrConfigInput.gridStep,
                                          odrConfigInput.levels,
                                          odrConfigInput.levelDefinition,
                                          odrConfigInput.neighborhood,
                                          odrConfigInput.seType);
+
                 }
                 else if(odrConfigInput.spaceMode==ODRConfigInput::SpaceMode::Interpixel)
                 {
                     return new ODRInterpixels(odrConfigInput.applicationCenter,
                                               odrConfigInput.countingMode,
+                                              odrConfigInput.radius,
+                                              odrConfigInput.gridStep,
                                               odrConfigInput.levels,
                                               odrConfigInput.levelDefinition,
                                               odrConfigInput.neighborhood,

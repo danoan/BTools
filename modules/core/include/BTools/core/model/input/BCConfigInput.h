@@ -2,6 +2,7 @@
 #define BTools_BCCONFIGINPUT_H
 
 #include "SCaBOliC/Optimization/solver/QPBOSolverType.h"
+#include "SCaBOliC/Energy/ISQ/InputData.h"
 
 namespace BTools
 {
@@ -11,23 +12,34 @@ namespace BTools
         {
         public:
             typedef SCaBOliC::Optimization::QPBOSolverType QPBOSolverType;
+            typedef SCaBOliC::Energy::ISQ::InputData::PenalizationMode PenalizationMode;
 
         public:
             BCConfigInput(){};
-            BCConfigInput(unsigned long int radius,
+            BCConfigInput(double radius,
                           double dataTermWeight,
                           double sqTermWeight,
                           double lengthTermWeight,
+                          double penalizationWeight,
+                          bool excludeOptPointsFromAreaComputation,
+                          PenalizationMode penalizationMode,
                           QPBOSolverType solverType):radius(radius),
                                                      dataTermWeight(dataTermWeight),
                                                      sqTermWeight(sqTermWeight),
                                                      lengthTermWeight(lengthTermWeight),
+                                                     penalizationWeight(penalizationWeight),
+                                                     penalizationMode(penalizationMode),
+                                                     excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
                                                      solverType(solverType){}
 
-            unsigned long int radius;
+            double radius;
             double dataTermWeight;
             double sqTermWeight;
             double lengthTermWeight;
+            double penalizationWeight;
+
+            PenalizationMode penalizationMode;
+            bool excludeOptPointsFromAreaComputation;
 
             QPBOSolverType solverType;
         };

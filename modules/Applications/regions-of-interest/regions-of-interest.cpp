@@ -40,8 +40,8 @@ struct InputData
         cm = ODRConfigInput::CountingMode::CM_PIXEL;
         sm = ODRConfigInput::SpaceMode::Pixel;
 
-        om = ODRModel::OptimizationMode::OM_OriginalBoundary;
-        am = ODRModel::ApplicationMode::AM_OptimizationBoundary;
+        om = ODRModel::OptimizationMode::OM_CorrectConvexities;
+        am = ODRModel::ApplicationMode::AM_AroundBoundary;
 
         seType = ODRConfigInput::StructuringElementType::RECT;
 
@@ -55,7 +55,7 @@ struct InputData
     }
     std::string outputFilepath;
 
-    int radius;
+    double radius;
 
     ODRConfigInput::ApplicationCenter ac;
     ODRConfigInput::CountingMode cm;
@@ -88,7 +88,7 @@ void usage()
               << "[-n neighborhood (4,8) (default:4)]\n"
               << "[-l levels (positive means levels grows from contour; negative leans that levels grows towards the contour (default:3)]\n"
               << "[-o include optimization region in the computation region (default:false)]\n"
-              << "[-t Structuring element type (rect cross) (default:rect)]\n"
+              << "[-y Structuring element type (rect cross) (default:rect)]\n"
               << "[-h Grid step (default:1.0)]\n";
 
 }
@@ -206,7 +206,7 @@ using namespace SCaBOliC::Core;
 
 ODRInterface& getFactory(const InputData& id)
 {
-    ODRConfigInput odrConfigInput(id.ac,id.cm,id.sm,id.levels,
+    ODRConfigInput odrConfigInput(id.ac,id.cm,id.sm,id.radius,id.gridStep,id.levels,
             id.ld,id.neighborhood,id.seType,id.optRegionInApplication);
 
     return ODRPool::get(odrConfigInput);
@@ -257,7 +257,6 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
 
 }
 
-
 int main(int argc, char* argv[])
 {
 
@@ -270,9 +269,9 @@ int main(int argc, char* argv[])
     const IFlowStepConfig& flowStepConfig = profile.nextStep();
     ODRModel odrModel = factory.createODR(flowStepConfig.optimizationMode(),
                                           flowStepConfig.applicationMode(),
-                                          (int) id.radius*(1.0/id.gridStep),
                                           getShape(id.shape,id.gridStep),
                                           id.optRegionInApplication);
+
 
     boost::filesystem::path p(id.outputFilepath);
     boost::filesystem::create_directories(p.remove_filename());
