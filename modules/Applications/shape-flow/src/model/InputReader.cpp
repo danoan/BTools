@@ -70,6 +70,7 @@ InputReader::InputData InputReader::readInput(int argc,char** argv)
                 else if(strcmp(optarg,"double-inner")==0 ) id.fp = InputData::FlowProfile::DoubleStepInner;
                 else if(strcmp(optarg,"single-around-inner")==0 ) id.fp = InputData::FlowProfile::SingleStepAroundInner;
                 else if(strcmp(optarg,"double-around-inner")==0 ) id.fp = InputData::FlowProfile::DoubleStepAroundInner;
+                else std::runtime_error("Profile not recognized.");
                 break;
             case 'n':
             {

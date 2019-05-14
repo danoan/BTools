@@ -29,18 +29,18 @@ GRID_STEP=[1.0,0.5,0.25]
 SHAPES=["triangle","square","pentagon","ball","ellipse","flower"]#"heptagon"]
 RADIUS=[3,5]
 ITERATIONS=[100]
-COMPUTATION_CENTER=["pixel","pointel"]#,"linel"]
+COMPUTATION_CENTER=["pixel"]#,"pointel"]#,"linel"]
 COUNTING_MODE=["pixel"]
-SPACE_MODE=["pixel","interpixel"]
+SPACE_MODE=["pixel"]#,"interpixel"]
 PROFILE=["single","double","single-opt","double-opt"]#,"single-inner","double-inner"]
-NEIGHBORHOOD=[4]
-LEVELS=[1,2,3,-3,-2,-1]
+NEIGHBORHOOD=[4,8]
+LEVELS=[1,-1,-2]#2,3,-3,-2,-1]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
 METHOD=["improve"]
 OPT_IN_COMPUTATION=[True,False]
-STRUCTURING_ELEMENT=["cross","rect"]
+IGNORE_OPT_POINTS_COMPUTATION_AREA=[True,False]
 
 CONFIG_LIST=[ (GRID_STEP,"grid_step"),
               (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
@@ -50,7 +50,7 @@ CONFIG_LIST=[ (GRID_STEP,"grid_step"),
               (LEVELS,"levels"), (LENGTH_TERM,"length"),
               (SQ_TERM,"sq_term"), (DATA_TERM,"data_term"), (METHOD,"method"),
               (OPT_IN_COMPUTATION,"opt_in_computation"),
-              (STRUCTURING_ELEMENT,"structuring_element_type") ]
+              (IGNORE_OPT_POINTS_COMPUTATION_AREA,"ignore_opt_points") ]
 
 
 def valid_combination(c):
@@ -76,17 +76,17 @@ def valid_combination(c):
 
     return flag
 
-def resolve_output_folder(gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType):
+def resolve_output_folder(gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp):
     outputFolder = "%s/%s/%s/%s-space/%s/%s/radius_%d/level_%d/%s/%s/gs_%.2f" % (BASE_OUTPUT_FOLDER,shape,method,
                                                                                  sm,cc,profile,radius,levels,
                                                                                  "opt" if opt else "no-opt",
-                                                                                 seType,gs)
+                                                                                 "ignore-optApp" if ignoreOptApp else "count-optApp",gs)
 
     return outputFolder
 
 def regions_of_interest(c):
     outputFolder = resolve_output_folder(*c)
-    gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType = c
+    gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp = c
 
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
@@ -102,14 +102,13 @@ def regions_of_interest(c):
                       "%s%d" % ("-n",neigh),
                       "%s%d" % ("-l",levels),
                       "%s" % ("-o" if opt else ""),
-                      "%s%s" % ("-y", seType),
                       "%s%f" % ("-h", gs)
                       ] )
 
 def shape_flow(c):
 
     outputFolder = resolve_output_folder(*c)
-    gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType = c
+    gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp = c
 
     binary = "%s/%s" % (BIN_FOLDER,"shape-flow/shape-flow")
     subprocess.call( [binary,
@@ -128,7 +127,7 @@ def shape_flow(c):
                       "%s%f" % ("-g",length),
                       "%s%s" % ("-m",method),
                       "%s" % ("-o" if opt else ""),
-                      "%s%s" % ("-y", seType),
+                      "%s" % ("-x" if ignoreOptApp else ""),
                       "%s%f" % ("-h", gs)
                       ] )
 

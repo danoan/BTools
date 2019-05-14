@@ -84,12 +84,12 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
                                   ODRConfigInput::CountingMode::CM_PIXEL,
                                   ODRConfigInput::SpaceMode::Pixel,
-                                  levels,
-                                  inputData.radius, 1.0,
-                                  ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
-                                  ODRConfigInput::NeighborhoodType::FourNeighborhood,
-                                  ODRConfigInput::StructuringElementType::RECT,
-                                  optInApplicationRegion);
+    inputData.radius, 1.0,
+            levels,
+            ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+            ODRConfigInput::NeighborhoodType::FourNeighborhood,
+            ODRConfigInput::StructuringElementType::RECT,
+            optInApplicationRegion);
 
 
     cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
