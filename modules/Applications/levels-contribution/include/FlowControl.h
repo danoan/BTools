@@ -63,7 +63,8 @@ namespace MostExternContribution
 
         BCAOutput boundaryCorrection(const BCFlowInput& bcFlowInput,
                                      const cv::Mat& currentImage,
-                                     const std::string& outputPath,
+                                     const std::string& outputFolder,
+                                     const std::string& suffix,
                                      bool ignoreOptIntersection,
                                      Point& translation);
 

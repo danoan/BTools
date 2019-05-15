@@ -9,7 +9,7 @@ InputReader::InputData::InputData()
 
     seType = InputData::ODRConfigInput::StructuringElementType::RECT;
 
-    shape = Shape::Square;
+    shape = Shape(ShapeType::Square);
     gridStep=1.0;
 
     levels=0;
@@ -39,14 +39,14 @@ InputReader::InputData InputReader::readInput(int argc,
                 id.iterations= atoi(optarg);
                 break;
             case 'S':
-                if(strcmp(optarg,"triangle")==0) id.shape = Shape::Triangle;
-                else if(strcmp(optarg,"square")==0) id.shape = Shape::Square;
-                else if(strcmp(optarg,"pentagon")==0) id.shape = Shape::Pentagon;
-                else if(strcmp(optarg,"heptagon")==0) id.shape = Shape::Heptagon;
-                else if(strcmp(optarg,"ball")==0) id.shape = Shape::Ball;
-                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape::Ellipse;
-                else if(strcmp(optarg,"flower")==0) id.shape = Shape::Flower;
-                else throw std::runtime_error("Unrecognized shape!");
+                if(strcmp(optarg,"triangle")==0) id.shape = Shape( ShapeType::Triangle);
+                else if(strcmp(optarg,"square")==0) id.shape = Shape( ShapeType::Square );
+                else if(strcmp(optarg,"pentagon")==0) id.shape = Shape( ShapeType::Pentagon);
+                else if(strcmp(optarg,"heptagon")==0) id.shape = Shape( ShapeType::Heptagon);
+                else if(strcmp(optarg,"ball")==0) id.shape = Shape( ShapeType::Square);
+                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape( ShapeType::Square);
+                else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Square);
+                else id.shape = Shape(ShapeType::UserDefined,optarg);
                 break;
             case 'n':
             {

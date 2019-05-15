@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 project(regions-of-interest)
 
-add_executable(regions-of-interest regions-of-interest.cpp)
+add_executable(regions-of-interest regions-of-interest.cpp
+        src/InputReader.cpp)
+
 target_include_directories(regions-of-interest PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include

@@ -1,7 +1,7 @@
-#ifndef BTools_TYPES_H
-#define BTools_TYPES_H
+#ifndef BTools_REGIONSOFINTEREST_TYPES_H
+#define BTools_REGIONSOFINTEREST_TYPES_H
 
-namespace ShapeFlow
+namespace RegionsOfInterest
 {
     enum ShapeType{Triangle,Square,Pentagon,Heptagon,Ball,Ellipse,Flower,UserDefined,NoType};
 
@@ -10,7 +10,7 @@ namespace ShapeFlow
         Shape():type(NoType),imagePath(""),name(""){}
 
         Shape(ShapeType type, const std::string& imagePath=""):type(type),
-                                                               imagePath(imagePath)
+                                                                imagePath(imagePath)
         {
             if(type==ShapeType::Triangle) name = "triangle";
             else if(type==ShapeType::Square) name = "square";
@@ -28,4 +28,4 @@ namespace ShapeFlow
     };
 }
 
-#endif //BTools_TYPES_H
+#endif //BTools_MOSTEXTERN_TYPES_H

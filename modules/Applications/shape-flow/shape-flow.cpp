@@ -6,18 +6,6 @@
 
 using namespace ShapeFlow;
 
-std::string resolveShapeName(Shape shape)
-{
-    if(shape==Shape::Triangle) return "triangle";
-    else if(shape==Shape::Square) return "square";
-    else if(shape==Shape::Pentagon) return "pentagon";
-    else if(shape==Shape::Heptagon) return "heptagon";
-    else if(shape==Shape::Ball) return "ball";
-    else if(shape==Shape::Ellipse) return "ellipse";
-    else if(shape==Shape::Flower) return "flower";
-    else return "";
-}
-
 int main(int argc, char* argv[])
 {
     InputReader::InputData id = InputReader::readInput(argc,argv);
@@ -42,7 +30,7 @@ int main(int argc, char* argv[])
                                                id.seType,
                                                id.optRegionInApplication);
 
-    FlowControl::BCFlowInput bcFlowInput(resolveShapeName(id.shape),
+    FlowControl::BCFlowInput bcFlowInput(id.shape.name,
                                          bcInput,
                                          odrConfigInput,
                                          id.fp,

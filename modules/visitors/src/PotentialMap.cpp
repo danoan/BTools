@@ -21,7 +21,7 @@ void PotentialMap::gatherPotentialValues(PotentialValues& potentialValues,
                 int first = var1<var2?var1:var2;
                 int second = var1<var2?var2:var1;
                 assert(first<second);
-                potentialValues[*it1]+= optData.localPTM.coeff(first,second);
+                potentialValues[*it1]+= optData.localPTM.coeff(first,second)/2.0;   //Divide by two, otherwise I count twice (once for xixj and other for xjxi)
             }
         }
     }
@@ -53,6 +53,7 @@ void PotentialMap::draw(const PotentialValues& pv,
     Domain domain(bb.lb,bb.ub);
 
     potentialMap << domain;
+    std::cout << "Potential Map: Max(" << max << ") Min(" << min << ")\n" << std::endl;
 
     DGtal::GradientColorMap<double,
             DGtal::ColorGradientPreset::CMAP_GRAYSCALE> cmap_jet(min,max);
@@ -70,6 +71,7 @@ void PotentialMap::draw(const PotentialValues& pv,
 
     boost::filesystem::path p(outputPath);
     boost::filesystem::create_directories(p.remove_filename());
+
 
     potentialMap.saveSVG(outputPath.c_str(),200,200,10);
 
