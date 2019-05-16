@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(intersection-flow)
 
 add_executable(intersection-flow intersection-flow.cpp)
+add_dependencies(shape-flow btools-core btools-utils)
 
 target_include_directories(intersection-flow PRIVATE
         include

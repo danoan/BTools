@@ -1,6 +1,6 @@
 #include "FlowControl.h"
 
-using namespace MostExternContribution;
+using namespace LevelsContribution;
 
 FlowControl::DigitalSet FlowControl::resolveShape(Shape shape,double gridStep)
 {
@@ -35,7 +35,7 @@ FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
     shapeFlow( ds,bcFlowInput,outputFolder,ignoreOptIntersection,osLog );
 }
 
-void FlowControl::createMostExternContributionFigure(const BCAInput& bcaInput,
+void FlowControl::createLevelsContributionFigure(const BCAInput& bcaInput,
         const std::string& outputPath,
         bool ignoreOptIntersection)
 {
@@ -148,7 +148,7 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlow
                       bcFlowInput.odrConfigInput,
                       bcFlowInput.flowProfile);
 
-    createMostExternContributionFigure(bcaInput,outputFolder + "/regions_" + suffix + ".svg",ignoreOptIntersection);
+    createLevelsContributionFigure(bcaInput,outputFolder + "/regions_" + suffix + ".svg",ignoreOptIntersection);
 
     BCAOutput bcaOutput(bcaInput);
 

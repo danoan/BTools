@@ -1,7 +1,7 @@
 #include "InputReader.h"
 #include "FlowControl.h"
 
-using namespace MostExternContribution;
+using namespace LevelsContribution;
 
 int main(int argc, char* argv[])
 {

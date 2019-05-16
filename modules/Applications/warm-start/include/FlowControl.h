@@ -1,5 +1,5 @@
-#ifndef BTOOLS_APPLICATION_MOSTEXTERN_FLOWCONTROL_H
-#define BTOOLS_APPLICATION_MOSTEXTERN_FLOWCONTROL_H
+#ifndef BTOOLS_WARMSTART_FLOWCONTROL_H
+#define BTOOLS_WARMSTART_FLOWCONTROL_H
 
 #include <ostream>
 
@@ -27,7 +27,7 @@
 #include "Types.h"
 
 
-namespace LevelsContribution
+namespace WarmStart
 {
     class FlowControl
     {
@@ -58,7 +58,7 @@ namespace LevelsContribution
 
     private:
         DigitalSet resolveShape(Shape shape,double gridStep);
-        void createLevelsContributionFigure(const BCAInput& bcaInput,
+        void createMostExternContributionFigure(const BCAInput& bcaInput,
                 const std::string& outputPath, bool ignoreOptIntersection);
 
         BCAOutput boundaryCorrection(const BCFlowInput& bcFlowInput,
@@ -81,4 +81,4 @@ namespace LevelsContribution
     };
 }
 
-#endif //BTOOLS_APPLICATION_MOSTEXTERN_FLOWCONTROL_H
+#endif //BTOOLS_WARMSTART_FLOWCONTROL_H

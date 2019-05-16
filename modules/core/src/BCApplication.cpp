@@ -8,7 +8,12 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
                              bool displayEachIteration)
 {
     std::vector< IBCControlVisitor* > mock;
-    BCApplication(bcaOutput,bcaInput,maxIterations,displayEachIteration,mock.begin(),mock.end());
+
+    DigitalSet mockDS1(bcaInput.imageDataInput.inputDomain);
+    DigitalSet mockDS2(bcaInput.imageDataInput.inputDomain);
+    SolutionHint shint(mockDS1,mockDS2);
+
+    BCApplication(bcaOutput,bcaInput,maxIterations,displayEachIteration,mock.begin(),mock.end(),shint);
 }
 
 

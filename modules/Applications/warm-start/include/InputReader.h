@@ -1,5 +1,5 @@
-#ifndef BTOOLS_APPLICATION_MOSTEXTERN_INPUTREADER_H
-#define BTOOLS_APPLICATION_MOSTEXTERN_INPUTREADER_H
+#ifndef BTOOLS_WARMSTART_INPUTREADER_H
+#define BTOOLS_WARMSTART_INPUTREADER_H
 
 #include <iostream>
 #include <unistd.h>
@@ -10,7 +10,7 @@
 
 #include "Types.h"
 
-namespace LevelsContribution
+namespace WarmStart
 {
     namespace InputReader
     {
@@ -51,4 +51,4 @@ namespace LevelsContribution
     };
 }
 
-#endif //BTOOLS_APPLICATION_FLOW_INPUTREADER_H
+#endif //BTOOLS_WARMSTART_INPUTREADER_H

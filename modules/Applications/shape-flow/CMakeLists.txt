@@ -12,7 +12,7 @@ add_executable(shape-flow
         src/model/InputReader.cpp
         )
 
-add_dependencies(shape-flow btools-core btools-utils)
+add_dependencies(shape-flow btools-core btools-utils btools-visitors)
 
 target_compile_features(shape-flow PRIVATE cxx_auto_type)
 target_compile_options(shape-flow PRIVATE -fext-numeric-literals)

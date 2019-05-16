@@ -39,8 +39,9 @@ namespace BTools
                       const DigitalSet& optRegion,
                       const std::string& outputPath);
 
-        private:
+        public:
             const std::string outputPath;
+            PotentialValues pv;
 
         };
     }

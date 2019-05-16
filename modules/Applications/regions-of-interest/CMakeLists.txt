@@ -4,6 +4,8 @@ project(regions-of-interest)
 add_executable(regions-of-interest regions-of-interest.cpp
         src/InputReader.cpp)
 
+add_dependencies(shape-flow btools-core btools-utils)
+
 target_include_directories(regions-of-interest PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include

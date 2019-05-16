@@ -10,6 +10,7 @@
 #include "BTools/core/interface/IBCControlVisitor.h"
 #include "BTools/core/model/input/ImageDataInput.h"
 #include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/SolutionHint.h"
 
 namespace BTools
 {
@@ -46,9 +47,13 @@ namespace BTools
                       const IFlowStepConfig& flowStepConfig,
                       const DigitalSet& inputDS,
                       TVisitorIterator begin,
-                      TVisitorIterator end);
+                      TVisitorIterator end,
+                      const SolutionHint& shint);
 
         private:
+            ISQInputData::OptimizationDigitalRegions warmStart(const ISQInputData::OptimizationDigitalRegions& ODR,
+                                                               const SolutionHint& shint);
+
             void updateSet(Solution& solution,
                            const ODRInterface& odrFactory,
                            const IFlowStepConfig& flowStepConfig,

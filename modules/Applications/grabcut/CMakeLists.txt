@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.2)
 project(grab-cut)
 
 add_executable(grab-cut GrabCut.cpp src/InputData.cpp src/GrabCutApplication.cpp)
+add_dependencies(grab-cut btools-utils)
+
 target_include_directories(grab-cut PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/utils/include

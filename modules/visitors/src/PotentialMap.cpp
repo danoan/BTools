@@ -81,10 +81,6 @@ void PotentialMap::visit(const OptimizationData &optData,
                          const VariableMap &vm,
                          const ODRModel &odr)
 {
-
-
-    PotentialValues pv;
-    gatherPotentialValues(pv,optData,vm,odr.optRegion);
-    draw(pv,odr.optRegion,outputPath);
-
+    gatherPotentialValues(this->pv,optData,vm,odr.optRegion);
+    draw(this->pv,odr.optRegion,outputPath);
 }

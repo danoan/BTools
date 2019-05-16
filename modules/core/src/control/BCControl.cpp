@@ -10,6 +10,11 @@ BCControl::BCControl(Solution& solution,
                      const DigitalSet& inputDS)
 {
     std::vector< IBCControlVisitor* > mock;
+
+    DigitalSet mockDS1(inputDS.domain());
+    DigitalSet mockDS2(inputDS.domain());
+    SolutionHint shint(mockDS1,mockDS2);
+
     BCControl(solution,
               bcInput,
               imageDataInput,
@@ -17,7 +22,37 @@ BCControl::BCControl(Solution& solution,
               flowStepConfig,
               inputDS,
               mock.begin(),
-              mock.end());
+              mock.end(),
+              shint);
+}
+
+BCControl::ISQInputData::OptimizationDigitalRegions BCControl::warmStart(const ISQInputData::OptimizationDigitalRegions& ODR,
+                                                                         const SolutionHint& shint)
+{
+    DigitalSet newTrustFRG = ODR.trustFRG;
+    DigitalSet newTrustBKG = ODR.trustBKG;
+    DigitalSet newOptRegion = ODR.optRegion;
+
+    for(auto it=shint.ones.begin();it!=shint.ones.end();++it)
+    {
+        newTrustFRG.insert(*it);
+        newOptRegion.erase(*it);
+    }
+
+    for(auto it=shint.zeros.begin();it!=shint.zeros.end();++it)
+    {
+        newTrustBKG.insert(*it);
+        newOptRegion.erase(*it);
+    }
+
+    return ISQInputData::OptimizationDigitalRegions(ODR.domain,
+                                                    ODR.original,
+                                                    newOptRegion,
+                                                    newTrustFRG,
+                                                    newTrustBKG,
+                                                    ODR.applicationRegion,
+                                                    ODR.toImageCoordinates);
+
 }
 
 

@@ -9,12 +9,15 @@ BCControl::BCControl(Solution& solution,
                      const IFlowStepConfig& flowStepConfig,
                      const DigitalSet& inputDS,
                      TVisitorIterator begin,
-                     TVisitorIterator end)
+                     TVisitorIterator end,
+                     const SolutionHint& shint)
 {
-    ISQInputData::OptimizationDigitalRegions ODR = odrFactory.createODR(flowStepConfig.optimizationMode(),
+    ISQInputData::OptimizationDigitalRegions _ODR = odrFactory.createODR(flowStepConfig.optimizationMode(),
                                                                         flowStepConfig.applicationMode(),
                                                                         inputDS,
                                                                         flowStepConfig.optInApplicationRegion());
+
+    ISQInputData::OptimizationDigitalRegions ODR = warmStart(_ODR,shint);
 
     ISQInputData energyInput(ODR,
                              imageDataInput.baseImage,

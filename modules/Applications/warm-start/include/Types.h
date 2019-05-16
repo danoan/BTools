@@ -1,7 +1,7 @@
-#ifndef BTools_MOSTEXTERN_TYPES_H
-#define BTools_MOSTEXTERN_TYPES_H
+#ifndef BTools_WARMSTART_TYPES_H
+#define BTools_WARMSTART_TYPES_H
 
-namespace LevelsContribution
+namespace WarmStart
 {
     enum ShapeType{Triangle,Square,Pentagon,Heptagon,Ball,Ellipse,Flower,UserDefined,NoType};
 
@@ -28,4 +28,4 @@ namespace LevelsContribution
     };
 }
 
-#endif //BTools_MOSTEXTERN_TYPES_H
+#endif //BTools_WARMSTART_TYPES_H

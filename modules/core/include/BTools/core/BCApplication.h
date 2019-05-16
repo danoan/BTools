@@ -15,6 +15,7 @@
 
 #include <BTools/core/model/input/BCApplicationInput.h>
 #include <BTools/core/model/input/ImageDataInput.h>
+#include <BTools/core/model/input/SolutionHint.h>
 #include <BTools/core/model/BCAOutput.h>
 
 #include <BTools/core/interface/IFlowProfile.h>
@@ -54,7 +55,8 @@ namespace BTools
                           int maxIterations,
                           bool displayEachIteration,
                           TVisitorIterator begin,
-                          TVisitorIterator end);
+                          TVisitorIterator end,
+                          const SolutionHint shint=SolutionHint());
 
         private:
 

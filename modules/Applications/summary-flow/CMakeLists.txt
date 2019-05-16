@@ -6,6 +6,8 @@ add_executable(summary-flow
         src/OneImageFlow.cpp
         )
 
+add_dependencies(shape-flow btools-core btools-utils)
+
 target_compile_features(summary-flow PRIVATE cxx_auto_type)
 target_compile_options(summary-flow PRIVATE -fext-numeric-literals)
 

@@ -1,10 +1,10 @@
-#ifndef BTOOLS_APPLICATION_MOSTEXTERN_MOCKDISTRIBUTION_H
-#define BTOOLS_APPLICATION_MOSTEXTERN_MOCKDISTRIBUTION_H
+#ifndef BTOOLS_WARMSTART_MOCKDISTRIBUTION_H
+#define BTOOLS_WARMSTART_MOCKDISTRIBUTION_H
 
 #include <SCaBOliC/Energy/ISQ/Terms/Data/IProbabilityDistribution.h>
 #include <cstdlib>
 
-namespace LevelsContribution
+namespace WarmStart
 {
     class MockDistribution:public SCaBOliC::Energy::ISQ::IProbabilityDistribution<double>
     {
@@ -23,4 +23,4 @@ namespace LevelsContribution
     };
 }
 
-#endif //BTOOLS_APPLICATION_MOSTEXTERN_MOCKDISTRIBUTION_H
+#endif //BTOOLS_WARMSTART_MOCKDISTRIBUTION_H

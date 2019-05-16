@@ -1,6 +1,6 @@
 #include "InputReader.h"
 
-using namespace LevelsContribution;
+using namespace WarmStart;
 
 InputReader::InputData::InputData()
 {
