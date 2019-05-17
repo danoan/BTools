@@ -27,7 +27,7 @@ struct InputData
         gridStep=1.0;
         radius = 3.0;
         shape = Shape::Square;
-        profile = IFlowProfile::FlowProfile::SingleStep;
+        profile = IFlowProfile::FlowProfile::SingleStepConvexities;
     }
     std::string outputFolder = "";
 
@@ -86,7 +86,7 @@ InputData readInput(int argc, char* argv[])
             }
             case 'p':
             {
-                if(strcmp(optarg,"single")==0 ) id.profile = IFlowProfile::FlowProfile::SingleStep;
+                if(strcmp(optarg,"single")==0 ) id.profile = IFlowProfile::FlowProfile::SingleStepConvexities;
                 else if(strcmp(optarg,"double")==0 ) id.profile = IFlowProfile::FlowProfile::DoubleStep;
                 else throw std::runtime_error("Flow profile not recognized");
                 break;
@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
     int it=0;
     while(it<id.iterations)
     {
-        if(id.profile==IFlowProfile::SingleStep) optMode = ODRModel::OptimizationMode::OM_CorrectConvexities;
+        if(id.profile==IFlowProfile::SingleStepConvexities) optMode = ODRModel::OptimizationMode::OM_CorrectConvexities;
         else if(it%2==0) optMode = ODRModel::OptimizationMode::OM_CorrectConvexities;
         else optMode = ODRModel::OptimizationMode::OM_CorrectConcavities;
 

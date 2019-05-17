@@ -43,9 +43,9 @@ InputReader::InputData InputReader::readInput(int argc,
                 else if(strcmp(optarg,"square")==0) id.shape = Shape( ShapeType::Square );
                 else if(strcmp(optarg,"pentagon")==0) id.shape = Shape( ShapeType::Pentagon);
                 else if(strcmp(optarg,"heptagon")==0) id.shape = Shape( ShapeType::Heptagon);
-                else if(strcmp(optarg,"ball")==0) id.shape = Shape( ShapeType::Square);
-                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape( ShapeType::Square);
-                else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Square);
+                else if(strcmp(optarg,"ball")==0) id.shape = Shape( ShapeType::Ball);
+                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape( ShapeType::Ellipse);
+                else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Flower);
                 else id.shape = Shape(ShapeType::UserDefined,optarg);
                 break;
             case 'n':

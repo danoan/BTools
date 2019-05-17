@@ -80,7 +80,7 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
 void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
                                     std::ofstream &ofs)
 {
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStep ) ofs << "Flow Profile: Single Step \n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepConvexities ) ofs << "Flow Profile: Single Step \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepOpt ) ofs << "Flow Profile: Single Step Opt \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepOpt) ofs << "Flow Profile: Double Step Opt\n";

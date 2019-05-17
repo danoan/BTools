@@ -49,6 +49,7 @@ struct PointValue
 
 SolutionHint solutionHint(const DigitalSet& ds,
                                      const InputReader::InputData& id,
+                                     const InputReader::InputData::FlowProfile flowProfile,
                                      const std::string& outputFolder,
                                      const std::string& suffix)
 {
@@ -93,7 +94,7 @@ SolutionHint solutionHint(const DigitalSet& ds,
     BCApplicationInput bcaInput(bcInput,
                                 imageDataInput,
                                 odrConfigInput,
-                                InputReader::InputData::FlowProfile::SingleStep);
+                                flowProfile);
 
     BCApplicationOutput bcaOutput(bcaInput);
 
@@ -120,13 +121,44 @@ SolutionHint solutionHint(const DigitalSet& ds,
     DigitalSet zeros(imageDataInput.inputDomain);
 
     int total = pvVector.size();
-    int numHints = std::ceil(total*0.30);
+    int numHints = std::ceil(total*id.warmStartPercentage);
     for(int i=0;i<numHints;++i)
     {
-        zeros.insert(pvVector[i].p);
-        ones.insert(pvVector[total-1-i].p);
+            zeros.insert(pvVector[i].p);
+            ones.insert(pvVector[total-1-i].p);
     }
     return SolutionHint(ones,zeros);
+}
+
+void drawHint(const DigitalSet& ds, const SolutionHint& shint, const std::string& outputFolder, const std::string& suffix)
+{
+    DGtal::Board2D board;
+
+
+    board << DGtal::SetMode( ds.className(), "Paving" );
+    board << ds;
+
+    board << DGtal::SetMode( ds.begin()->className(), "Paving" );
+    std::string specificStyle = ds.begin()->className() + "/Paving";
+    for(auto it=shint.ones.begin();it!=shint.ones.end();++it)
+    {
+        board << DGtal::CustomStyle( specificStyle,
+                                            new DGtal::CustomColors(DGtal::Color::Black,
+                                                                    DGtal::Color::Green));
+
+        board << *it;
+    }
+
+    for(auto it=shint.zeros.begin();it!=shint.zeros.end();++it)
+    {
+        board << DGtal::CustomStyle( specificStyle,
+                                     new DGtal::CustomColors(DGtal::Color::Black,
+                                                             DGtal::Color::Black));
+        board << *it;
+    }
+
+    boost::filesystem::create_directories(outputFolder);
+    board.saveSVG( (outputFolder + "/" + suffix + ".svg").c_str(),200,200,2 );
 }
 
 int main(int argc, char*argv[])
@@ -143,11 +175,18 @@ int main(int argc, char*argv[])
 
     BTools::Utils::exportImageFromDigitalSet(ds,flowDomain,currImagePath);
 
+    InputReader::InputData::FlowProfile flowProfile = InputReader::InputData::FlowProfile::SingleStepConvexities;
+
     int it = 1;
     while(it < id.iterations)
     {
+        if(it%2==1) flowProfile = InputReader::InputData::FlowProfile::SingleStepConvexities;
+        else flowProfile = InputReader::InputData::FlowProfile::SingleStepConcavities;
+
         std::string suffix = BTools::Utils::nDigitsString(it,4);
-        SolutionHint shint = solutionHint(ds,id,id.outputFolder + "/potentialMap",suffix);
+        SolutionHint shint = solutionHint(ds,id,flowProfile,id.outputFolder + "/potentialMap",suffix);
+
+        drawHint(ds,shint,id.outputFolder + "/hints" ,suffix);
 
 
         FlowControl::BCConfigInput bcInput(id.radius,
@@ -187,7 +226,7 @@ int main(int argc, char*argv[])
         BCApplicationInput bcaInput(bcInput,
                                     imageDataInput,
                                     odrConfigInput,
-                                    InputReader::InputData::FlowProfile::SingleStep);
+                                    flowProfile);
 
         BCApplicationOutput bcaOutput(bcaInput);
 
@@ -201,7 +240,8 @@ int main(int argc, char*argv[])
                           shint);
 
         BTools::Utils::exportImageFromDigitalSet( bcaOutput.energySolution.outputDS,id.outputFolder + "/" + suffix + ".pgm"  );
-        ds = bcaOutput.energySolution.outputDS;
+        ds.clear();
+        ds.insert(bcaOutput.energySolution.outputDS.begin(),bcaOutput.energySolution.outputDS.end());
 
         ++it;
     }

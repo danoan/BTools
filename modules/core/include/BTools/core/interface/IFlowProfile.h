@@ -11,7 +11,8 @@ namespace BTools
         {
         public:
             enum FlowProfile{DoubleStep,
-                    SingleStep,
+                    SingleStepConvexities,
+                    SingleStepConcavities,
                     DoubleStepOpt,
                     SingleStepOpt,
                     DoubleStepInner,

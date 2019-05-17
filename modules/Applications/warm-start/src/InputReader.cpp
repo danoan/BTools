@@ -20,6 +20,8 @@ InputReader::InputData::InputData()
 
     excludeOptPointsFromAreaComputation = false;
     penalizationMode = PenalizationMode::No_Penalization;
+
+    warmStartPercentage = 0;
 }
 
 InputReader::InputData InputReader::readInput(int argc,
@@ -28,7 +30,7 @@ InputReader::InputData InputReader::readInput(int argc,
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:n:S:y:h:l:xzo"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:S:y:h:l:xzot:"))!=-1)
     {
         switch(opt)
         {
@@ -43,9 +45,9 @@ InputReader::InputData InputReader::readInput(int argc,
                 else if(strcmp(optarg,"square")==0) id.shape = Shape( ShapeType::Square );
                 else if(strcmp(optarg,"pentagon")==0) id.shape = Shape( ShapeType::Pentagon);
                 else if(strcmp(optarg,"heptagon")==0) id.shape = Shape( ShapeType::Heptagon);
-                else if(strcmp(optarg,"ball")==0) id.shape = Shape( ShapeType::Square);
-                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape( ShapeType::Square);
-                else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Square);
+                else if(strcmp(optarg,"ball")==0) id.shape = Shape( ShapeType::Ball);
+                else if(strcmp(optarg,"ellipse")==0) id.shape = Shape( ShapeType::Ellipse);
+                else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Flower);
                 else id.shape = Shape(ShapeType::UserDefined,optarg);
                 break;
             case 'n':
@@ -104,6 +106,11 @@ InputReader::InputData InputReader::readInput(int argc,
                 id.penalizationMode = InputData::PenalizationMode::Penalize_Ones;
                 break;
             }
+            case 't':
+            {
+                id.warmStartPercentage = std::atof(optarg);
+                break;
+            }
             default:
                 std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
                         "[-i Max Iterations default 10] \n"
@@ -112,8 +119,10 @@ InputReader::InputData InputReader::readInput(int argc,
                         "[-n Neighborhood 4 or 8 default: 4] \n"
                         "[-h Grid step (default:1.0)]\n"
                         "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
+                        "[-o Include optimization region in the application region default: false \n"
                         "[-x Exclude opt points from computation area default: false] \n"
                         "[-z Penalize changes default: false] \n"
+                        "[-t Warm start percentage default: 0 \n"
                         "OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }

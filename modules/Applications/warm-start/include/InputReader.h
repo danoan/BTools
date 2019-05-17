@@ -42,6 +42,7 @@ namespace WarmStart
 
             bool excludeOptPointsFromAreaComputation;
             PenalizationMode penalizationMode;
+            double warmStartPercentage;
 
         };
 
