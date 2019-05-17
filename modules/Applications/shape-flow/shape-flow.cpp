@@ -16,6 +16,7 @@ int main(int argc, char* argv[])
                                        id.lgWeight,
                                        id.penalizationWeight,
                                        id.excludeOptPointsFromAreaComputation,
+                                       id.repeatedImprovement,
                                        id.penalizationMode,
                                        id.optMethod);
 

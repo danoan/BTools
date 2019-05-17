@@ -43,6 +43,8 @@ namespace LevelsContribution
             bool excludeOptPointsFromAreaComputation;
             PenalizationMode penalizationMode;
 
+            bool repeatedImprovement;
+
         };
 
         InputData readInput(int argc,

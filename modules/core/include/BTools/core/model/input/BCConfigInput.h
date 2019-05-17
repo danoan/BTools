@@ -22,6 +22,7 @@ namespace BTools
                           double lengthTermWeight,
                           double penalizationWeight,
                           bool excludeOptPointsFromAreaComputation,
+                          bool repeatedImprovement,
                           PenalizationMode penalizationMode,
                           QPBOSolverType solverType):radius(radius),
                                                      dataTermWeight(dataTermWeight),
@@ -30,6 +31,7 @@ namespace BTools
                                                      penalizationWeight(penalizationWeight),
                                                      penalizationMode(penalizationMode),
                                                      excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
+                                                     repeatedImprovement(repeatedImprovement),
                                                      solverType(solverType){}
 
             double radius;
@@ -40,6 +42,7 @@ namespace BTools
 
             PenalizationMode penalizationMode;
             bool excludeOptPointsFromAreaComputation;
+            bool repeatedImprovement;
 
             QPBOSolverType solverType;
         };

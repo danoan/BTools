@@ -6,6 +6,7 @@ using namespace LevelsContribution;
 int main(int argc, char* argv[])
 {
     InputReader::InputData id = InputReader::readInput(argc, argv);
+    bool repeatedImprovement = false;
 
     FlowControl::BCConfigInput bcInput(id.radius,
                                        0,
@@ -13,6 +14,7 @@ int main(int argc, char* argv[])
                                        0.0,
                                        0,
                                        id.excludeOptPointsFromAreaComputation,
+                                       id.repeatedImprovement,
                                        id.penalizationMode,
                                        InputReader::InputData::OptMethod::Improve);
 
@@ -30,7 +32,7 @@ int main(int argc, char* argv[])
     FlowControl::BCFlowInput bcFlowInput(id.shape.name,
                                          bcInput,
                                          odrConfigInput,
-                                         InputReader::InputData::FlowProfile::DoubleStep,
+                                         InputReader::InputData::FlowProfile::SingleStepConvexities,
                                          id.iterations);
 
 

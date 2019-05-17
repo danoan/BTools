@@ -122,6 +122,8 @@ void FlowControl::createLevelsContributionFigure(const BCAInput& bcaInput,
 //        board << *it;
 //    }
 
+    boost::filesystem::path p(outputPath);
+    boost::filesystem::create_directories(p.remove_filename());
 
     board.saveSVG(outputPath.c_str(),200,200,10);
 }
@@ -129,7 +131,7 @@ void FlowControl::createLevelsContributionFigure(const BCAInput& bcaInput,
 
 FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlowInput,
                                                        const cv::Mat& currentImage,
-                                                       const std::string& outputFolder,
+                                                       const std::string& baseFolder,
                                                        const std::string& suffix,
                                                        bool ignoreOptIntersection,
                                                        Point& translation)
@@ -148,12 +150,11 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlow
                       bcFlowInput.odrConfigInput,
                       bcFlowInput.flowProfile);
 
-    createLevelsContributionFigure(bcaInput,outputFolder + "/regions_" + suffix + ".svg",ignoreOptIntersection);
-
+    createLevelsContributionFigure(bcaInput,baseFolder + "/regions/" + suffix + ".svg",ignoreOptIntersection);
     BCAOutput bcaOutput(bcaInput);
 
 
-    std::vector<IBCControlVisitor*> visitors = { new BTools::Visitors::PotentialMap(outputFolder + "/map_" + suffix+ ".svg") };
+    std::vector<IBCControlVisitor*> visitors = { new BTools::Visitors::PotentialMap(baseFolder + "/pmap/" + suffix+ ".svg") };
 
     BTools::Core::BCApplication BCA(bcaOutput,
                                     bcaInput,

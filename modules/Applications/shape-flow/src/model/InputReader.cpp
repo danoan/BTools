@@ -31,6 +31,8 @@ InputReader::InputData::InputData()
 
     excludeOptPointsFromAreaComputation = false;
     penalizationMode = PenalizationMode::No_Penalization;
+
+    repeatedImprovement = false;
 }
 
 InputReader::InputData InputReader::readInput(int argc,char** argv)
@@ -38,7 +40,7 @@ InputReader::InputData InputReader::readInput(int argc,char** argv)
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:y:h:z:x"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:y:h:z:xw"))!=-1)
     {
         switch(opt)
         {
@@ -135,6 +137,11 @@ InputReader::InputData InputReader::readInput(int argc,char** argv)
                 id.penalizationWeight = std::atof(optarg);
                 break;
             }
+            case 'w':
+            {
+                id.repeatedImprovement=true;
+                break;
+            }
             default:
                 std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
                         "[-i Max Iterations default 10] \n"
@@ -155,6 +162,7 @@ InputReader::InputData InputReader::readInput(int argc,char** argv)
                         "[-h Grid step (default:1.0)]\n"
                         "[-x Exclude opt points from computation area default: false] \n"
                         "[-z Penalization weight default: 0.0] \n"
+                        "[-w Repeated improvement default: false] \n"
                         "FLOW_OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }

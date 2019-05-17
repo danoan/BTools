@@ -20,6 +20,8 @@ InputReader::InputData::InputData()
 
     excludeOptPointsFromAreaComputation = false;
     penalizationMode = PenalizationMode::No_Penalization;
+
+    repeatedImprovement = false;
 }
 
 InputReader::InputData InputReader::readInput(int argc,
@@ -28,7 +30,7 @@ InputReader::InputData InputReader::readInput(int argc,
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:n:S:y:h:l:xzo"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:S:y:h:l:xzow"))!=-1)
     {
         switch(opt)
         {
@@ -104,6 +106,11 @@ InputReader::InputData InputReader::readInput(int argc,
                 id.penalizationMode = InputData::PenalizationMode::Penalize_Ones;
                 break;
             }
+            case 'w':
+            {
+                id.repeatedImprovement = true;
+                break;
+            }
             default:
                 std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
                         "[-i Max Iterations default 10] \n"
@@ -114,6 +121,7 @@ InputReader::InputData InputReader::readInput(int argc,
                         "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
                         "[-x Exclude opt points from computation area default: false] \n"
                         "[-z Penalize changes default: false] \n"
+                        "[-w Repeated improvement default: false] \n"
                         "OUTPUT_FOLDER " << std::endl;
                 exit(1);
         }

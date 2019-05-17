@@ -71,6 +71,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     typedef BTools::Core::BCFlowInput BCFlowInput;
     int levels = 2;
     bool optInApplicationRegion=true;
+    bool repeatedImprovement = false;
 
     BCConfigInput bcConfigInput(inputData.radius,
                                 inputData.dtWeight,
@@ -78,6 +79,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                 inputData.lgWeight,
                                 inputData.penalizationWeight,
                                 inputData.excludeOptPointsFromAreaComputation,
+                                repeatedImprovement,
                                 inputData.penalizationMode,
                                 inputData.optMethod);
 

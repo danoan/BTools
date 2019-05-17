@@ -56,6 +56,7 @@ SolutionHint solutionHint(const DigitalSet& ds,
     typedef InputReader::InputData::ODRConfigInput ODRConfigInput;
     int levels=1;
     ODRConfigInput::LevelDefinition ld = ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
+    bool repeatedImprovement = false;
 
     FlowControl::BCConfigInput bcInput(id.radius,
                                        0,
@@ -63,6 +64,7 @@ SolutionHint solutionHint(const DigitalSet& ds,
                                        0.0,
                                        0,
                                        id.excludeOptPointsFromAreaComputation,
+                                       repeatedImprovement,
                                        id.penalizationMode,
                                        InputReader::InputData::OptMethod::Improve);
 
@@ -164,6 +166,8 @@ void drawHint(const DigitalSet& ds, const SolutionHint& shint, const std::string
 int main(int argc, char*argv[])
 {
     InputReader::InputData id = InputReader::readInput(argc,argv);
+    bool repeatedImprovement = false;
+
     DigitalSet _ds = resolveShape(id.shape,id.gridStep);
 
     boost::filesystem::create_directories(id.outputFolder);
@@ -195,6 +199,7 @@ int main(int argc, char*argv[])
                                            0.0,
                                            0,
                                            id.excludeOptPointsFromAreaComputation,
+                                           repeatedImprovement,
                                            id.penalizationMode,
                                            InputReader::InputData::OptMethod::Improve);
 

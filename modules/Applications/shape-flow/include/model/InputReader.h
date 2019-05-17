@@ -52,6 +52,8 @@ namespace ShapeFlow
 
             bool excludeOptPointsFromAreaComputation;
             PenalizationMode penalizationMode;
+            
+            bool repeatedImprovement;
 
         };
 

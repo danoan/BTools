@@ -54,6 +54,28 @@ namespace BTools
             ISQInputData::OptimizationDigitalRegions warmStart(const ISQInputData::OptimizationDigitalRegions& ODR,
                                                                const SolutionHint& shint);
 
+            void reweight(ISQEnergy& energy,const ISQInputData& energyInput);
+
+
+            ISQInputData updateEnergyInput(const ISQInputData::OptimizationDigitalRegions& ODR,
+                                           const ISQInputData& previousEnergyInput);
+
+            ISQInputData::OptimizationDigitalRegions updateODR(const IFlowStepConfig& flowStepConfig,
+                                                               const ODRInterface& odrFactory,
+                                                               const ISQInputData::OptimizationDigitalRegions& previousODR,
+                                                               Solution& solution);
+
+            template<typename TVisitorIterator>
+            void solve(Solution& solution,
+                       const BCConfigInput& bcInput,
+                       const ISQEnergy& energy,
+                       const ISQInputData& energyInput,
+                       const ISQInputData::OptimizationDigitalRegions& ODR,
+                       const ODRInterface& odrFactory,
+                       const IFlowStepConfig& flowStepConfig,
+                       TVisitorIterator begin,
+                       TVisitorIterator end);
+
             void updateSet(Solution& solution,
                            const ODRInterface& odrFactory,
                            const IFlowStepConfig& flowStepConfig,
