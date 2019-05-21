@@ -26,6 +26,9 @@ target_link_libraries(btools-visitors
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
 
+install(DIRECTORY include
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
+
 install(TARGETS btools-visitors
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
