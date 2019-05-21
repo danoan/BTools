@@ -35,6 +35,43 @@ FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
     shapeFlow( ds,bcFlowInput,outputFolder,ignoreOptIntersection,osLog );
 }
 
+void FlowControl::createMDCAFigure(const DigitalSet& ds, const std::string& outputPath)
+{
+    typedef Curve::IncidentPointsRange::ConstCirculator AdapterCirculator;
+    typedef DGtal::StabbingCircleComputer<AdapterCirculator> SegmentComputer;
+    typedef DGtal::SaturatedSegmentation<SegmentComputer> Segmentation;
+
+    Curve curve;
+    DIPaCUS::Misc::computeBoundaryCurve(curve,ds);
+
+    Curve::IncidentPointsRange intRange = curve.getIncidentPointsRange();
+
+    DGtal::Board2D board;
+    Point lb,ub;
+    ds.computeBoundingBox(lb,ub);
+    Domain domain(lb,ub);
+    board << domain;
+    board << curve;
+
+    Segmentation seg( intRange.c(), intRange.c(), SegmentComputer() );
+
+
+    int n = 0;
+    for (Segmentation::SegmentComputerIterator it = seg.begin(),
+                 itEnd = seg.end(); it != itEnd; ++it, ++n)
+    {
+        board << DGtal::SetMode(it->className(), "Annulus");
+        board << (*it);
+    }
+
+    boost::filesystem::path p(outputPath);
+    boost::filesystem::create_directories(p.remove_filename());
+
+    //std::cerr << "# " << n << " arcs" << std::endl;
+    board.saveSVG(outputPath.c_str());
+
+}
+
 void FlowControl::createLevelsContributionFigure(const BCAInput& bcaInput,
         const std::string& outputPath,
         bool ignoreOptIntersection)
@@ -151,6 +188,7 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlow
                       bcFlowInput.flowProfile);
 
     createLevelsContributionFigure(bcaInput,baseFolder + "/regions/" + suffix + ".svg",ignoreOptIntersection);
+    createMDCAFigure(bcaInput.imageDataInput.inputDS,baseFolder + "/mdca/" + suffix + ".svg");
     BCAOutput bcaOutput(bcaInput);
 
 

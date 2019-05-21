@@ -58,6 +58,7 @@ namespace LevelsContribution
 
     private:
         DigitalSet resolveShape(Shape shape,double gridStep);
+        void createMDCAFigure(const DigitalSet& ds, const std::string& outputPath);
         void createLevelsContributionFigure(const BCAInput& bcaInput,
                 const std::string& outputPath, bool ignoreOptIntersection);
 
