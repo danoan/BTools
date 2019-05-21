@@ -1,6 +1,7 @@
 #include <SCaBOliC/Core/ODRInterface.h>
 #include <BTools/core/pool/ODRPool.h>
 #include <BTools/core/pool/FlowPool.h>
+#include <BTools/reader/DCFReader.h>
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DGtal/io/boards/Board2D.h>
@@ -8,14 +9,17 @@
 #include <boost/filesystem.hpp>
 #include <DGtal/io/writers/GenericWriter.h>
 
-#include "InputReader.h"
 
-using namespace RegionsOfInterest;
 using namespace DGtal::Z2i;
-using namespace BTools::Core;
-using namespace SCaBOliC::Core;
 
-ODRInterface& getFactory(const InputReader::InputData& id)
+using namespace SCaBOliC::Core;
+using namespace BTools::Core;
+using namespace BTools::Reader;
+
+typedef DCFReader::Shape Shape;
+typedef DCFReader::ShapeType ShapeType;
+
+ODRInterface& getFactory(const DCFReader::InputData& id)
 {
     ODRConfigInput odrConfigInput(id.ac,id.cm,id.sm,id.radius,id.gridStep,id.levels,
             id.ld,id.neighborhood,id.seType,id.optRegionInApplication);
@@ -23,7 +27,7 @@ ODRInterface& getFactory(const InputReader::InputData& id)
     return ODRPool::get(odrConfigInput);
 }
 
-IFlowProfile& getProfile(const InputReader::InputData& id)
+IFlowProfile& getProfile(const DCFReader::InputData& id)
 {
     return FlowPool::getFlow(id.fp,id.optRegionInApplication);
 }
@@ -76,10 +80,48 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
 
 }
 
+DCFReader::InputData defaultValues()
+{
+    DCFReader::InputData id;
+
+    id.radius=3;
+    id.neighborhood= ODRConfigInput::NeighborhoodType::FourNeighborhood;
+    id.ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+
+    id.ac = ODRConfigInput::ApplicationCenter::AC_PIXEL;
+    id.cm = ODRConfigInput::CountingMode::CM_PIXEL;
+    id.sm = ODRConfigInput::SpaceMode::Pixel;
+
+    id.om = ODRModel::OptimizationMode::OM_CorrectConvexities;
+    id.am = ODRModel::ApplicationMode::AM_AroundBoundary;
+
+    id.seType = ODRConfigInput::StructuringElementType::RECT;
+
+    id.fp = BTools::Core::IFlowProfile::FlowProfile::DoubleStep;
+
+    id.levels=3;
+    id.optRegionInApplication = false;
+
+    id.shape = Shape(ShapeType::Square);
+    id.gridStep = 1.0;
+
+    return id;
+}
+
 int main(int argc, char* argv[])
 {
+    DCFReader::InputData id = DCFReader::readInput(argc,argv,"OUTPUT_FILEPATH\n",defaultValues);
 
-    InputReader::InputData id = InputReader::readInput(argc,argv);
+    std::string outputFilePath;
+    try
+    {
+        outputFilePath = argv[argc-1];
+    }catch(std::exception ex)
+    {
+        std::cerr << "Missing output_filepath!\n";
+        exit(1);
+    }
+
 
     ODRInterface& factory = getFactory(id);
     IFlowProfile& profile = getProfile(id);
@@ -92,9 +134,9 @@ int main(int argc, char* argv[])
                                           id.optRegionInApplication);
 
 
-    boost::filesystem::path p(id.outputFilepath);
+    boost::filesystem::path p(outputFilePath);
     boost::filesystem::create_directories(p.remove_filename());
-    saveODR(odrModel,id.outputFilepath);
+    saveODR(odrModel,outputFilePath);
 
     return 0;
 }

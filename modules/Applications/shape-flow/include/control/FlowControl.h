@@ -18,11 +18,13 @@
 #include <BTools/core/model/input/ImageDataInput.h>
 #include <BTools/core/model/BCAOutput.h>
 #include <BTools/core/BCApplication.h>
+
 #include <BTools/utils/imgUtils.h>
 #include <BTools/utils/strUtils.h>
 
+#include <BTools/reader/Types.h>
+
 #include "model/MockDistribution.h"
-#include "model/Types.h"
 #include "control/DataWriter.h"
 
 
@@ -45,6 +47,9 @@ namespace ShapeFlow
         typedef BTools::Core::BCFlowInput BCFlowInput;
         typedef BTools::Core::BCApplicationOutput BCAOutput;
         typedef BCAOutput::EnergySolution EnergySolution;
+
+        typedef BTools::Reader::DCFReader::Shape Shape;
+        typedef BTools::Reader::DCFReader::ShapeType ShapeType;
 
         typedef DataWriter::TableEntry TableEntry;
 

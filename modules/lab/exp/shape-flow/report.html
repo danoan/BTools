@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape flow experiment report</title>
+
+    <style>
+        .row{
+            width:100%;
+            height:250px;
+            font-size:10px;
+            font-family: "Open Sans", "DejaVu Sans", sans;
+            margin-bottom:4em;
+            text-align: center;
+        }
+        .collumn{
+            display:inline-block;
+            width:150px;
+            background-color:pink;
+            margin:1em;
+            text-align:center;
+            float:left;
+        }
+
+        .collumn li
+        {
+            padding:0.5rem 0rem;
+        }
+
+        .row ul{
+            list-style:none;
+            padding:0;
+            margin:0;
+        }
+
+        .row::after{
+            clear:both;
+            display:block;
+            content: "";
+            border-top: .2rem solid silver;
+            width: 100%;
+        }
+
+        .header{
+            font-weight: bold;
+            padding-bottom:1em;
+        }
+
+        .button{
+            cursor: pointer;
+        }
+
+        .selected{
+            background-color: #c8c8c8;
+            color:yellow;
+            font-weight:bold;
+        }
+
+        .display
+        {
+            box-sizing: border-box;
+            width:100%;
+            height:400px;
+            text-align:center;
+        }
+
+        .display-1
+        {
+            box-sizing: border-box;
+            height:100%;
+            text-align:center;
+        }
+
+        .display-1 div
+        {
+            width:49%;
+            display:inline-block;
+            box-sizing: border-box;
+            border:0 1em 0 1em;
+        }
+
+        .display-2 div
+        {
+            width:49%;
+            display:inline-block;
+            box-sizing: border-box;
+            border:0 1em 0 1em;
+        }
+
+        .display-1 img
+        {
+            height:100%;
+        }
+
+        .display-2
+        {
+            box-sizing: border-box;
+            height:100%;
+            text-align:center;
+        }
+
+        .display-2 img
+        {
+            height:100%;
+        }
+
+        .display > div
+        {
+            float:left;
+            display:inline-block;
+        }
+
+        .summary-flow{
+            height:100%;
+            cursor:pointer;
+        }
+
+        .odr-model
+        {
+            height:100%;
+            cursor:pointer;
+        }
+
+        .image-sequence{
+            float:none;
+            height:100%;
+        }
+
+        .hidden{
+            display:none !important;
+        }
+
+        .full{
+            width:100%;
+        }
+
+        .half{
+            width:50%;
+        }
+
+        body{
+            visibility:hidden;
+        }
+
+    </style>
+
+    <script>
+        var basePath;
+        var wheel_accumulator=0;
+
+        function shape_name()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length;
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                var buttons=c.children[0].children;
+                for(var j=0;j<buttons.length;j++)
+                {
+                    if(buttons[j].classList.contains("selected"))
+                    {
+                        if( buttons[j].getAttribute("type")=="shape" )
+                        {
+                            return buttons[j].getAttribute("path");
+                        }
+                    }
+                }
+            }
+        }
+
+        function build_path()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length;
+            var relPath="";
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                var buttons=c.children[0].children;
+                for(var j=0;j<buttons.length;j++)
+                {
+                    if(buttons[j].classList.contains("selected"))
+                    {
+                        if( buttons[j].hasAttribute("path") )
+                        {
+                            relPath = relPath.concat(buttons[j].getAttribute("path"), "/");
+                        }
+                    }
+                }
+            }
+
+            return relPath;
+        }
+
+        function get_current_display()
+        {
+            var display = document.getElementsByClassName("display")[0];
+            for(var i=0;i<display.children.length;++i)
+            {
+                if(display.children[i].classList.contains("active"))
+                {
+                    return display.children[i];
+                }
+            }
+        }
+
+        function get_active_subdisplay(display_class)
+        {
+            var activeDisplay = get_current_display();
+            var subdisplays = activeDisplay.children;
+            for(var i=0;i<subdisplays.length;++i)
+            {
+                if(subdisplays[i].classList.contains(display_class))
+                {
+                    return subdisplays[i];
+                }
+            }
+        }
+
+        function load_figure()
+        {
+            var relPath=build_path();
+            var shapeName = shape_name();
+            var fullPath=basePath.concat("/",relPath,shapeName,".svg");
+
+            var summary_flow = get_active_subdisplay("summary-flow");
+            summary_flow.children[0].setAttribute("src",fullPath);
+
+            var odr_model = get_active_subdisplay("odr-model");
+            var odr_image_path = fullPath.substr(0,fullPath.lastIndexOf("/"));
+            odr_image_path=odr_image_path.concat("/","odr.svg");
+            odr_model.children[0].setAttribute("src",odr_image_path);
+
+
+            restart_image_sequence();
+            console.log(odr_image_path);
+        }
+
+
+        function select(el)
+        {
+            _select(el,true);
+        }
+
+        function _select(el,load_flag)
+        {
+            var list_li=el.parentElement.children;
+            for (var i=0;i<list_li.length;i++)
+            {
+                if(list_li[i].hasAttribute("type"))
+                {
+                    list_li[i].className="button";
+                }
+
+            }
+            el.className="button selected";
+            if(load_flag)
+            {
+                load_figure();
+            }
+
+        }
+
+        function default_buttons()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length-1;
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                if(c.hasAttribute("menu"))
+                {
+                    var buttons = c.children[0].children;
+                    var first = buttons[1];
+                    _select(first, false);
+                }
+            }
+        }
+
+        function freeze(el)
+        {
+            var display = document.getElementsByClassName("display")[0];
+
+            if(el.innerHTML=="Freeze")
+            {
+                el.innerHTML="Unfreeze";
+                for(var i=0;i<display.children.length;i++)
+                {
+                    display.children[i].classList.remove("full");
+                    display.children[i].classList.remove("hidden");
+                    display.children[i].classList.remove("active");
+                    display.children[i].classList.add("half");
+                }
+                display.children[1].classList.add("active");
+                load_figure();
+            }else
+            {
+                el.innerHTML="Freeze";
+                for(var i=0;i<display.children.length;i++)
+                {
+                    display.children[i].classList.remove("half");
+                }
+
+                display.children[0].classList.add("full");
+                display.children[0].classList.add("active");
+                display.children[1].classList.add("hidden");
+                load_figure();
+            }
+        }
+
+        function toogle_display(class_to_display,class_to_hidden)
+        {
+            var display = get_current_display();
+            for(var i=0;i<display.children.length;++i)
+            {
+                if(display.children[i].classList.contains(class_to_hidden))
+                {
+                    display.children[i].classList.add("hidden");
+                }else if(display.children[i].classList.contains(class_to_display))
+                {
+                    display.children[i].classList.remove("hidden");
+                }
+            }
+        }
+
+
+        function restart_image_sequence()
+        {
+            var display = get_current_display();
+            for(var i=0;i<display.children.length;++i)
+            {
+                if(display.children[i].classList.contains("image-sequence"))
+                {
+                    display.children[i].setAttribute("img_seq","0");
+                }
+            }
+
+            var imageName = image_name("1");
+            var relPath = build_path();
+            var imagePath = basePath.concat("/",relPath,imageName);
+
+            var subdisplay = get_active_subdisplay("image-sequence");
+            subdisplay.children[0].setAttribute("src",imagePath);
+        }
+
+        function summary(el)
+        {
+            if(el.innerHTML=="Summary")
+            {
+                el.innerHTML="Image Sequence";
+                toogle_display("summary-flow","image-sequence");
+            }else
+            {
+                el.innerHTML="Summary";
+                toogle_display("image-sequence","summary-flow");
+            }
+        }
+
+        function open_src(el)
+        {
+            document.location.href=el.getAttribute("src");
+        }
+
+        function init()
+        {
+            basePath=window.prompt("Enter images base folder");
+            if(basePath=="")
+	        {
+	            basePath=window.location.toString();
+        	    basePath=basePath.substring(0, basePath.lastIndexOf("/") );
+	        }else{
+		        basePath="file://".concat(basePath);
+            }
+            default_buttons();
+            document.body.style.visibility="visible";
+
+            for(var i=0;i<document.getElementsByClassName("image-sequence").length;++i)
+            {
+                var el = document.getElementsByClassName("image-sequence")[i];
+                el.addEventListener("wheel",function(event){wheel_event(el,event);});
+            }
+        }
+
+        function image_name(imgSeq)
+        {
+            var name="";
+            for(var i=4-imgSeq.length;i>0;--i)
+            {
+                name+="0";
+            }
+
+            name+=imgSeq;
+            name+=".png";
+
+            return name;
+        }
+
+
+
+        function wheel_event(el,event)
+        {
+            event.preventDefault();
+            wheel_accumulator+=event.deltaY;
+
+            var subdisplay = get_active_subdisplay("image-sequence");
+            var imgEl = subdisplay.children[0];
+            var imgSeq = imgEl.getAttribute("img_seq");
+
+            var imageName = image_name(imgSeq);
+            var relPath = build_path();
+            var imagePath = basePath.concat("/",relPath,imageName);
+
+            imgEl.setAttribute("src",imagePath);
+
+            if(wheel_accumulator < -5)
+            {
+                imgEl.setAttribute("img_seq", (parseInt(imgSeq) + 1).toString());
+                wheel_accumulator=0;
+            }
+            else if(wheel_accumulator > 5)
+            {
+                imgEl.setAttribute("img_seq",(parseInt(imgSeq)-1).toString());
+                wheel_accumulator=0;
+            }
+        }
+
+        window.onload=init;
+
+
+    </script>
+</head>
+<body>
+
+<div class="row">
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Shape</li>
+            <li class="button" onclick="select(this)" path="triangle" type="shape">Triangle</li>
+            <li class="button" onclick="select(this)" path="square" type="shape">Square</li>
+            <li class="button" onclick="select(this)" path="pentagon" type="shape">Pentagon</li>
+            <!--<li class="button" onclick="select(this)" path="heptagon" type="shape">Heptagon</li>-->
+            <li class="button" onclick="select(this)" path="ball" type="shape">Ball</li>
+            <li class="button" onclick="select(this)" path="ellipse" type="shape">Ellipse</li>
+            <li class="button" onclick="select(this)" path="flower" type="shape">Flower</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Method</li>
+            <!--<li class="button" onclick="select(this)" path="probe" type="method">Probe</li>-->
+            <li class="button" onclick="select(this)" path="improve" type="method">Improve</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Space</li>
+            <li class="button" onclick="select(this)" path="pixel-space" type="space">Pixel</li>
+            <!--<li class="button" onclick="select(this)" path="interpixel-space" type="space">Interpixel</li>-->
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Computation Center</li>
+            <li class="button" onclick="select(this)" path="pixel" type="comp-center">Pixel</li>
+            <!--<li class="button" onclick="select(this)" path="linel" type="comp-center">Linel</li>-->
+            <!--<li class="button" onclick="select(this)" path="pointel" type="comp-center">Pointel</li>-->
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Profile</li>
+            <li class="button" onclick="select(this)" path="single" type="profile">Single</li>
+            <li class="button" onclick="select(this)" path="double" type="profile">Double</li>
+            <li class="button" onclick="select(this)" path="single-opt" type="profile">Single-Opt</li>
+            <li class="button" onclick="select(this)" path="double-opt" type="profile">Double-Opt</li>
+            <!--<li class="button" onclick="select(this)" path="single-inner" type="profile">Single-Inner</li>-->
+            <!--<li class="button" onclick="select(this)" path="double-inner" type="profile">Double-Inner</li>-->
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Neighborhood</li>
+            <li class="button" onclick="select(this)" path="neigh_4" type="profile">4</li>
+            <li class="button" onclick="select(this)" path="neigh_8" type="profile">8</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Radius</li>
+            <li class="button" onclick="select(this)" path="radius_3" type="radius">3</li>
+            <li class="button" onclick="select(this)" path="radius_5" type="radius">5</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Levels</li>
+            <!--<li class="button" onclick="select(this)" path="level_-3" type="levels">-3</li>-->
+            <li class="button" onclick="select(this)" path="level_-2" type="levels">-2</li>
+            <li class="button" onclick="select(this)" path="level_-1" type="levels">-1</li>
+            <li class="button" onclick="select(this)" path="level_1" type="levels">1</li>
+            <!--<li class="button" onclick="select(this)" path="level_2" type="levels">2</li>-->
+            <!--<li class="button" onclick="select(this)" path="level_3" type="levels">3</li>-->
+
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Opt</li>
+            <li class="button" onclick="select(this)" path="opt" type="opt">True</li>
+            <li class="button" onclick="select(this)" path="no-opt" type="opt">False</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Ignore OptApp</li>
+            <li class="button" onclick="select(this)" path="ignore-optApp" type="optApp">True</li>
+            <li class="button" onclick="select(this)" path="count-optApp" type="optApp">False</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Grid Step</li>
+            <li class="button" onclick="select(this)" path="gs_1.00" type="grid_step">1.0</li>
+            <li class="button" onclick="select(this)" path="gs_0.50" type="grid_step">0.5</li>
+            <li class="button" onclick="select(this)" path="gs_0.25" type="grid_step">0.25</li>
+        </ul>
+    </div>
+
+    <div class="collumn" actions>
+        <ul>
+            <li class="header">Actions</li>
+            <li class="button" onclick="freeze(this)" type="action">Freeze</li>
+            <li class="button" onclick="summary(this)" type="action">Image Sequence</li>
+        </ul>
+    </div>
+</div>
+
+<div class="display">
+    <div class="display-1 full active">
+
+        <div class="odr-model">
+            <img src="test.svg" onclick="open_src(this)" onwheel="test(this)" /><br>
+            ODR-Model
+        </div>
+
+        <div class="image-sequence hidden">
+            <img src="triangle.svg" img_seq="0" /><br>
+            Image Sequence
+        </div>
+
+        <div class="summary-flow">
+            <img src="test.svg" onclick="open_src(this)" /><br>
+            Summary Flow
+        </div>
+    </div>
+
+    <div class="display-2 half hidden">
+        <div class="image-sequence hidden">
+            <img src="test.svg" img_seq="0" /><br>
+            Image Sequence
+        </div>
+
+        <div class="summary-flow">
+            <img src="test.svg" onclick="open_src(this)" /><br>
+            Summary Flow
+        </div>
+
+        <div class="odr-model">
+            <img src="test.svg" onclick="open_src(this)" /><br>
+            ODR-Model
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

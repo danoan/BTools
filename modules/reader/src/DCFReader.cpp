@@ -1,46 +1,80 @@
-#include "model/InputReader.h"
+#include "BTools/reader/DCFReader.h"
 
-using namespace ShapeFlow;
+using namespace BTools::Reader;
 
-InputReader::InputData::InputData()
-{
-    radius=3;
-    iterations=10;
-
-    neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
-    ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
-    ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
-    cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
-    sm = InputData::ODRConfigInput::SpaceMode::Pixel;
-    levels= this->radius;
-    optRegionInApplication = false;
-    seType = InputData::ODRConfigInput::StructuringElementType::RECT;
-
-
-    fp = InputData::FlowProfile::DoubleStep;
-
-    dtWeight = 0.5;
-    sqWeight = 1.0;
-    lgWeight = 0.2;
-    penalizationWeight = 0.0;
-
-    optMethod = InputData::OptMethod::Improve;
-
-    shape = Shape(ShapeType::Square);
-    gridStep=1.0;
-
-    excludeOptPointsFromAreaComputation = false;
-    penalizationMode = PenalizationMode::No_Penalization;
-
-    repeatedImprovement = false;
-}
-
-InputReader::InputData InputReader::readInput(int argc,char** argv)
+DCFReader::InputData DCFReader::defaultValues()
 {
     InputData id;
+    id.radius=3;
+    id.iterations=10;
+
+    id.neighborhood=InputData::ODRConfigInput::NeighborhoodType::FourNeighborhood;
+    id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+    id.ac = InputData::ODRConfigInput::ApplicationCenter::AC_PIXEL;
+    id.cm = InputData::ODRConfigInput::CountingMode::CM_PIXEL;
+    id.sm = InputData::ODRConfigInput::SpaceMode::Pixel;
+    id.levels= id.radius;
+    id.optRegionInApplication = false;
+    id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
+
+
+    id.fp = InputData::FlowProfile::DoubleStep;
+
+    id.dtWeight = 0.5;
+    id.sqWeight = 1.0;
+    id.lgWeight = 0.2;
+    id.penalizationWeight = 0.0;
+
+    id.optMethod = InputData::OptMethod::Improve;
+
+    id.shape = Shape(ShapeType::Square);
+    id.gridStep=1.0;
+
+    id.excludeOptPointsFromAreaComputation = false;
+    id.penalizationMode = InputData::PenalizationMode::No_Penalization;
+
+    id.repeatedImprovement = false;
+
+    id.om = InputData::OptimizationMode::OM_CorrectConvexities;
+    id.am = InputData::ApplicationMode::AM_OptimizationBoundary;
+
+    return id;
+}
+
+void DCFReader::usage(char* argv[],const std::string& extraUsage)
+{
+    std::cerr << "Usage: " << argv[0] << "\n"
+            "[-r Ball Radius default 3] \n"
+            "[-i Max Iterations default 10] \n"
+            "[-a Computation Center (pixel or linel or pointel) default pixel] \n"
+            "[-c Counting Mode (pixel or pointel) default pixel] \n"
+            "[-s Space Mode (pixel or interpixel) default pixel] \n"
+            "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] \n"
+            "[-n Neighborhood 4 or 8 default: 4] \n"
+            "[-d Use digital area default: false] \n"
+            "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
+            "[-q Squared Curvature Term weight default: 1.0] \n"
+            "[-t Data Term weight default: 1.0] \n"
+            "[-g Length Term weight default: 1.0] \n"
+            "[-m Opt method 'probe' 'improve' default: improve] \n"
+            "[-o Include optimization region in the application region default: false \n"
+            "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
+            "[-t Structuring element type (rect cross) (default:rect)]\n"
+            "[-h Grid step (default:1.0)]\n"
+            "[-e Optimization mode (correct-convexities correct-concavities) (default:correct-convexities)]\n"
+            "[-e Application mode (optimization-contour around-contour inner-contour outer-contour) (default:optimization-contour)]\n"
+            "[-x Exclude opt points from computation area default: false] \n"
+            "[-z Penalization weight default: 0.0] \n"
+            "[-w Repeated improvement default: false]\n"
+            <<  extraUsage << std::endl;
+}
+
+DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string& extraUsage,DefaultValues df)
+{
+    InputData id = df();
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:y:h:z:xw"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:a:c:s:p:n:dl:q:t:g:m:oS:h:e:f:wxy:z:"))!=-1)
     {
         switch(opt)
         {
@@ -114,16 +148,37 @@ InputReader::InputData InputReader::readInput(int argc,char** argv)
                 else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Flower);
                 else id.shape = Shape(ShapeType::UserDefined,optarg);
                 break;
+            case 'h':
+            {
+                id.gridStep = std::atof(optarg);
+                break;
+            }
+            case 'e':
+            {
+                if(strcmp("correct-convexities",optarg)==0) id.om = InputData::OptimizationMode::OM_CorrectConvexities;
+                else if(strcmp("correct-concavities",optarg)==0) id.om = InputData::OptimizationMode::OM_CorrectConcavities;
+                else throw std::runtime_error("Optimization Mode not recognized!");
+                break;
+            }
+            case 'f':
+            {
+                if(strcmp("optimization-contour",optarg)==0) id.am = InputData::ApplicationMode::AM_OptimizationBoundary;
+                else if(strcmp("around-countour",optarg)==0) id.am = InputData::ApplicationMode::AM_AroundBoundary;
+                else if(strcmp("inner-countour",optarg)==0) id.am = InputData::ApplicationMode::AM_InternRange;
+                else if(strcmp("outer-countour",optarg)==0) id.am = InputData::ApplicationMode::AM_ExternRange;
+                else throw std::runtime_error("Optimization Mode not recognized!");
+                break;
+            }
+            case 'w':
+            {
+                id.repeatedImprovement=true;
+                break;
+            }
             case 'y':
             {
                 if(strcmp("rect",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::RECT;
                 else if(strcmp("cross",optarg)==0) id.seType = InputData::ODRConfigInput::StructuringElementType::CROSS;
                 else throw std::runtime_error("Structuring element type not recognized.");
-                break;
-            }
-            case 'h':
-            {
-                id.gridStep = std::atof(optarg);
                 break;
             }
             case 'x':
@@ -137,37 +192,13 @@ InputReader::InputData InputReader::readInput(int argc,char** argv)
                 id.penalizationWeight = std::atof(optarg);
                 break;
             }
-            case 'w':
-            {
-                id.repeatedImprovement=true;
-                break;
-            }
             default:
-                std::cerr << "Usage: \n[-r Ball Radius default 3] \n"
-                        "[-i Max Iterations default 10] \n"
-                        "[-a Computation Center (pixel or linel or pointel) default pixel] \n"
-                        "[-c Counting Mode (pixel or pointel) default pixel] \n"
-                        "[-s Space Mode (pixel or interpixel) default pixel] \n"
-                        "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] \n"
-                        "[-n Neighborhood 4 or 8 default: 4] \n"
-                        "[-d Use digital area default: false] \n"
-                        "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
-                        "[-q Squared Curvature Term weight default: 1.0] \n"
-                        "[-t Data Term weight default: 1.0] \n"
-                        "[-g Length Term weight default: 1.0] \n"
-                        "[-m Opt method 'probe' 'improve' default: improve] \n"
-                        "[-o Include optimization region in the application region default: false \n"
-                        "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
-                        "[-t Structuring element type (rect cross) (default:rect)]\n"
-                        "[-h Grid step (default:1.0)]\n"
-                        "[-x Exclude opt points from computation area default: false] \n"
-                        "[-z Penalization weight default: 0.0] \n"
-                        "[-w Repeated improvement default: false] \n"
-                        "FLOW_OUTPUT_FOLDER " << std::endl;
+            {
+                usage(argv,extraUsage);
                 exit(1);
+            }
         }
     }
 
-    id.outputFolder = argv[optind];
     return id;
 }

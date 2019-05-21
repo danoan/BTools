@@ -1,14 +1,24 @@
-#include "model/InputReader.h"
-#include "model/Types.h"
+#include "BTools/reader/DCFReader.h"
 #include "control/FlowControl.h"
 
 
 
 using namespace ShapeFlow;
+using namespace BTools::Reader;
 
 int main(int argc, char* argv[])
 {
-    InputReader::InputData id = InputReader::readInput(argc,argv);
+    DCFReader::InputData id = DCFReader::readInput(argc,argv,"OUTPUT_FOLDER\n");
+
+    std::string outputFolder;
+    try
+    {
+        outputFolder = argv[argc-1];
+    }catch(std::exception ex)
+    {
+        std::cerr << "Missing output_folder!\n";
+        exit(1);
+    }
 
     FlowControl::BCConfigInput bcInput(id.radius,
                                        id.dtWeight,
@@ -41,7 +51,7 @@ int main(int argc, char* argv[])
     FlowControl flow(bcFlowInput,
                      id.shape,
                      id.gridStep,
-                     id.outputFolder,
+                     outputFolder,
                      std::cerr);
 
     return 0;

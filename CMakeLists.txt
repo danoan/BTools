@@ -32,10 +32,12 @@ link_directories(${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
-        ${CMAKE_BINARY_DIR}/modules/visitors)
+        ${CMAKE_BINARY_DIR}/modules/visitors
+        ${CMAKE_BINARY_DIR}/modules/reader)
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/utils)
+add_subdirectory(modules/reader)
 add_subdirectory(modules/visitors)
 
 add_subdirectory(modules/Applications/grabcut)
@@ -45,9 +47,6 @@ add_subdirectory(modules/Applications/shape-flow)
 add_subdirectory(modules/Applications/summary-flow)
 add_subdirectory(modules/Applications/regions-of-interest)
 add_subdirectory(modules/Applications/export-seed-mask)
-add_subdirectory(modules/Applications/levels-contribution)
-add_subdirectory(modules/Applications/intersection-flow)
-add_subdirectory(modules/Applications/warm-start)
 
 if(${BUILD_TESTS})
     #add_subdirectory(modules/lab/Test)
