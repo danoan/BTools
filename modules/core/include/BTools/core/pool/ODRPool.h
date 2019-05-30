@@ -5,9 +5,10 @@
 #include <map>
 
 #include "BTools/core/model/input/ODRConfigInput.h"
-#include "SCaBOliC/Core/ODRInterface.h"
-#include "SCaBOliC/Core/ODRPixels.h"
-#include "SCaBOliC/Core/ODRInterpixels.h"
+#include "SCaBOliC/Core/interface/ODRInterface.h"
+#include "SCaBOliC/Core/ODRPixels/ODRPixels.h"
+#include "SCaBOliC/Core/ODRInterpixels/ODRInterpixels.h"
+#include "SCaBOliC/Core/ODRLinels/ODRLinels.h"
 
 namespace BTools
 {

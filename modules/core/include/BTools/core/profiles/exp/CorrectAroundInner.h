@@ -1,7 +1,7 @@
 #ifndef BTOOLS_CORRECTAROUNDINNER_H
 #define BTOOLS_CORRECTAROUNDINNER_H
 
-#include <SCaBOliC/Core/ODRModel.h>
+#include <SCaBOliC/Core/model/ODRModel.h>
 
 namespace BTools
 {

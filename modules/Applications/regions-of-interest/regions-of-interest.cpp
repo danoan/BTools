@@ -1,4 +1,4 @@
-#include <SCaBOliC/Core/ODRInterface.h>
+#include <SCaBOliC/Core/interface/ODRInterface.h>
 #include <BTools/core/pool/ODRPool.h>
 #include <BTools/core/pool/FlowPool.h>
 #include <BTools/reader/DCFReader.h>

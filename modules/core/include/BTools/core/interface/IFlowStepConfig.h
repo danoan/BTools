@@ -3,7 +3,7 @@
 
 #include <DGtal/helpers/StdDefs.h>
 
-#include <SCaBOliC/Core/ODRModel.h>
+#include <SCaBOliC/Core/model/ODRModel.h>
 #include <SCaBOliC/Energy/ISQ/InputData.h>
 #include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
