@@ -26,8 +26,8 @@ def combinations(configList):
 
 
 GRID_STEP=[1.0,0.5,0.25]
-SHAPES=["triangle","square","pentagon","ball","ellipse","flower"]#"heptagon"]
-RADIUS=[3,5]
+SHAPES=["wave","triangle","square","pentagon","ball","ellipse","flower"]#"heptagon"]
+RADIUS=[1,2]#3,5]
 ITERATIONS=[100]
 COMPUTATION_CENTER=["pixel"]#,"pointel"]#,"linel"]
 COUNTING_MODE=["pixel"]
@@ -91,8 +91,7 @@ def regions_of_interest(c):
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
     binary = "%s/%s" % (BIN_FOLDER,"regions-of-interest/regions-of-interest")
-    subprocess.call( [binary,
-                      outputFilepath,
+    subprocess.call( [binary,                  
                       "%s%s" % ("-S",shape),
                       "%s%d" % ("-r",radius),
                       "%s%s" % ("-a",cc),
@@ -102,7 +101,8 @@ def regions_of_interest(c):
                       "%s%d" % ("-n",neigh),
                       "%s%d" % ("-l",levels),
                       "%s" % ("-o" if opt else ""),
-                      "%s%f" % ("-h", gs)
+                      "%s%f" % ("-h", gs),
+		      outputFilepath	
                       ] )
 
 def shape_flow(c):
@@ -111,8 +111,7 @@ def shape_flow(c):
     gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp = c
 
     binary = "%s/%s" % (BIN_FOLDER,"shape-flow/shape-flow")
-    subprocess.call( [binary,
-                      outputFolder,
+    subprocess.call( [binary,                      
                       "%s%s" % ("-S",shape),
                       "%s%d" % ("-r",radius),
                       "%s%d" % ("-i",iterations),
@@ -128,7 +127,8 @@ def shape_flow(c):
                       "%s%s" % ("-m",method),
                       "%s" % ("-o" if opt else ""),
                       "%s" % ("-x" if ignoreOptApp else ""),
-                      "%s%f" % ("-h", gs)
+                      "%s%f" % ("-h", gs),
+		      outputFolder	
                       ] )
 
 def summary_flow(c):

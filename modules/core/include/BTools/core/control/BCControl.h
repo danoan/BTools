@@ -4,7 +4,7 @@
 #include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Energy/ISQ/ISQEnergy.h>
 #include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
-#include "SCaBOliC/Core/ODRInterface.h"
+#include "SCaBOliC/Core/interface/ODRInterface.h"
 
 #include "BTools/core/interface/IFlowStepConfig.h"
 #include "BTools/core/interface/IBCControlVisitor.h"

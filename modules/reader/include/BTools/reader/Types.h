@@ -7,7 +7,7 @@ namespace BTools
     {
         namespace DCFReader
         {
-            enum ShapeType{Triangle,Square,Pentagon,Heptagon,Ball,Ellipse,Flower,UserDefined,NoType};
+            enum ShapeType{Triangle,Square,Pentagon,Heptagon,Ball,Ellipse,Flower,Wave,UserDefined,NoType};
 
             struct Shape
             {
@@ -23,6 +23,7 @@ namespace BTools
                     else if(type==ShapeType::Ball) name = "ball";
                     else if(type==ShapeType::Ellipse) name = "ellipse";
                     else if(type==ShapeType::Flower) name = "flower";
+                    else if(type==ShapeType::Wave) name = "wave";
                     else name = "user-defined";
                 }
 

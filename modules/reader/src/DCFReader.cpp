@@ -58,7 +58,7 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
             "[-g Length Term weight default: 1.0] \n"
             "[-m Opt method 'probe' 'improve' default: improve] \n"
             "[-o Include optimization region in the application region default: false \n"
-            "[-S Shape (triangle square pentagon heptagon ball ellipse ball dumbell). Default: square\n"
+            "[-S Shape (triangle square pentagon heptagon ball ellipse ball wave). Default: square\n"
             "[-t Structuring element type (rect cross) (default:rect)]\n"
             "[-h Grid step (default:1.0)]\n"
             "[-e Optimization mode (correct-convexities correct-concavities) (default:correct-convexities)]\n"
@@ -146,6 +146,7 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
                 else if(strcmp(optarg,"ball")==0) id.shape = Shape( ShapeType::Ball);
                 else if(strcmp(optarg,"ellipse")==0) id.shape = Shape( ShapeType::Ellipse);
                 else if(strcmp(optarg,"flower")==0) id.shape = Shape( ShapeType::Flower);
+                else if(strcmp(optarg,"wave")==0) id.shape = Shape( ShapeType::Wave);
                 else id.shape = Shape(ShapeType::UserDefined,optarg);
                 break;
             case 'h':
