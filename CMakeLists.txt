@@ -46,13 +46,13 @@ if(${BUILD_TESTS})
 endif()
 
 if(${BUILD_APPLICATIONS})
-    add_subdirectory(modules/Applications/grabcut)
-    add_subdirectory(modules/Applications/seed-selector)
     add_subdirectory(modules/Applications/boundary-correction)
+    add_subdirectory(modules/Applications/export-seed-mask)
+    add_subdirectory(modules/Applications/grabcut)
+    add_subdirectory(modules/Applications/regions-of-interest)
+    add_subdirectory(modules/Applications/seed-selector)
     add_subdirectory(modules/Applications/shape-flow)
     add_subdirectory(modules/Applications/summary-flow)
-    add_subdirectory(modules/Applications/regions-of-interest)
-    add_subdirectory(modules/Applications/export-seed-mask)
 endif()
 
 
