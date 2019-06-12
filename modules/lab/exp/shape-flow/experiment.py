@@ -26,8 +26,8 @@ def combinations(configList):
 
 
 GRID_STEP=[1.0,0.5,0.25]
-SHAPES=["wave","triangle","square","pentagon","ball","ellipse","flower"]#"heptagon"]
-RADIUS=[1,2]#3,5]
+SHAPES=["wave"]#,"triangle","square","pentagon","ball","ellipse","flower"]#"heptagon"]
+RADIUS=[3,5]
 ITERATIONS=[100]
 COMPUTATION_CENTER=["pixel"]#,"pointel"]#,"linel"]
 COUNTING_MODE=["pixel"]

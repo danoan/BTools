@@ -11,7 +11,8 @@ add_library(btools-utils ${LIBRARY_ACTION}
         src/DataWriter.cpp
         src/imgUtils.cpp
         src/strUtils.cpp
-        src/GrabCutIO.cpp)
+        src/GrabCutIO.cpp
+        src/timer.cpp)
 
 target_include_directories(btools-utils PRIVATE
         include

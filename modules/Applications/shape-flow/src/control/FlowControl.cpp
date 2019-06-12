@@ -118,6 +118,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
                             const std::string& outputFolder,
                             std::ostream& osLog)
 {
+    BTools::Utils::Timer::start();
+    
     osLog << "Flow Start: " << bcFlowInput.inputName << "\n";
     osLog << "Iterations (" << bcFlowInput.maxIterations << "): ";
 
@@ -170,6 +172,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
     osLog << "\nWriting Results...";
     DataWriter::printTable(bcFlowInput.inputName,entries,os);
+    os << "\n\n";
+    BTools::Utils::Timer::end(os);
     osLog << "\n\n";
 
 }

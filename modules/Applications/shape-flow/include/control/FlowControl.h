@@ -21,6 +21,7 @@
 
 #include <BTools/utils/imgUtils.h>
 #include <BTools/utils/strUtils.h>
+#include <BTools/utils/timer.h>
 
 #include <BTools/reader/Types.h>
 
