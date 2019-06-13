@@ -172,7 +172,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
     osLog << "\nWriting Results...";
     DataWriter::printTable(bcFlowInput.inputName,entries,os);
-    os << "\n\n";
+    os << "\n\n#";
     BTools::Utils::Timer::end(os);
     osLog << "\n\n";
 
