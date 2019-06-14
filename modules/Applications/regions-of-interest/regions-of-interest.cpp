@@ -21,8 +21,8 @@ typedef DCFReader::ShapeType ShapeType;
 
 ODRInterface& getFactory(const DCFReader::InputData& id)
 {
-    ODRConfigInput odrConfigInput(id.ac,id.cm,id.sm,id.radius,id.gridStep,id.levels,
-            id.ld,id.neighborhood,id.seType,id.optRegionInApplication);
+    ODRConfigInput odrConfigInput(id.radius,id.gridStep,id.levels,
+            id.ld,id.neighborhood,id.optRegionInApplication);
 
     return ODRPool::get(odrConfigInput);
 }
@@ -89,14 +89,8 @@ DCFReader::InputData defaultValues()
     id.neighborhood= ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
 
-    id.ac = ODRConfigInput::ApplicationCenter::AC_PIXEL;
-    id.cm = ODRConfigInput::CountingMode::CM_PIXEL;
-    id.sm = ODRConfigInput::SpaceMode::Pixel;
-
     id.om = ODRModel::OptimizationMode::OM_CorrectConvexities;
     id.am = ODRModel::ApplicationMode::AM_AroundBoundary;
-
-    id.seType = ODRConfigInput::StructuringElementType::RECT;
 
     id.fp = BTools::Core::IFlowProfile::FlowProfile::DoubleStep;
 

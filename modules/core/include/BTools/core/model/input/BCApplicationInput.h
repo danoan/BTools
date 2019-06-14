@@ -6,7 +6,6 @@
 #include "BCConfigInput.h"
 #include "ODRConfigInput.h"
 #include "ImageDataInput.h"
-#include "SolutionHint.h"
 
 namespace BTools
 {
@@ -22,8 +21,7 @@ namespace BTools
                                const ImageDataInput& imageDataInput,
                                const ODRConfigInput& odrConfigInput,
                                const FlowProfile& flowProfile,
-                               bool showProgress=false,
-                               const SolutionHint shint=SolutionHint::emptySHint): bcConfigInput(bcConfigInput),
+                               bool showProgress=false): bcConfigInput(bcConfigInput),
                                                                    odrConfigInput(odrConfigInput),
                                                                    imageDataInput(imageDataInput),
                                                                    flowProfile(flowProfile),
@@ -36,7 +34,6 @@ namespace BTools
             const ODRConfigInput odrConfigInput;
 
             bool showProgress;
-            const SolutionHint shint;
 
 
         };

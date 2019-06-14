@@ -7,8 +7,6 @@
 #include "BTools/core/model/input/ODRConfigInput.h"
 #include "SCaBOliC/Core/interface/ODRInterface.h"
 #include "SCaBOliC/Core/ODRPixels/ODRPixels.h"
-#include "SCaBOliC/Core/ODRInterpixels/ODRInterpixels.h"
-#include "SCaBOliC/Core/ODRLinels/ODRLinels.h"
 
 namespace BTools
 {
@@ -19,7 +17,6 @@ namespace BTools
         public:
             typedef SCaBOliC::Core::ODRInterface ODRInterface;
             typedef SCaBOliC::Core::ODRPixels ODRPixels;
-            typedef SCaBOliC::Core::ODRInterpixels ODRInterpixels;
 
         public:
             static ODRInterface& get(const ODRConfigInput& odrConfigInput)
@@ -35,30 +32,11 @@ namespace BTools
 
             static ODRInterface* createODR(const ODRConfigInput& odrConfigInput)
             {
-                if(odrConfigInput.spaceMode==ODRConfigInput::SpaceMode::Pixel)
-                {
-                    return new ODRPixels(odrConfigInput.applicationCenter,
-                                         odrConfigInput.countingMode,
-                                         odrConfigInput.radius,
-                                         odrConfigInput.gridStep,
-                                         odrConfigInput.levels,
-                                         odrConfigInput.levelDefinition,
-                                         odrConfigInput.neighborhood,
-                                         odrConfigInput.seType);
-
-                }
-                else if(odrConfigInput.spaceMode==ODRConfigInput::SpaceMode::Interpixel)
-                {
-                    return new ODRInterpixels(odrConfigInput.applicationCenter,
-                                              odrConfigInput.countingMode,
-                                              odrConfigInput.radius,
-                                              odrConfigInput.gridStep,
-                                              odrConfigInput.levels,
-                                              odrConfigInput.levelDefinition,
-                                              odrConfigInput.neighborhood,
-                                              odrConfigInput.seType);
-                }
-
+                return new ODRPixels(odrConfigInput.radius,
+                                     odrConfigInput.gridStep,
+                                     odrConfigInput.levels,
+                                     odrConfigInput.levelDefinition,
+                                     odrConfigInput.neighborhood);
             }
 
 

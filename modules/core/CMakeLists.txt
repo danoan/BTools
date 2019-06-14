@@ -11,8 +11,7 @@ add_library(btools-core ${LIBRARY_ACTION}
         src/pool/ODRPool.cpp
         src/pool/FlowPool.cpp
         src/control/BCControl.cpp
-        src/model/GMM.cpp
-        src/model/SolutionHint.cpp)
+        src/model/GMM.cpp)
 
 target_include_directories(btools-core PRIVATE
         include

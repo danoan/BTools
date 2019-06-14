@@ -8,8 +8,7 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
                              int maxIterations,
                              bool displayEachIteration,
                              TVisitorIterator begin,
-                             TVisitorIterator end,
-                             const SolutionHint shint)
+                             TVisitorIterator end)
 {
     IFlowProfile& flowProfile = FlowPool::getFlow(bcaInput.flowProfile,
                                                   bcaInput.odrConfigInput.optInApplicationRegion);
@@ -32,8 +31,7 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
                       flowProfile.nextStep(),
                       inputDS,
                       begin,
-                      end,
-                      shint);
+                      end);
 
             inputDS.clear();
             inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());

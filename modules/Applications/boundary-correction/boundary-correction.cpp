@@ -77,20 +77,13 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                 inputData.dtWeight,
                                 inputData.sqWeight,
                                 inputData.lgWeight,
-                                inputData.penalizationWeight,
                                 inputData.excludeOptPointsFromAreaComputation,
-                                repeatedImprovement,
-                                inputData.penalizationMode,
                                 inputData.optMethod);
 
-    ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
-                                  ODRConfigInput::CountingMode::CM_PIXEL,
-                                  ODRConfigInput::SpaceMode::Pixel,
-    inputData.radius, 1.0,
+    ODRConfigInput odrConfigInput(inputData.radius, 1.0,
             levels,
             ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
             ODRConfigInput::NeighborhoodType::FourNeighborhood,
-            ODRConfigInput::StructuringElementType::RECT,
             optInApplicationRegion);
 
 

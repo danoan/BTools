@@ -10,7 +10,6 @@
 #include "BTools/core/interface/IBCControlVisitor.h"
 #include "BTools/core/model/input/ImageDataInput.h"
 #include "BTools/core/model/input/BCConfigInput.h"
-#include "BTools/core/model/input/SolutionHint.h"
 
 namespace BTools
 {
@@ -47,24 +46,9 @@ namespace BTools
                       const IFlowStepConfig& flowStepConfig,
                       const DigitalSet& inputDS,
                       TVisitorIterator begin,
-                      TVisitorIterator end,
-                      const SolutionHint& shint);
+                      TVisitorIterator end);
 
         private:
-            ISQInputData::OptimizationDigitalRegions warmStart(const ISQInputData::OptimizationDigitalRegions& ODR,
-                                                               const SolutionHint& shint);
-
-            void reweight(ISQEnergy& energy,const ISQInputData& energyInput);
-
-
-            ISQInputData updateEnergyInput(const ISQInputData::OptimizationDigitalRegions& ODR,
-                                           const ISQInputData& previousEnergyInput);
-
-            ISQInputData::OptimizationDigitalRegions updateODR(const IFlowStepConfig& flowStepConfig,
-                                                               const ODRInterface& odrFactory,
-                                                               const ISQInputData::OptimizationDigitalRegions& previousODR,
-                                                               Solution& solution);
-
             template<typename TVisitorIterator>
             void solve(Solution& solution,
                        const BCConfigInput& bcInput,

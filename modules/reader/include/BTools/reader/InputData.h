@@ -22,7 +22,6 @@ namespace BTools
                 typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
                 typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
 
-                typedef BTools::Core::BCConfigInput::PenalizationMode PenalizationMode;
                 typedef BTools::Core::IFlowStepConfig::OptimizationMode OptimizationMode;
                 typedef BTools::Core::IFlowStepConfig::ApplicationMode ApplicationMode;
 
@@ -31,12 +30,8 @@ namespace BTools
                 int radius;
                 int iterations;
 
-                ODRConfigInput::ApplicationCenter ac;
-                ODRConfigInput::CountingMode cm;
-                ODRConfigInput::SpaceMode  sm;
                 ODRConfigInput::NeighborhoodType neighborhood;
                 ODRConfigInput::LevelDefinition ld;
-                ODRConfigInput::StructuringElementType seType;
 
                 bool optRegionInApplication;
                 int levels;
@@ -46,16 +41,12 @@ namespace BTools
                 double sqWeight;
                 double dtWeight;
                 double lgWeight;
-                double penalizationWeight;
 
                 OptMethod optMethod;
                 Shape shape;
                 double gridStep;
 
                 bool excludeOptPointsFromAreaComputation;
-                PenalizationMode penalizationMode;
-
-                bool repeatedImprovement;
 
                 OptimizationMode om;
                 ApplicationMode am;

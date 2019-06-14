@@ -24,21 +24,14 @@ int main(int argc, char* argv[])
                                        id.dtWeight,
                                        id.sqWeight,
                                        id.lgWeight,
-                                       id.penalizationWeight,
                                        id.excludeOptPointsFromAreaComputation,
-                                       id.repeatedImprovement,
-                                       id.penalizationMode,
                                        id.optMethod);
 
-    FlowControl::ODRConfigInput odrConfigInput(id.ac,
-                                               id.cm,
-                                               id.sm,
-                                               id.radius,
+    FlowControl::ODRConfigInput odrConfigInput(id.radius,
                                                id.gridStep,
                                                id.levels,
                                                id.ld,
                                                id.neighborhood,
-                                               id.seType,
                                                id.optRegionInApplication);
 
     FlowControl::BCFlowInput bcFlowInput(id.shape.name,

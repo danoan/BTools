@@ -20,29 +20,20 @@ namespace BTools
                           double dataTermWeight,
                           double sqTermWeight,
                           double lengthTermWeight,
-                          double penalizationWeight,
                           bool excludeOptPointsFromAreaComputation,
-                          bool repeatedImprovement,
-                          PenalizationMode penalizationMode,
                           QPBOSolverType solverType):radius(radius),
                                                      dataTermWeight(dataTermWeight),
                                                      sqTermWeight(sqTermWeight),
                                                      lengthTermWeight(lengthTermWeight),
-                                                     penalizationWeight(penalizationWeight),
-                                                     penalizationMode(penalizationMode),
                                                      excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
-                                                     repeatedImprovement(repeatedImprovement),
                                                      solverType(solverType){}
 
             double radius;
             double dataTermWeight;
             double sqTermWeight;
             double lengthTermWeight;
-            double penalizationWeight;
 
-            PenalizationMode penalizationMode;
             bool excludeOptPointsFromAreaComputation;
-            bool repeatedImprovement;
 
             QPBOSolverType solverType;
         };
