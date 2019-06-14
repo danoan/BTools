@@ -49,9 +49,12 @@ CONFIG_LIST=[ (GRID_STEP,"grid_step"),
 
 
 def valid_combination(c):
-    _,_,_,_,profile,_,levels,_,_,_,_,opt,_ = c
+    _,_,radius,_,profile,_,levels,_,_,_,_,opt,_ = c
 
     flag=True
+
+    if radius==1:
+        flag=flag and (levels==1 or levels==-1)
 
     if profile=="single-opt" or profile=="double-opt":
         flag=flag and (levels==1)

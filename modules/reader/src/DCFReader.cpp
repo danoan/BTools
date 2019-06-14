@@ -50,7 +50,7 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
             "[-S Shape (triangle square pentagon heptagon ball ellipse ball wave). Default: square\n"
             "[-h Grid step (default:1.0)]\n"
             "[-e Optimization mode (correct-convexities correct-concavities) (default:correct-convexities)]\n"
-            "[-e Application mode (optimization-contour around-contour inner-contour outer-contour) (default:optimization-contour)]\n"
+            "[-f Application mode (optimization-contour around-contour inner-contour outer-contour) (default:optimization-contour)]\n"
             "[-x Exclude opt points from computation area default: false] \n"
             <<  extraUsage << std::endl;
 }

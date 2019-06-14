@@ -89,7 +89,7 @@ DCFReader::InputData defaultValues()
     id.neighborhood= ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
 
-    id.om = ODRModel::OptimizationMode::OM_CorrectConvexities;
+    id.om = ODRModel::OptimizationMode::OM_CorrectConcavities;
     id.am = ODRModel::ApplicationMode::AM_AroundBoundary;
 
     id.fp = BTools::Core::IFlowProfile::FlowProfile::DoubleStep;
