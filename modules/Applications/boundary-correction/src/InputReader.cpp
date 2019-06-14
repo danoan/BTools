@@ -10,10 +10,8 @@ InputReader::InputData::InputData()
     dtWeight = 0.5;
     sqWeight = 1.0;
     lgWeight = 0.2;
-    penalizationWeight = 0.0;
 
     excludeOptPointsFromAreaComputation = false;
-    penalizationMode = InputData::PenalizationMode::No_Penalization;
 
     optMethod = InputData::OptMethod::Improve;
     showIterations=false;
@@ -25,7 +23,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxz:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vx"))!=-1)
     {
         switch(opt)
         {
@@ -60,10 +58,6 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
             case 'x':
                 id.excludeOptPointsFromAreaComputation = true;
                 break;
-            case 'z':
-                id.penalizationMode = InputData::PenalizationMode::Penalize_Ones;
-                id.penalizationWeight = std::atof(optarg);
-                break;
             default:
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
@@ -76,7 +70,6 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
                         "[-o Output folder default: \"\" (no output generated)] \n"
                         "[-v Show progress status default: false] \n"
                         "[-x Exclude opt points from computation area default: false] \n"
-                        "[-z Penalization weight default: 0.0] \n"
                         << std::endl;
                 exit(1);
         }

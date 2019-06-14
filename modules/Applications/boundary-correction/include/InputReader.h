@@ -20,7 +20,6 @@ namespace BoundaryCorrection
             typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
 
             typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
-            typedef BTools::Core::BCConfigInput::PenalizationMode PenalizationMode;
 
             InputData();
 
@@ -30,13 +29,11 @@ namespace BoundaryCorrection
             double sqWeight;
             double dtWeight;
             double lgWeight;
-            double penalizationWeight;
 
             std::string grabcutFile;
             OptMethod optMethod;
 
             bool excludeOptPointsFromAreaComputation;
-            PenalizationMode penalizationMode;
 
             std::string outputFolder;
             bool showIterations;

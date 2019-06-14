@@ -12,7 +12,6 @@ namespace BTools
         {
         public:
             typedef SCaBOliC::Optimization::QPBOSolverType QPBOSolverType;
-            typedef SCaBOliC::Energy::ISQ::InputData::PenalizationMode PenalizationMode;
 
         public:
             BCConfigInput(){};
