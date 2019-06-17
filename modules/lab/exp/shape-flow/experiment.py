@@ -26,18 +26,18 @@ def combinations(configList):
 
 
 GRID_STEP=[1.0,0.5,0.25]
-SHAPES=["wave","triangle","square","pentagon","ball","ellipse","flower"]#"heptagon"]
+SHAPES=["wave","triangle","square","ellipse","flower"]#"ball","pentagon","heptagon"]
 RADIUS=[1,2,3,5]
 ITERATIONS=[100]
-PROFILE=["single","double","single-opt","double-opt"]
+PROFILE=["single","double"]#,"single-opt","double-opt"]
 NEIGHBORHOOD=[4,8]
-LEVELS=[1,-1,-2]#2,3,-3,-2,-1]
-LENGTH_TERM=[0]
+LEVELS=[1,2,-1,-2]#2,3,-3,-2,-1]
+LENGTH_TERM=[0,0.1]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
 METHOD=["improve"]
-OPT_IN_COMPUTATION=[True,False]
-IGNORE_OPT_POINTS_COMPUTATION_AREA=[True,False]
+OPT_IN_COMPUTATION=[False]#True,False]
+IGNORE_OPT_POINTS_COMPUTATION_AREA=[False]#True,False]
 
 CONFIG_LIST=[ (GRID_STEP,"grid_step"),
               (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
