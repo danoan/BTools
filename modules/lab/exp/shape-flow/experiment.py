@@ -28,11 +28,11 @@ def combinations(configList):
 GRID_STEP=[1.0,0.5,0.25]
 SHAPES=["wave","triangle","square","ellipse","flower"]#"ball","pentagon","heptagon"]
 RADIUS=[1,2,3,5]
-ITERATIONS=[100]
+ITERATIONS=[150]
 PROFILE=["single","double"]#,"single-opt","double-opt"]
 NEIGHBORHOOD=[4,8]
-LEVELS=[1,2,-1,-2]#2,3,-3,-2,-1]
-LENGTH_TERM=[0,0.1]
+LEVELS=[1,2,3,-1,-2,-3]#2,3,-3,-2,-1]
+LENGTH_TERM=[0,0.1,0.5]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
 METHOD=["improve"]
@@ -53,8 +53,7 @@ def valid_combination(c):
 
     flag=True
 
-    if radius==1:
-        flag=flag and (levels==1 or levels==-1)
+    flag=flag and (abs(levels)<=radius)
 
     if profile=="single-opt" or profile=="double-opt":
         flag=flag and (levels==1)
@@ -64,10 +63,10 @@ def valid_combination(c):
     return flag
 
 def resolve_output_folder(gs,shape,radius,iterations,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp):
-    outputFolder = "%s/%s/%s/%s/neigh_%d/radius_%d/level_%d/%s/%s/gs_%.2f" % (BASE_OUTPUT_FOLDER,shape,method,
+    outputFolder = "%s/%s/%s/%s/neigh_%d/radius_%d/level_%d/%s/%s/gs_%.2f/length_%.2f" % (BASE_OUTPUT_FOLDER,shape,method,
                                                                                  profile,neigh,radius,levels,
                                                                                  "opt" if opt else "no-opt",
-                                                                                 "ignore-optApp" if ignoreOptApp else "count-optApp",gs)
+                                                                                 "ignore-optApp" if ignoreOptApp else "count-optApp",gs,length)
 
     return outputFolder
 
