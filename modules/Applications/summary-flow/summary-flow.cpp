@@ -14,8 +14,8 @@ int main(int argc, char* argv[])
 
     int jumpStep = 2;
     OneImageFlow::ImageOutputType iot=OneImageFlow::SVG;
-    if(argc==4) jumpStep = atoi(argv[3]);
-    if(argc==5)
+    if(argc>=4) jumpStep = atoi(argv[3]);
+    if(argc>=5)
     {
         if(strcmp("svg",argv[4])==0) iot= OneImageFlow::SVG;
         else if(strcmp("eps",argv[4])==0) iot= OneImageFlow::EPS;
