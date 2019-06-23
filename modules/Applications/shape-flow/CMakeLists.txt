@@ -4,7 +4,6 @@ project(shape-flow)
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
 
-
 add_executable(shape-flow
         shape-flow.cpp
         src/control/DataWriter.cpp

@@ -29,19 +29,11 @@ void BCApplication::prepareProductImage(BCAOutput& bcaOutput,
             translatedBackDS.insert(pt);
     }
 
+    cv::Mat foregroundMask = cv::Mat::zeros(imageDataInput.baseImage.size(),
+                                            CV_8UC1);
+    DIPaCUS::Representation::digitalSetToCVMat(foregroundMask,translatedBackDS);
 
-    cv::Mat outputMask = cv::Mat::zeros(imageDataInput.baseImage.size(),
-                                        CV_8UC1);
-
-    DIPaCUS::Representation::digitalSetToCVMat(outputMask,translatedBackDS);
-
-
-    bcaOutput.imgOutput = cv::Mat::zeros(imageDataInput.baseImage.size(),
-                                         imageDataInput.baseImage.type());
+    BTools::Utils::setHighlightMask(bcaOutput.imgOutput,imageDataInput.baseImage,foregroundMask);
 
 
-    imageDataInput.baseImage.copyTo(bcaOutput.imgOutput,
-                                    outputMask);
 }
-
-

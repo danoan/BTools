@@ -139,7 +139,7 @@ void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutObject& gco
 
 
     cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
-    gco.inputImage.copyTo(gcSegImg ,gco.segMask);
+    BTools::Utils::setHighlightMask(gcSegImg,gco.inputImage,gco.segMask);
 
 
     cv::imwrite(graphCutSegFilepath,gcSegImg);

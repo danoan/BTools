@@ -9,6 +9,8 @@ endif()
 
 add_library(btools-visitors ${LIBRARY_ACTION} src/PotentialMap.cpp)
 
+add_dependencies(btools-visitors btools-core btools-utils)
+
 target_include_directories(btools-visitors PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include

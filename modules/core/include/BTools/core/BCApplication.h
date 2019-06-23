@@ -22,6 +22,7 @@
 #include <BTools/core/pool/FlowPool.h>
 #include <BTools/core/pool/ODRPool.h>
 
+#include <BTools/utils/imgUtils.h>
 
 namespace BTools
 {

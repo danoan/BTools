@@ -13,14 +13,18 @@ add_library(btools-core ${LIBRARY_ACTION}
         src/control/BCControl.cpp
         src/model/GMM.cpp)
 
+add_dependencies(btools-core btools-utils)
+
 target_include_directories(btools-core PRIVATE
         include
+        ${CMAKE_SOURCE_DIR}/modules/utils/include
         ${DIPACUS_INCLUDE_DIRS}
         ${SCABOLIC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(btools-core
+        -lbtools-utils
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
