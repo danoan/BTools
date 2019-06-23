@@ -18,6 +18,7 @@ namespace BTools
             OptimizationMode optimizationMode() const{ return OptimizationMode::OM_CorrectConcavities; }
             ApplicationMode applicationMode() const{ return ApplicationMode::AM_InternRange; }
             bool optInApplicationRegion() const{ return flagOptInApplicationRegion; }
+            bool shrinkingMode() const{ return false; }
 
             void initialSolution(LabelsVector& labelsVector) const { labelsVector.setZero(); }
 

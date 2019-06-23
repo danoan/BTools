@@ -1,4 +1,5 @@
 #include "BTools/core/BCApplication.h"
+#include <DIPaCUS/components/Morphology.h>
 
 using namespace BTools::Core;
 
@@ -16,9 +17,13 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
     ODRInterface& odrInterface = ODRPool::get(bcaInput.odrConfigInput);
 
     BCAOutput::EnergySolution& solution = bcaOutput.energySolution;
-    DigitalSet inputDS = bcaInput.imageDataInput.inputDS;
+//    DigitalSet inputDS = bcaInput.imageDataInput.inputDS;
+    DigitalSet inputDS(bcaInput.imageDataInput.inputDS.domain());
+    DIPaCUS::Morphology::StructuringElement se(DIPaCUS::Morphology::StructuringElement::RECT, 1);
+    DIPaCUS::Morphology::dilate(inputDS,bcaInput.imageDataInput.inputDS,se,bcaInput.bcConfigInput.initialDilation);
 
     BCAOutput lastValidSolution(bcaInput);
+    //std::cerr << inputDS.domain() << std::endl;
 
     try
     {

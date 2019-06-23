@@ -12,6 +12,7 @@ InputReader::InputData::InputData()
     lgWeight = 0.2;
 
     excludeOptPointsFromAreaComputation = false;
+    initialDilation=10;
 
     optMethod = InputData::OptMethod::Improve;
     showIterations=false;
@@ -23,7 +24,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vx"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:"))!=-1)
     {
         switch(opt)
         {
@@ -58,6 +59,9 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
             case 'x':
                 id.excludeOptPointsFromAreaComputation = true;
                 break;
+            case 'd':
+                id.initialDilation = std::atoi(optarg);
+                break;
             default:
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
@@ -70,6 +74,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
                         "[-o Output folder default: \"\" (no output generated)] \n"
                         "[-v Show progress status default: false] \n"
                         "[-x Exclude opt points from computation area default: false] \n"
+                        "[-d Initial dilation size: default: 10] \n"
                         << std::endl;
                 exit(1);
         }

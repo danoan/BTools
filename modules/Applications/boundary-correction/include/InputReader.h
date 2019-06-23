@@ -34,6 +34,7 @@ namespace BoundaryCorrection
             OptMethod optMethod;
 
             bool excludeOptPointsFromAreaComputation;
+            int initialDilation;
 
             std::string outputFolder;
             bool showIterations;

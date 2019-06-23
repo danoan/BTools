@@ -69,7 +69,7 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
     typedef BTools::Core::BCFlowInput BCFlowInput;
-    int levels = 2;
+    int levels = 1;
     bool optInApplicationRegion=true;
     bool repeatedImprovement = false;
 
@@ -78,6 +78,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                 inputData.sqWeight,
                                 inputData.lgWeight,
                                 inputData.excludeOptPointsFromAreaComputation,
+                                inputData.initialDilation,
                                 inputData.optMethod);
 
     ODRConfigInput odrConfigInput(inputData.radius, 1.0,
@@ -97,7 +98,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     CVMatDistribution fgDistr(gco.inputImage,fgGMM);
     CVMatDistribution bgDistr(gco.inputImage,bgGMM);
 
-    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg);
+    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg,inputData.initialDilation);
 
     BCApplicationInput bcaInput(bcConfigInput,
                                 imageDataInput,
@@ -114,7 +115,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     return bcaOutput;
 }
 
-cv::Mat highlightBorder(const DigitalSet& ds)
+cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(255,255,255))
 {
     const DigitalSet& boundaryMaskDs = ds;
     Point dims = boundaryMaskDs.domain().upperBound() - boundaryMaskDs.domain().lowerBound() + Point(1,1);
@@ -124,7 +125,7 @@ cv::Mat highlightBorder(const DigitalSet& ds)
     cv::Mat maskBoundaryImgColor( maskBoundaryImgGS.size(),CV_8UC3);
     cv::cvtColor(maskBoundaryImgGS,maskBoundaryImgColor,cv::COLOR_GRAY2RGB);
 
-    BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,cv::Vec3b(255,255,0));
+    BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,color);
     return maskBoundaryImgColor;
 }
 

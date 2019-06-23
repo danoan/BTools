@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
                                        id.sqWeight,
                                        id.lgWeight,
                                        id.excludeOptPointsFromAreaComputation,
+                                       0,
                                        id.optMethod);
 
     FlowControl::ODRConfigInput odrConfigInput(id.radius,
