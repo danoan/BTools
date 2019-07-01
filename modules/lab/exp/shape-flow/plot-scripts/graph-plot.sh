@@ -3,7 +3,7 @@
 gp_save()
 {
 	printf "set size 1.0, 0.6;
-		set terminal postscript portrait enhanced color dashed lw 1 \"Helvetica\" 14;
+		set terminal postscript portrait enhanced mono dashed lw 1 \"Helvetica\" 20;
 		set output \"my-plot.ps\";
 		replot;
 		set terminal x11;
@@ -18,7 +18,7 @@ gp_plot_config()
 	then
         printf "set title '$1';
         set xlabel 'Iterations';
-        set ylabel 'Elastica a=1 b=0';"
+        set ylabel 'Elastica {/Symbol a}=1 {/Symbol b}=0';"
     elif [ $mode = 1 ]
     then
         printf "set title '$1';
