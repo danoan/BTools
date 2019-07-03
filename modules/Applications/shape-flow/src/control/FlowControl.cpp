@@ -32,11 +32,12 @@ FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
     boost::filesystem::create_directories(outputFolder);
     std::ofstream ofs(outputFolder + "/input-data.txt");
 
-    DataWriter::printFlowMetadata(bcFlowInput,ofs);
+    DigitalSet ds = resolveShape(shape,gridStep);
+
+    DataWriter::printFlowMetadata(bcFlowInput,ds,ofs);
     ofs.flush();
     ofs.close();
 
-    DigitalSet ds = resolveShape(shape,gridStep);
     shapeFlow( ds,bcFlowInput,outputFolder,osLog );
 }
 

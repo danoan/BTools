@@ -78,6 +78,7 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
 }
 
 void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
+                                    const DigitalSet& dsZero,
                                     std::ofstream &ofs)
 {
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepConvexities ) ofs << "Flow Profile: Single Step \n";
@@ -105,6 +106,7 @@ void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
     ofs << "Data Weight: " << bcFlowInput.bcInput.dataTermWeight << " \n";
 
     ofs << "Opt region in application: " << bcFlowInput.odrConfigInput.optInApplicationRegion << "\n";
+    ofs << "Initial shape has: " << dsZero.size() << " pixels\n";
 
 
 
