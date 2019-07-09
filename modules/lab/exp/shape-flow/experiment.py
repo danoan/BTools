@@ -25,17 +25,17 @@ def combinations(configList):
         yield tuple( configList[i][0][c[i]] for i in range(numParams) )
 
 
-GRID_STEP=[1.0,0.5,0.25]
+GRID_STEP=[0.5]
 SHAPES=["wave","triangle","square","ellipse","flower"]#"ball","pentagon","heptagon"]
-RADIUS=[1,2,3,5]
+RADIUS=[3,5]
 ITERATIONS=[150]
-PROFILE=["single","double"]#,"single-opt","double-opt"]
-NEIGHBORHOOD=[4,8]
-LEVELS=[1,2,3,-1,-2,-3]#2,3,-3,-2,-1]
-LENGTH_TERM=[0,0.1,0.5]
+PROFILE=["double"]#,"single-opt","double-opt"]
+NEIGHBORHOOD=[4]
+LEVELS=[1,2,3,4,5]#2,3,-3,-2,-1]
+LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
-METHOD=["improve"]
+METHOD=["probe","improve"]
 OPT_IN_COMPUTATION=[False]#True,False]
 IGNORE_OPT_POINTS_COMPUTATION_AREA=[False]#True,False]
 

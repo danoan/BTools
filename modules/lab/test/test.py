@@ -25,102 +25,79 @@ def combinations(configList):
         yield tuple( configList[i][0][c[i]] for i in range(numParams) )
 
 
-GRID_STEP=[1.0,0.5]
-SHAPES=["triangle","square","pentagon","heptagon","ball","ellipse","flower"]
+GRID_STEP=[1.0]
+SHAPES=["wave","triangle","square","pentagon","heptagon","ball","ellipse","flower"]
 RADIUS=[3]
 ITERATIONS=[5]
-COMPUTATION_CENTER=["pixel","pointel","linel"]
-COUNTING_MODE=["pixel"]
-SPACE_MODE=["pixel","interpixel"]
-PROFILE=["single","double","single-opt","double-opt","single-inner","double-inner"]
+PROFILE=["single","double","single-opt","double-opt"]
 NEIGHBORHOOD=[4]
-LEVELS=[1,2,3,-3,-2,-1]
+LEVELS=[1,2,3]
 LENGTH_TERM=[0]
 SQ_TERM=[1.0]
 DATA_TERM=[0]
-METHOD=["improve"]
+METHOD=["simple","probe","improve"]
 OPT_IN_COMPUTATION=[True,False]
-STRUCTURING_ELEMENT=["cross","rect"]
+IGNORE_OPT_POINTS_COMPUTATION_AREA=[True,False]
 
 
 CONFIG_LIST=[ (GRID_STEP,"grid_step"),
               (SHAPES,"shape"), (RADIUS,"radius"), (ITERATIONS,"iterations"),
-              (COMPUTATION_CENTER,"computation_center"),
-              (COUNTING_MODE,"counting_mode"), (SPACE_MODE,"space_mode"),
               (PROFILE,"profile"), (NEIGHBORHOOD,"neighborhood"),
               (LEVELS,"levels"), (LENGTH_TERM,"length"),
               (SQ_TERM,"sq_term"), (DATA_TERM,"data_term"), (METHOD,"method"),
               (OPT_IN_COMPUTATION,"opt_in_computation"),
-              (STRUCTURING_ELEMENT,"structuring_element_type") ]
+              (IGNORE_OPT_POINTS_COMPUTATION_AREA,"ignore_opt_points") ]
 
 
 def valid_combination(c):
-    _,_,_,_,cc,cm,sm,profile,_,levels,_,_,_,_,opt,_ = c
+    _,_,radius,_,profile,_,levels,_,_,_,_,opt,_ = c
 
     flag=True
-    if cc=="pixel":
-        flag=flag and sm=="pixel"
 
-    if cc=="pointel" or cc=="linel":
-        flag=flag and sm=="interpixel"
-
-    if profile=="single-inner" or profile=="double-inner":
-        flag=flag and cc=="linel"
-
-    if sm=="interpixel":
-        flag=flag and (levels>0)
+    flag=flag and (abs(levels)<=radius)
 
     if profile=="single-opt" or profile=="double-opt":
         flag=flag and (levels==1)
         flag=flag and (opt==True)
 
-
     return flag
 
 def resolve_output_folder(gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType):
-    outputFolder = "%s/%s/%s/%s-space/%s/%s/radius_%d/level_%d/%s/%s/gs_%.2f" % (BASE_OUTPUT_FOLDER,shape,method,
-                                                                                 sm,cc,profile,radius,levels,
-                                                                                 "opt" if opt else "no-opt",
-                                                                                 seType,gs)
+    outputFolder = "%s/%s/%s/%s/neigh_%d/radius_%d/level_%d/%s/%s/gs_%.2f/length_%.2f" % (BASE_OUTPUT_FOLDER,shape,method,
+                                                                                          profile,neigh,radius,levels,
+                                                                                          "opt" if opt else "no-opt",
+                                                                                          "ignore-optApp" if ignoreOptApp else "count-optApp",gs,length)
 
     return outputFolder
 
 def regions_of_interest(c):
     outputFolder = resolve_output_folder(*c)
-    gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType = c
+    gs,shape,radius,iterations,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp = c
 
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
     binary = "%s/%s" % (BIN_FOLDER,"regions-of-interest/regions-of-interest")
     subprocess.call( [binary,
-                      outputFilepath,
                       "%s%s" % ("-S",shape),
                       "%s%d" % ("-r",radius),
-                      "%s%s" % ("-a",cc),
-                      "%s%s" % ("-c",cm),
-                      "%s%s" % ("-s",sm),
                       "%s%s" % ("-p",profile),
                       "%s%d" % ("-n",neigh),
                       "%s%d" % ("-l",levels),
                       "%s" % ("-o" if opt else ""),
-                      "%s%s" % ("-y", seType),
-                      "%s%f" % ("-h", gs)
+                      "%s%f" % ("-h", gs),
+                      outputFilepath
                       ] )
 
 def shape_flow(c):
 
     outputFolder = resolve_output_folder(*c)
-    gs,shape,radius,iterations,cc,cm,sm,profile,neigh,levels,length,sq,data,method,opt,seType = c
+    gs,shape,radius,iterations,profile,neigh,levels,length,sq,data,method,opt,ignoreOptApp = c
 
     binary = "%s/%s" % (BIN_FOLDER,"shape-flow/shape-flow")
     subprocess.call( [binary,
-                      outputFolder,
                       "%s%s" % ("-S",shape),
                       "%s%d" % ("-r",radius),
                       "%s%d" % ("-i",iterations),
-                      "%s%s" % ("-a",cc),
-                      "%s%s" % ("-c",cm),
-                      "%s%s" % ("-s",sm),
                       "%s%s" % ("-p",profile),
                       "%s%d" % ("-n",neigh),
                       "%s%d" % ("-l",levels),
@@ -129,8 +106,9 @@ def shape_flow(c):
                       "%s%f" % ("-g",length),
                       "%s%s" % ("-m",method),
                       "%s" % ("-o" if opt else ""),
-                      "%s%s" % ("-y", seType),
-                      "%s%f" % ("-h", gs)
+                      "%s" % ("-x" if ignoreOptApp else ""),
+                      "%s%f" % ("-h", gs),
+                      outputFolder
                       ] )
 
 def summary_flow(c):
@@ -142,6 +120,11 @@ def summary_flow(c):
                       flow_images_folder_path,
                       shape,
                       str(jump)])
+
+    subprocess.call( [binary,
+                      flow_images_folder_path,
+                      shape,
+                      str(jump),"eps"])
 
 def create_plots(shape,output_folder):
     binary = "%s/%s" % (SCRIPT_FOLDER,"create-plots.sh")
@@ -170,8 +153,8 @@ def read_input():
     global PROJECT_FOLDER,BIN_FOLDER, BASE_OUTPUT_FOLDER, SCRIPT_FOLDER
     PROJECT_FOLDER=sys.argv[1]
     BIN_FOLDER="%s/%s/%s" % (PROJECT_FOLDER,sys.argv[2],"modules/Applications")
-    SCRIPT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/plot-scripts")
-    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/test/output")
+    SCRIPT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/shape-flow/plot-scripts")
+    BASE_OUTPUT_FOLDER="%s/%s" % (PROJECT_FOLDER,"modules/lab/exp/shape-flow/output")
 
 def main():
     read_input()

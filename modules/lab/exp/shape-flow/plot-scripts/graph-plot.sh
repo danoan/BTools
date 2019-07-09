@@ -3,7 +3,7 @@
 gp_save()
 {
 	printf "set size 1.0, 0.6;
-		set terminal postscript portrait enhanced mono dashed lw 1 \"Helvetica\" 20;
+		set terminal postscript portrait enhanced color dashed lw 2 \"Helvetica\" 20;
 		set output \"my-plot.ps\";
 		replot;
 		set terminal x11;
