@@ -3,7 +3,7 @@
 gp_save()
 {
 	printf "set size 1.0, 0.6;
-		set terminal postscript portrait enhanced color dashed lw 1 \"Helvetica\" 14;
+		set terminal postscript portrait enhanced color dashed lw 2 \"Helvetica\" 20;
 		set output \"my-plot.ps\";
 		replot;
 		set terminal x11;
@@ -18,7 +18,7 @@ gp_plot_config()
 	then
         printf "set title '$1';
         set xlabel 'Iterations';
-        set ylabel 'Integral Square Curvature (MDCA+MDSS)';"
+        set ylabel 'Elastica {/Symbol a}=1 {/Symbol b}=0';"
     elif [ $mode = 1 ]
     then
         printf "set title '$1';
@@ -70,10 +70,10 @@ gp_last_plot()
 create_multiplot()
 {
 	fileoutput=$1;shift;
-	plottitle=$1;shift;
+	plottitle="$1";shift;
 	mode=$1;shift;
 
-	buffer="$(gp_plot_config $mode $plottitle)plot "
+	buffer="$(gp_plot_config $mode "$plottitle")plot "
 	i=0
 	num_plots=`expr ${#} / 2 - 1`
 
@@ -106,4 +106,4 @@ create_multiplot()
 #$2: Graph title
 #$3: Energy/Length Mode
 #$4-..: (Plot datafile,Plot subtitle)
-create_multiplot $@
+create_multiplot "$@"

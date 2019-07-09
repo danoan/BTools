@@ -1,7 +1,7 @@
 #ifndef BTOOLS_CORRECTAROUNDINNER_H
 #define BTOOLS_CORRECTAROUNDINNER_H
 
-#include <SCaBOliC/Core/ODRModel.h>
+#include <SCaBOliC/Core/model/ODRModel.h>
 
 namespace BTools
 {
@@ -16,9 +16,10 @@ namespace BTools
         public:
             CorrectAroundInner(bool optInApplicationRegion=false):flagOptInApplicationRegion(optInApplicationRegion){}
 
-            OptimizationMode optimizationMode() const{ return OptimizationMode::OM_OriginalBoundary; }
+            OptimizationMode optimizationMode() const{ return OptimizationMode::OM_CorrectConvexities; }
             ApplicationMode applicationMode() const { return ApplicationMode::AM_AroundIntern; }
             bool optInApplicationRegion() const{ return flagOptInApplicationRegion; }
+            bool shrinkingMode() const{ return true; }
 
             void initialSolution(LabelsVector& labelsVector) const { labelsVector.setZero(); }
 

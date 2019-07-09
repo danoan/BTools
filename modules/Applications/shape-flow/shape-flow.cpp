@@ -1,43 +1,41 @@
-#include "model/InputReader.h"
-#include "model/Types.h"
+#include "BTools/reader/DCFReader.h"
 #include "control/FlowControl.h"
 
 
 
 using namespace ShapeFlow;
-
-std::string resolveShapeName(Shape shape)
-{
-    if(shape==Shape::Triangle) return "triangle";
-    else if(shape==Shape::Square) return "square";
-    else if(shape==Shape::Pentagon) return "pentagon";
-    else if(shape==Shape::Heptagon) return "heptagon";
-    else if(shape==Shape::Ball) return "ball";
-    else if(shape==Shape::Ellipse) return "ellipse";
-    else if(shape==Shape::Flower) return "elower";
-    else return "";
-}
+using namespace BTools::Reader;
 
 int main(int argc, char* argv[])
 {
-    InputReader::InputData id;
-    InputReader::readInput(id,argc,argv);
+    DCFReader::InputData id = DCFReader::readInput(argc,argv,"OUTPUT_FOLDER\n");
+
+    std::string outputFolder;
+    try
+    {
+        outputFolder = argv[argc-1];
+    }catch(std::exception ex)
+    {
+        std::cerr << "Missing output_folder!\n";
+        exit(1);
+    }
 
     FlowControl::BCConfigInput bcInput(id.radius,
                                        id.dtWeight,
                                        id.sqWeight,
                                        id.lgWeight,
+                                       id.excludeOptPointsFromAreaComputation,
+                                       0,
                                        id.optMethod);
 
-    FlowControl::ODRConfigInput odrConfigInput(id.ac,
-                                  id.cm,
-                                  id.sm,
-                                  id.levels,
-                                  id.ld,
-                                  id.neighborhood,
-                                  id.optRegionInApplication);
+    FlowControl::ODRConfigInput odrConfigInput(id.radius,
+                                               id.gridStep,
+                                               id.levels,
+                                               id.ld,
+                                               id.neighborhood,
+                                               id.optRegionInApplication);
 
-    FlowControl::BCFlowInput bcFlowInput(resolveShapeName(id.shape),
+    FlowControl::BCFlowInput bcFlowInput(id.shape.name,
                                          bcInput,
                                          odrConfigInput,
                                          id.fp,
@@ -46,7 +44,8 @@ int main(int argc, char* argv[])
 
     FlowControl flow(bcFlowInput,
                      id.shape,
-                     id.outputFolder,
+                     id.gridStep,
+                     outputFolder,
                      std::cerr);
 
     return 0;

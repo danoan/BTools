@@ -18,7 +18,8 @@ namespace BTools
 
             double operator()(Index row, Index col) const
             {
-                return gmm( img.at<cv::Vec3b>(row,col)  );
+                double s = gmm( img.at<cv::Vec3b>(row,col)  ) + 1.0e-20;
+                return s;
             }
 
         public:

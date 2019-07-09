@@ -6,6 +6,8 @@ add_executable(summary-flow
         src/OneImageFlow.cpp
         )
 
+add_dependencies(shape-flow btools-core btools-utils)
+
 target_compile_features(summary-flow PRIVATE cxx_auto_type)
 target_compile_options(summary-flow PRIVATE -fext-numeric-literals)
 
@@ -27,4 +29,4 @@ target_link_libraries(summary-flow
         ${OpenCV_LIBS})
 
 install(TARGETS summary-flow
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

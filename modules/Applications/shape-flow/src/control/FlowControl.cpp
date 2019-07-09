@@ -2,31 +2,42 @@
 
 using namespace ShapeFlow;
 
-FlowControl::DigitalSet FlowControl::resolveShape(Shape shape)
+FlowControl::DigitalSet FlowControl::resolveShape(Shape shape,double gridStep)
 {
-    int radius=40;
-    if(shape==Shape::Triangle) return DIPaCUS::Shapes::triangle(1.0,0,0,radius);
-    else if(shape==Shape::Square) return DIPaCUS::Shapes::square(1.1,0,0,radius);
-    else if(shape==Shape::Pentagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,5);
-    else if(shape==Shape::Heptagon) return DIPaCUS::Shapes::NGon(1.0,0,0,radius,7);
-    else if(shape==Shape::Ball) return DIPaCUS::Shapes::ball(1.0,0,0,radius);
-    else if(shape==Shape::Flower) return DIPaCUS::Shapes::flower(1.0,0,0,radius,radius/2.0,2);
-    else if(shape==Shape::Ellipse) return DIPaCUS::Shapes::ellipse(1.0,0,0,radius,radius/2);
+    int radius=20;
+    if(shape.type==ShapeType::Triangle) return DIPaCUS::Shapes::triangle(gridStep,0,0,radius);
+    else if(shape.type==ShapeType::Square) return DIPaCUS::Shapes::square(gridStep,0,0,radius);
+    else if(shape.type==ShapeType::Pentagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,5);
+    else if(shape.type==ShapeType::Heptagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,7);
+    else if(shape.type==ShapeType::Ball) return DIPaCUS::Shapes::ball(gridStep,0,0,radius);
+    else if(shape.type==ShapeType::Flower) return DIPaCUS::Shapes::flower(gridStep,0,0,radius,radius/2.0,2);
+    else if(shape.type==ShapeType::Ellipse) return DIPaCUS::Shapes::ellipse(gridStep,0,0,radius,radius/2);
+    else if(shape.type==ShapeType::Wave) return DIPaCUS::Shapes::wave(gridStep,1200,radius*3,radius*6,0.01);
+    else
+    {
+        cv::Mat img = cv::imread(shape.imagePath,CV_8UC1);
+        Domain domain( DGtal::Z2i::Point(0,0), DGtal::Z2i::Point(img.cols-1,img.rows-1) );
+        DigitalSet ds(domain);
+        DIPaCUS::Representation::CVMatToDigitalSet(ds,img,1);
+        return ds;
+    }
 }
 
 FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
                          Shape shape,
+                         double gridStep,
                          const std::string& outputFolder,
                          std::ostream& osLog)
 {
     boost::filesystem::create_directories(outputFolder);
     std::ofstream ofs(outputFolder + "/input-data.txt");
 
-    DataWriter::printFlowMetadata(bcFlowInput,ofs);
+    DigitalSet ds = resolveShape(shape,gridStep);
+
+    DataWriter::printFlowMetadata(bcFlowInput,ds,ofs);
     ofs.flush();
     ofs.close();
 
-    DigitalSet ds = resolveShape(shape);
     shapeFlow( ds,bcFlowInput,outputFolder,osLog );
 }
 
@@ -108,6 +119,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
                             const std::string& outputFolder,
                             std::ostream& osLog)
 {
+    BTools::Utils::Timer::start();
+    
     osLog << "Flow Start: " << bcFlowInput.inputName << "\n";
     osLog << "Iterations (" << bcFlowInput.maxIterations << "): ";
 
@@ -160,6 +173,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
     osLog << "\nWriting Results...";
     DataWriter::printTable(bcFlowInput.inputName,entries,os);
+    os << "\n\n#";
+    BTools::Utils::Timer::end(os);
     osLog << "\n\n";
 
 }

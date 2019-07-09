@@ -78,9 +78,10 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
 }
 
 void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
+                                    const DigitalSet& dsZero,
                                     std::ofstream &ofs)
 {
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStep ) ofs << "Flow Profile: Single Step \n";
+    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepConvexities ) ofs << "Flow Profile: Single Step \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepOpt ) ofs << "Flow Profile: Single Step Opt \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepOpt) ofs << "Flow Profile: Double Step Opt\n";
@@ -89,15 +90,6 @@ void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepAroundInner) ofs << "Flow Profile: Single Step Single-Inner\n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepAroundInner) ofs << "Flow Profile: Double Step Around-Inner\n";
 
-    if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_PIXEL) ofs << "Application Center: Pixel \n";
-    if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_POINTEL) ofs << "Application Center: Pointel \n";
-    if( bcFlowInput.odrConfigInput.applicationCenter==BCFlowInput::ODRConfigInput::ApplicationCenter::AC_LINEL) ofs << "Application Center: Linel \n";
-
-    if( bcFlowInput.odrConfigInput.countingMode==BCFlowInput::ODRConfigInput::CountingMode::CM_PIXEL) ofs << "Counting Mode: Pixel \n";
-    if( bcFlowInput.odrConfigInput.countingMode==BCFlowInput::ODRConfigInput::CountingMode::CM_POINTEL) ofs << "Counting Mode: Pointel \n";
-
-    if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Pixel) ofs << "Space Mode: Pixel \n";
-    if( bcFlowInput.odrConfigInput.spaceMode==BCFlowInput::ODRConfigInput::SpaceMode::Interpixel) ofs << "Space Mode: Interpixel \n";
 
     ofs << "Levels: " << bcFlowInput.odrConfigInput.levels << "("
         << ( (bcFlowInput.odrConfigInput.levelDefinition==BCFlowInput::ODRConfigInput::LevelDefinition::LD_CloserFromCenter)?"CloserFromCenter":"FartherFromCenter")
@@ -114,6 +106,7 @@ void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
     ofs << "Data Weight: " << bcFlowInput.bcInput.dataTermWeight << " \n";
 
     ofs << "Opt region in application: " << bcFlowInput.odrConfigInput.optInApplicationRegion << "\n";
+    ofs << "Initial shape has: " << dsZero.size() << " pixels\n";
 
 
 

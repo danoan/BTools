@@ -2,27 +2,29 @@
 
 using namespace BoundaryCorrection;
 
-void InputReader::defaultValues(InputData& id)
+InputReader::InputData::InputData()
 {
-    id.radius=3;
-    id.iterations=10;
+    radius=3;
+    iterations=10;
 
-    id.dtWeight = 0.5;
-    id.sqWeight = 1.0;
-    id.lgWeight = 0.2;
+    dtWeight = 0.5;
+    sqWeight = 1.0;
+    lgWeight = 0.2;
 
-    id.optMethod = InputData::OptMethod::Improve;
-    id.showIterations=false;
+    excludeOptPointsFromAreaComputation = false;
+    initialDilation=10;
+
+    optMethod = InputData::OptMethod::Improve;
+    showIterations=false;
+    showProgress=false;
 }
 
-void InputReader::readInput(InputData& id,
-                            int argc,
-                            char** argv)
+InputReader::InputData InputReader::readInput(int argc, char** argv)
 {
-    defaultValues(id);
+    InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:"))!=-1)
     {
         switch(opt)
         {
@@ -50,7 +52,16 @@ void InputReader::readInput(InputData& id,
                 break;
             case 'o':
                 id.outputFolder = optarg;
-                break;                
+                break;
+            case 'v':
+                id.showProgress = true;
+                break;
+            case 'x':
+                id.excludeOptPointsFromAreaComputation = true;
+                break;
+            case 'd':
+                id.initialDilation = std::atoi(optarg);
+                break;
             default:
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
@@ -61,6 +72,9 @@ void InputReader::readInput(InputData& id,
                         "[-m Opt method 'probe' 'improve' default: improve] \n"
                         "[-s Show iterations default: false] \n"
                         "[-o Output folder default: \"\" (no output generated)] \n"
+                        "[-v Show progress status default: false] \n"
+                        "[-x Exclude opt points from computation area default: false] \n"
+                        "[-d Initial dilation size: default: 10] \n"
                         << std::endl;
                 exit(1);
         }
@@ -68,4 +82,5 @@ void InputReader::readInput(InputData& id,
 
 
     id.grabcutFile = argv[optind];
+    return id;
 }

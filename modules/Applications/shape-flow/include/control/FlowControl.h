@@ -18,11 +18,14 @@
 #include <BTools/core/model/input/ImageDataInput.h>
 #include <BTools/core/model/BCAOutput.h>
 #include <BTools/core/BCApplication.h>
+
 #include <BTools/utils/imgUtils.h>
 #include <BTools/utils/strUtils.h>
+#include <BTools/utils/timer.h>
+
+#include <BTools/reader/Types.h>
 
 #include "model/MockDistribution.h"
-#include "model/Types.h"
 #include "control/DataWriter.h"
 
 
@@ -46,17 +49,21 @@ namespace ShapeFlow
         typedef BTools::Core::BCApplicationOutput BCAOutput;
         typedef BCAOutput::EnergySolution EnergySolution;
 
+        typedef BTools::Reader::DCFReader::Shape Shape;
+        typedef BTools::Reader::DCFReader::ShapeType ShapeType;
+
         typedef DataWriter::TableEntry TableEntry;
 
 
     public:
         FlowControl(const BCFlowInput& bcFlowInput,
                     Shape  shape,
+                    double gridStep,
                     const std::string& outputFolder,
                     std::ostream& osLog);
 
     private:
-        DigitalSet resolveShape(Shape shape);
+        DigitalSet resolveShape(Shape shape,double gridStep);
 
         std::vector<TableEntry> initEntries(const DigitalSet& ds);
         BCAOutput boundaryCorrection(const BCFlowInput& bcFlowInput,

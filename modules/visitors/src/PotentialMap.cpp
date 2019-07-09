@@ -1,6 +1,6 @@
-#include "PotentialMap.h"
+#include "BTools/visitors/PotentialMap.h"
 
-using namespace BTools::Application::Flow;
+using namespace BTools::Visitors;
 
 void PotentialMap::gatherPotentialValues(PotentialValues& potentialValues,
                                          const OptimizationData &optData,
@@ -21,7 +21,7 @@ void PotentialMap::gatherPotentialValues(PotentialValues& potentialValues,
                 int first = var1<var2?var1:var2;
                 int second = var1<var2?var2:var1;
                 assert(first<second);
-                potentialValues[*it1]+= optData.localPTM.coeff(first,second);
+                potentialValues[*it1]+= optData.localPTM.coeff(first,second)/2.0;   //Divide by two, otherwise I count twice (once for xixj and other for xjxi)
             }
         }
     }
@@ -53,9 +53,10 @@ void PotentialMap::draw(const PotentialValues& pv,
     Domain domain(bb.lb,bb.ub);
 
     potentialMap << domain;
+    std::cout << "Potential Map: Max(" << max << ") Min(" << min << ")\n" << std::endl;
 
     DGtal::GradientColorMap<double,
-            DGtal::ColorGradientPreset::CMAP_JET> cmap_jet(min,max);
+            DGtal::ColorGradientPreset::CMAP_GRAYSCALE> cmap_jet(min,max);
 
     potentialMap << DGtal::SetMode( optRegion.begin()->className(), "Paving" );
     std::string specificStyle = optRegion.begin()->className() + "/Paving";
@@ -68,7 +69,11 @@ void PotentialMap::draw(const PotentialValues& pv,
         potentialMap << *it;
     }
 
-    potentialMap.saveEPS(outputPath.c_str());
+    boost::filesystem::path p(outputPath);
+    boost::filesystem::create_directories(p.remove_filename());
+
+
+    potentialMap.saveSVG(outputPath.c_str(),200,200,10);
 
 }
 
@@ -76,10 +81,6 @@ void PotentialMap::visit(const OptimizationData &optData,
                          const VariableMap &vm,
                          const ODRModel &odr)
 {
-
-
-    PotentialValues pv;
-    gatherPotentialValues(pv,optData,vm,odr.optRegion);
-    draw(pv,odr.optRegion,outputPath);
-
+    gatherPotentialValues(this->pv,optData,vm,odr.optRegion);
+    draw(this->pv,odr.optRegion,outputPath);
 }

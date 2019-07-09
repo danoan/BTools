@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
             case 'b':{ backgroundCallback(1,&gd); break; }
             case 'r':{ restartCallback(1,&gd); break; }
             case 's':{ saveCallback(1,&gd); break; }
+            case 'q':{ onExecution=false; break;}
             case '+':
             {
                 gd.penWidth += gd.penWidth<255?1:0;

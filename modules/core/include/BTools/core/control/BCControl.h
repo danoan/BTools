@@ -4,7 +4,7 @@
 #include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Energy/ISQ/ISQEnergy.h>
 #include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
-#include "SCaBOliC/Core/ODRInterface.h"
+#include "SCaBOliC/Core/interface/ODRInterface.h"
 
 #include "BTools/core/interface/IFlowStepConfig.h"
 #include "BTools/core/interface/IBCControlVisitor.h"
@@ -49,6 +49,17 @@ namespace BTools
                       TVisitorIterator end);
 
         private:
+            template<typename TVisitorIterator>
+            void solve(Solution& solution,
+                       const BCConfigInput& bcInput,
+                       const ISQEnergy& energy,
+                       const ISQInputData& energyInput,
+                       const ISQInputData::OptimizationDigitalRegions& ODR,
+                       const ODRInterface& odrFactory,
+                       const IFlowStepConfig& flowStepConfig,
+                       TVisitorIterator begin,
+                       TVisitorIterator end);
+
             void updateSet(Solution& solution,
                            const ODRInterface& odrFactory,
                            const IFlowStepConfig& flowStepConfig,

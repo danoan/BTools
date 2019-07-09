@@ -20,4 +20,4 @@ target_link_libraries(seed-selector
         ${OpenCV_LIBS})
 
 install(TARGETS seed-selector
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

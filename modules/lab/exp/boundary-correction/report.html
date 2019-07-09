@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape flow experiment report</title>
+
+    <style>
+        .row{
+            width:100%;
+            height:250px;
+            font-size:10px;
+            font-family: "Open Sans", "DejaVu Sans", sans;
+            margin-bottom:4em;
+            text-align: center;
+        }
+        .collumn{
+            display:inline-block;
+            width:150px;
+            background-color:pink;
+            margin:1em;
+            text-align:center;
+            float:left;
+        }
+
+        .collumn li
+        {
+            padding:0.5rem 0rem;
+        }
+
+        .row ul{
+            list-style:none;
+            padding:0;
+            margin:0;
+        }
+
+        .row::after{
+            clear:both;
+            display:block;
+            content: "";
+            border-top: .2rem solid silver;
+            width: 100%;
+        }
+
+        .header{
+            font-weight: bold;
+            padding-bottom:1em;
+        }
+
+        .button{
+            cursor: pointer;
+        }
+
+        .selected{
+            background-color: #c8c8c8;
+            color:yellow;
+            font-weight:bold;
+        }
+
+        .display
+        {
+            box-sizing: border-box;
+            width:100%;
+            height:400px;
+            text-align:center;
+        }
+
+        .display-1
+        {
+            box-sizing: border-box;
+            width:100%;
+            text-align:center;
+        }
+
+        .display-1 div
+        {
+            width:33%;
+            display:inline-block;
+            box-sizing: border-box;
+            border:0 1em 0 1em;
+        }
+
+        .display-1 img
+        {
+            width:100%;
+        }
+
+        .display > div
+        {
+            float:left;
+            display:inline-block;
+        }
+
+        .summary-flow{
+            height:100%;
+            cursor:pointer;
+        }
+
+        .odr-model
+        {
+            height:100%;
+            cursor:pointer;
+        }
+
+        .image-sequence{
+            float:none;
+            height:100%;
+        }
+
+        .hidden{
+            display:none !important;
+        }
+
+        .full{
+            width:100%;
+        }
+
+        .half{
+            width:50%;
+        }
+
+        body{
+            visibility:hidden;
+        }
+
+    </style>
+
+    <script>
+        var basePath;
+
+        function build_path()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length;
+            var relPath="";
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                var buttons=c.children[0].children;
+                for(var j=0;j<buttons.length;j++)
+                {
+                    if(buttons[j].classList.contains("selected"))
+                    {
+                        if( buttons[j].hasAttribute("path") )
+                        {
+                            relPath = relPath.concat(buttons[j].getAttribute("path"), "/");
+                        }
+                    }
+                }
+            }
+
+            return relPath;
+        }
+
+        function get_current_display()
+        {
+            var display = document.getElementsByClassName("display")[0];
+            for(var i=0;i<display.children.length;++i)
+            {
+                if(display.children[i].classList.contains("active"))
+                {
+                    return display.children[i];
+                }
+            }
+        }
+
+        function get_active_subdisplay(display_class)
+        {
+            var activeDisplay = get_current_display();
+            var subdisplays = activeDisplay.children;
+            for(var i=0;i<subdisplays.length;++i)
+            {
+                if(subdisplays[i].classList.contains(display_class))
+                {
+                    return subdisplays[i];
+                }
+            }
+        }
+
+        function load_figure()
+        {
+            var relPath=build_path();
+
+            var seed_masks_img=basePath.concat("/",relPath,"seeds.png");
+            var seed_masks = get_active_subdisplay("seeds");
+            seed_masks.children[0].setAttribute("src",seed_masks_img);
+
+            var grabcut_seg_img = basePath.concat("/",relPath,"gc-seg.png");
+            var grabcut_seg = get_active_subdisplay("grabcut-seg");
+            grabcut_seg.children[0].setAttribute("src",grabcut_seg_img);
+
+            var corrected_seg_img = basePath.concat("/",relPath,"corrected-seg.png");
+            var corrected_seg = get_active_subdisplay("corrected-seg");
+            corrected_seg.children[0].setAttribute("src",corrected_seg_img);
+        }
+
+
+        function select(el)
+        {
+            _select(el,true);
+        }
+
+        function _select(el,load_flag)
+        {
+            var list_li=el.parentElement.children;
+            for (var i=0;i<list_li.length;i++)
+            {
+                if(list_li[i].hasAttribute("type"))
+                {
+                    list_li[i].className="button";
+                }
+
+            }
+            el.className="button selected";
+            if(load_flag)
+            {
+                load_figure();
+            }
+
+        }
+
+        function default_buttons()
+        {
+            var r=document.getElementsByClassName("row")[0];
+            var l=r.children.length;
+            for(var i=0;i<l;i++)
+            {
+                var c=r.children[i];
+                if(c.hasAttribute("menu"))
+                {
+                    var buttons = c.children[0].children;
+                    var first = buttons[1];
+                    _select(first, false);
+                }
+            }
+        }
+
+        function open_src(el)
+        {
+            document.location.href=el.getAttribute("src");
+        }
+
+        function init()
+        {
+          basePath=window.prompt("Enter images base folder");
+          if(basePath=="")
+	        {
+	            basePath=window.location.toString();
+        	    basePath=basePath.substring(0, basePath.lastIndexOf("/") );
+	        }else
+          {
+		        basePath="file://".concat(basePath);
+          }
+            default_buttons();
+	    load_figure();
+            document.body.style.visibility="visible";
+
+        }
+
+
+        window.onload=init;
+
+
+    </script>
+</head>
+<body>
+
+<div class="row">
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Image</li>
+            <li class="button" onclick="select(this)" path="cow" type="image">Cow</li>
+            <li class="button" onclick="select(this)" path="butterfly" type="image">Butterfly</li>
+            <li class="button" onclick="select(this)" path="giraffe" type="image">Giraffe</li>
+            <li class="button" onclick="select(this)" path="honeybee" type="image">Honeybee</li>
+            <li class="button" onclick="select(this)" path="cameraman" type="image">Cameraman</li>
+            <li class="button" onclick="select(this)" path="quixote" type="image">Quixote</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Method</li>
+            <!--<li class="button" onclick="select(this)" path="probe" type="method">Probe</li>-->
+            <li class="button" onclick="select(this)" path="improve" type="method">Improve</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Radius</li>
+            <li class="button" onclick="select(this)" path="radius_3" type="radius">3</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Data Term</li>
+            <li class="button" onclick="select(this)" path="data_0.00" type="data-term">0</li>
+            <li class="button" onclick="select(this)" path="data_0.10" type="data-term">0.1</li>
+            <li class="button" onclick="select(this)" path="data_0.50" type="data-term">0.5</li>
+            <li class="button" onclick="select(this)" path="data_1.00" type="data-term">1.0</li>
+            <li class="button" onclick="select(this)" path="data_2.00" type="data-term">2.0</li>
+            <li class="button" onclick="select(this)" path="data_5.00" type="data-term">5.0</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Sqc Term</li>
+            <li class="button" onclick="select(this)" path="sq_0.00" type="sqc-term">0.0</li>
+            <li class="button" onclick="select(this)" path="sq_0.50" type="sqc-term">0.5</li>
+            <li class="button" onclick="select(this)" path="sq_1.00" type="sqc-term">1.0</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Length Term</li>
+            <li class="button" onclick="select(this)" path="lt_0.00" type="length-term">0.0</li>
+            <li class="button" onclick="select(this)" path="lt_0.50" type="length-term">0.5</li>
+            <li class="button" onclick="select(this)" path="lt_1.00" type="length-term">1.0</li>
+            <li class="button" onclick="select(this)" path="lt_2.00" type="length-term">2.0</li>
+        </ul>
+    </div>
+
+    <div class="collumn" menu>
+        <ul>
+            <li class="header">Iterations</li>
+            <li class="button" onclick="select(this)" path="it_10" type="iterations">10</li>
+            <li class="button" onclick="select(this)" path="it_20" type="iterations">20</li>
+            <li class="button" onclick="select(this)" path="it_50" type="iterations">50</li>
+            <li class="button" onclick="select(this)" path="it_100" type="iterations">100</li>
+        </ul>
+    </div>
+
+
+</div>
+
+<div class="display">
+    <div class="display-1 full active">
+
+        <div class="seeds">
+            <img src="test.svg" onclick="open_src(this)" /><br>
+            Seeds
+        </div>
+
+        <div class="grabcut-seg">
+            <img src="triangle.svg" img_seq="0" onclick="open_src(this)" /><br>
+            Grab Cut Segmentation
+        </div>
+
+        <div class="corrected-seg">
+            <img src="test.svg" onclick="open_src(this)" /><br>
+            Corrected Segmentation
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ namespace BTools
             typedef cv::Mat cvColorImage;
 
         private:
-            static DigitalSet computeInputDS(const cvColorImage& segResult, Point& pt)
+            static DigitalSet computeInputDS(const cvColorImage& segResult, Point& pt, int initialBorder)
             {
                 Domain tempDomain(Point(0,0),
                                   Point(segResult.cols-1,
@@ -47,9 +47,9 @@ namespace BTools
                 Point _p;
                 tempDS.computeBoundingBox(pt,_p);
 
-                pt -= Point(20,20);
+                pt -= Point(20+initialBorder,20+initialBorder);
 
-                DigitalSet inputDS = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(tempDS, Point(20,20) );
+                DigitalSet inputDS = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(tempDS, Point(20+initialBorder,20+initialBorder) );
                 return inputDS;
             }
 
@@ -60,11 +60,12 @@ namespace BTools
             ImageDataInput(const MyProbabilityDistribution& fgDistr,
                            const MyProbabilityDistribution& bgDistr,
                            const cvColorImage& baseImage,
-                           const cvColorImage& segResult):fgDistr(fgDistr),
+                           const cvColorImage& segResult, 
+                           const int initialBorder=20):fgDistr(fgDistr),
                                                           bgDistr(bgDistr),
                                                           baseImage(baseImage),
                                                           segResult(segResult),
-                                                          inputDS(computeInputDS(segResult,_translation)),
+                                                          inputDS(computeInputDS(segResult,_translation,initialBorder)),
                                                           inputDomain(inputDS.domain()),
                                                           translation(_translation){}
 

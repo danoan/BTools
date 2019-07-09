@@ -3,10 +3,11 @@
 
 #include <DGtal/helpers/StdDefs.h>
 
-#include <SCaBOliC/Core/ODRModel.h>
+#include <SCaBOliC/Core/model/ODRModel.h>
 #include <SCaBOliC/Energy/ISQ/InputData.h>
 #include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
+
 
 namespace BTools
 {
@@ -24,6 +25,7 @@ namespace BTools
             virtual OptimizationMode optimizationMode() const=0;
             virtual ApplicationMode applicationMode() const=0;
             virtual bool optInApplicationRegion() const=0;
+            virtual bool shrinkingMode() const=0;
 
             virtual void initialSolution(LabelsVector& labelsVector) const=0;
         };

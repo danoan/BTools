@@ -17,9 +17,10 @@ namespace BTools
             Correct(bool optInApplicationRegion=false,
                     bool invertFrgBkg=false):flagOptInApplicationRegion(optInApplicationRegion){}
 
-            OptimizationMode optimizationMode() const{ return OptimizationMode::OM_OriginalBoundary; }
+            OptimizationMode optimizationMode() const{ return OptimizationMode::OM_CorrectConvexities; }
             ApplicationMode applicationMode() const { return ApplicationMode::AM_AroundBoundary; }
             bool optInApplicationRegion() const{ return flagOptInApplicationRegion; }
+            bool shrinkingMode() const{ return true; }
 
             void initialSolution(LabelsVector& labelsVector) const { labelsVector.setZero(); }
 

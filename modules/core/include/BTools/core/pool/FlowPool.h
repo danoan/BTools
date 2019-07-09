@@ -20,10 +20,15 @@ namespace BTools
             static IFlowProfile& getFlow(const FlowProfile& flowProfile,
                                          bool optInRegionApplication)
             {
-                if(flowProfile==FlowProfile::SingleStep)
+                if(flowProfile==FlowProfile::SingleStepConvexities)
                 {
-                    flowSingleStep.restart(optInRegionApplication);
-                    return flowSingleStep;
+                    flowSingleStepConvexities.restart(optInRegionApplication);
+                    return flowSingleStepConvexities;
+                }
+                else if(flowProfile==FlowProfile::SingleStepConcavities)
+                {
+                    flowSingleStepConcavities.restart(optInRegionApplication);
+                    return flowSingleStepConcavities;
                 }
                 else if(flowProfile==FlowProfile::SingleStepOpt)
                 {
@@ -59,7 +64,8 @@ namespace BTools
                     return flowDoubleStepAroundInner;
                 }
             }
-            static FlowSingleStep<Correct> flowSingleStep;
+            static FlowSingleStep<Correct> flowSingleStepConvexities;
+            static FlowSingleStep<Expand> flowSingleStepConcavities;
             static FlowSingleStep<CorrectOpt> flowSingleStepOpt;
             static FlowSingleStep<CorrectInner> flowSingleStepInner;
             static FlowSingleStep<CorrectAroundInner> flowSingleStepAroundInner;

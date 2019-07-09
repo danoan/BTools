@@ -11,3 +11,6 @@ ext
 ext-build
 build.sh
 output
+build-release
+valgrind-profile
+export

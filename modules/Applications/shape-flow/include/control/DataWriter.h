@@ -37,6 +37,7 @@ namespace ShapeFlow
         void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
 
         void printFlowMetadata(const BCFlowInput &bcFlowInput,
+        const DigitalSet& dsZero,
                                std::ofstream &ofs);
     }
 }

@@ -6,7 +6,10 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DGtal/io/writers/GenericWriter.h>
+
 #include <DIPaCUS/base/Representation.h>
+#include <DIPaCUS/components/Neighborhood.h>
+#include <DIPaCUS/derivates/Misc.h>
 
 namespace BTools
 {
@@ -19,6 +22,8 @@ namespace BTools
         typedef DIPaCUS::Representation::Image2D Image2D;
 
         void setHighlightedBorder(cv::Mat &img, ColorType color);
+
+        void setHighlightMask(cv::Mat& outputImage, const cv::Mat& baseImage, const cv::Mat& mask);
 
         void exportImageFromDigitalSet(const DigitalSet& ds,
                                               const std::string& outputFilepath);

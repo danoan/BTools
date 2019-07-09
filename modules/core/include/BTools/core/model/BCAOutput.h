@@ -24,6 +24,15 @@ namespace BTools
                                                                     energySolution(bcaInput.imageDataInput.inputDomain)
             {}
 
+            BCApplicationOutput& operator=(const BCApplicationOutput& other)
+            {
+                this->energySolution = other.energySolution;
+                this->imgSeg = other.imgSeg;
+                this->imgOutput = other.imgOutput;
+
+                return *this;
+            }
+
             BCApplicationOutput(const BCApplicationInput& bcaInput,
                                 const EnergySolution& energySolution,
                                 const cv::Mat& imgOutput):bcaInput(bcaInput),

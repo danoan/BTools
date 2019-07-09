@@ -2,7 +2,8 @@
 
 using namespace BTools::Core;
 
-FlowSingleStep<Correct> FlowPool::flowSingleStep;
+FlowSingleStep<Correct> FlowPool::flowSingleStepConvexities;
+FlowSingleStep<Expand> FlowPool::flowSingleStepConcavities;
 FlowSingleStep<CorrectOpt> FlowPool::flowSingleStepOpt;
 FlowSingleStep<CorrectInner> FlowPool::flowSingleStepInner;
 FlowSingleStep<CorrectAroundInner> FlowPool::flowSingleStepAroundInner;

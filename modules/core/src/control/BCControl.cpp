@@ -10,6 +10,7 @@ BCControl::BCControl(Solution& solution,
                      const DigitalSet& inputDS)
 {
     std::vector< IBCControlVisitor* > mock;
+
     BCControl(solution,
               bcInput,
               imageDataInput,
@@ -39,6 +40,7 @@ void BCControl::updateSet(Solution& solution,
     odrFactory.handle()->solutionSet(tempOutDS,
                                      initialDS,
                                      energyInput.optimizationRegions,
+                                     flowStepConfig.optimizationMode(),
                                      labelsVector.data(),
                                      energy.vm().pim);
 

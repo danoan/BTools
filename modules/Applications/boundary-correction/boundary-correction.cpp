@@ -16,6 +16,7 @@
 #include "BTools/core/BCApplication.h"
 
 #include "BTools/utils/imgUtils.h"
+#include "BTools/utils/model/GrabCutObject.h"
 
 #include "InputReader.h"
 
@@ -24,21 +25,7 @@ using namespace BTools::Core;
 using namespace DGtal::Z2i;
 
 using namespace BoundaryCorrection;
-
-struct GrabCutOutput
-{
-    GrabCutOutput(const std::string& grabCutFile)
-    {
-        cv::FileStorage grabcutFile(grabCutFile,cv::FileStorage::READ);
-        grabcutFile["grabCutMask"] >> grabCutMask;
-        grabcutFile["segMask"] >> segMask;
-        grabcutFile["inputImage"] >> inputImage;
-    }
-
-    cv::Mat grabCutMask;
-    cv::Mat segMask;
-    cv::Mat inputImage;
-};
+using namespace BTools::Utils::GrabCutIO;
 
 void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM )
 {
@@ -79,28 +66,29 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 }
 
 
-BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutOutput& gco)
+BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
     typedef BTools::Core::BCFlowInput BCFlowInput;
-    int levels = 2;
-    bool optInApplicationRegion=false;
+    int levels = 1;
+    bool optInApplicationRegion=true;
+    bool repeatedImprovement = false;
 
     BCConfigInput bcConfigInput(inputData.radius,
                                 inputData.dtWeight,
                                 inputData.sqWeight,
                                 inputData.lgWeight,
+                                inputData.excludeOptPointsFromAreaComputation,
+                                inputData.initialDilation,
                                 inputData.optMethod);
 
-    ODRConfigInput odrConfigInput(ODRConfigInput::ApplicationCenter::AC_PIXEL,
-                                  ODRConfigInput::CountingMode::CM_PIXEL,
-                                  ODRConfigInput::SpaceMode::Pixel,
-                                  levels,
-                                  ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
-                                  ODRConfigInput::NeighborhoodType::FourNeighborhood,
-                                  optInApplicationRegion);
+    ODRConfigInput odrConfigInput(inputData.radius, 1.0,
+            levels,
+            ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+            ODRConfigInput::NeighborhoodType::FourNeighborhood,
+            optInApplicationRegion);
 
 
-    cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),CV_8UC4);
+    cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(segResultImg,gco.segMask);
 
     cv::Mat fgModel,bgModel;
@@ -110,12 +98,13 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     CVMatDistribution fgDistr(gco.inputImage,fgGMM);
     CVMatDistribution bgDistr(gco.inputImage,bgGMM);
 
-    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg);
+    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg,inputData.initialDilation);
 
     BCApplicationInput bcaInput(bcConfigInput,
                                 imageDataInput,
                                 odrConfigInput,
-                                BCFlowInput::FlowProfile::DoubleStep);
+                                BCFlowInput::FlowProfile::DoubleStep,
+                                inputData.showProgress);
 
     BCApplicationOutput bcaOutput(bcaInput);
     BCApplication bca(bcaOutput,
@@ -126,7 +115,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     return bcaOutput;
 }
 
-cv::Mat highlightBorder(const DigitalSet& ds)
+cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(255,255,255))
 {
     const DigitalSet& boundaryMaskDs = ds;
     Point dims = boundaryMaskDs.domain().upperBound() - boundaryMaskDs.domain().lowerBound() + Point(1,1);
@@ -136,11 +125,11 @@ cv::Mat highlightBorder(const DigitalSet& ds)
     cv::Mat maskBoundaryImgColor( maskBoundaryImgGS.size(),CV_8UC3);
     cv::cvtColor(maskBoundaryImgGS,maskBoundaryImgColor,cv::COLOR_GRAY2RGB);
 
-    BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,cv::Vec3b(255,255,0));
+    BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,color);
     return maskBoundaryImgColor;
 }
 
-void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutOutput& gco, const std::string& outputFolder)
+void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutObject& gco, const std::string& outputFolder)
 {
     const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
 
@@ -149,8 +138,8 @@ void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutOutput& gco
     std::string maskBoundaryFilepath = outputFolder +"/mask-boundary.png";
 
 
-    cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),CV_8UC4);
-    gco.inputImage.copyTo(gcSegImg ,gco.segMask);
+    cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
+    BTools::Utils::setHighlightMask(gcSegImg,gco.inputImage,gco.segMask);
 
 
     cv::imwrite(graphCutSegFilepath,gcSegImg);
@@ -158,7 +147,7 @@ void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutOutput& gco
     cv::imwrite(maskBoundaryFilepath,highlightBorder(bcaOutput.energySolution.outputDS));
 }
 
-void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutOutput& gco, const std::string& outputFolder)
+void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco, const std::string& outputFolder)
 {
     const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
 
@@ -166,7 +155,7 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutOutput& gco,
     SCaBOliC::Utils::ISQEvaluation(outputElasticaEnergy,
                                    solution.outputDS,SCaBOliC::Utils::ISQEvaluation::MDCA);
 
-    cv::Mat gcSegImage = cv::Mat::zeros(gco.inputImage.size(),CV_8UC4);
+    cv::Mat gcSegImage = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(gcSegImage ,gco.segMask);
 
     DGtal::Z2i::Domain baseImageDomain( Point(0,0),
@@ -189,14 +178,18 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutOutput& gco,
 
 int main(int argc, char* argv[])
 {
-    InputReader::InputData inputData;
-    InputReader::readInput(inputData,argc,argv);
+    InputReader::InputData inputData = InputReader::readInput(argc,argv);
 
-    GrabCutOutput gco(inputData.grabcutFile);
+    GrabCutObject gco = read(inputData.grabcutFile);
+
     BCApplicationOutput bcaOutput = boundaryCorrection(inputData,gco);
 
-    boost::filesystem::create_directories(inputData.outputFolder);
-    outputImages(bcaOutput,gco,inputData.outputFolder);
-    outputEnergy(bcaOutput,gco,inputData.outputFolder);
+    if(inputData.outputFolder!="")
+    {
+        boost::filesystem::create_directories(inputData.outputFolder);
+        outputImages(bcaOutput,gco,inputData.outputFolder);
+        outputEnergy(bcaOutput,gco,inputData.outputFolder);
+    }
+
 
 }
