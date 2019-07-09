@@ -14,6 +14,7 @@ target_include_directories(export-seed-mask PRIVATE
 
 target_link_libraries(export-seed-mask
         -lbtools-utils
+        -ldipacus-components
         -ldipacus-base
         -lboost_filesystem
         -lboost_system

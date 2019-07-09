@@ -12,6 +12,7 @@ target_include_directories(grab-cut PRIVATE
 
 target_link_libraries(grab-cut
         -lbtools-utils
+        -ldipacus-components
         -ldipacus-base
         -lboost_filesystem
         -lboost_system

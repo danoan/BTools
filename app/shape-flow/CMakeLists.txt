@@ -10,7 +10,7 @@ add_executable(shape-flow
         src/control/FlowControl.cpp
         )
 
-add_dependencies(shape-flow btools-core btools-utils btools-visitors btools-reader)
+add_dependencies(shape-flow btools-core btools-utils btools-reader)
 
 target_compile_features(shape-flow PRIVATE cxx_auto_type)
 target_compile_options(shape-flow PRIVATE -fext-numeric-literals)

@@ -9,6 +9,10 @@ endif()
 add_library(btools-reader ${LIBRARY_ACTION}
         src/DCFReader.cpp)
 
+if(${USE_LOCAL_REPOSITORIES})
+    add_dependencies(btools-reader scabolic)
+endif()
+
 target_include_directories(btools-reader PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include

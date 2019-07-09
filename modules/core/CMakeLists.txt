@@ -13,7 +13,12 @@ add_library(btools-core ${LIBRARY_ACTION}
         src/control/BCControl.cpp
         src/model/GMM.cpp)
 
-add_dependencies(btools-core btools-utils)
+if(${USE_LOCAL_REPOSITORIES})
+    add_dependencies(btools-core dipacus scabolic btools-utils)
+else()
+    add_dependencies(btools-core btools-utils)
+endif()
+
 
 target_include_directories(btools-core PRIVATE
         include
