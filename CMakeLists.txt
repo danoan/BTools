@@ -37,7 +37,6 @@ link_directories(${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
-        ${CMAKE_BINARY_DIR}/modules/visitors
         ${CMAKE_BINARY_DIR}/modules/reader)
 
 add_subdirectory(modules/core)
@@ -56,6 +55,10 @@ if(${BUILD_APPLICATIONS})
     add_subdirectory(app/seed-selector)
     add_subdirectory(app/shape-flow)
     add_subdirectory(app/summary-flow)
+endif()
+
+if(${BUILD_FIGURES})
+    add_subdirectory(jmiv-figures)
 endif()
 
 
