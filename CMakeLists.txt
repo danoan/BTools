@@ -3,6 +3,7 @@ project(btools)
 
 
 #CMAKE_INSTALL_PREFIX: install location
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${SCABOLIC_LIBS_DIR}")
 
 if(${USE_LOCAL_REPOSITORIES})
     include(ext-projects/ExtProjects.cmake)
