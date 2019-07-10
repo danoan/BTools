@@ -2,7 +2,9 @@ ExternalProject_Add(exhaustive-gc
         GIT_REPOSITORY https://github.com/danoan/exhaustive-gc.git
         GIT_TAG master
         SOURCE_DIR ${EXTPROJECTS_SOURCE_DIR}/exhaustive-gc
-        CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        CMAKE_ARGS
+        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DCMAKE_BUILD_TYPE=RELEASE
         -DCMAKE_INSTALL_PREFIX=${EXTPROJECTS_BUILD_DIR}
         -DDIPACUS_INCLUDE_DIRS=${EXTPROJECTS_BUILD_DIR}/include
         -DDIPACUS_LIBS_DIR=${EXTPROJECTS_BUILD_DIR}/lib

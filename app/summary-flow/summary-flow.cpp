@@ -8,27 +8,28 @@ int main(int argc, char* argv[])
 {
     if(argc<3)
     {
-        std::cerr << "Usage " << argv[0] << " Flow_Images_Folder_Path Output_Name [Jump_Step] [svg (default) eps]" <<std::endl;
+        std::cerr << "Usage " << argv[0] << " FlowImagesFolderPath OutputFilePath [Jump_Step]" <<std::endl;
         exit(1);
     }
 
     int jumpStep = 2;
     OneImageFlow::ImageOutputType iot=OneImageFlow::SVG;
     if(argc>=4) jumpStep = atoi(argv[3]);
-    if(argc>=5)
-    {
-        if(strcmp("svg",argv[4])==0) iot= OneImageFlow::SVG;
-        else if(strcmp("eps",argv[4])==0) iot= OneImageFlow::EPS;
-        else throw std::runtime_error("Output type not recognized!");
-    }
 
     std::string flowImagesFolderPath = argv[1];
-    std::string outputName = argv[2];
+    std::string outputFilePath = argv[2];
+
+
+    std::string extension = boost::filesystem::path(outputFilePath).extension().string();
+
+    if(strcmp(".svg",extension.c_str())==0) iot= OneImageFlow::SVG;
+    else if(strcmp(".eps",extension.c_str())==0) iot= OneImageFlow::EPS;
+    else throw std::runtime_error("Output type not recognized!");
+
     boost::filesystem::path srcImagePath( flowImagesFolderPath );
 
     std::string name = srcImagePath.stem().string();
-    std::string outputImagePath = srcImagePath.string() + "/" + outputName;
-    OneImageFlow oif(srcImagePath.string(),outputImagePath,jumpStep,iot);
+    OneImageFlow oif(srcImagePath.string(),outputFilePath,jumpStep,iot);
 
     return 0;
 }
