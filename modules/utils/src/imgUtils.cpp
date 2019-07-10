@@ -66,6 +66,6 @@ void Utils::setHighlightMask(cv::Mat& outputImage, const cv::Mat& baseImage, con
     DIPaCUS::Misc::digitalBoundary<DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(dsContour,dsMask,2);
     DIPaCUS::Representation::digitalSetToCVMat(contourMask,dsContour);
 
-    outputImage.setTo(cv::Vec3b(255,0,255),contourMask);
+    outputImage.setTo(cv::Vec3b(150,250,250),contourMask);
 
 }

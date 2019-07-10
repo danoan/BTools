@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape flow experiment report</title>
+
+    <link rel="stylesheet" type="text/css" href="report.css"></link>
+    <script type="text/javascript" src="report.js"></script>
+
+</head>
+<body>
+
+<div class="row">
+    {% for param in paramCollection %}
+        <div class="collumn" menu>
+            <ul>
+                <li class="header">{{ param.name }}</li>
+                {% for item in param.items %}
+                    <li class="button" onclick="select(this)" path="{{ item['path'] }}" type="{{ param.type }}">{{ item['value'] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+
+</div>
+
+<div class="display">
+    <div class="display-1 full active">
+
+        <div class="seeds">
+            <img src="invalid.png" onclick="open_src(this)" /><br>
+            Seeds
+        </div>
+
+        <div class="grabcut-seg">
+            <img src="invalid.png" img_seq="0" onclick="open_src(this)" /><br>
+            Grab Cut Segmentation
+        </div>
+
+        <div class="corrected-seg">
+            <img src="invalid.png" onclick="open_src(this)" /><br>
+            Corrected Segmentation
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
