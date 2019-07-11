@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape flow experiment report</title>
+
+    <link rel="stylesheet" type="text/css" href="report.css"></link>
+    <script type="text/javascript" src="report.js"></script>
+
+</head>
+<body>
+
+<div class="row">
+    {% for param in paramCollection %}
+        <div class="collumn" menu>
+            <ul>
+                <li class="header">{{ param.name }}</li>
+                {% for item in param.items %}
+                    <li class="button" onclick="select(this)" path="{{ item['path'] }}" type="{{ param.type }}">{{ item['value'] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+
+    <div class="collumn" actions>
+        <ul>
+            <li class="header">Actions</li>
+            <li class="button" onclick="freeze(this)" type="action">Freeze</li>
+            <li class="button" onclick="summary(this)" type="action">Image Sequence</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="display">
+    <div class="display-1 full active">
+
+        <div class="odr-model">
+            <img src="test.svg" onclick="open_src(this)" onwheel="test(this)" onerror="this.src='invalid.png'" /><br>
+            ODR-Model
+        </div>
+
+        <div class="image-sequence hidden">
+            <img src="triangle.svg" img_seq="0" onerror="this.src='invalid.png'" /><br>
+            Image Sequence
+        </div>
+
+        <div class="summary-flow">
+            <img src="test.svg" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
+            Summary Flow
+        </div>
+    </div>
+
+    <div class="display-2 half hidden">
+        <div class="image-sequence hidden">
+            <img src="test.svg" img_seq="0" onerror="this.src='invalid.png'" /><br>
+            Image Sequence
+        </div>
+
+        <div class="summary-flow">
+            <img src="test.svg" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
+            Summary Flow
+        </div>
+
+        <div class="odr-model">
+            <img src="test.svg" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
+            ODR-Model
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

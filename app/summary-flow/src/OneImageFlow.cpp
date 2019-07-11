@@ -68,8 +68,8 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
                                  new DGtal::CustomColors(blue,blue) )
           << ds;
 
-    if(iot==SVG) board.saveSVG( (imgOutputPath + ".svg").c_str(),200,200,10 );
-    else board.saveEPS( (imgOutputPath + ".eps").c_str(),200,200,10 );
+    if(iot==SVG) board.saveSVG( (imgOutputPath).c_str(),200,200,10 );
+    else board.saveEPS( (imgOutputPath).c_str(),200,200,10 );
 
 }
 

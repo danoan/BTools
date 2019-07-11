@@ -8,10 +8,10 @@ mkdir -p ${DATA_FOLDER}
 mkdir -p ${OUTPUT_FOLDER}
 
 cd ${SCRIPT_FOLDER}
-cd ..
-JMIV_FIG_FOLDER=$PWD
+cd ../../
+BTOOLS_FOLDER=$PWD
 cd ${SCRIPT_FOLDER}
-PLOT_SCRIPT_FOLDER=${JMIV_FIG_FOLDER}/plot-scripts
+PLOT_SCRIPT_FOLDER=${BTOOLS_FOLDER}/plot-scripts
 
 BTOOLS_BIN=$(realpath $1)
 

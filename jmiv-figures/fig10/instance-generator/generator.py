@@ -1,7 +1,9 @@
+from __init__ import *
 import subprocess,sys,os,time
 
 from param_combinator import *
 from config import *
+from template_render import *
 
 SCRIPT_FOLDER="set in read  input"
 BINARY_FOLDER="set in read  input"
@@ -11,7 +13,7 @@ def realpath_gcobject(gcobject):
     return "%s/%s" % (INPUT_FOLDER,gcobject)
 
 def resolve_output_folder(c):
-    output_folder="%s/%s" % (SCRIPT_FOLDER,"output")
+    output_folder="%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"output")
     for e in c:
         output_folder += "/" + e['path']
 
@@ -58,7 +60,7 @@ def read_input():
 
     SCRIPT_FOLDER = os.path.dirname( os.path.realpath(__file__) )
     BINARY_FOLDER = sys.argv[1]
-    INPUT_FOLDER = "%s/%s" % (SCRIPT_FOLDER,"input")
+    INPUT_FOLDER = "%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"data")
 
 def valid(c):
     gcobject,method,radius,dt,sq,lt,iterations = c
@@ -73,6 +75,8 @@ def main():
         if valid(c):
             boundary_correction(c)
             export_seed_mask(c)
+
+    render_template("boundary-correction",CONFIG_LIST,"%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"output"))
 
 
 if __name__=='__main__':

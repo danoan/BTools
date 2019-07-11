@@ -8,3 +8,4 @@ ext-projects/source
 valgrind-profile
 local
 gc-object.xml
+__pycache__
