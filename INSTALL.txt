@@ -1,7 +1,10 @@
-#Download auxiliar projects and build them: DIPaCUS,GEOC,SCaBOliC
+In order to build BTools, you are going to need cmake.
 
-./setUp.sh [FIND_PACKAGE_EXTRA_LOOK_UP_DIRS] [BOOT_LIBS_DIR] [debug|release]
+cd [BTOOLS_ROOT_FOLDER]
 mkdir build
 cd build
-cmake .. [-DCMAKE_PREFIX_PATH] [-DCMAKE_INSTALL_PATH]
-make
+cmake ..
+
+There are plenty of configuration parameters, but usually, if all dependencies are installed in their standard
+locations, that should be enough. Otherwise, if errors occur, it is likely that a manual configuration should be
+done. In this scenario, ccmake is quite handy.
