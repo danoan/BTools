@@ -1,12 +1,18 @@
 ## BTools
  BTools is a collection of applications developped for the 
- publication . In this work, we describe a flow driven by 
+ publication [1]. In this work, we describe a flow driven by 
  the minimization of the digital version of the elastica 
  energy. Its main applications are the **shape-flow** and 
  **boundary-correction**. The latter is an application of
  the flow in image segmentation.
  
  A friendly GUI is in stage of development.
+ 
+ [1] Antunes, D., Lachaud, J.O., Talbot H.: Digital 
+ curvature evolution model for image segmentation. In:
+ Couprie, M., Cousty, J., Kenmochi, Y., Mustafa, N. (eds.) 
+ Discrete Geometry for Computer Imagery. pp 15-26. Springer
+ International Publishing, Cham (2019).
  
 ## Dependencies 
 
