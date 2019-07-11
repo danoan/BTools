@@ -1,18 +1,24 @@
-from shutil import copyfile
 import os
+from shutil import copyfile
+
 from jinja2 import Template
 
 from config import *
 
-tfile=open("template/report_template.html")
+SCRIPT_FOLDER=os.path.dirname( os.path.realpath(__file__) )
+TEMPLATE_FOLDER="%s/%s" % (SCRIPT_FOLDER,"template")
+OUTPUT_FOLDER="%s/%s" % (SCRIPT_FOLDER,"output")
+
+tfile=open( "%s/%s" % (TEMPLATE_FOLDER,"report_template.html") )
 t=Template(tfile.read())
 
 x = t.render(paramCollection=CONFIG_LIST)
 
-f=open("output/report.html",'w')
+f=open("%s/%s" % (OUTPUT_FOLDER,"report.html"),'w')
 f.write(x)
 
-copyfile("template/invalid.png", "output/invalid.png")
-copyfile("template/report.css", "output/report.css")
-copyfile("template/report.js", "output/report.js")
+files_to_copy=['invalid.png','report.css','report.js']
+for n in files_to_copy:
+    copyfile("%s/%s" % (TEMPLATE_FOLDER,n), "%s/%s" %(OUTPUT_FOLDER,n))
+
 
