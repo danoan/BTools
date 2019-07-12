@@ -3,10 +3,6 @@
 
 #include <BTools/core/profiles/FlowDoubleStep.h>
 #include <BTools/core/profiles/FlowSingleStep.h>
-#include <BTools/core/profiles/exp/CorrectInner.h>
-#include <BTools/core/profiles/exp/ExpandInner.h>
-#include <BTools/core/profiles/exp/CorrectAroundInner.h>
-#include <BTools/core/profiles/exp/ExpandAroundInner.h>
 
 namespace BTools
 {
@@ -35,11 +31,6 @@ namespace BTools
                     flowSingleStepOpt.restart(optInRegionApplication);
                     return flowSingleStepOpt;
                 }
-                else if(flowProfile==FlowProfile::SingleStepInner)
-                {
-                    flowSingleStepInner.restart(optInRegionApplication);
-                    return flowSingleStepInner;
-                }
                 else if(flowProfile==FlowProfile::DoubleStep)
                 {
                     flowDoubleStep.restart(optInRegionApplication);
@@ -50,30 +41,13 @@ namespace BTools
                     flowDoubleStepOpt.restart(optInRegionApplication);
                     return flowDoubleStepOpt;
                 }
-                else if(flowProfile==FlowProfile::DoubleStepInner)
-                {
-                    flowDoubleStepInner.restart(optInRegionApplication);
-                    return flowDoubleStepInner;
-                }else if(flowProfile==FlowProfile::SingleStepAroundInner)
-                {
-                    flowSingleStepAroundInner.restart(optInRegionApplication);
-                    return flowSingleStepAroundInner;
-                }else if(flowProfile==FlowProfile::DoubleStepAroundInner)
-                {
-                    flowDoubleStepAroundInner.restart(optInRegionApplication);
-                    return flowDoubleStepAroundInner;
-                }
             }
             static FlowSingleStep<Correct> flowSingleStepConvexities;
             static FlowSingleStep<Expand> flowSingleStepConcavities;
             static FlowSingleStep<CorrectOpt> flowSingleStepOpt;
-            static FlowSingleStep<CorrectInner> flowSingleStepInner;
-            static FlowSingleStep<CorrectAroundInner> flowSingleStepAroundInner;
 
             static FlowDoubleStep<Expand,Correct> flowDoubleStep;
             static FlowDoubleStep<ExpandOpt,CorrectOpt> flowDoubleStepOpt;
-            static FlowDoubleStep<ExpandInner,CorrectInner> flowDoubleStepInner;
-            static FlowDoubleStep<ExpandAroundInner,CorrectAroundInner> flowDoubleStepAroundInner;
 
 
         };

@@ -70,6 +70,6 @@ gp_last_plot()
 	printf "'$1' u 1:3 w l title '$2';"
 }
 
-#produce_data
-#produce_figures
+produce_data
+produce_figures
 produce_plots

@@ -14,13 +14,10 @@ namespace BTools
                     SingleStepConvexities,
                     SingleStepConcavities,
                     DoubleStepOpt,
-                    SingleStepOpt,
-                    DoubleStepInner,
-                    SingleStepInner,
-                    DoubleStepAroundInner,
-                    SingleStepAroundInner};
+                    SingleStepOpt};
         public:
             virtual int currentIteration() const=0;
+            virtual bool firstStep() const=0;
             virtual const IFlowStepConfig& nextStep()=0;
             virtual void restart(bool optRegionInApplication)=0;
 

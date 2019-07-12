@@ -27,5 +27,5 @@ produce_figures()
     $SUMMARY_FLOW_APP ${DATA_FOLDER}/square-r5-m3 ${OUTPUT_FOLDER}/summary-square-r5-m3.eps 10
 }
 
-#produce_data
+produce_data
 produce_figures

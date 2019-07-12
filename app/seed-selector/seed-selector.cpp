@@ -1,10 +1,8 @@
 #include <iostream>
 #include <opencv2/highgui.hpp>
 
-
 #include "InputData.h"
 #include "GUIControl.h"
-
 
 using namespace SeedSelector;
 
@@ -63,9 +61,8 @@ int main(int argc, char* argv[])
         refreshWindow(gd);
     }
 
-
+    std::cout << "destroy" << std::endl;
+    cv::destroyWindow(gd.windowName);
 
     return 0;
-
-
 }

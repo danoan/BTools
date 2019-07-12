@@ -38,7 +38,7 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
     std::cerr << "Usage: " << argv[0] << "\n"
             "[-r Ball Radius default 3] \n"
             "[-i Max Iterations default 10] \n"
-            "[-p FlowProfile single double single-opt double-opt single-inner double-inner default double] \n"
+            "[-p FlowProfile single double single-opt double-opt default double] \n"
             "[-n Neighborhood 4 or 8 default: 4] \n"
             "[-d Use digital area default: false] \n"
             "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
@@ -75,10 +75,6 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
                 else if(strcmp(optarg,"double")==0 ) id.fp = InputData::FlowProfile::DoubleStep;
                 else if(strcmp(optarg,"single-opt")==0 ) id.fp = InputData::FlowProfile::SingleStepOpt;
                 else if(strcmp(optarg,"double-opt")==0 ) id.fp = InputData::FlowProfile::DoubleStepOpt;
-                else if(strcmp(optarg,"single-inner")==0 ) id.fp = InputData::FlowProfile::SingleStepInner;
-                else if(strcmp(optarg,"double-inner")==0 ) id.fp = InputData::FlowProfile::DoubleStepInner;
-                else if(strcmp(optarg,"single-around-inner")==0 ) id.fp = InputData::FlowProfile::SingleStepAroundInner;
-                else if(strcmp(optarg,"double-around-inner")==0 ) id.fp = InputData::FlowProfile::DoubleStepAroundInner;
                 else std::runtime_error("Profile not recognized.");
                 break;
             case 'n':

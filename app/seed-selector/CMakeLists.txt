@@ -21,3 +21,5 @@ target_link_libraries(seed-selector
 
 install(TARGETS seed-selector
         DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
+

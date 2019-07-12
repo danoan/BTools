@@ -23,6 +23,8 @@ namespace BTools
                                              correct(correct)
             {}
 
+            bool firstStep() const { return true; }
+
             void restart(bool optInRegionApplication)
             {
                 _it=0;

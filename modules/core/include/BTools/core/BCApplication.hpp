@@ -25,6 +25,14 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
     BCAOutput lastValidSolution(bcaInput);
     //std::cerr << inputDS.domain() << std::endl;
 
+
+    std::string windowName="IterationViewer";
+    if(displayEachIteration)
+    {
+        cv::namedWindow(windowName);
+        cv::imshow(windowName,bcaInput.imageDataInput.segResult);
+    }
+
     try
     {
         while(flowProfile.currentIteration()<maxIterations)
@@ -41,20 +49,17 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
             inputDS.clear();
             inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
 
-            if(flowProfile.currentIteration()%5==0 && bcaInput.showProgress)
+            prepareProductImage(bcaOutput,
+                                bcaInput.imageDataInput);
+
+            if(flowProfile.currentIteration()%5==0 && bcaInput.showProgress && flowProfile.firstStep())
                 std::cout << flowProfile.currentIteration() << "/" << maxIterations << std::endl;
 
-            if(displayEachIteration)
+
+            if(displayEachIteration && flowProfile.firstStep())
             {
-                prepareProductImage(bcaOutput,
-                                    bcaInput.imageDataInput);
-
-                std::string windowName="Iteration_" + std::to_string(flowProfile.currentIteration());
-                cv::namedWindow(windowName);
                 cv::imshow(windowName,bcaOutput.imgOutput);
-                cv::waitKey(0);
-                cv::destroyAllWindows();
-
+                cv::waitKey(10);
             }
 
             lastValidSolution = bcaOutput;
@@ -62,6 +67,13 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
     }catch(std::exception ex)
     {
         std::cerr << "Error in iteration " << flowProfile.currentIteration() << ". Saving current solution.\n";
+    }
+
+    if(displayEachIteration)
+    {
+        std::cout << "Flow is done. Press any key to exit" << std::endl;
+        cv::waitKey(0);
+        cv::destroyWindow(windowName);
     }
 
     bcaOutput = lastValidSolution;

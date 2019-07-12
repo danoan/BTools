@@ -35,6 +35,8 @@ namespace BTools
                                               _firstStep(true)
             {}
 
+            bool firstStep() const { return _firstStep; }
+
             void restart(bool optInRegionApplication)
             {
                 _it=0;

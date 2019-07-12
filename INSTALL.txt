@@ -4,6 +4,7 @@ cd [BTOOLS_ROOT_FOLDER]
 mkdir build
 cd build
 cmake ..
+make install
 
 There are plenty of configuration parameters, but usually, if all dependencies are installed in their standard
 locations, that should be enough. Otherwise, if errors occur, it is likely that a manual configuration should be

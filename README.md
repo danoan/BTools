@@ -2,11 +2,12 @@
  BTools is a collection of applications developped for the 
  publication [1]. In this work, we describe a flow driven by 
  the minimization of the digital version of the elastica 
- energy. Its main applications are the **shape-flow** and 
- **boundary-correction**. The latter is an application of
- the flow in image segmentation.
+ energy. Its main applications are the **shape-flow**, 
+ **boundary-correction** and ***interactive-seg** apps. The 
+ latter integrates all the necessary steps to execute
+ a segmentation using the proposed digital flow.
  
- A friendly GUI is in stage of development.
+
  
  [1] Antunes, D., Lachaud, J.O., Talbot H.: Digital 
  curvature evolution model for image segmentation. In:
@@ -21,6 +22,26 @@
 [DGtal0.9](https://dgtal.org/download/)
 
 [opencv-3.3.0](https://opencv.org/releases.html)
+
+[jinja2.11](https://github.com/pallets/jinja)
+
+## Build and Install
+
+In order to build BTools, you are going to need cmake.
+
+```
+cd [BTOOLS_ROOT_FOLDER]
+mkdir build
+cd build
+cmake ..
+make install
+```
+
+There are plenty of configuration parameters, but usually, if 
+all dependencies are installed in their standard
+locations, that should be enough. Otherwise, if errors occur, 
+it is likely that a manual configuration should be
+done. In this scenario, ccmake is quite handy.
 
 ## How to use
 
@@ -41,7 +62,7 @@ algorithm.
 Executes grab-cut algorithm and creates a grab-cut object file.
  
 
-### boundary-correction
+### boundary-correction-app
 
 Runs the boundary-correction algorithm. Given a grab-cut object file,
 the digital curvature flow is evolved in order to enhance segmentation

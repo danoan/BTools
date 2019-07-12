@@ -41,7 +41,8 @@ link_directories(${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
-        ${CMAKE_BINARY_DIR}/modules/reader)
+        ${CMAKE_BINARY_DIR}/modules/reader
+        )
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/utils)

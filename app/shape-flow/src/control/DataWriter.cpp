@@ -85,10 +85,6 @@ void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepOpt ) ofs << "Flow Profile: Single Step Opt \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
     if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepOpt) ofs << "Flow Profile: Double Step Opt\n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepInner) ofs << "Flow Profile: Single Step Inner\n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepInner) ofs << "Flow Profile: Double Step Inner\n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepAroundInner) ofs << "Flow Profile: Single Step Single-Inner\n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepAroundInner) ofs << "Flow Profile: Double Step Around-Inner\n";
 
 
     ofs << "Levels: " << bcFlowInput.odrConfigInput.levels << "("
