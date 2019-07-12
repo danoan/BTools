@@ -13,7 +13,7 @@ add_library(btools-core ${LIBRARY_ACTION}
         src/control/BCControl.cpp
         src/model/GMM.cpp)
 
-if(${USE_LOCAL_REPOSITORIES})
+if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-core dipacus scabolic btools-utils)
 else()
     add_dependencies(btools-core btools-utils)

@@ -14,7 +14,7 @@ add_library(btools-utils ${LIBRARY_ACTION}
         src/GrabCutIO.cpp
         src/timer.cpp)
 
-if(${USE_LOCAL_REPOSITORIES})
+if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-utils dipacus scabolic)
 endif()
 

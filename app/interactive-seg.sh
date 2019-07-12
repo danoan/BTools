@@ -57,6 +57,7 @@ IMAGE_NAME="$(basename $INPUT_IMAGE)"
 IMAGE_NAME="${IMAGE_NAME%%.*}"
 
 SP_OUT="${OUTPUT_FOLDER}/${IMAGE_NAME}"
+mkdir -p $SP_OUT
 
 if [ ! -f ${SP_OUT}/mask-bg-0.pgm ]
 then

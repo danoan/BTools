@@ -3,7 +3,7 @@ project(jmiv-fig1)
 
 add_executable(jmiv-fig1 jmiv-fig1.cpp)
 
-if(${USE_LOCAL_REPOSITORIES})
+if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(jmiv-fig1 btools-core btools-reader btools-utils scabolic dipacus exhaustive-gc gcurve)
 else()
     add_dependencies(jmiv-fig1 btools-core btools-reader btools-utils)

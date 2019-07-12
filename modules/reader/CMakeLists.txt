@@ -9,7 +9,7 @@ endif()
 add_library(btools-reader ${LIBRARY_ACTION}
         src/DCFReader.cpp)
 
-if(${USE_LOCAL_REPOSITORIES})
+if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-reader scabolic)
 endif()
 

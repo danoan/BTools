@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
-set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "BTools binaries and libraries location." )
-project(btools)
+set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "BTools binaries and libraries install location." )
 
-
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${SCABOLIC_LIBS_DIR}")
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${SCABOLIC_LIBS_DIR}")
 
 set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
 set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path." )
@@ -22,11 +20,9 @@ set(BUILD_APPLICATIONS ON CACHE BOOL "Build applications.")
 set(BUILD_FIGURES ON CACHE BOOL "Build JMIV figures.")
 set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
 
-set(USE_LOCAL_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
+set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
 
-if(${USE_LOCAL_REPOSITORIES})
-    include(ext-projects/ExtProjects.cmake)
-endif()
+project(btools)
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -34,6 +30,10 @@ find_package(OpenCV REQUIRED)
 message("Project Root Dir: ${CMAKE_SOURCE_DIR}")
 message("Build files at: ${CMAKE_BINARY_DIR}")
 message("Installation at: ${CMAKE_INSTALL_PREFIX}")
+
+if(${USE_REMOTE_REPOSITORIES})
+    include(ext-projects/ExtProjects.cmake)
+endif()
 
 
 link_directories(${DIPACUS_LIBS_DIR}
