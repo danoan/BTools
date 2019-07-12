@@ -33,6 +33,8 @@ add_executable(jmiv-fig8 jmiv-fig8.cpp
         src/countUnlabeled.cpp
         src/utils.cpp)
 
+add_dependencies(jmiv-fig8 btools-core btools-utils)
+
 target_include_directories(jmiv-fig8 PRIVATE ${INCLUDE_DIRS})
 target_link_libraries(jmiv-fig8 ${LINK_LIBS})
 
