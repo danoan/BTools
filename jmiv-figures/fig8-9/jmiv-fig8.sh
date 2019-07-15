@@ -147,8 +147,8 @@ lower_higher_level_plot()
 	PLOT_STRING=" ${PLOT_STRING} ${DATA_FOLDER}/unlabeled-evolution/h$gs/radius-$radius/square/$method/$mode/level-1.txt square(m=1)"
 	PLOT_STRING=" ${PLOT_STRING} ${DATA_FOLDER}/unlabeled-evolution/h$gs/radius-$radius/square/$method/$mode/level-$radius.txt square(m=$radius)"
 
-	PLOT_STRING=" ${PLOT_STRING} ${DATA_FOLDER}/output/unlabeled-evolution/h$gs/radius-$radius/flower/$method/$mode/level-1.txt flower(m=1)"
-	PLOT_STRING=" ${PLOT_STRING} ${DATA_FOLDER}/output/unlabeled-evolution/h$gs/radius-$radius/flower/$method/$mode/level-$radius.txt flower(m=$radius)"
+	PLOT_STRING=" ${PLOT_STRING} ${DATA_FOLDER}/unlabeled-evolution/h$gs/radius-$radius/flower/$method/$mode/level-1.txt flower(m=1)"
+	PLOT_STRING=" ${PLOT_STRING} ${DATA_FOLDER}/unlabeled-evolution/h$gs/radius-$radius/flower/$method/$mode/level-$radius.txt flower(m=$radius)"
 
 	create_multiplot $OUTPUT_PLOT "Lower and Higher Rings (r=5)" $PLOT_STRING
 

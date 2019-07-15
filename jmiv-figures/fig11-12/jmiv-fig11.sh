@@ -88,11 +88,14 @@ produce_output()
     for imgName in $(ls ${SCHO_SEEDS_FOLDER})
     do
         echo "Schoenemann segmentation of image ${imgName}"
+        CUR_OUTPUT_FOLDER=${OUTPUT_FOLDER}/schoenemann/${imgName}
+        mkdir -p ${CUR_OUTPUT_FOLDER}
+
         $SCHOENEMANN_APP -i "${PPM_IMAGES_FOLDER}/${imgName}.ppm" -lambda 0.1 -gamma 1.0 -curv-power 2 \
 		-fg-mask "${SCHO_SEEDS_FOLDER}/$imgName/mask-fg-0.pgm" \
 		-bg-mask "${SCHO_SEEDS_FOLDER}/$imgName/mask-bg-0.pgm" \
-		-o "${OUTPUT_FOLDER}/schoenemann/${imgName}.pgm" \
-		-no-trws-reuse > ${OUTPUT_FOLDER}/log-schoenemann.txt
+	    -o "${CUR_OUTPUT_FOLDER}/${imgName}.pgm" \
+		-no-trws-reuse > ${CUR_OUTPUT_FOLDER}/log-schoenemann.txt
     done
 
 }
