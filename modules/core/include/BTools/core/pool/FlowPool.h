@@ -41,6 +41,10 @@ namespace BTools
                     flowDoubleStepOpt.restart(optInRegionApplication);
                     return flowDoubleStepOpt;
                 }
+                else
+                {
+                    throw std::runtime_error("Flow profile not recognized!");
+                }
             }
             static FlowSingleStep<Correct> flowSingleStepConvexities;
             static FlowSingleStep<Expand> flowSingleStepConcavities;

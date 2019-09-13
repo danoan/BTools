@@ -10,11 +10,14 @@
 
 using namespace DGtal::Z2i;
 
-template<class TIterator>
-TIterator advanceIterator(TIterator it, int n)
+namespace JMIV_FIG7 //avoid conflicts with DGtal
 {
-    for(int i=0;i<n;++i) ++it;
-    return it;
+    template<class TIterator>
+    TIterator advanceIterator(TIterator it, int n)
+    {
+        for(int i=0;i<n;++i) ++it;
+        return it;
+    }
 }
 
 DigitalSet holedSquare(int n, int squareSide, int holeSize)
@@ -29,7 +32,7 @@ DigitalSet holedSquare(int n, int squareSide, int holeSize)
     for(int i=0;i<n;++i)
     {
         double r = rand() % domain.size();
-        Point holeCenter = *advanceIterator(begin,r);
+        Point holeCenter = *JMIV_FIG7::advanceIterator(begin,r);
 
         for(auto it=smallSquare.begin();it!=smallSquare.end();++it)
         {

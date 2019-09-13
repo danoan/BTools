@@ -14,6 +14,8 @@ std::string DataWriter::resolveQPBOSolverType(QPBOSolverType solverType)
             return "Improve";
         case QPBOSolverType::Probe:
             return "Probe";
+        default:
+            throw std::runtime_error("Solver not recognized!");
     }
 }
 

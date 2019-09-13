@@ -18,9 +18,6 @@ set(LINK_LIBS -lbtools-reader
         -ldipacus-derivates
         -ldipacus-components
         -ldipacus-base
-        -lexhaustive-gc-api
-        -lexhaustive-gc-energy
-        -lexhaustive-gc-core
         -lgcurve
         -lgcurve-utils
         -lboost_filesystem
