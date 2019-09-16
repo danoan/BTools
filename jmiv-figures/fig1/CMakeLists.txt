@@ -27,8 +27,8 @@ target_link_libraries(jmiv-fig1
         -ldipacus-components
         -ldipacus-base
         -lexhaustive-gc-api
-        -lexhaustive-gc-energy
         -lexhaustive-gc-core
+        -lexhaustive-gc-energy
         -lgcurve
         -lgcurve-utils
         -lboost_filesystem

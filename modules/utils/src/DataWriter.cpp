@@ -35,15 +35,12 @@ void DataWriter::write(const OptOutput& optOutput,
            << "Estimating Ball Radius: " << bcInput.radius << std::endl
            << "Solver Type: " << resolveQPBOSolverType(bcInput.solverType) << "\n" << std::endl;
 
-        os << Utils::fixedStrLength(colLength,"Input") << "\t"
-           << Utils::fixedStrLength(colLength,"Opt. Energy Value") << "\t"
+        os << Utils::fixedStrLength(colLength,"Opt. Energy Value") << "\t"
            << Utils::fixedStrLength(colLength,"II Elastica") << "\t"
            << Utils::fixedStrLength(colLength,"MDCA Elastica") << "\t"
            << Utils::fixedStrLength(colLength,"Unlabeled") << "\n";
     }
 
-
-    os << Utils::fixedStrLength(colLength,bcaInput.inputName) << "\t";
 
     os << BTools::Utils::fixedStrLength(colLength,optOutput.optEnergyValue) << "\t"
        << BTools::Utils::fixedStrLength(colLength,optOutput.IIElasticaValue) << "\t"

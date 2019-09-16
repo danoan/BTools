@@ -114,8 +114,8 @@ void modelRegions(const std::string& outputFilePath)
                                         4,
                                         ODRModel::LevelDefinition::LD_CloserFromCenter,
                                         ODRModel::FourNeighborhood);
-    ODRModel ODR = odrPixels.createODR(ODRModel::OM_CorrectConvexities,
-                                            ODRModel::AM_AroundBoundary,
+
+    ODRModel ODR = odrPixels.createODR(ODRModel::AM_AroundBoundary,
                                             square);
 
     DGtal::Board2D board;
@@ -129,7 +129,7 @@ void modelRegions(const std::string& outputFilePath)
     board << ODR.optRegion;
 
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Blue));
-    board << ODR.applicationRegion;
+    board << ODR.applicationRegionIn << ODR.applicationRegionOut;
 
     board.saveEPS(outputFilePath.c_str());
 

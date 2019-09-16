@@ -7,7 +7,6 @@
 #include <SCaBOliC/Utils/Utils.h>
 
 #include "BTools/core/model/input/ImageDataInput.h"
-#include "BTools/core/model/input/BCFlowInput.h"
 #include "BTools/core/model/input/BCApplicationInput.h"
 #include "BTools/core/model/BCAOutput.h"
 #include "BTools/core/model/input/ODRConfigInput.h"
@@ -68,7 +67,6 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 
 BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
-    typedef BTools::Core::BCFlowInput BCFlowInput;
     int levels = 1;
     bool optInApplicationRegion=false;
     bool repeatedImprovement = false;
@@ -85,6 +83,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
             levels,
             ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
             ODRConfigInput::NeighborhoodType::FourNeighborhood,
+            ODRConfigInput::ApplicationMode::AM_AroundBoundary,
             optInApplicationRegion);
 
 
@@ -103,7 +102,6 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     BCApplicationInput bcaInput(bcConfigInput,
                                 imageDataInput,
                                 odrConfigInput,
-                                BCFlowInput::FlowProfile::DoubleStep,
                                 inputData.showProgress);
 
     BCApplicationOutput bcaOutput(bcaInput);

@@ -21,8 +21,11 @@ namespace ShapeFlow
     {
         typedef DGtal::Z2i::DigitalSet DigitalSet;
         typedef DGtal::Z2i::Curve Curve;
-        typedef BTools::Core::BCApplicationInput BCApplicationInput;
+
         typedef BTools::Core::BCConfigInput BCConfigInput;
+        typedef BTools::Core::ODRConfigInput ODRConfigInput;
+
+        typedef BTools::Core::BCApplicationInput BCApplicationInput;
         typedef BTools::Core::BCApplicationOutput::EnergySolution EnergySolution;
 
         struct TableEntry
@@ -38,8 +41,9 @@ namespace ShapeFlow
 
         void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
 
-        void printFlowMetadata(const BCApplicationInput &bcaInput,
-        const DigitalSet& dsZero,
+        void printFlowMetadata(const BCConfigInput& bcInput,
+                                const ODRConfigInput& odrConfigInput,
+                                const DigitalSet& dsZero,
                                std::ofstream &ofs);
     }
 }

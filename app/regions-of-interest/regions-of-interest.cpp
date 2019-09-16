@@ -17,18 +17,6 @@ using namespace BTools::Reader;
 typedef DCFReader::Shape Shape;
 typedef DCFReader::ShapeType ShapeType;
 
-ODRInterface& getFactory(const DCFReader::InputData& id)
-{
-    ODRConfigInput odrConfigInput(id.radius,id.gridStep,id.levels,
-            id.ld,id.neighborhood,id.optRegionInApplication);
-
-    return ODRPool::get(odrConfigInput);
-}
-
-IFlowProfile& getProfile(const DCFReader::InputData& id)
-{
-    return FlowPool::getFlow(id.fp,id.optRegionInApplication);
-}
 
 DigitalSet getShape(Shape shape,double gridStep)
 {
@@ -117,9 +105,12 @@ int main(int argc, char* argv[])
 
 
 
-    SCaBOliC::Core::ODRPixels odrPixels(id.radius);
+    SCaBOliC::Core::ODRPixels odrPixels(id.radius,id.gridStep,id.levels,
+                                  id.ld,id.neighborhood);
 
-    ODRModel odrModel = odrPixels.createODR(flowStepConfig.applicationMode(),
+
+
+    ODRModel odrModel = odrPixels.createODR(id.am,
                                           getShape(id.shape,id.gridStep),
                                           id.optRegionInApplication);
 

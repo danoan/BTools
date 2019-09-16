@@ -16,11 +16,9 @@ namespace BTools
             BCApplicationInput(const BCConfigInput& bcConfigInput,
                                const ImageDataInput& imageDataInput,
                                const ODRConfigInput& odrConfigInput,
-                               const std::string& inputName,
                                bool showProgress=false): bcConfigInput(bcConfigInput),
                                                                    odrConfigInput(odrConfigInput),
                                                                    imageDataInput(imageDataInput),
-                                                                   inputName(inputName),
                                                                    showProgress(showProgress)
             {}
 
@@ -28,7 +26,6 @@ namespace BTools
             const ImageDataInput imageDataInput;
             const ODRConfigInput odrConfigInput;
 
-            std::string inputName;
             bool showProgress;
 
 
