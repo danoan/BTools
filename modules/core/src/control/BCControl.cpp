@@ -3,28 +3,63 @@
 using namespace BTools::Core;
 
 BCControl::BCControl(Solution& solution,
-                     const BCConfigInput& bcInput,
-                     const ImageDataInput& imageDataInput,
+                     const BCApplicationInput& bcaInput,
                      const ODRInterface& odrFactory,
-                     const IFlowStepConfig& flowStepConfig,
                      const DigitalSet& inputDS)
 {
-    std::vector< IBCControlVisitor* > mock;
+    const BCConfigInput& bcInput = bcaInput.bcConfigInput;
+    const ODRConfigInput& odrConfigInput = bcaInput.odrConfigInput;
+    const ImageDataInput& imageDataInput = bcaInput.imageDataInput;
 
-    BCControl(solution,
-              bcInput,
-              imageDataInput,
-              odrFactory,
-              flowStepConfig,
-              inputDS,
-              mock.begin(),
-              mock.end());
+    ISQInputData::OptimizationDigitalRegions ODR = odrFactory.createODR(odrConfigInput.applicationMode,
+                                                                        inputDS,
+                                                                        odrConfigInput.optInApplicationRegion);
+
+    ISQInputData energyInput(ODR,
+                             imageDataInput.baseImage,
+                             imageDataInput.fgDistr,
+                             imageDataInput.bgDistr,
+                             bcInput.excludeOptPointsFromAreaComputation,
+                             bcInput.dataTermWeight,
+                             bcInput.sqTermWeight,
+                             bcInput.lengthTermWeight,
+                             imageDataInput.translation);
+
+    ISQEnergy energy(energyInput,odrFactory.handle());
+    solution.init(energy.numVars());
+
+    solve(solution,bcInput,energy,energyInput,ODR,odrFactory);
 }
 
 
+void BCControl::solve(Solution& solution,
+                      const BCConfigInput& bcInput,
+                      const ISQEnergy& energy,
+                      const ISQInputData& energyInput,
+                      const ISQInputData::OptimizationDigitalRegions& ODR,
+                      const ODRInterface& odrFactory)
+{
+    switch(bcInput.solverType)
+    {
+        case QPBOSolverType::Simple:
+            energy.template solve<QPBOSimpleSolver>(solution);
+            break;
+        case QPBOSolverType::Improve:
+            energy.template solve<QPBOImproveSolver>(solution);
+            break;
+        case QPBOSolverType::Probe:
+            energy.template solve<QPBOProbeSolver>(solution);
+            break;
+    }
+
+    updateSet(solution,
+              odrFactory,
+              energyInput,
+              energy);
+}
+
 void BCControl::updateSet(Solution& solution,
                           const ODRInterface& odrFactory,
-                          const IFlowStepConfig& flowStepConfig,
                           const ISQInputData& energyInput,
                           const ISQEnergy& energy)
 {
@@ -40,7 +75,6 @@ void BCControl::updateSet(Solution& solution,
     odrFactory.handle()->solutionSet(tempOutDS,
                                      initialDS,
                                      energyInput.optimizationRegions,
-                                     flowStepConfig.optimizationMode(),
                                      labelsVector.data(),
                                      energy.vm().pim);
 

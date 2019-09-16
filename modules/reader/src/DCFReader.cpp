@@ -14,8 +14,6 @@ DCFReader::InputData DCFReader::defaultValues()
     id.levels= id.radius;
     id.optRegionInApplication = false;
 
-    id.fp = InputData::FlowProfile::DoubleStep;
-
     id.dtWeight = 0.5;
     id.sqWeight = 1.0;
     id.lgWeight = 0.2;
@@ -26,8 +24,6 @@ DCFReader::InputData DCFReader::defaultValues()
     id.gridStep=1.0;
 
     id.excludeOptPointsFromAreaComputation = false;
-
-    id.om = InputData::OptimizationMode::OM_CorrectConvexities;
     id.am = InputData::ApplicationMode::AM_OptimizationBoundary;
 
     return id;
@@ -38,9 +34,7 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
     std::cerr << "Usage: " << argv[0] << "\n"
             "[-r Ball Radius default 3] \n"
             "[-i Max Iterations default 10] \n"
-            "[-p FlowProfile single double single-opt double-opt default double] \n"
             "[-n Neighborhood 4 or 8 default: 4] \n"
-            "[-d Use digital area default: false] \n"
             "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
             "[-q Squared Curvature Term weight default: 1.0] \n"
             "[-t Data Term weight default: 1.0] \n"
@@ -49,7 +43,6 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
             "[-o Include optimization region in the application region default: false \n"
             "[-S Shape (triangle square pentagon heptagon ball ellipse ball wave). Default: square\n"
             "[-h Grid step (default:1.0)]\n"
-            "[-e Optimization mode (correct-convexities correct-concavities) (default:correct-convexities)]\n"
             "[-f Application mode (optimization-contour around-contour inner-contour outer-contour) (default:optimization-contour)]\n"
             "[-x Exclude opt points from computation area default: false] \n"
             <<  extraUsage << std::endl;
@@ -60,7 +53,7 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
     InputData id = df();
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:p:n:dl:q:t:g:m:oS:h:e:f:x"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:x"))!=-1)
     {
         switch(opt)
         {
@@ -69,13 +62,6 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
                 break;
             case 'i':
                 id.iterations= atoi(optarg);
-                break;
-            case 'p':
-                if(strcmp(optarg,"single")==0 ) id.fp = InputData::FlowProfile::SingleStepConvexities;
-                else if(strcmp(optarg,"double")==0 ) id.fp = InputData::FlowProfile::DoubleStep;
-                else if(strcmp(optarg,"single-opt")==0 ) id.fp = InputData::FlowProfile::SingleStepOpt;
-                else if(strcmp(optarg,"double-opt")==0 ) id.fp = InputData::FlowProfile::DoubleStepOpt;
-                else std::runtime_error("Profile not recognized.");
                 break;
             case 'n':
             {
@@ -121,13 +107,6 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
             case 'h':
             {
                 id.gridStep = std::atof(optarg);
-                break;
-            }
-            case 'e':
-            {
-                if(strcmp("correct-convexities",optarg)==0) id.om = InputData::OptimizationMode::OM_CorrectConvexities;
-                else if(strcmp("correct-concavities",optarg)==0) id.om = InputData::OptimizationMode::OM_CorrectConcavities;
-                else throw std::runtime_error("Optimization Mode not recognized!");
                 break;
             }
             case 'f':

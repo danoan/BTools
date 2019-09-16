@@ -1,6 +1,4 @@
-#include <SCaBOliC/Core/interface/ODRInterface.h>
-#include <BTools/core/pool/ODRPool.h>
-#include <BTools/core/pool/FlowPool.h>
+#include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
 #include <BTools/reader/DCFReader.h>
 
 #include <DGtal/helpers/StdDefs.h>
@@ -68,11 +66,14 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Green, DGtal::Color::Green));
     board << ODR.optRegion;
 
+    DigitalSet appRegion = ODR.applicationRegionIn;
+    appRegion += ODR.applicationRegionOut;
+
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Red, DGtal::Color::Red));
-    board << ODR.applicationRegion;
+    board << appRegion;
 
     DigitalSet optAppIntersection(ODR.optRegion.domain());
-    DIPaCUS::SetOperations::setIntersection(optAppIntersection,ODR.optRegion,ODR.applicationRegion);
+    DIPaCUS::SetOperations::setIntersection(optAppIntersection,ODR.optRegion,appRegion);
 
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Yellow, DGtal::Color::Yellow));
     board << optAppIntersection;
@@ -89,10 +90,7 @@ DCFReader::InputData defaultValues()
     id.neighborhood= ODRConfigInput::NeighborhoodType::FourNeighborhood;
     id.ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
 
-    id.om = ODRModel::OptimizationMode::OM_CorrectConcavities;
     id.am = ODRModel::ApplicationMode::AM_AroundBoundary;
-
-    id.fp = BTools::Core::IFlowProfile::FlowProfile::DoubleStep;
 
     id.levels=3;
     id.optRegionInApplication = false;
@@ -118,13 +116,10 @@ int main(int argc, char* argv[])
     }
 
 
-    ODRInterface& factory = getFactory(id);
-    IFlowProfile& profile = getProfile(id);
 
+    SCaBOliC::Core::ODRPixels odrPixels(id.radius);
 
-    const IFlowStepConfig& flowStepConfig = profile.nextStep();
-    ODRModel odrModel = factory.createODR(flowStepConfig.optimizationMode(),
-                                          flowStepConfig.applicationMode(),
+    ODRModel odrModel = odrPixels.createODR(flowStepConfig.applicationMode(),
                                           getShape(id.shape,id.gridStep),
                                           id.optRegionInApplication);
 

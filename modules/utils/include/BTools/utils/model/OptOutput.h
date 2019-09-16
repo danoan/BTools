@@ -2,8 +2,7 @@
 #define BTools_UTILS_OPTOUTPUT_H
 
 #include <opencv2/core/mat.hpp>
-
-#include "BTools/core/model/input/BCFlowInput.h"
+#include "BTools/core/model/input/BCApplicationInput.h"
 
 namespace BTools
 {
@@ -11,9 +10,8 @@ namespace BTools
     {
         struct OptOutput
         {
-            typedef BTools::Core::BCFlowInput BCFlowInput;
-
-            OptOutput(const BCFlowInput& bcFlowInput):bcFlowInput(bcFlowInput){}
+            typedef BTools::Core::BCApplicationInput BCApplicationInput;
+            OptOutput(const BCApplicationInput& bcaInput):bcaInput(bcaInput){}
 
             double IIElasticaValue;
             double MDCAElasticaValue;
@@ -24,7 +22,7 @@ namespace BTools
             cv::Mat inputImage;
             cv::Mat outputImage;
 
-            const BCFlowInput bcFlowInput;
+            const BCApplicationInput bcaInput;
         };
     }
 }

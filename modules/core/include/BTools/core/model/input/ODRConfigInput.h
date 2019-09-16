@@ -1,7 +1,7 @@
 #ifndef BTools_FLOWCONFIGINPUT_H
 #define BTools_FLOWCONFIGINPUT_H
 
-#include <BTools/core/interface/IFlowProfile.h>
+#include <SCaBOliC/Core/model/ODRModel.h>
 
 namespace BTools
 {
@@ -12,18 +12,19 @@ namespace BTools
             typedef SCaBOliC::Core::ODRModel::ApplicationMode ApplicationMode;
             typedef SCaBOliC::Core::ODRModel::NeighborhoodType NeighborhoodType;
             typedef SCaBOliC::Core::ODRModel::LevelDefinition LevelDefinition;
-            typedef SCaBOliC::Core::ODRModel::StructuringElementType StructuringElementType;
 
             ODRConfigInput(double radius,
                            double gridStep,
                            int levels,
                            LevelDefinition ld,
                            NeighborhoodType nt,
+                           ApplicationMode am,
                            bool optInApplicationRegion):levels(levels),
                                                         radius(radius),
                                                         gridStep(gridStep),
                                                         levelDefinition(ld),
                                                         neighborhood(nt),
+                                                        applicationMode(am),
                                                         optInApplicationRegion(optInApplicationRegion)
             {}
 
@@ -39,6 +40,7 @@ namespace BTools
             const double gridStep;
             const NeighborhoodType neighborhood;
             const LevelDefinition levelDefinition;
+            const ApplicationMode applicationMode;
 
             bool optInApplicationRegion;
         };

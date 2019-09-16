@@ -1,8 +1,6 @@
 #ifndef BTools_BCAPPLICATIONINPUT_H
 #define BTools_BCAPPLICATIONINPUT_H
 
-#include <BTools/core/interface/IFlowProfile.h>
-
 #include "BCConfigInput.h"
 #include "ODRConfigInput.h"
 #include "ImageDataInput.h"
@@ -14,25 +12,23 @@ namespace BTools
         struct BCApplicationInput
         {
         public:
-            typedef IFlowProfile::FlowProfile FlowProfile;
-        public:
 
             BCApplicationInput(const BCConfigInput& bcConfigInput,
                                const ImageDataInput& imageDataInput,
                                const ODRConfigInput& odrConfigInput,
-                               const FlowProfile& flowProfile,
+                               const std::string& inputName,
                                bool showProgress=false): bcConfigInput(bcConfigInput),
                                                                    odrConfigInput(odrConfigInput),
                                                                    imageDataInput(imageDataInput),
-                                                                   flowProfile(flowProfile),
+                                                                   inputName(inputName),
                                                                    showProgress(showProgress)
             {}
 
-            const FlowProfile flowProfile;
             const BCConfigInput bcConfigInput;
             const ImageDataInput imageDataInput;
             const ODRConfigInput odrConfigInput;
 
+            std::string inputName;
             bool showProgress;
 
 

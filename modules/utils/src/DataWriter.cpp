@@ -23,7 +23,8 @@ void DataWriter::write(const OptOutput& optOutput,
                        std::ostream& os,
                        bool printHeader)
 {
-    const BCFlowInput::BCConfigInput& bcInput = optOutput.bcFlowInput.bcInput;
+    const BCApplicationInput& bcaInput = optOutput.bcaInput;
+    const BCConfigInput& bcInput = bcaInput.bcConfigInput;
     int colLength=20;
 
     if(printHeader)
@@ -42,7 +43,7 @@ void DataWriter::write(const OptOutput& optOutput,
     }
 
 
-    os << Utils::fixedStrLength(colLength,optOutput.bcFlowInput.inputName) << "\t";
+    os << Utils::fixedStrLength(colLength,bcaInput.inputName) << "\t";
 
     os << BTools::Utils::fixedStrLength(colLength,optOutput.optEnergyValue) << "\t"
        << BTools::Utils::fixedStrLength(colLength,optOutput.IIElasticaValue) << "\t"
