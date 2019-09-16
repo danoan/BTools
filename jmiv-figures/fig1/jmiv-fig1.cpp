@@ -9,11 +9,14 @@
 #include <exhaustive-gc/energy/EnergyInput.h>
 #include <exhaustive-gc/energy/EnergyType.h>
 
-#include <lazy-comb/LazyCombinations.h>
+#include <magLac/core/base/Range.hpp>
+#include <magLac/core/single/Combinator.hpp>
+
 
 #include <DIPaCUS/base/Shapes.h>
 #include <gcurve/utils/displayUtils.h>
 #include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
+#include <DGtal/io/Color.h>
 
 using namespace DGtal::Z2i;
 using namespace ExhaustiveGC::Core;
@@ -31,7 +34,6 @@ void gluedCurve(const std::string& outputFilePath)
     typedef ExhaustiveGC::CurveFromJoints CurveFromJoints;
 
     typedef std::vector< CheckableSeedPair > CheckableSeedPairVector;
-    typedef LazyCombinator::LazyCombinations<CheckableSeedPairVector> MyLazyCombinations;
 
 
     DigitalSet ds = DIPaCUS::Shapes::square();
@@ -65,21 +67,33 @@ void gluedCurve(const std::string& outputFilePath)
     GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,mainC,mainC);
     GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,outC,outC);
 
+    auto range = magLac::Core::addRange(cspv.begin(),cspv.end(),sp.jointPairs);
+    auto combinator = magLac::Core::Single::createCombinator(range);
+    auto resolver = combinator.resolver();
 
-    MyLazyCombinations myCombinations(cspv,sp.jointPairs);
+    typedef decltype(combinator) MyCombinator;
+    typedef MyCombinator::MyResolver MyResolver;
 
-    Curve curve;
-    CheckableSeedPair seedCombination[sp.jointPairs];
-    while( myCombinations.next(seedCombination) )
+    std::vector<CheckableSeedPair> seedCombination(sp.jointPairs);
+    while( combinator.next(resolver) )
     {
+        resolver >> seedCombination;
         if(seedCombination[0].data().first.type==GCurve::Seed::SeedType::MainOuter) break;
     }
-    CurveFromJoints(curve, seedCombination, sp.jointPairs);
+
+
+    Curve curve;
+    CurveFromJoints(curve, seedCombination.data(), sp.jointPairs);
 
     GCurve::Utils::drawCurve(board,DGtal::Color::Red,DGtal::Color::Red,curve.begin(),curve.end());
+
     GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
                              seedCombination[0].data().first.inCirculatorBegin,
-                             seedCombination[0].data().first.inCirculatorEnd+2);
+                             seedCombination[0].data().first.inCirculatorEnd);
+
+    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
+                             seedCombination[0].data().first.inCirculatorEnd,
+                             seedCombination[0].data().second.outCirculatorBegin+1);
 
     board << DGtal::CustomStyle(curve.begin()->className() + "/Paving", new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Blue));
     board << seedCombination[0].data().first.linkLinels[0]
