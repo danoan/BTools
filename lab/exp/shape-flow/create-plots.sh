@@ -9,11 +9,11 @@ function create_plot_levels()
 
     echo $DATA_FOLDER
 
-    DATA_LEVEL_1=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_1/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
-    DATA_LEVEL_2=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_2/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
-    DATA_LEVEL_3=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_3/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
-    DATA_LEVEL_4=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_4/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
-    DATA_LEVEL_5=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_5/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
+    DATA_LEVEL_1=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_1/gs_0.50/${SHAPE}.txt
+    DATA_LEVEL_2=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_2/gs_0.50/${SHAPE}.txt
+    DATA_LEVEL_3=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_3/gs_0.50/${SHAPE}.txt
+    DATA_LEVEL_4=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_4/gs_0.50/${SHAPE}.txt
+    DATA_LEVEL_5=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_5/gs_0.50/${SHAPE}.txt
 
     create_multiplot "$OUTPUT_FOLDER/levels.eps" "Levels"  \
     $DATA_LEVEL_1 "Level_1" \
@@ -30,8 +30,8 @@ function create_plot_radius()
     OUTPUT_FOLDER="$3/$1" && mkdir -p ${OUTPUT_FOLDER}
     OUTPUT_FOLDER=$(realpath $OUTPUT_FOLDER)
 
-    DATA_RADIUS3=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_3/level_3/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
-    DATA_RADIUS5=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_5/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
+    DATA_RADIUS3=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_3/level_3/gs_0.50/${SHAPE}.txt
+    DATA_RADIUS5=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_5/gs_0.50/${SHAPE}.txt
 
     create_multiplot "$OUTPUT_FOLDER/radius.eps" "Radius_3_x_Radius_5" \
     $DATA_RADIUS3 "Radius_3" \
@@ -45,8 +45,8 @@ function create_plot_method()
     OUTPUT_FOLDER="$3/$1" && mkdir -p ${OUTPUT_FOLDER}
     OUTPUT_FOLDER=$(realpath $OUTPUT_FOLDER)
 
-    DATA_PROBE=$DATA_FOLDER/$SHAPE/probe/double/neigh_4/radius_5/level_5/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
-    DATA_IMPROVE=$DATA_FOLDER/$SHAPE/improve/double/neigh_4/radius_5/level_5/no-opt/count-optApp/gs_0.50/length_0.00/${SHAPE}.txt
+    DATA_PROBE=$DATA_FOLDER/sp_$SHAPE/mt_probe/radius_5/level_5/gs_0.50/${SHAPE}.txt
+    DATA_IMPROVE=$DATA_FOLDER/sp_$SHAPE/mt_improve/radius_5/level_5/gs_0.50/${SHAPE}.txt
 
     create_multiplot "$OUTPUT_FOLDER/method.eps" "Methods" \
     $DATA_PROBE "Probe" \

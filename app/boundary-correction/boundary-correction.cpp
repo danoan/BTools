@@ -70,7 +70,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
 {
     typedef BTools::Core::BCFlowInput BCFlowInput;
     int levels = 1;
-    bool optInApplicationRegion=true;
+    bool optInApplicationRegion=false;
     bool repeatedImprovement = false;
 
     BCConfigInput bcConfigInput(inputData.radius,
