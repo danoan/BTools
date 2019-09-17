@@ -129,7 +129,7 @@ produce_output()
     for imgName in $(ls ${BC_SEEDS_FOLDER})
     do
         echo "Boundary correction of image ${BC_SEEDS_FOLDER}/${imgName}"
-        $BC_APP "${BC_SEEDS_FOLDER}/${imgName}/gc-object.xml" -i10 -r5 -d5 -q1.0 -t 3.0 -g 0.1 -v \
+        $BC_APP "${BC_SEEDS_FOLDER}/${imgName}/gc-object.xml" -i100 -r5 -d5 -q1.0 -t 3.0 -g 0.1 -v \
         -o "${OUTPUT_FOLDER}/bc/${imgName}"&
 
         if [ $i = "4" ]
