@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.2)
 
+set(CMAKE_BUILD_TYPE Release)
+set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
+
+if (${CMAKE_BUILD_TYPE} STREQUAL Release)
+    set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-release)
+else()
+    set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-debug)
+endif ()
+
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "BTools binaries and libraries install location." )
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${SCABOLIC_LIBS_DIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
