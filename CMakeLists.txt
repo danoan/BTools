@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
 
-if (${CMAKE_BUILD_TYPE} EQUAL Release)
+if (${CMAKE_BUILD_TYPE} STREQUAL Release)
     set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-release)
 else()
     set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-debug)
