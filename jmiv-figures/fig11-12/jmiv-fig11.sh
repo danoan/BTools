@@ -37,13 +37,15 @@ find_line_number_first_ocurrence()
 configure_schoenemann()
 {
     CBC_BUILD=${EXT_FOLDER}/cbc-build
-    if [ ! -d ${EXT_FOLDER} ]
+    export LD_LIBRARY_PATH=${CBC_BUILD}/lib:$LD_LIBRARY_PATH
+
+    if [ ! -d ${CBC_BUILD} ]
     then
         cd ${EXT_FOLDER}
         git clone --branch=stable/2.9 https://github.com/coin-or/Cbc Cbc-2.9
         cd Cbc-2.9
         git clone --branch=stable/0.8 https://github.com/coin-or-tools/BuildTools/
-        ./BuildTools/get.dependencies fetch
+        ./BuildTools/get.dependencies.sh fetch
         ./configure --prefix=${CBC_BUILD}
         make install
         cd ${SCRIPT_FOLDER}
@@ -97,10 +99,6 @@ produce_data()
 
     cp -r ${BC_SEEDS_FOLDER}/* ${SCHO_SEEDS_FOLDER}
 
-    #Schoenemann interprets seeds in the opposite way as boundary-correction
-    find ${SCHO_SEEDS_FOLDER} -name *.pgm | xargs -I{} convert {} -negate {}
-
-
     for imgName in $(ls ${BC_SEEDS_FOLDER})
     do
         echo "Creating BC gc-object for ${imgName}"
@@ -120,6 +118,9 @@ produce_data()
         ${SCHO_SEEDS_FOLDER}/${imgName}/gc-object.xml \
         -u ${SCHO_SEEDS_FOLDER}/${imgName}/mask-pbfg-0.pgm
     done
+
+    #Schoenemann interprets seeds in the opposite way as boundary-correction
+    find ${SCHO_SEEDS_FOLDER} -name *.pgm | xargs -I{} convert {} -negate {}
 
 }
 
@@ -152,6 +153,7 @@ produce_output()
 		-fg-mask "${SCHO_SEEDS_FOLDER}/$imgName/mask-fg-0.pgm" \
 		-bg-mask "${SCHO_SEEDS_FOLDER}/$imgName/mask-bg-0.pgm" \
 	    -o "${CUR_OUTPUT_FOLDER}/${imgName}.pgm" \
+	    -bruckstein \
 		-no-trws-reuse > ${CUR_OUTPUT_FOLDER}/log-schoenemann.txt
     done
 
