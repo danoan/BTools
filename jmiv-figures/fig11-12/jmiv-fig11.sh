@@ -8,10 +8,67 @@ OUTPUT_FOLDER=${SCRIPT_FOLDER}/output
 mkdir -p ${OUTPUT_FOLDER}/schoenemann
 mkdir -p ${OUTPUT_FOLDER}/bc
 
+replace_line()
+{
+    FILE=$1
+    LINE_NUMBER=$2
+    NEW_TEXT="$3"
+
+    T1=$(($LINE_NUMBER - 1))
+    T2=$(($LINE_NUMBER + 1))
+
+    head $FILE -n$T1 > .temp.part1
+    tail $FILE -n+$T2 > .temp.part2
+
+    echo $NEW_TEXT >> .temp.part1
+    cat .temp.part1 .temp.part2 > $1
+
+    rm .temp.part1 .temp.part2
+}
+
+find_line_number_first_ocurrence()
+{
+    TEXT_TO_FIND="$1"
+    FILE=$2
+
+    echo $(grep "${TEXT_TO_FIND}"  $FILE -n | head -n1 | cut -d: -f1)
+}
+
+configure_schoenemann()
+{
+    CBC_BUILD=${EXT_FOLDER}/cbc-build
+    if [ ! -d ${EXT_FOLDER} ]
+    then
+        cd ${EXT_FOLDER}
+        git clone --branch=stable/2.9 https://github.com/coin-or/Cbc Cbc-2.9
+        cd Cbc-2.9
+        git clone --branch=stable/0.8 https://github.com/coin-or-tools/BuildTools/
+        ./BuildTools/get.dependencies fetch
+        ./configure --prefix=${CBC_BUILD}
+        make install
+        cd ${SCRIPT_FOLDER}
+    fi
+
+
+    LINE=$(find_line_number_first_ocurrence "COININCLUDEDIR =" "${EXT_FOLDER}/RegionCurv/Makefile")
+    replace_line "${EXT_FOLDER}/RegionCurv/Makefile" ${LINE} "COININCLUDEDIR = ${EXT_FOLDER}/cbc-build/include"
+
+    LINE=$(find_line_number_first_ocurrence "COINLIBDIR =" "${EXT_FOLDER}/RegionCurv/Makefile")
+    replace_line "${EXT_FOLDER}/RegionCurv/Makefile" ${LINE} "COINLIBDIR = ${EXT_FOLDER}/cbc-build/lib"
+
+    cd ${EXT_FOLDER}/RegionCurv/common
+    make
+    cd ..
+    make
+
+}
+
 init()
 {
     tar -xvf ${DATA_FOLDER}/seg-bench.tar.bz2 -C ${DATA_FOLDER}
     tar -xvf ${EXT_FOLDER}/RegionCurv.tar.bz2 -C ${EXT_FOLDER}
+
+    configure_schoenemann
 }
 
 
@@ -72,7 +129,7 @@ produce_output()
     for imgName in $(ls ${BC_SEEDS_FOLDER})
     do
         echo "Boundary correction of image ${BC_SEEDS_FOLDER}/${imgName}"
-        $BC_APP "${BC_SEEDS_FOLDER}/${imgName}/gc-object.xml" -i100 -r5 -d5 -q1.0 -t 3.0 -g 0.1 -v \
+        $BC_APP "${BC_SEEDS_FOLDER}/${imgName}/gc-object.xml" -i10 -r5 -d5 -q1.0 -t 3.0 -g 0.1 -v \
         -o "${OUTPUT_FOLDER}/bc/${imgName}"&
 
         if [ $i = "4" ]
