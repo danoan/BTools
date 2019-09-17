@@ -159,6 +159,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
                 BCAOutput bcaOutput = boundaryCorrection(bcConfigInput,odrConfigInput,currentImage,translation);
 
                 DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
+                checkBounds(correctedSet,flowDomain);
                 
                 entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
 
