@@ -43,16 +43,16 @@ collection_flow()
     shape=$1
     gs=$2
 
-    generate_flow $shape probe $gs 3
+    generate_flow $shape simple $gs 3
     generate_flow $shape improve $gs 3
 
-    generate_flow $shape probe $gs 5
+    generate_flow $shape simple $gs 5
     generate_flow $shape improve $gs 5
 
-    generate_flow $shape probe $gs 7
+    generate_flow $shape simple $gs 7
     generate_flow $shape improve $gs 7
 
-    generate_flow $shape probe $gs 9
+    generate_flow $shape simple $gs 9
     generate_flow $shape improve $gs 9
 
 }
@@ -66,7 +66,7 @@ unlabeled_evolution()
     gs=$4
     radius=$5
 
-    $FIG8_APP ${DATA_FOLDER}/flows/h$gs/radius-$radius/$shape/probe/L$radius \
+    $FIG8_APP ${DATA_FOLDER}/flows/h$gs/radius-$radius/$shape/simple/L$radius \
     ${DATA_FOLDER}/unlabeled-evolution/h$gs/radius-$radius/$shape/$method/$mode $method $mode $radius
 }
 
@@ -75,19 +75,19 @@ collection_unlabeled_evolution()
     shape=$1
     gs=$2
 
-    unlabeled_evolution $shape probe concavities $gs 3&
-    unlabeled_evolution $shape probe convexities $gs 3&
+    unlabeled_evolution $shape simple concavities $gs 3&
+    unlabeled_evolution $shape simple convexities $gs 3&
 
-    unlabeled_evolution $shape probe concavities $gs 5&
-    unlabeled_evolution $shape probe convexities $gs 5&
+    unlabeled_evolution $shape simple concavities $gs 5&
+    unlabeled_evolution $shape simple convexities $gs 5&
 
     wait
 
-    unlabeled_evolution $shape probe concavities $gs 7&
-    unlabeled_evolution $shape probe convexities $gs 7&
+    unlabeled_evolution $shape simple concavities $gs 7&
+    unlabeled_evolution $shape simple convexities $gs 7&
 
-    unlabeled_evolution $shape probe concavities $gs 9&
-    unlabeled_evolution $shape probe convexities $gs 9&
+    unlabeled_evolution $shape simple concavities $gs 9&
+    unlabeled_evolution $shape simple convexities $gs 9&
 
     wait
 }
@@ -125,10 +125,10 @@ collection_unlabeled_evolution_plot()
     shape=$1
     gs=$2
 
-    unlabeled_evolution_plot $shape concavities probe $gs 3
-    unlabeled_evolution_plot $shape concavities probe $gs 5
-    unlabeled_evolution_plot $shape concavities probe $gs 7
-    unlabeled_evolution_plot $shape concavities probe $gs 9
+    unlabeled_evolution_plot $shape concavities simple $gs 3
+    unlabeled_evolution_plot $shape concavities simple $gs 5
+    unlabeled_evolution_plot $shape concavities simple $gs 7
+    unlabeled_evolution_plot $shape concavities simple $gs 9
 }
 
 lower_higher_level_plot()
@@ -213,4 +213,4 @@ gp_last_plot()
 	printf "'$1' u 1:3 w l title '$2';"
 }
 
-lower_higher_level_plot concavities probe 0.5 5
+lower_higher_level_plot concavities simple 0.5 5

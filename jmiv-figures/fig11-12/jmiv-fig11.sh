@@ -120,7 +120,7 @@ produce_data()
     done
 
     #Schoenemann interprets seeds in the opposite way as boundary-correction
-    find ${SCHO_SEEDS_FOLDER} -name *.pgm | xargs -I{} convert {} -negate {}
+    find ${SCHO_SEEDS_FOLDER} -name "*.pgm" | xargs -I{} convert {} -negate {}
 
 }
 
