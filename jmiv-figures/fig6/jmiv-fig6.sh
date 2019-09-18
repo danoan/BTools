@@ -4,6 +4,8 @@ SCRIPT_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 DATA_FOLDER=${SCRIPT_FOLDER}/data
 OUTPUT_FOLDER=${SCRIPT_FOLDER}/output
 
+BTOOLS_BIN=$(realpath $1)
+
 mkdir -p ${DATA_FOLDER}
 mkdir -p ${OUTPUT_FOLDER}
 
@@ -13,19 +15,17 @@ BTOOLS_FOLDER=$PWD
 cd ${SCRIPT_FOLDER}
 PLOT_SCRIPT_FOLDER=${BTOOLS_FOLDER}/plot-scripts
 
-BTOOLS_BIN=$(realpath $1)
-
 produce_data()
 {
     SHAPE_FLOW_APP=${BTOOLS_BIN}/shape-flow
 
-    $SHAPE_FLOW_APP -r3 -i150 -p double -l3 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3
-    $SHAPE_FLOW_APP -r3 -i150 -p double -l3 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r3
-    $SHAPE_FLOW_APP -r3 -i150 -p double -l3 -n4 -q1 -t0 -g0 -mimprove -Sflower -h0.5 ${DATA_FOLDER}/flower-r3
+    $SHAPE_FLOW_APP -r3 -i150 -f around-contour -l3 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3
+    $SHAPE_FLOW_APP -r3 -i150 -f around-contour -l3 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r3
+    $SHAPE_FLOW_APP -r3 -i150 -f around-contour -l3 -n4 -q1 -t0 -g0 -mimprove -Sflower -h0.5 ${DATA_FOLDER}/flower-r3
 
-    $SHAPE_FLOW_APP -r5 -i150 -p double -l5 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r5
-    $SHAPE_FLOW_APP -r5 -i150 -p double -l5 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5
-    $SHAPE_FLOW_APP -r5 -i150 -p double -l5 -n4 -q1 -t0 -g0 -mimprove -Sflower -h0.5 ${DATA_FOLDER}/flower-r5
+    $SHAPE_FLOW_APP -r5 -i150 -f around-contour -l5 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r5
+    $SHAPE_FLOW_APP -r5 -i150 -f around-contour -l5 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5
+    $SHAPE_FLOW_APP -r5 -i150 -f around-contour -l5 -n4 -q1 -t0 -g0 -mimprove -Sflower -h0.5 ${DATA_FOLDER}/flower-r5
 }
 
 produce_figures()

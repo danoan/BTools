@@ -13,9 +13,9 @@ produce_data()
 {
     SHAPE_FLOW_APP=${BTOOLS_BIN}/shape-flow
 
-    $SHAPE_FLOW_APP -r3 -i150 -p double -l1 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3-a0
-    $SHAPE_FLOW_APP -r3 -i150 -p double -l1 -n4 -q1 -t0 -g0.15 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3-a015
-    $SHAPE_FLOW_APP -r5 -i150 -p double -l1 -n4 -q1 -t0 -g0.15 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r5-a015
+    $SHAPE_FLOW_APP -r3 -i150 -f around-contour  -l1 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3-a0
+    $SHAPE_FLOW_APP -r3 -i150 -f around-contour -l1 -n4 -q1 -t0 -g0.15 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3-a015
+    $SHAPE_FLOW_APP -r5 -i150 -f around-contour -l1 -n4 -q1 -t0 -g0.15 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r5-a015
 }
 
 produce_figures()

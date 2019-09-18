@@ -15,8 +15,8 @@ SUMMARY_APP=${BTOOLS_BIN}/summary-flow
 
 
 $FIG7_APP 20 80 15 ${DATA_FOLDER}/square-holes.pgm
-$FLOW_APP -i100 -r6 -p double -q1.0 -t0 -g0 -l-1 -S${DATA_FOLDER}/square-holes.pgm ${DATA_FOLDER}/square-holes-flow
+$FLOW_APP -i100 -r6 -f around-contour -q1.0 -t0 -g0 -l-1 -S${DATA_FOLDER}/square-holes.pgm ${DATA_FOLDER}/square-holes-flow
 $SUMMARY_APP ${DATA_FOLDER}/square-holes-flow ${OUTPUT_FOLDER}/summary-square-holes.eps 10
 
-$FLOW_APP -i100 -r9 -p double -q1.0 -t0 -g0 -l-1 -h0.1 -Swave ${DATA_FOLDER}/wave-flow
+$FLOW_APP -i100 -r9 -f around-contour -q1.0 -t0 -g0 -l-1 -h0.1 -Swave ${DATA_FOLDER}/wave-flow
 $SUMMARY_APP ${DATA_FOLDER}/wave-flow ${OUTPUT_FOLDER}/summary-wave.eps 14

@@ -7,13 +7,13 @@ OUTPUT_FOLDER=${SCRIPT_FOLDER}/output
 mkdir -p ${DATA_FOLDER}
 mkdir -p ${OUTPUT_FOLDER}
 
+BTOOLS_BIN=$(realpath $1)
+
 cd ${SCRIPT_FOLDER}
 cd ../..
 BTOOLS_FOLDER=$PWD
 cd ${SCRIPT_FOLDER}
 PLOT_SCRIPT_FOLDER=${BTOOLS_FOLDER}/plot-scripts
-
-BTOOLS_BIN=$(realpath $1)
 
 FIG8_APP=${BTOOLS_BIN}/jmiv-fig8
 FLOW_APP=${BTOOLS_BIN}/shape-flow
@@ -30,7 +30,7 @@ generate_flow()
     while [ $i -le $radius ]
     do
         FLOW_OUTPUT_FOLDER=${DATA_FOLDER}/flows/h$gs/radius-$radius/$shape/$method
-        $FLOW_APP -r$radius -S$shape -h$gs -m$method -q1.0 -t0 -g0 -l$i -pdouble -i100 $FLOW_OUTPUT_FOLDER/L$i&
+        $FLOW_APP -r$radius -S$shape -h$gs -m$method -q1.0 -t0 -g0 -l$i -faround-contour -i100 $FLOW_OUTPUT_FOLDER/L$i&
         i=$[$i+1]
     done
 
