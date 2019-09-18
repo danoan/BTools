@@ -6,7 +6,6 @@
 
 #include "BTools/core/model/input/BCConfigInput.h"
 #include "BTools/core/model/input/ODRConfigInput.h"
-#include "BTools/core/interface/IFlowProfile.h"
 
 #include "Types.h"
 
@@ -19,11 +18,9 @@ namespace BTools
             struct InputData
             {
                 typedef BTools::Core::ODRConfigInput ODRConfigInput;
-                typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
                 typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
 
-                typedef BTools::Core::IFlowStepConfig::OptimizationMode OptimizationMode;
-                typedef BTools::Core::IFlowStepConfig::ApplicationMode ApplicationMode;
+                typedef BTools::Core::ODRConfigInput::ApplicationMode ApplicationMode;
 
                 InputData(){};
 
@@ -36,8 +33,6 @@ namespace BTools
                 bool optRegionInApplication;
                 int levels;
 
-                FlowProfile fp;
-
                 double sqWeight;
                 double dtWeight;
                 double lgWeight;
@@ -48,7 +43,6 @@ namespace BTools
 
                 bool excludeOptPointsFromAreaComputation;
 
-                OptimizationMode om;
                 ApplicationMode am;
 
             };

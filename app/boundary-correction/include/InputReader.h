@@ -7,8 +7,6 @@
 #include "BTools/core/model/input/ODRConfigInput.h"
 #include "BTools/core/model/input/BCConfigInput.h"
 
-#include "BTools/core/interface/IFlowProfile.h"
-
 
 namespace BoundaryCorrection
 {
@@ -17,8 +15,6 @@ namespace BoundaryCorrection
         struct InputData
         {
             typedef BTools::Core::ODRConfigInput ODRConfigInput;
-            typedef BTools::Core::IFlowProfile::FlowProfile FlowProfile;
-
             typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
 
             InputData();

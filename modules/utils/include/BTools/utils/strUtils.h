@@ -2,8 +2,6 @@
 #define BTools_UTILS_STRUTILS_H
 
 #include <DGtal/helpers/StdDefs.h>
-
-#include <BTools/core/model/input/BCFlowInput.h>
 #include <BTools/utils/model/OptOutput.h>
 
 namespace BTools

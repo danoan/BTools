@@ -77,31 +77,26 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
     }
 }
 
-void DataWriter::printFlowMetadata(const BCFlowInput &bcFlowInput,
+void DataWriter::printFlowMetadata(const BCConfigInput& bcInput,
+                                   const ODRConfigInput& odrConfigInput,
                                     const DigitalSet& dsZero,
                                     std::ofstream &ofs)
 {
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepConvexities ) ofs << "Flow Profile: Single Step \n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::SingleStepOpt ) ofs << "Flow Profile: Single Step Opt \n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStep) ofs << "Flow Profile: Double Step \n";
-    if( bcFlowInput.flowProfile==BCFlowInput::FlowProfile::DoubleStepOpt) ofs << "Flow Profile: Double Step Opt\n";
-
-
-    ofs << "Levels: " << bcFlowInput.odrConfigInput.levels << "("
-        << ( (bcFlowInput.odrConfigInput.levelDefinition==BCFlowInput::ODRConfigInput::LevelDefinition::LD_CloserFromCenter)?"CloserFromCenter":"FartherFromCenter")
+    ofs << "Levels: " << odrConfigInput.levels << "("
+        << ( (odrConfigInput.levelDefinition==ODRConfigInput::LevelDefinition::LD_CloserFromCenter)?"CloserFromCenter":"FartherFromCenter")
         << ")\n";
 
-    ofs << "Radius: " << bcFlowInput.bcInput.radius << "\n";
+    ofs << "Radius: " << bcInput.radius << "\n";
 
-    if( bcFlowInput.odrConfigInput.neighborhood==BCFlowInput::ODRConfigInput::NeighborhoodType::FourNeighborhood ) ofs << "Neighborhood: 4\n";
-    if( bcFlowInput.odrConfigInput.neighborhood==BCFlowInput::ODRConfigInput::NeighborhoodType::EightNeighborhood ) ofs << "Neighborhood: 8\n";
+    if( odrConfigInput.neighborhood==ODRConfigInput::NeighborhoodType::FourNeighborhood ) ofs << "Neighborhood: 4\n";
+    if( odrConfigInput.neighborhood==ODRConfigInput::NeighborhoodType::EightNeighborhood ) ofs << "Neighborhood: 8\n";
 
 
-    ofs << "Squared Curvature Weight: " << bcFlowInput.bcInput.sqTermWeight << " \n";
-    ofs << "Length Weight: " << bcFlowInput.bcInput.lengthTermWeight << " \n";
-    ofs << "Data Weight: " << bcFlowInput.bcInput.dataTermWeight << " \n";
+    ofs << "Squared Curvature Weight: " << bcInput.sqTermWeight << " \n";
+    ofs << "Length Weight: " << bcInput.lengthTermWeight << " \n";
+    ofs << "Data Weight: " << bcInput.dataTermWeight << " \n";
 
-    ofs << "Opt region in application: " << bcFlowInput.odrConfigInput.optInApplicationRegion << "\n";
+    ofs << "Opt region in application: " << odrConfigInput.optInApplicationRegion << "\n";
     ofs << "Initial shape has: " << dsZero.size() << " pixels\n";
 
 

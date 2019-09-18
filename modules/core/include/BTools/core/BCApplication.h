@@ -8,19 +8,9 @@
 
 #include <BTools/core/control/BCControl.h>
 
-#include <BTools/core/profiles/Expand.h>
-#include <BTools/core/profiles/Correct.h>
-#include <BTools/core/profiles/FlowSingleStep.h>
-#include <BTools/core/profiles/FlowDoubleStep.h>
-
 #include <BTools/core/model/input/BCApplicationInput.h>
 #include <BTools/core/model/input/ImageDataInput.h>
 #include <BTools/core/model/BCAOutput.h>
-
-#include <BTools/core/interface/IFlowProfile.h>
-
-#include <BTools/core/pool/FlowPool.h>
-#include <BTools/core/pool/ODRPool.h>
 
 #include <BTools/utils/imgUtils.h>
 
@@ -49,14 +39,6 @@ namespace BTools
                           int maxIterations,
                           bool displayEachIteration);
 
-            template<typename TVisitorIterator>
-            BCApplication(BCAOutput& bcaOutput,
-                          const BCAInput& bcaInput,
-                          int maxIterations,
-                          bool displayEachIteration,
-                          TVisitorIterator begin,
-                          TVisitorIterator end);
-
         private:
 
             DigitalSet prepareInputDS(const cv::Mat& inputImg);
@@ -66,7 +48,5 @@ namespace BTools
         };
     }
 }
-
-#include "BCApplication.hpp"
 
 #endif //BTools_BCAPPLICATION_H

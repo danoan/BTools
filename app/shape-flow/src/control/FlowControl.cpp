@@ -23,8 +23,10 @@ FlowControl::DigitalSet FlowControl::resolveShape(Shape shape,double gridStep)
     }
 }
 
-FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
-                         Shape shape,
+FlowControl::FlowControl(const BCConfigInput& bcInput,
+                         const ODRConfigInput& odrConfigInput,
+                         int iterations,
+                         Shape  shape,
                          double gridStep,
                          const std::string& outputFolder,
                          std::ostream& osLog)
@@ -34,11 +36,11 @@ FlowControl::FlowControl(const BCFlowInput& bcFlowInput,
 
     DigitalSet ds = resolveShape(shape,gridStep);
 
-    DataWriter::printFlowMetadata(bcFlowInput,ds,ofs);
+    DataWriter::printFlowMetadata(bcInput,odrConfigInput,ds,ofs);
     ofs.flush();
     ofs.close();
 
-    shapeFlow( ds,bcFlowInput,outputFolder,osLog );
+    shapeFlow( ds,iterations,shape.name,bcInput,odrConfigInput,outputFolder,osLog );
 }
 
 std::vector<DataWriter::TableEntry> FlowControl::initEntries(const DigitalSet& ds)
@@ -53,22 +55,22 @@ std::vector<DataWriter::TableEntry> FlowControl::initEntries(const DigitalSet& d
     return entries;
 }
 
-FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCFlowInput& bcFlowInput,
+FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCConfigInput& bcInput,
+                                                       const ODRConfigInput& odrConfigInput,
                                                        const cv::Mat& currentImage,
                                                        Point& translation)
 {
     MockDistribution frDistr;
     MockDistribution bkDistr;
 
-    ImageDataInput imageDataInput(frDistr,
+    BTools::Core::ImageDataInput imageDataInput(frDistr,
                                   bkDistr,
                                   currentImage,
                                   currentImage);
 
-    BCAInput bcaInput(bcFlowInput.bcInput,
-                      imageDataInput,
-                      bcFlowInput.odrConfigInput,
-                      bcFlowInput.flowProfile);
+    BTools::Core::BCApplicationInput bcaInput(bcInput,
+                                              imageDataInput,
+                                              odrConfigInput);
 
     BCAOutput bcaOutput(bcaInput);
 
@@ -115,19 +117,22 @@ void FlowControl::checkBounds(const DigitalSet& ds, const Domain& domain)
 }
 
 void FlowControl::shapeFlow(const DigitalSet& _ds,
-                            const BCFlowInput& bcFlowInput,
+                            int maxIterations,
+                            const std::string& inputName,
+                            const BCConfigInput& bcConfigInput,
+                            const ODRConfigInput& odrConfigInput,
                             const std::string& outputFolder,
                             std::ostream& osLog)
 {
     BTools::Utils::Timer::start();
     
-    osLog << "Flow Start: " << bcFlowInput.inputName << "\n";
-    osLog << "Iterations (" << bcFlowInput.maxIterations << "): ";
+    osLog << "Flow Start: " << inputName << "\n";
+    osLog << "Iterations (" << maxIterations << "): ";
 
 
     boost::filesystem::create_directories(outputFolder);
     std::string currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(0,4) + ".pgm";
-    std::ofstream os(outputFolder + "/" + bcFlowInput.inputName + ".txt");
+    std::ofstream os(outputFolder + "/" + inputName + ".txt");
 
 
     DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(20,20));
@@ -147,32 +152,30 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
         {
             osLog << "|";
 
-            std::vector<IBCControlVisitor*> visitors;
             cv::Mat currentImage = cv::imread(currImagePath,cv::IMREAD_COLOR);
 
 
                 Point translation;
-                BCAOutput bcaOutput = boundaryCorrection(bcFlowInput,currentImage,translation);
-
-                entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
+                BCAOutput bcaOutput = boundaryCorrection(bcConfigInput,odrConfigInput,currentImage,translation);
 
                 DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
                 checkBounds(correctedSet,flowDomain);
-
+                
+                entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
 
                 currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
                 BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
 
 
             ++i;
-        }while(i<bcFlowInput.maxIterations);
+        }while(i<maxIterations);
     }catch(std::exception ex)
     {
         osLog << ex.what() << "\n";
     }
 
     osLog << "\nWriting Results...";
-    DataWriter::printTable(bcFlowInput.inputName,entries,os);
+    DataWriter::printTable(inputName,entries,os);
     os << "\n\n#";
     BTools::Utils::Timer::end(os);
     osLog << "\n\n";

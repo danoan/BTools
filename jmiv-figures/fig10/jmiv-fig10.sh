@@ -8,4 +8,3 @@ BTOOLS_BIN=$(realpath $1)
 tar -xvf ${SCRIPT_FOLDER}/data/coala.tar.bz2 -C ${SCRIPT_FOLDER}/data
 
 python3 ${GENERATOR_FOLDER}/generator.py ${BTOOLS_BIN}
-python3 ${GENERATOR_FOLDER}/template_render.py

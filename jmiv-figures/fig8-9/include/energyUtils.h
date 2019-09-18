@@ -26,7 +26,6 @@ double sumPairwiseCoefficients(const EnergyTerm& et,unsigned int index);
 ODRPixels odrPixels(const InputData& input);
 
 ODRModel odrModel(const InputData& input,
-                  const ODRModel::OptimizationMode& optMode,
                   const ODRPixels& odrPixels,
                   const DigitalSet& dsInput);
 

@@ -13,7 +13,6 @@
 
 #include <BTools/core/model/input/ODRConfigInput.h>
 #include <BTools/core/model/input/BCApplicationInput.h>
-#include <BTools/core/model/input/BCFlowInput.h>
 #include <BTools/core/model/input/BCConfigInput.h>
 #include <BTools/core/model/input/ImageDataInput.h>
 #include <BTools/core/model/BCAOutput.h>
@@ -42,10 +41,7 @@ namespace ShapeFlow
         typedef DIPaCUS::Representation::Image2D Image2D;
 
         typedef BTools::Core::ODRConfigInput ODRConfigInput;
-        typedef BTools::Core::BCApplicationInput BCAInput;
         typedef BTools::Core::BCConfigInput BCConfigInput;
-        typedef BTools::Core::ImageDataInput ImageDataInput;
-        typedef BTools::Core::BCFlowInput BCFlowInput;
         typedef BTools::Core::BCApplicationOutput BCAOutput;
         typedef BCAOutput::EnergySolution EnergySolution;
 
@@ -56,7 +52,9 @@ namespace ShapeFlow
 
 
     public:
-        FlowControl(const BCFlowInput& bcFlowInput,
+        FlowControl(const BCConfigInput& bcInput,
+                    const ODRConfigInput& odrConfigInput,
+                    int iterations,
                     Shape  shape,
                     double gridStep,
                     const std::string& outputFolder,
@@ -66,16 +64,22 @@ namespace ShapeFlow
         DigitalSet resolveShape(Shape shape,double gridStep);
 
         std::vector<TableEntry> initEntries(const DigitalSet& ds);
-        BCAOutput boundaryCorrection(const BCFlowInput& bcFlowInput,
+        BCAOutput boundaryCorrection(const BCConfigInput& bcInput,
+                                     const ODRConfigInput& odrConfigInput,
                                      const cv::Mat& currentImage,
                                      Point& translation);
+
         DigitalSet correctTranslation(const BCAOutput::EnergySolution& solution,
                                       const cv::Mat& currentImage,
                                       const Point& translation);
+
         void checkBounds(const DigitalSet& ds, const Domain& domain);
 
         void shapeFlow(const DigitalSet& _ds,
-                       const BCFlowInput& bcFlowInput,
+                       int maxIterations,
+                       const std::string& inputName,
+                       const BCConfigInput& bcConfigInput,
+                       const ODRConfigInput& odrConfigInput,
                        const std::string& outputFolder,
                        std::ostream& osLog);
     };

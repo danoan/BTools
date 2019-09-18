@@ -33,16 +33,13 @@ int main(int argc, char* argv[])
                                                id.levels,
                                                id.ld,
                                                id.neighborhood,
+                                               id.am,
                                                id.optRegionInApplication);
 
-    FlowControl::BCFlowInput bcFlowInput(id.shape.name,
-                                         bcInput,
-                                         odrConfigInput,
-                                         id.fp,
-                                         id.iterations);
 
-
-    FlowControl flow(bcFlowInput,
+    FlowControl flow(bcInput,
+                     odrConfigInput,
+                     id.iterations,
                      id.shape,
                      id.gridStep,
                      outputFolder,

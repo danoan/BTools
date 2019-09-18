@@ -8,8 +8,6 @@ endif()
 
 add_library(btools-core ${LIBRARY_ACTION}
         src/BCApplication.cpp
-        src/pool/ODRPool.cpp
-        src/pool/FlowPool.cpp
         src/control/BCControl.cpp
         src/model/GMM.cpp)
 

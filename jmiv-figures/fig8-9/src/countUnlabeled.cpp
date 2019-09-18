@@ -3,13 +3,6 @@
 CountData countUnlabeled(const InputData& input,
                     const DigitalSet& dsInput)
 {
-    ODRModel::OptimizationMode optMode;
-    if(input.mode==InputData::Concavities)
-        optMode = ODRModel::OptimizationMode::OM_CorrectConcavities;
-    else
-        optMode = ODRModel::OptimizationMode::OM_CorrectConvexities;
-
-
     typedef DGtal::Z2i::Point Point;
     typedef DGtal::Z2i::Domain Domain;
 
@@ -21,7 +14,7 @@ CountData countUnlabeled(const InputData& input,
 
 
     auto odrP = odrPixels(input);
-    auto ODR = odrModel(input,optMode,odrP,dsInput);
+    auto ODR = odrModel(input,odrP,dsInput);
     auto energyI = energyInput(input,ODR,cvImage);
     SquaredCurvatureTerm sqt(energyI,odrP.handle());
 

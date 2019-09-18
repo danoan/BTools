@@ -1,6 +1,6 @@
 ExternalProject_Add(scabolic
         GIT_REPOSITORY https://github.com/danoan/SCaBOliC.git
-        GIT_TAG v0.1
+        GIT_TAG max-energy
         SOURCE_DIR ${EXTPROJECTS_SOURCE_DIR}/SCaBOliC
         CMAKE_ARGS
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}

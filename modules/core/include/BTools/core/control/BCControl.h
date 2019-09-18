@@ -6,10 +6,7 @@
 #include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
 #include "SCaBOliC/Core/interface/ODRInterface.h"
 
-#include "BTools/core/interface/IFlowStepConfig.h"
-#include "BTools/core/interface/IBCControlVisitor.h"
-#include "BTools/core/model/input/ImageDataInput.h"
-#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/BCApplicationInput.h"
 
 namespace BTools
 {
@@ -32,37 +29,20 @@ namespace BTools
 
         public:
             BCControl(Solution& solution,
-                      const BCConfigInput& bcInput,
-                      const ImageDataInput& imageDataInput,
+                      const BCApplicationInput& bcaInput,
                       const ODRInterface& odrFactory,
-                      const IFlowStepConfig& flowStepConfig,
                       const DigitalSet& inputDS);
 
-            template<typename TVisitorIterator>
-            BCControl(Solution& solution,
-                      const BCConfigInput& bcInput,
-                      const ImageDataInput& imageDataInput,
-                      const ODRInterface& odrFactory,
-                      const IFlowStepConfig& flowStepConfig,
-                      const DigitalSet& inputDS,
-                      TVisitorIterator begin,
-                      TVisitorIterator end);
-
         private:
-            template<typename TVisitorIterator>
             void solve(Solution& solution,
                        const BCConfigInput& bcInput,
                        const ISQEnergy& energy,
                        const ISQInputData& energyInput,
                        const ISQInputData::OptimizationDigitalRegions& ODR,
-                       const ODRInterface& odrFactory,
-                       const IFlowStepConfig& flowStepConfig,
-                       TVisitorIterator begin,
-                       TVisitorIterator end);
+                       const ODRInterface& odrFactory);
 
             void updateSet(Solution& solution,
                            const ODRInterface& odrFactory,
-                           const IFlowStepConfig& flowStepConfig,
                            const ISQInputData& energyInput,
                            const ISQEnergy& energy);
 
@@ -72,7 +52,5 @@ namespace BTools
         };
     }
 }
-
-#include "BCControl.hpp"
 
 #endif //BTools_BOUNDARYCORRECTION_BCCONTROL_H
