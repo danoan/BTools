@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
 
-set(CMAKE_BUILD_TYPE Release)
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Release)
