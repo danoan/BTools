@@ -1,6 +1,6 @@
 ExternalProject_Add(gcurve
         GIT_REPOSITORY https://github.com/danoan/GCurve.git
-        GIT_TAG v0.1
+        GIT_TAG master
         SOURCE_DIR ${EXTPROJECTS_SOURCE_DIR}/GCurve
         CMAKE_ARGS
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
