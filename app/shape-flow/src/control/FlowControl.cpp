@@ -43,14 +43,14 @@ FlowControl::FlowControl(const BCConfigInput& bcInput,
     shapeFlow( ds,iterations,shape.name,bcInput,odrConfigInput,outputFolder,osLog );
 }
 
-std::vector<DataWriter::TableEntry> FlowControl::initEntries(const DigitalSet& ds)
+std::vector<DataWriter::TableEntry> FlowControl::initEntries(const ODRConfigInput& odrConfigInput, const DigitalSet& ds)
 {
     std::vector<DataWriter::TableEntry> entries;
 
     BCAOutput::EnergySolution firstSolution(ds.domain());
     firstSolution.outputDS = ds;
     firstSolution.energyValue = -1;
-    entries.push_back(DataWriter::TableEntry(firstSolution,"0"));
+    entries.push_back(DataWriter::TableEntry(odrConfigInput,firstSolution,"0"));
 
     return entries;
 }
@@ -135,12 +135,12 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
     std::ofstream os(outputFolder + "/" + inputName + ".txt");
 
 
-    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(20,20));
+    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(60,60));
     Domain flowDomain = ds.domain();
 
 
     BTools::Utils::exportImageFromDigitalSet(ds,flowDomain,currImagePath);
-    std::vector<TableEntry> entries = initEntries(ds);
+    std::vector<TableEntry> entries = initEntries(odrConfigInput,ds);
 
     cv::Mat img = cv::imread(currImagePath,cv::IMREAD_COLOR);
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
@@ -161,7 +161,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
                 DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
                 checkBounds(correctedSet,flowDomain);
                 
-                entries.push_back(TableEntry(bcaOutput.energySolution,std::to_string(i)));
+                entries.push_back(TableEntry(odrConfigInput,bcaOutput.energySolution,std::to_string(i)));
 
                 currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
                 BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);

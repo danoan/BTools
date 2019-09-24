@@ -30,14 +30,18 @@ namespace ShapeFlow
 
         struct TableEntry
         {
-            TableEntry(EnergySolution& solution, std::string name):solution(solution),
-                                                                   name(name){}
+            TableEntry(const ODRConfigInput& odrConfigInput,
+                    const EnergySolution& solution,
+                    const std::string name):solution(solution),name(name),gridStep(odrConfigInput.gridStep){}
+
             EnergySolution solution;
             std::string name;
+            double gridStep;
         };
 
         void outputElasticaEnergy(const DigitalSet& ds, std::ostream& os);
-        void outputShapePerimeter(const DigitalSet& ds, std::ostream& os);
+        double outputShapePerimeter(const DigitalSet& ds, std::ostream& os);
+        double outputShapeArea(const DigitalSet& ds, double gridStep, std::ostream& os);
 
         void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
 

@@ -15,7 +15,18 @@ void DataWriter::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
     os << fnD(colLength,MDCAValue) << "\t";
 }
 
-void DataWriter::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
+double DataWriter::outputShapeArea(const DigitalSet& ds, double gridStep, std::ostream& os)
+{
+    int colLength=20;
+    std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
+
+    double a = ds.size()*gridStep;
+    os << fnD(colLength,a) << "\t";
+
+    return a;
+}
+
+double DataWriter::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
 {
     int colLength=20;
     std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
@@ -45,8 +56,8 @@ void DataWriter::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
     mlpLengthEstimator.init(1,curvePointAdapter.begin(),curvePointAdapter.end(),true);
 
     perimeter = mlpLengthEstimator.eval();
-
     os << fnD(colLength,perimeter) << "\t";
+    return perimeter;
 }
 
 void DataWriter::printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os)
@@ -62,6 +73,8 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
         << fnS(colLength,"Elastica MDCA") << "\t"
         << fnS(colLength,"Perimeter") << "\t"
         << fnS(colLength,"Unlabeled") << "\t"
+        << fnS(colLength,"Area") << "\t"
+        << fnS(colLength,"Perimeter/Area") << "\t"
         << std::endl;
 
     for(auto it=entries.begin();it!=entries.end();++it)
@@ -72,8 +85,12 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
         outputElasticaEnergy(it->solution.outputDS,os);
-        outputShapePerimeter(it->solution.outputDS,os);
-        os << fnD(colLength,curr.unlabeled) << "\t\n";
+
+        double perimeter = outputShapePerimeter(it->solution.outputDS,os);
+
+        os << fnD(colLength,curr.unlabeled) << "\t";
+        double area = outputShapeArea(it->solution.outputDS,it->gridStep,os);
+        os << fnD(colLength,perimeter/area) << "\t\n";
     }
 }
 

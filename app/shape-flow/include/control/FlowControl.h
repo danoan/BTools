@@ -63,7 +63,7 @@ namespace ShapeFlow
     private:
         DigitalSet resolveShape(Shape shape,double gridStep);
 
-        std::vector<TableEntry> initEntries(const DigitalSet& ds);
+        std::vector<TableEntry> initEntries(const ODRConfigInput& odrConfigInput, const DigitalSet& ds);
         BCAOutput boundaryCorrection(const BCConfigInput& bcInput,
                                      const ODRConfigInput& odrConfigInput,
                                      const cv::Mat& currentImage,
