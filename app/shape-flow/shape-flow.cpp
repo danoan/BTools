@@ -26,7 +26,9 @@ int main(int argc, char* argv[])
                                        id.lgWeight,
                                        id.excludeOptPointsFromAreaComputation,
                                        0,
-                                       id.optMethod);
+                                       id.optMethod,
+                                       id.innerBallCoef,
+                                       id.outerBallCoef);
 
     FlowControl::ODRConfigInput odrConfigInput(id.radius,
                                                id.gridStep,

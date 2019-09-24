@@ -77,7 +77,9 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
                                 inputData.lgWeight,
                                 inputData.excludeOptPointsFromAreaComputation,
                                 inputData.initialDilation,
-                                inputData.optMethod);
+                                inputData.optMethod,
+                                1.0,
+                                1.0);
 
     ODRConfigInput odrConfigInput(inputData.radius, 1.0,
             levels,

@@ -43,6 +43,8 @@ namespace BTools
 
                 bool excludeOptPointsFromAreaComputation;
 
+                double innerBallCoef,outerBallCoef;
+
                 ApplicationMode am;
 
             };

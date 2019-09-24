@@ -26,6 +26,9 @@ DCFReader::InputData DCFReader::defaultValues()
     id.excludeOptPointsFromAreaComputation = false;
     id.am = InputData::ApplicationMode::AM_OptimizationBoundary;
 
+    id.innerBallCoef = 1.0;
+    id.outerBallCoef = 1.0;
+
     return id;
 }
 
@@ -45,6 +48,8 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
             "[-h Grid step (default:1.0)]\n"
             "[-f Application mode (optimization-contour around-contour inner-contour outer-contour) (default:optimization-contour)]\n"
             "[-x Exclude opt points from computation area default: false] \n"
+            "[-a Inner ball coefficient default: 1.0] \n"
+            "[-z Outer ball coefficient default: 1.0] \n"
             <<  extraUsage << std::endl;
 }
 
@@ -53,7 +58,7 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
     InputData id = df();
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:x"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:xa:z:"))!=-1)
     {
         switch(opt)
         {
@@ -121,6 +126,16 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
             case 'x':
             {
                 id.excludeOptPointsFromAreaComputation = true;
+                break;
+            }
+            case 'a':
+            {
+                id.innerBallCoef = std::atof(optarg);
+                break;
+            }
+            case 'z':
+            {
+                id.outerBallCoef = std::atof(optarg);
                 break;
             }
             default:

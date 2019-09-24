@@ -21,13 +21,17 @@ namespace BTools
                           double lengthTermWeight,
                           bool excludeOptPointsFromAreaComputation,
                           int initialDilation,
-                          QPBOSolverType solverType):radius(radius),
+                          QPBOSolverType solverType,
+                          double innerBallCoef,
+                          double outerBallCoef):radius(radius),
                                                      dataTermWeight(dataTermWeight),
                                                      sqTermWeight(sqTermWeight),
                                                      lengthTermWeight(lengthTermWeight),
                                                      excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
                                                      initialDilation(initialDilation),
-                                                     solverType(solverType){}
+                                                     solverType(solverType),
+                                                     innerBallCoef(innerBallCoef),
+                                                     outerBallCoef(outerBallCoef){}
 
             double radius;
             double dataTermWeight;
@@ -38,6 +42,8 @@ namespace BTools
             int initialDilation;
 
             QPBOSolverType solverType;
+
+            double innerBallCoef,outerBallCoef;
         };
     }
 }

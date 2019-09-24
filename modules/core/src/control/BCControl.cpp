@@ -23,6 +23,8 @@ BCControl::BCControl(Solution& solution,
                              bcInput.dataTermWeight,
                              bcInput.sqTermWeight,
                              bcInput.lengthTermWeight,
+                             bcInput.innerBallCoef,
+                             bcInput.outerBallCoef,
                              imageDataInput.translation);
 
     ISQEnergy energy(energyInput,odrFactory.handle());
