@@ -32,6 +32,10 @@ set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHu
 
 project(btools)
 
+set(VERSION_BTOOLS_CORE master)
+set(VERSION_BTOOLS_READER master)
+set(VERSION_BTOOLS_UTILS master)
+
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
 

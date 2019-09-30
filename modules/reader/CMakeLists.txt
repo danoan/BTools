@@ -19,6 +19,9 @@ target_include_directories(btools-reader PRIVATE
         ${SCABOLIC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
+set_target_properties(btools-reader PROPERTIES
+        VERSION ${VERSION_BTOOLS_READER})
+
 install(DIRECTORY include
         DESTINATION ${CMAKE_INSTALL_PREFIX})
 

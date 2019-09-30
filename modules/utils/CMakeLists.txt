@@ -18,6 +18,9 @@ if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-utils dipacus scabolic)
 endif()
 
+set_target_properties(btools-utils  PROPERTIES
+        VERSION ${VERSION_BTOOLS_UTILS})
+
 target_include_directories(btools-utils PRIVATE
         include
         ${BOOST_INCLUDE_DIRS}
