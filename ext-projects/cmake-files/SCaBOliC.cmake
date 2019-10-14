@@ -10,6 +10,7 @@ ExternalProject_Add(scabolic
         -DDIPACUS_INCLUDE_DIRS=${EXTPROJECTS_BUILD_DIR}/include
         -DDIPACUS_LIBS_DIR=${EXTPROJECTS_BUILD_DIR}/lib
         -DGEOC_INCLUDE_DIRS=${EXTPROJECTS_BUILD_DIR}/include
+	-DBOOST_LIBS_DIR=${BOOST_LIBS_DIR}
         -DCREATE_SHARED_LIBRARIES=ON)
 
 add_dependencies(scabolic dipacus geoc)
