@@ -133,10 +133,10 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
             case 'f':
             {
                 if(strcmp("optimization-contour",optarg)==0) id.am = InputData::ApplicationMode::AM_OptimizationBoundary;
-                else if(strcmp("around-countour",optarg)==0) id.am = InputData::ApplicationMode::AM_AroundBoundary;
-                else if(strcmp("inner-countour",optarg)==0) id.am = InputData::ApplicationMode::AM_InternRange;
-                else if(strcmp("outer-countour",optarg)==0) id.am = InputData::ApplicationMode::AM_ExternRange;
-                else throw std::runtime_error("Optimization Mode not recognized!");
+                else if(strcmp("around-contour",optarg)==0) id.am = InputData::ApplicationMode::AM_AroundBoundary;
+                else if(strcmp("inner-contour",optarg)==0) id.am = InputData::ApplicationMode::AM_InternRange;
+                else if(strcmp("outer-contour",optarg)==0) id.am = InputData::ApplicationMode::AM_ExternRange;
+                else throw std::runtime_error("Application Mode not recognized!");
                 break;
             }
             case 'x':
