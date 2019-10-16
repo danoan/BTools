@@ -15,7 +15,7 @@ namespace BTools
 
             ODRConfigInput(double radius,
                            double gridStep,
-                           int levels,
+                           double levels,
                            LevelDefinition ld,
                            NeighborhoodType nt,
                            ApplicationMode am,
@@ -35,7 +35,7 @@ namespace BTools
 
             }
 
-            const int levels;
+            const double levels;
             const double radius;
             const double gridStep;
             const NeighborhoodType neighborhood;

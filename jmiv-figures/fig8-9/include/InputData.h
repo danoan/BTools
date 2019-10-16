@@ -37,7 +37,7 @@ struct InputData
 
     int iterations;
     bool optInApplication;
-    int levels;
+    double levels;
     LevelDefinition ld;
 
 

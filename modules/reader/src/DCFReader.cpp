@@ -77,7 +77,7 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
                 break;
             }
             case 'l':
-                id.levels = atoi(optarg);
+                id.levels = atof(optarg);
                 if(id.levels<0) id.ld = InputData::ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
                 else id.ld = id.ld = InputData::ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
                 id.levels = abs(id.levels);

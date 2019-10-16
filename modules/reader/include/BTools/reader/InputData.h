@@ -31,7 +31,7 @@ namespace BTools
                 ODRConfigInput::LevelDefinition ld;
 
                 bool optRegionInApplication;
-                int levels;
+                double levels;
 
                 double sqWeight;
                 double dtWeight;

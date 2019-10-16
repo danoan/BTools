@@ -67,7 +67,7 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 
 BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
-    int levels = 1;
+    double levels = 1;
     bool optInApplicationRegion=false;
     bool repeatedImprovement = false;
 
