@@ -23,17 +23,61 @@ using namespace ExhaustiveGC::Core;
 using namespace ExhaustiveGC::API;
 using namespace ExhaustiveGC::Energy;
 
+typedef GenerateSeedPairs::SeedPair SeedPair;
+typedef ExhaustiveGC::CheckableSeedPair CheckableSeedPair;
+typedef ExhaustiveGC::CurveFromJoints CurveFromJoints;
+
+typedef std::vector< CheckableSeedPair > CheckableSeedPairVector;
+
+void drawGCurve(DGtal::Board2D board, std::vector<CheckableSeedPair>& seedCombination, int jointPairs, const std::string& outputFilePath)
+{
+    Curve curve;
+    CurveFromJoints(curve, seedCombination.data(), jointPairs);
+
+    GCurve::Utils::drawCurve(board,DGtal::Color::Red,DGtal::Color::Red,curve.begin(),curve.end());
+
+    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
+                             seedCombination[0].data().first.inCirculatorBegin,
+                             seedCombination[0].data().first.inCirculatorEnd);
+
+    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
+                             seedCombination[0].data().first.inCirculatorEnd,
+                             seedCombination[0].data().second.outCirculatorBegin+1);
+
+    board << DGtal::CustomStyle(curve.begin()->className() + "/Paving", new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Blue));
+    board << seedCombination[0].data().first.linkLinels[0]
+          << seedCombination[0].data().second.linkLinels[0];
+
+
+    board.saveEPS(outputFilePath.c_str());
+}
+
+void drawBaseCurves(DGtal::Board2D& board, const GCurve::Range& gcRange)
+{
+    auto it = gcRange.beginSeed();
+    int visited=0;
+    while(visited<2)
+    {
+        if(it->type==GCurve::Seed::MainInner && visited==0)
+        {
+            visited=1;
+            GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,it->inCirculatorBegin,it->inCirculatorBegin);
+            GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,it->outCirculatorBegin,it->outCirculatorBegin);
+        }else if(it->type==GCurve::Seed::MainOuter && visited==1)
+        {
+            visited=2;
+            GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,it->inCirculatorBegin,it->inCirculatorBegin);
+            GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,it->outCirculatorBegin,it->outCirculatorBegin);
+        }
+        ++it;
+    }
+
+}
+
 void gluedCurve(const std::string& outputFilePath)
 {
     boost::filesystem::path p(outputFilePath);
     boost::filesystem::create_directories(p.remove_filename());
-
-
-    typedef GenerateSeedPairs::SeedPair SeedPair;
-    typedef ExhaustiveGC::CheckableSeedPair CheckableSeedPair;
-    typedef ExhaustiveGC::CurveFromJoints CurveFromJoints;
-
-    typedef std::vector< CheckableSeedPair > CheckableSeedPairVector;
 
 
     DigitalSet ds = DIPaCUS::Shapes::square();
@@ -60,12 +104,7 @@ void gluedCurve(const std::string& outputFilePath)
 
     DGtal::Board2D board;
     board << ds;
-
-    auto mainC = gcRange.beginSeed()->inCirculatorBegin;
-    auto outC = gcRange.beginSeed()->outCirculatorBegin;
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,mainC,mainC);
-    GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,outC,outC);
+    drawBaseCurves(board,gcRange);
 
     auto range = magLac::Core::addRange(cspv.begin(),cspv.end(),sp.jointPairs);
     auto combinator = magLac::Core::Single::createCombinator(range);
@@ -75,32 +114,14 @@ void gluedCurve(const std::string& outputFilePath)
     typedef MyCombinator::MyResolver MyResolver;
 
     std::vector<CheckableSeedPair> seedCombination(sp.jointPairs);
+    int count=0;
     while( combinator.next(resolver) )
     {
         resolver >> seedCombination;
-        if(seedCombination[0].data().first.type==GCurve::Seed::SeedType::MainOuter) break;
+
+        drawGCurve(board, seedCombination, sp.jointPairs, outputFilePath + "." + std::to_string(count));
+        count++;
     }
-
-
-    Curve curve;
-    CurveFromJoints(curve, seedCombination.data(), sp.jointPairs);
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Red,DGtal::Color::Red,curve.begin(),curve.end());
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
-                             seedCombination[0].data().first.inCirculatorBegin,
-                             seedCombination[0].data().first.inCirculatorEnd);
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
-                             seedCombination[0].data().first.inCirculatorEnd,
-                             seedCombination[0].data().second.outCirculatorBegin+1);
-
-    board << DGtal::CustomStyle(curve.begin()->className() + "/Paving", new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Blue));
-    board << seedCombination[0].data().first.linkLinels[0]
-          << seedCombination[0].data().second.linkLinels[0];
-
-
-    board.saveEPS(outputFilePath.c_str());
 
 };
 
@@ -108,7 +129,7 @@ void modelRegions(const std::string& outputFilePath)
 {
     using namespace SCaBOliC::Core;
 
-    DigitalSet square = DIPaCUS::Shapes::square(1.0,0,0,20);
+    DigitalSet square = DIPaCUS::Shapes::square(0.5);
     SCaBOliC::Core::ODRPixels odrPixels(3,
                                         1.0,
                                         4,
