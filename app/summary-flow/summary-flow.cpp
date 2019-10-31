@@ -1,35 +1,30 @@
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include "OneImageFlow.h"
+#include <DIPaCUS/base/Shapes.h>
+#include <DIPaCUS/derivates/Misc.h>
 
+#include <DGtal/helpers/StdDefs.h>
+#include <DGtal/io/boards/Board2D.h>
+#include <boost/filesystem/operations.hpp>
+
+#include "summary-flow/InputData.h"
+#include "summary-flow/InputReader.h"
+
+#include "summary-flow/utils.h"
+#include "summary-flow/OneImageFlow.h"
+
+using namespace DGtal::Z2i;
 using namespace SummaryFlow;
+
+typedef std::set<SCell> LinelSet;
 
 int main(int argc, char* argv[])
 {
-    if(argc<3)
-    {
-        std::cerr << "Usage " << argv[0] << " FlowImagesFolderPath OutputFilePath [Jump_Step]" <<std::endl;
-        exit(1);
-    }
-
-    int jumpStep = 2;
-    OneImageFlow::ImageOutputType iot=OneImageFlow::SVG;
-    if(argc>=4) jumpStep = atoi(argv[3]);
-
-    std::string flowImagesFolderPath = argv[1];
-    std::string outputFilePath = argv[2];
+    InputData id = InputReader::readInput(argc,argv);
 
 
-    std::string extension = boost::filesystem::path(outputFilePath).extension().string();
-
-    if(strcmp(".svg",extension.c_str())==0) iot= OneImageFlow::SVG;
-    else if(strcmp(".eps",extension.c_str())==0) iot= OneImageFlow::EPS;
-    else throw std::runtime_error("Output type not recognized!");
-
-    boost::filesystem::path srcImagePath( flowImagesFolderPath );
-
+    boost::filesystem::path srcImagePath( id.flowImagesFolderPath );
     std::string name = srcImagePath.stem().string();
-    OneImageFlow oif(srcImagePath.string(),outputFilePath,jumpStep,iot);
+
+    SummaryFlow::OneImageFlow oif(srcImagePath.string(),id.outputFilePath,id.jumpStep,id.iot,id.pixelMaskPath,id.dirsMaskPath);
 
     return 0;
 }

@@ -12,6 +12,8 @@
 #include <DIPaCUS/components/Neighborhood.h>
 #include <DIPaCUS/base/Representation.h>
 
+#include "utils.h"
+#include "types.h"
 
 namespace SummaryFlow
 {
@@ -21,6 +23,7 @@ namespace SummaryFlow
         typedef DGtal::Z2i::DigitalSet DigitalSet;
         typedef DGtal::Z2i::Point Point;
         typedef DGtal::Z2i::Domain Domain;
+        typedef DGtal::Z2i::SCell SCell;
         typedef DGtal::Color Color;
         typedef DGtal::Board2D Board2D;
 
@@ -30,23 +33,26 @@ namespace SummaryFlow
 
         typedef DIPaCUS::Representation::Image2D Image2D;
         typedef DIPaCUS::Neighborhood::EightNeighborhoodPredicate Pred8;
-
-        enum ImageOutputType{SVG,EPS};
-
+        
 
     public:
         OneImageFlow(const std::string& imageSrcFolder,
                      const std::string& imageOutputPath,
                      int seqTep=1,
-                     ImageOutputType=SVG);
+                     ImageOutputType iot=SVG,                     
+                     const std::string& pixelMaskPath="",
+                     const std::string& dirsMaskPath="");
 
     private:
+        SetPoint setFromMask(const std::string& imgPath);
+
         Domain commonDomain(SetPointSequenceIterator begin,
                             SetPointSequenceIterator end);
 
         void createUnifiedImage(const std::string& imgOutputPath,
                                 SetPointSequenceIterator begin,
                                 SetPointSequenceIterator end,
+                                const std::set<Point>& dirs,
                                 int seqStep,
                                 ImageOutputType iot);
     };

@@ -4,6 +4,8 @@ project(summary-flow)
 add_executable(summary-flow
         summary-flow.cpp
         src/OneImageFlow.cpp
+        src/InputReader.cpp
+        src/utils.cpp
         )
 
 add_dependencies(summary-flow btools-core btools-utils)
