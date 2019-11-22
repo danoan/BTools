@@ -53,6 +53,23 @@ namespace BTools
                 return inputDS;
             }
 
+            static DigitalSet setPixelMask(const std::string& pixelMaskPath)
+            {
+                if(pixelMaskPath!="")
+                {
+                    cv::Mat m = cv::imread(pixelMaskPath,CV_8UC1);
+                    DigitalSet ds( Domain( Point(0,0), Point(m.cols-1,m.rows-1) ) );
+                    DIPaCUS::Representation::CVMatToDigitalSet(ds,m,1);
+                    return ds;
+                }
+                else
+                {
+                    DigitalSet ds(Domain(Point(0,0),Point(1,1)));
+                    return ds;
+                }
+
+            }
+
         private:
             Point _translation;
 
@@ -60,14 +77,16 @@ namespace BTools
             ImageDataInput(const MyProbabilityDistribution& fgDistr,
                            const MyProbabilityDistribution& bgDistr,
                            const cvColorImage& baseImage,
-                           const cvColorImage& segResult, 
+                           const cvColorImage& segResult,
+                           const std::string& pixelMaskPath="",
                            const int initialBorder=20):fgDistr(fgDistr),
-                                                          bgDistr(bgDistr),
-                                                          baseImage(baseImage),
-                                                          segResult(segResult),
-                                                          inputDS(computeInputDS(segResult,_translation,initialBorder)),
-                                                          inputDomain(inputDS.domain()),
-                                                          translation(_translation){}
+                                                       bgDistr(bgDistr),
+                                                       baseImage(baseImage),
+                                                       segResult(segResult),
+                                                       pixelMask(setPixelMask(pixelMaskPath)),
+                                                       inputDS(computeInputDS(segResult,_translation,initialBorder)),
+                                                       inputDomain(inputDS.domain()),
+                                                       translation(_translation){}
 
         public:
             const MyProbabilityDistribution& fgDistr;
@@ -75,6 +94,7 @@ namespace BTools
 
             const cvColorImage baseImage;
             const cvColorImage segResult;
+            const DigitalSet pixelMask;
 
             const DigitalSet inputDS;
             const Domain inputDomain;

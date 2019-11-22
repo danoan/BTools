@@ -50,6 +50,7 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
             "[-x Exclude opt points from computation area default: false] \n"
             "[-a Inner ball coefficient default: 1.0] \n"
             "[-z Outer ball coefficient default: 1.0] \n"
+            "[-w Pixel mask filepath] \n"
             <<  extraUsage << std::endl;
 }
 
@@ -58,7 +59,7 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
     InputData id = df();
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:xa:z:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:xa:z:w:"))!=-1)
     {
         switch(opt)
         {
@@ -137,6 +138,11 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
             case 'z':
             {
                 id.outerBallCoef = std::atof(optarg);
+                break;
+            }
+            case 'w':
+            {
+                id.pixelMaskFilepath= optarg;
                 break;
             }
             default:

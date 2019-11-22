@@ -32,6 +32,8 @@ namespace BoundaryCorrection
             bool excludeOptPointsFromAreaComputation;
             int initialDilation;
 
+            std::string pixelMaskFilepath;
+
             std::string outputFolder;
             bool showIterations;
             bool showProgress;

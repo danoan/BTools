@@ -24,14 +24,14 @@ namespace BTools
                           QPBOSolverType solverType,
                           double innerBallCoef,
                           double outerBallCoef):radius(radius),
-                                                     dataTermWeight(dataTermWeight),
-                                                     sqTermWeight(sqTermWeight),
-                                                     lengthTermWeight(lengthTermWeight),
-                                                     excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
-                                                     initialDilation(initialDilation),
-                                                     solverType(solverType),
-                                                     innerBallCoef(innerBallCoef),
-                                                     outerBallCoef(outerBallCoef){}
+                                                                dataTermWeight(dataTermWeight),
+                                                                sqTermWeight(sqTermWeight),
+                                                                lengthTermWeight(lengthTermWeight),
+                                                                excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
+                                                                initialDilation(initialDilation),
+                                                                solverType(solverType),
+                                                                innerBallCoef(innerBallCoef),
+                                                                outerBallCoef(outerBallCoef){}
 
             double radius;
             double dataTermWeight;
