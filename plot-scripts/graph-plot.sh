@@ -50,7 +50,6 @@ create_multiplot()
 
 	buffer="${buffer}$(gp_save)"
 
-
 	`gnuplot -e "$buffer"`
 	`mv my-plot.ps ${fileoutput}`
 }

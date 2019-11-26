@@ -94,9 +94,10 @@ def main():
     read_input()
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
-        shape_flow(c)
-        regions_of_interest(c)
-        summary_flow(c)
+        if(valid_combination(c)):
+            shape_flow(c)
+            regions_of_interest(c)
+            summary_flow(c)
 
     render_template("shape-flow",CONFIG_LIST,"%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"output"))
 

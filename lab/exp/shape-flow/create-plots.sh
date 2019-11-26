@@ -38,6 +38,6 @@ create_shape_plots flower $1 $2
 create_shape_plots ellipse $1 $2
 
 source ${SCRIPT_FOLDER}/plot-scripts/perimeter.sh $DATA_FOLDER $OUTPUT_FOLDER triangle square flower ellipse
-source ${SCRIPT_FOLDER}/plot-scripts/perimeter-area-ratio.sh $DATA_FOLDER $OUTPUT_FOLDER triangle square flower ellipse
+source ${SCRIPT_FOLDER}/plot-scripts/squared-perimeter-area-ratio.sh $DATA_FOLDER $OUTPUT_FOLDER triangle square flower ellipse
 
 

@@ -12,7 +12,7 @@ shift
 
 _DATA_PLOT=""
 while [ -n "$1" ]; do
-    _DATA_PLOT="${_DATA_PLOT} $_DATA_FOLDER/sp_$1/mt_probe/radius_5/level_5/gs_0.50/${1}.txt $1"
+    _DATA_PLOT="${_DATA_PLOT} $_DATA_FOLDER/sp_$1/mt_improve/radius_5/level_5/gs_0.50/${1}.txt $1"
     shift
 done
 

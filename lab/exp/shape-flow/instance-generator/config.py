@@ -6,10 +6,10 @@ class Param:
         self.items=[ {'path':resolver(prefix,v),'value':v} for v in items]
 
 SHAPES=["triangle","square","ellipse","flower"]
-METHOD=["probe","improve"]
-RADIUS=[3,5,7]
-LEVELS=[1,2,3,4,5,6,7]
-GRID_STEP=[1.0,0.5]
+METHOD=["improve"]
+RADIUS=[3,5,7,9]
+LEVELS=[1,2,3,4,5,6,7,8,9]
+GRID_STEP=[1.0,0.5,0.25]
 
 
 def resolve_double(prefix,d):
@@ -20,6 +20,13 @@ def resolve_int(prefix,i):
 
 def resolve_std(prefix,s):
     return "%s_%s" % (prefix,s)
+
+def valid_combination(c):
+    shape,method,radius,levels,gs = c
+    if levels['value'] > radius['value']:
+        return False
+
+    return True
 
 
 CONFIG_LIST=[ Param("Shape","sp","shape",SHAPES,resolve_std),
