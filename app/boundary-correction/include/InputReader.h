@@ -30,6 +30,7 @@ namespace BoundaryCorrection
             OptMethod optMethod;
 
             bool excludeOptPointsFromAreaComputation;
+            bool uniformPerimeter;
             int initialDilation;
 
             std::string outputFolder;

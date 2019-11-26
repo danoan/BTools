@@ -42,6 +42,7 @@ namespace BTools
                 double gridStep;
 
                 bool excludeOptPointsFromAreaComputation;
+                bool uniformPerimeter;
 
                 double innerBallCoef,outerBallCoef;
 

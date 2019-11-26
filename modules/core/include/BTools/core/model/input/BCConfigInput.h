@@ -20,6 +20,7 @@ namespace BTools
                           double sqTermWeight,
                           double lengthTermWeight,
                           bool excludeOptPointsFromAreaComputation,
+                          bool uniformPerimeter,
                           int initialDilation,
                           QPBOSolverType solverType,
                           double innerBallCoef,
@@ -28,6 +29,7 @@ namespace BTools
                                                      sqTermWeight(sqTermWeight),
                                                      lengthTermWeight(lengthTermWeight),
                                                      excludeOptPointsFromAreaComputation(excludeOptPointsFromAreaComputation),
+                                                     uniformPerimeter(uniformPerimeter),
                                                      initialDilation(initialDilation),
                                                      solverType(solverType),
                                                      innerBallCoef(innerBallCoef),
@@ -39,6 +41,7 @@ namespace BTools
             double lengthTermWeight;
 
             bool excludeOptPointsFromAreaComputation;
+            bool uniformPerimeter;
             int initialDilation;
 
             QPBOSolverType solverType;

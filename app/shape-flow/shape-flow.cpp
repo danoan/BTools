@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
                                        id.sqWeight,
                                        id.lgWeight,
                                        id.excludeOptPointsFromAreaComputation,
+                                       id.uniformPerimeter,
                                        0,
                                        id.optMethod,
                                        id.innerBallCoef,
