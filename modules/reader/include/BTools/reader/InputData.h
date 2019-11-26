@@ -37,6 +37,8 @@ namespace BTools
                 double dtWeight;
                 double lgWeight;
 
+                std::string pixelMaskFilepath;
+
                 OptMethod optMethod;
                 Shape shape;
                 double gridStep;

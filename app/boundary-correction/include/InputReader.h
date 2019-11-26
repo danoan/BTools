@@ -33,6 +33,8 @@ namespace BoundaryCorrection
             bool uniformPerimeter;
             int initialDilation;
 
+            std::string pixelMaskFilepath;
+
             std::string outputFolder;
             bool showIterations;
             bool showProgress;

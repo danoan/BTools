@@ -100,7 +100,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     CVMatDistribution fgDistr(gco.inputImage,fgGMM);
     CVMatDistribution bgDistr(gco.inputImage,bgGMM);
 
-    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg,inputData.initialDilation);
+    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg,inputData.pixelMaskFilepath,inputData.initialDilation);
 
     BCApplicationInput bcaInput(bcConfigInput,
                                 imageDataInput,
