@@ -26,6 +26,7 @@ target_include_directories(shape-flow PRIVATE
         )
 
 target_link_libraries(shape-flow
+        -lpthread
         -lbtools-utils
         -lbtools-core
         -lbtools-reader

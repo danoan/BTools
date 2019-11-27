@@ -2,17 +2,30 @@
 
 using namespace ShapeFlow;
 
+void threadFn(ThreadData& td)
+{
+    td.IIValue=SCaBOliC::Utils::ISQEvaluation::ii(td.ds,td.h,&td.data);
+}
+
 void DataWriter::outputElasticaII(const DigitalSet& ds,const double h, const double radius, std::ostream& os)
 {
     int colLength=20;
     std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
-    double IIValue;
+    ThreadData td(ds,h,radius);
 
-    SCaBOliC::Utils::ISQEvaluation::IICurvatureExtraData data(true,radius);
-    IIValue=SCaBOliC::Utils::ISQEvaluation::ii(ds,h,&data);
+    std::thread iiEvalThread = std::thread(&threadFn,std::ref(td));
+    iiEvalThread.detach();
 
-    os << fnD(colLength,IIValue) << "\t";
+    int tries=10;
+    while(tries>0)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(25));
+        if(td.IIValue!=-1) break;
+        tries--;
+    }
+
+    os << fnD(colLength,td.IIValue) << "\t";
 }
 
 void DataWriter::outputElasticaMDCA(const DigitalSet& ds,const double h, std::ostream& os)

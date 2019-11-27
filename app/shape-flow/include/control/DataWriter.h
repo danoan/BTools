@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DGtal/geometry/curves/estimation/MLPLengthEstimator.h>
@@ -14,6 +16,21 @@
 #include <BTools/core/model/input/BCApplicationInput.h>
 #include <BTools/core/model/input/BCConfigInput.h>
 #include <BTools/utils/strUtils.h>
+
+
+struct ThreadData
+{
+    typedef DGtal::Z2i::DigitalSet DigitalSet;
+
+    ThreadData(const DigitalSet& ds, double h, double r):ds(ds),h(h),data(true,r),IIValue(-1){}
+
+    const DigitalSet& ds;
+    double h;
+    SCaBOliC::Utils::ISQEvaluation::IICurvatureExtraData data;
+    double IIValue;
+};
+
+void threadFn(ThreadData& td);
 
 namespace ShapeFlow
 {
@@ -39,7 +56,6 @@ namespace ShapeFlow
             double gridStep;
             double radius;
         };
-
 
         void outputElasticaMDCA(const DigitalSet& ds,const double h, std::ostream& os);
         void outputElasticaII(const DigitalSet& ds,const double h, const double radius, std::ostream& os);
