@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
 
-#$1: Shape
-#$2: Data Folder
-#$3: Output Folder
-
 INITIAL_DIR=$PWD
 SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
 
@@ -14,6 +10,15 @@ BTOOLS_FOLDER=$PWD
 cd ${INITIAL_DIR}
 
 source ${BTOOLS_FOLDER}/plot-scripts/graph-plot.sh
+source ${BTOOLS_FOLDER}/plot-scripts/input-utils.sh
+
+
+CFG_RADIUS=9
+CFG_GS=0.25
+CFG_UP=True
+CFG_NLEVELS="6:9"
+DATA_FOLDER=$(realpath $1)
+OUTPUT_FOLDER=$(realpath $2)
 
 function create_shape_plots()
 {
@@ -21,23 +26,17 @@ function create_shape_plots()
     DATA_FOLDER=$2
     OUTPUT_FOLDER=$3
 
-
-    source ${SCRIPT_FOLDER}/plot-scripts/levels.sh $@
-    source ${SCRIPT_FOLDER}/plot-scripts/method.sh $@
-    source ${SCRIPT_FOLDER}/plot-scripts/radius.sh $@
+    source ${SCRIPT_FOLDER}/plot-scripts/levels.sh $SHAPE $CFG_RADIUS $CFG_GS $CFG_UP $CFG_NLEVELS $DATA_FOLDER $OUTPUT_FOLDER
 }
 
+create_shape_plots triangle $DATA_FOLDER $OUTPUT_FOLDER
+create_shape_plots square $DATA_FOLDER $OUTPUT_FOLDER
+create_shape_plots flower $DATA_FOLDER $OUTPUT_FOLDER
+create_shape_plots ellipse $DATA_FOLDER $OUTPUT_FOLDER
 
-
-DATA_FOLDER=$1
-OUTPUT_FOLDER=$2
-
-create_shape_plots triangle $1 $2
-create_shape_plots square $1 $2
-create_shape_plots flower $1 $2
-create_shape_plots ellipse $1 $2
-
-source ${SCRIPT_FOLDER}/plot-scripts/perimeter.sh $DATA_FOLDER $OUTPUT_FOLDER triangle square flower ellipse
-source ${SCRIPT_FOLDER}/plot-scripts/squared-perimeter-area-ratio.sh $DATA_FOLDER $OUTPUT_FOLDER triangle square flower ellipse
+source ${SCRIPT_FOLDER}/plot-scripts/squared-perimeter-area-ratio.sh triangle $CFG_RADIUS $CFG_GS $CFG_UP $CFG_NLEVELS  $DATA_FOLDER $OUTPUT_FOLDER
+source ${SCRIPT_FOLDER}/plot-scripts/squared-perimeter-area-ratio.sh square $CFG_RADIUS $CFG_GS $CFG_UP $CFG_NLEVELS  $DATA_FOLDER $OUTPUT_FOLDER
+source ${SCRIPT_FOLDER}/plot-scripts/squared-perimeter-area-ratio.sh ellipse $CFG_RADIUS $CFG_GS $CFG_UP $CFG_NLEVELS  $DATA_FOLDER $OUTPUT_FOLDER
+source ${SCRIPT_FOLDER}/plot-scripts/squared-perimeter-area-ratio.sh flower $CFG_RADIUS $CFG_GS $CFG_UP $CFG_NLEVELS  $DATA_FOLDER $OUTPUT_FOLDER
 
 

@@ -7,9 +7,10 @@ from template_render import *
 
 SCRIPT_FOLDER="set in read  input"
 BINARY_FOLDER="set in read  input"
+BASE_OUTPUT_FOLDER="set in read  input"
 
 def resolve_output_folder(c):
-    output_folder="%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"output")
+    output_folder=BASE_OUTPUT_FOLDER
     for e in c:
         output_folder += "/" + e['path']
 
@@ -18,7 +19,7 @@ def resolve_output_folder(c):
 
 def regions_of_interest(c):
     outputFolder = resolve_output_folder(c)
-    shape,method,radius,levels,gs = c
+    shape,method,radius,levels,gs,up = c
 
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
@@ -36,20 +37,21 @@ def regions_of_interest(c):
 def shape_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    shape,method,radius,levels,gs = c
+    shape,method,radius,levels,gs,up = c
 
 
     binary = "%s/%s" % (BINARY_FOLDER,"shape-flow")
     subprocess.call( [binary,
                       "%s%s" % ("-S",shape['value']),
                       "%s%d" % ("-r",radius['value']),
-                      "%s%d" % ("-i",200),
+                      "%s%d" % ("-i",100),
                       "%s%s" % ("-f","around-contour"),
                       "%s%d" % ("-n",4),
                       "%s%d" % ("-l",levels['value']),
                       "%s%f" % ("-q",1),
                       "%s%f" % ("-t",0),
                       "%s%f" % ("-g",0),
+                      "-u" if up['value'] else "",
                       "%s%s" % ("-m",method['value']),
                       "%s%f" % ("-h", gs['value']),
                       outputFolder
@@ -73,14 +75,15 @@ def summary_flow(c):
 
 
 def read_input():
-    if len(sys.argv)<2:
-        print("Parameters missing! BTOOLS_BIN_FOLDER")
+    if len(sys.argv)<3:
+        print("Parameters missing! BTOOLS_BIN_FOLDER BASE_OUTPUT_FOLDER")
         exit(1)
 
-    global SCRIPT_FOLDER,BINARY_FOLDER
+    global SCRIPT_FOLDER,BINARY_FOLDER,BASE_OUTPUT_FOLDER
 
     SCRIPT_FOLDER = os.path.dirname( os.path.realpath(__file__) )
     BINARY_FOLDER = sys.argv[1]
+    BASE_OUTPUT_FOLDER = sys.argv[2]
 
 
 def total_combinations():
@@ -99,7 +102,7 @@ def main():
             regions_of_interest(c)
             summary_flow(c)
 
-    render_template("shape-flow",CONFIG_LIST,"%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"output"))
+    render_template("shape-flow",CONFIG_LIST,BASE_OUTPUT_FOLDER)
 
 if __name__=='__main__':
     main()

@@ -10,6 +10,7 @@ METHOD=["improve"]
 RADIUS=[3,5,7,9]
 LEVELS=[1,2,3,4,5,6,7,8,9]
 GRID_STEP=[1.0,0.5,0.25]
+UNIFORM_PERIMETER=[True,False]
 
 
 def resolve_double(prefix,d):
@@ -22,8 +23,11 @@ def resolve_std(prefix,s):
     return "%s_%s" % (prefix,s)
 
 def valid_combination(c):
-    shape,method,radius,levels,gs = c
+    shape,method,radius,levels,gs,up = c
     if levels['value'] > radius['value']:
+        return False
+
+    if levels['value'] < radius['value']-3:
         return False
 
     return True
@@ -33,6 +37,7 @@ CONFIG_LIST=[ Param("Shape","sp","shape",SHAPES,resolve_std),
               Param("Method","mt","method",METHOD,resolve_std),
               Param("Radius","radius","radius",RADIUS,resolve_int),
               Param("Levels","level","levels",LEVELS,resolve_int),
-              Param("Grid Step","gs","grid_step",GRID_STEP,resolve_double)
+              Param("Grid Step","gs","grid_step",GRID_STEP,resolve_double),
+              Param("Uniform Perimeter","up","uniform_perimeter",UNIFORM_PERIMETER,resolve_std)
             ]
 

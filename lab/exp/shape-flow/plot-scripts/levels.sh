@@ -4,19 +4,24 @@ _BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
 source ${_BASE_DIR}/gnu-config/elastica.sh
 
 _SHAPE=$1
-_DATA_FOLDER=$(realpath $2)
-_OUTPUT_FOLDER="$3/$1" && mkdir -p ${_OUTPUT_FOLDER}
+_RADIUS=$2
+_GS=$3
+_UP=$4
+_NLEVELS=$5
+
+_DATA_FOLDER=$(realpath $6)
+_OUTPUT_FOLDER="$7/$1" && mkdir -p ${_OUTPUT_FOLDER}
 _OUTPUT_FOLDER=$(realpath $_OUTPUT_FOLDER)
 
-_DATA_LEVEL_1=$_DATA_FOLDER/sp_$_SHAPE/mt_improve/radius_5/level_1/gs_0.50/${_SHAPE}.txt
-_DATA_LEVEL_2=$_DATA_FOLDER/sp_$_SHAPE/mt_improve/radius_5/level_2/gs_0.50/${_SHAPE}.txt
-_DATA_LEVEL_3=$_DATA_FOLDER/sp_$_SHAPE/mt_improve/radius_5/level_3/gs_0.50/${_SHAPE}.txt
-_DATA_LEVEL_4=$_DATA_FOLDER/sp_$_SHAPE/mt_improve/radius_5/level_4/gs_0.50/${_SHAPE}.txt
-_DATA_LEVEL_5=$_DATA_FOLDER/sp_$_SHAPE/mt_improve/radius_5/level_5/gs_0.50/${_SHAPE}.txt
+_NLEVELS=$( decode_interval $_NLEVELS )
 
-create_multiplot "$_OUTPUT_FOLDER/levels.eps" "Levels"  \
-$_DATA_LEVEL_1 "Level_1" \
-$_DATA_LEVEL_2 "Level_2" \
-$_DATA_LEVEL_3 "Level_3" \
-$_DATA_LEVEL_4 "Level_4" \
-$_DATA_LEVEL_5 "Level_5"
+_DATA_PLOT=""
+for i in $_NLEVELS
+do
+    _DATA_PLOT="$_DATA_PLOT $_DATA_FOLDER/sp_$_SHAPE/mt_improve/radius_$_RADIUS/level_$i/gs_$_GS/up_$_UP/${_SHAPE}.txt Level_$i "
+    i=$(($i-1))
+done
+
+
+create_multiplot "$_OUTPUT_FOLDER/levels.eps" "Levels"  $_DATA_PLOT
+
