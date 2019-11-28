@@ -69,7 +69,6 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
 {
     double levels = 1;
     bool optInApplicationRegion=false;
-    bool repeatedImprovement = false;
 
     BCConfigInput bcConfigInput(inputData.radius,
                                 inputData.dtWeight,
