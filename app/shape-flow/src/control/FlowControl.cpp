@@ -29,6 +29,7 @@ FlowControl::FlowControl(const BCConfigInput& bcInput,
                          int iterations,
                          Shape  shape,
                          double gridStep,
+                         const std::string& pixelMaskFilepath,
                          const std::string& outputFolder,
                          std::ostream& osLog)
 {
@@ -41,7 +42,7 @@ FlowControl::FlowControl(const BCConfigInput& bcInput,
     ofs.flush();
     ofs.close();
 
-    shapeFlow( ds,iterations,shape.name,bcInput,odrConfigInput,outputFolder,osLog );
+    shapeFlow( ds,iterations,shape.name,bcInput,odrConfigInput,pixelMaskFilepath,outputFolder,osLog );
 }
 
 std::vector<DataWriter::TableEntry> FlowControl::initEntries(const ODRConfigInput& odrConfigInput, const DigitalSet& ds)
@@ -58,6 +59,7 @@ std::vector<DataWriter::TableEntry> FlowControl::initEntries(const ODRConfigInpu
 
 FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCConfigInput& bcInput,
                                                        const ODRConfigInput& odrConfigInput,
+                                                       const std::string& pixelMaskFilepath,
                                                        const cv::Mat& currentImage,
                                                        Point& translation)
 {
@@ -67,7 +69,8 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCConfigInput& bcIn
     BTools::Core::ImageDataInput imageDataInput(frDistr,
                                   bkDistr,
                                   currentImage,
-                                  currentImage);
+                                  currentImage,
+                                  pixelMaskFilepath);
 
     BTools::Core::BCApplicationInput bcaInput(bcInput,
                                               imageDataInput,
@@ -122,6 +125,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
                             const std::string& inputName,
                             const BCConfigInput& bcConfigInput,
                             const ODRConfigInput& odrConfigInput,
+                            const std::string& pixelMaskFilepath,
                             const std::string& outputFolder,
                             std::ostream& osLog)
 {
@@ -157,7 +161,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
 
                 Point translation;
-                BCAOutput bcaOutput = boundaryCorrection(bcConfigInput,odrConfigInput,currentImage,translation);
+                BCAOutput bcaOutput = boundaryCorrection(bcConfigInput,odrConfigInput,pixelMaskFilepath,currentImage,translation);
 
                 DigitalSet correctedSet = correctTranslation(bcaOutput.energySolution,currentImage,translation);
                 checkBounds(correctedSet,flowDomain);

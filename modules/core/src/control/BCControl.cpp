@@ -13,7 +13,8 @@ BCControl::BCControl(Solution& solution,
 
     ISQInputData::OptimizationDigitalRegions ODR = odrFactory.createODR(odrConfigInput.applicationMode,
                                                                         inputDS,
-                                                                        odrConfigInput.optInApplicationRegion);
+                                                                        odrConfigInput.optInApplicationRegion,
+                                                                        imageDataInput.pixelMask);
 
     ISQInputData energyInput(ODR,
                              imageDataInput.baseImage,

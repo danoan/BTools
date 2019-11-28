@@ -57,6 +57,7 @@ namespace ShapeFlow
                     int iterations,
                     Shape  shape,
                     double gridStep,
+                    const std::string& pixelMaskFilepath,
                     const std::string& outputFolder,
                     std::ostream& osLog);
 
@@ -66,6 +67,7 @@ namespace ShapeFlow
         std::vector<TableEntry> initEntries(const ODRConfigInput& odrConfigInput, const DigitalSet& ds);
         BCAOutput boundaryCorrection(const BCConfigInput& bcInput,
                                      const ODRConfigInput& odrConfigInput,
+                                     const std::string& pixelMaskFilepath,
                                      const cv::Mat& currentImage,
                                      Point& translation);
 
@@ -80,6 +82,7 @@ namespace ShapeFlow
                        const std::string& inputName,
                        const BCConfigInput& bcConfigInput,
                        const ODRConfigInput& odrConfigInput,
+                       const std::string& pixelMaskFilepath,
                        const std::string& outputFolder,
                        std::ostream& osLog);
     };

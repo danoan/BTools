@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
                      id.iterations,
                      id.shape,
                      id.gridStep,
+                     id.pixelMaskFilepath,
                      outputFolder,
                      std::cerr);
 
