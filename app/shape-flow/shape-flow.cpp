@@ -37,7 +37,8 @@ int main(int argc, char* argv[])
                                                id.ld,
                                                id.neighborhood,
                                                id.am,
-                                               id.optRegionInApplication);
+                                               id.optRegionInApplication,
+                                               id.optBand);
 
 
     FlowControl flow(bcInput,

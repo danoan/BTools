@@ -32,6 +32,7 @@ namespace BTools
 
                 bool optRegionInApplication;
                 double levels;
+                double optBand;
 
                 double sqWeight;
                 double dtWeight;

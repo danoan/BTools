@@ -131,12 +131,18 @@ void modelRegions(const std::string& outputFilePath)
 {
     using namespace SCaBOliC::Core;
 
+    double radius=3;
+    double h=1.0;
+    double levels=4;
+    double optBand=1;
+
     DigitalSet square = DIPaCUS::Shapes::square(0.5);
-    SCaBOliC::Core::ODRPixels odrPixels(3,
-                                        1.0,
-                                        4,
+    SCaBOliC::Core::ODRPixels odrPixels(radius,
+                                        h,
+                                        levels,
                                         ODRModel::LevelDefinition::LD_CloserFromCenter,
-                                        ODRModel::FourNeighborhood);
+                                        ODRModel::FourNeighborhood,
+                                        optBand);
 
     ODRModel ODR = odrPixels.createODR(ODRModel::AM_AroundBoundary,
                                             square);

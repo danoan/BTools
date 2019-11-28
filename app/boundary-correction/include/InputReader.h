@@ -21,6 +21,7 @@ namespace BoundaryCorrection
 
             int radius;
             int iterations;
+            double optBand;
 
             double sqWeight;
             double dtWeight;

@@ -18,6 +18,7 @@ struct InputData
     {
         radius=5;
         gridStep=0.5;
+        optBand=1;
         sqTermWeight=1.0;
         excludeOptPointsFromAreaComputation=false;
         repeatedImprovement=false;
@@ -43,6 +44,7 @@ struct InputData
 
     double radius;
     double gridStep;
+    double optBand;
     double sqTermWeight;
     bool excludeOptPointsFromAreaComputation;
     bool repeatedImprovement;

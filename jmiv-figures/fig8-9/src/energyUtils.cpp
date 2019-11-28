@@ -17,7 +17,8 @@ ODRPixels odrPixels(const InputData& input)
                            input.gridStep,
                            input.levels,
                            input.ld,
-                           ODRModel::NeighborhoodType::FourNeighborhood);
+                           ODRModel::NeighborhoodType::FourNeighborhood,
+                           input.optBand);
 }
 
 ODRModel odrModel(const InputData& input,

@@ -14,6 +14,7 @@ DCFReader::InputData DCFReader::defaultValues()
     id.levels= id.radius;
     id.optRegionInApplication = false;
     id.uniformPerimeter = false;
+    id.optBand = 3;
 
     id.dtWeight = 0.5;
     id.sqWeight = 1.0;
@@ -53,6 +54,7 @@ void DCFReader::usage(char* argv[],const std::string& extraUsage)
             "[-z Outer ball coefficient default: 1.0] \n"
             "[-u Uniform perimeter default: false] \n"
             "[-w Pixel mask filepath] \n"
+            "[-O Optimization band size. default: 3] \n"
             <<  extraUsage << std::endl;
 }
 
@@ -61,7 +63,7 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
     InputData id = df();
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:xa:z:uw:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:n:l:q:t:g:m:oS:h:f:xa:z:uw:O:"))!=-1)
     {
         switch(opt)
         {
@@ -150,6 +152,11 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
             case 'w':
             {
                 id.pixelMaskFilepath= optarg;
+                break;
+            }
+            case 'O':
+            {
+                id.optBand = std::atof(optarg);
                 break;
             }
             default:

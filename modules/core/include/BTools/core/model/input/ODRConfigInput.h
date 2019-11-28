@@ -19,13 +19,15 @@ namespace BTools
                            LevelDefinition ld,
                            NeighborhoodType nt,
                            ApplicationMode am,
-                           bool optInApplicationRegion):levels(levels),
+                           bool optInApplicationRegion,
+                           double optBand):levels(levels),
                                                         radius(radius),
                                                         gridStep(gridStep),
                                                         levelDefinition(ld),
                                                         neighborhood(nt),
                                                         applicationMode(am),
-                                                        optInApplicationRegion(optInApplicationRegion)
+                                                        optInApplicationRegion(optInApplicationRegion),
+                                                        optBand(optBand)
             {}
 
             bool operator==(const ODRConfigInput& other) const
@@ -38,6 +40,7 @@ namespace BTools
             const double levels;
             const double radius;
             const double gridStep;
+            const double optBand;
             const NeighborhoodType neighborhood;
             const LevelDefinition levelDefinition;
             const ApplicationMode applicationMode;

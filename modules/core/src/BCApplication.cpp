@@ -21,7 +21,8 @@ BCApplication::BCApplication(BCAOutput& bcaOutput,
                         odrInput.gridStep,
                         odrInput.levels,
                         odrInput.levelDefinition,
-                        odrInput.neighborhood);
+                        odrInput.neighborhood,
+                        odrInput.optBand);
 
 
     std::string windowName="IterationViewer";

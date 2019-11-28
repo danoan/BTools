@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 
 
     SCaBOliC::Core::ODRPixels odrPixels(id.radius,id.gridStep,id.levels,
-                                  id.ld,id.neighborhood);
+                                  id.ld,id.neighborhood,id.optBand);
 
 
 

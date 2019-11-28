@@ -86,7 +86,8 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
             ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
             ODRConfigInput::NeighborhoodType::FourNeighborhood,
             ODRConfigInput::ApplicationMode::AM_AroundBoundary,
-            optInApplicationRegion);
+            optInApplicationRegion,
+            inputData.optBand);
 
 
     cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());

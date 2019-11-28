@@ -6,6 +6,7 @@ InputReader::InputData::InputData()
 {
     radius=3;
     iterations=10;
+    optBand=3;
 
     dtWeight = 0.5;
     sqWeight = 1.0;
@@ -25,7 +26,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:w:u"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:w:uO:"))!=-1)
     {
         switch(opt)
         {
@@ -69,6 +70,9 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
             case 'w':
                 id.pixelMaskFilepath = optarg;
                 break;
+            case 'O':
+                id.optBand = std::atof(optarg);
+                break;
             default:
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
@@ -84,6 +88,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
                         "[-d Initial dilation size: default: 10] \n"
                         "[-u Uniform perimeter: default: false] \n"
                         "[-w Pixel mask path] \n"
+                        "[-O Optimization band size. default: 3] \n"
                         << std::endl;
                 exit(1);
         }
