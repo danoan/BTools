@@ -16,6 +16,8 @@ produce_data()
     $SHAPE_FLOW_APP -r5 -i150 -p double -l1 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5-m1
     $SHAPE_FLOW_APP -r5 -i150 -p double -l2 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5-m2
     $SHAPE_FLOW_APP -r5 -i150 -p double -l3 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5-m3
+    $SHAPE_FLOW_APP -r5 -i150 -p double -l4 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5-m4
+    $SHAPE_FLOW_APP -r5 -i150 -p double -l5 -n4 -q1 -t0 -g0 -mimprove -Ssquare -h0.5 ${DATA_FOLDER}/square-r5-m5
 }
 
 produce_figures()
@@ -25,6 +27,8 @@ produce_figures()
     $SUMMARY_FLOW_APP ${DATA_FOLDER}/square-r5-m1 ${OUTPUT_FOLDER}/summary-square-r5-m1.eps 10
     $SUMMARY_FLOW_APP ${DATA_FOLDER}/square-r5-m2 ${OUTPUT_FOLDER}/summary-square-r5-m2.eps 10
     $SUMMARY_FLOW_APP ${DATA_FOLDER}/square-r5-m3 ${OUTPUT_FOLDER}/summary-square-r5-m3.eps 10
+    $SUMMARY_FLOW_APP ${DATA_FOLDER}/square-r5-m4 ${OUTPUT_FOLDER}/summary-square-r5-m4.eps 10
+    $SUMMARY_FLOW_APP ${DATA_FOLDER}/square-r5-m5 ${OUTPUT_FOLDER}/summary-square-r5-m5.eps 10
 }
 
 produce_data
