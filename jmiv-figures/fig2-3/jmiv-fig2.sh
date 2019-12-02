@@ -24,16 +24,16 @@ produce_data()
     LOCAL_COMB_APP=${EXT_BIN}/exhaustive-gc-app-flow
 
     echo "Producing data for square h=1.0"
-    $LOCAL_COMB_APP -m2 -M20 -j1 -i300 -eelastica -a0.005 -Ssquare -sbest -h1.0 -tmdca -n4 -k2000 ${DATA_FOLDER}/squareh1
+    $LOCAL_COMB_APP -m2 -M50 -j1 -i300 -eelastica -a0.01 -Ssquare -sbest -h1.0 -tii -r5 -n32 ${DATA_FOLDER}/squareh1
 
     echo "Producing data for square h=0.5"
-    $LOCAL_COMB_APP -m2 -M20 -j1 -i300 -eelastica -a0.005 -Ssquare -sbest -h0.5 -tmdca -n4 -k4000 ${DATA_FOLDER}/squareh05
+    $LOCAL_COMB_APP -m2 -M50 -j1 -i300 -eelastica -a0.01 -Ssquare -sbest -h0.5 -tii -r5 -n32 ${DATA_FOLDER}/squareh05
 
     echo "Producing data for flower h=1.0"
-    $LOCAL_COMB_APP -m2 -M20 -j1 -i300 -eelastica -a0.01 -Sflower -sbest -h1.0 -tmdca -n4 -k10000 ${DATA_FOLDER}/flowerh1
+    $LOCAL_COMB_APP -m2 -M50 -j1 -i300 -eelastica -a0.01 -Sflower -sbest -h1.0 -tii -r5 -n32 ${DATA_FOLDER}/flowerh1
 
     echo "Producing data for flower h=0.5"
-    $LOCAL_COMB_APP -m2 -M20 -j1 -i300 -eelastica -a0.01 -Sflower -sbest -h0.5 -tmdca -n4 -k16000 ${DATA_FOLDER}/flowerh05
+    $LOCAL_COMB_APP -m2 -M50 -j1 -i300 -eelastica -a0.01 -Sflower -sbest -h0.5 -tii -r5 -n32 ${DATA_FOLDER}/flowerh05
 
 }
 
@@ -48,10 +48,10 @@ produce_figures()
     $SUMMARY_APP ${DATA_FOLDER}/squareh05 ${OUTPUT_FOLDER}/summary-squareh05.eps 2
 
     echo "Summary flow for flower h=1.0"
-    $SUMMARY_APP ${DATA_FOLDER}/flowerh1 ${OUTPUT_FOLDER}/summary-flowerh1.eps 7
+    $SUMMARY_APP ${DATA_FOLDER}/flowerh1 ${OUTPUT_FOLDER}/summary-flowerh1.eps 5
 
     echo "Summary flow for flower h=0.5"
-    $SUMMARY_APP ${DATA_FOLDER}/flowerh05 ${OUTPUT_FOLDER}/summary-flowerh05.eps 7
+    $SUMMARY_APP ${DATA_FOLDER}/flowerh05 ${OUTPUT_FOLDER}/summary-flowerh05.eps 5
 
 }
 
@@ -70,7 +70,7 @@ gp_plot_config()
     #set yrange [-0.1:1.1];
     printf "set title '$1';
     set xlabel 'Iterations';
-    set ylabel 'Elastica ({/Symbol a}=0.1, {/Symbol b}=1)';"
+    set ylabel 'Elastica ({/Symbol a}=0.01, {/Symbol b}=1)';"
 }
 
 source ${PLOT_SCRIPT_FOLDER}/graph-plot.sh
