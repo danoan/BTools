@@ -25,7 +25,6 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 set(BUILD_APPLICATIONS ON CACHE BOOL "Build applications.")
-set(BUILD_FIGURES ON CACHE BOOL "Build JMIV figures.")
 set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
 
 set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
@@ -74,9 +73,4 @@ if(${BUILD_APPLICATIONS})
     add_subdirectory(app/shape-flow)
     add_subdirectory(app/summary-flow)
 endif()
-
-if(${BUILD_FIGURES})
-    add_subdirectory(jmiv-figures)
-endif()
-
 
