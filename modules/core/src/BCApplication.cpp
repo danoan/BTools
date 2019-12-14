@@ -1,5 +1,4 @@
 #include "BTools/core/BCApplication.h"
-#include "../../../jmiv-figures/fig8-9/include/energyUtils.h"
 
 using namespace BTools::Core;
 

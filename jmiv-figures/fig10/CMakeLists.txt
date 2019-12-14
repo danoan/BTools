@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.2)
+project(jmiv-fig10)
+
+add_executable(jmiv-fig10 jmiv-fig10.cpp)
+
+if(${USE_REMOTE_REPOSITORIES})
+    add_dependencies(jmiv-fig10 btools-core btools-reader btools-utils scabolic dipacus)
+else()
+    add_dependencies(jmiv-fig10 btools-core btools-reader btools-utils)
+endif()
+
+
+target_include_directories(jmiv-fig10 PRIVATE
+        include
+        ${CMAKE_SOURCE_DIR}/modules/utils/include
+        ${BOOST_INCLUDE_DIRS}
+        ${DIPACUS_INCLUDE_DIRS}
+        ${SCABOLIC_INCLUDE_DIRS}
+        ${DGTAL_INCLUDE_DIRS})
+
+target_link_libraries(jmiv-fig10
+        -lbtools-core
+        -lbtools-reader
+        -lbtools-utils
+        -lscabolic-optimization
+        -lscabolic-energy
+        -lscabolic-core
+        -ldipacus-derivates
+        -ldipacus-components
+        -ldipacus-base
+        -lboost_filesystem
+        -lboost_system
+        ${DGTAL_LIBRARIES}
+        ${OpenCV_LIBS})
+
+install(TARGETS jmiv-fig10
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
