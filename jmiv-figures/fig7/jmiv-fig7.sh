@@ -9,14 +9,23 @@ mkdir -p ${OUTPUT_FOLDER}
 
 BTOOLS_BIN=$(realpath $1)
 
-FIG7_APP=${BTOOLS_BIN}/jmiv-fig7
-FLOW_APP=${BTOOLS_BIN}/shape-flow
-SUMMARY_APP=${BTOOLS_BIN}/summary-flow
+produce_data()
+{
+    SHAPE_FLOW_APP=${BTOOLS_BIN}/shape-flow
 
+    $SHAPE_FLOW_APP -r3 -i150 -p double -l1 -n4 -q1 -t0 -g0 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3-a0
+    $SHAPE_FLOW_APP -r3 -i150 -p double -l1 -n4 -q1 -t0 -g0.15 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r3-a015
+    $SHAPE_FLOW_APP -r5 -i150 -p double -l1 -n4 -q1 -t0 -g0.15 -mimprove -Striangle -h0.5 ${DATA_FOLDER}/triangle-r5-a015
+}
 
-$FIG7_APP 20 80 15 ${DATA_FOLDER}/square-holes.pgm
-$FLOW_APP -i100 -r6 -p double -q1.0 -t0 -g0 -l-1 -S${DATA_FOLDER}/square-holes.pgm ${DATA_FOLDER}/square-holes-flow
-$SUMMARY_APP ${DATA_FOLDER}/square-holes-flow ${OUTPUT_FOLDER}/summary-square-holes.eps 10
+produce_figures()
+{
+    SUMMARY_FLOW_APP=${BTOOLS_BIN}/summary-flow
 
-$FLOW_APP -i100 -r9 -p double -q1.0 -t0 -g0 -l-1 -h0.1 -Swave ${DATA_FOLDER}/wave-flow
-$SUMMARY_APP ${DATA_FOLDER}/wave-flow ${OUTPUT_FOLDER}/summary-wave.eps 14
+    $SUMMARY_FLOW_APP ${DATA_FOLDER}/triangle-r3-a0 ${OUTPUT_FOLDER}/summary-triangle-r3-a0.eps 14
+    $SUMMARY_FLOW_APP ${DATA_FOLDER}/triangle-r3-a015 ${OUTPUT_FOLDER}/summary-triangle-r3-a015.eps 25
+    $SUMMARY_FLOW_APP ${DATA_FOLDER}/triangle-r5-a015 ${OUTPUT_FOLDER}/summary-triangle-r5-a015.eps 10
+}
+
+produce_data
+produce_figures

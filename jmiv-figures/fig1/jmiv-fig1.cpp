@@ -1,153 +1,114 @@
-#include <boost/filesystem.hpp>
-
-#include <exhaustive-gc/core/check-elem/CheckableSeedPair.h>
-#include <exhaustive-gc/core/control/CurveFromJoints.h>
-
-#include <exhaustive-gc/api/utils/GenerateSeedPairs.h>
-#include <exhaustive-gc/api/utils/FilterSeedPairs.h>
-#include <exhaustive-gc/api/model/SearchParameters.h>
-#include <exhaustive-gc/energy/EnergyInput.h>
-#include <exhaustive-gc/energy/EnergyType.h>
-
-#include <magLac/core/base/Range.hpp>
-#include <magLac/core/single/Combinator.hpp>
-
-
 #include <DIPaCUS/base/Shapes.h>
-#include <gcurve/utils/displayUtils.h>
-#include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
-#include <DGtal/io/Color.h>
+#include <DIPaCUS/base/Representation.h>
+#include <DIPaCUS/derivates/Misc.h>
 
+#include <DGtal/io/writers/GenericWriter.h>
+
+#include <boost/filesystem.hpp>
+#include <DGtal/io/boards/Board2D.h>
+
+typedef DIPaCUS::Representation::Image2D Image2D;
 using namespace DGtal::Z2i;
-using namespace ExhaustiveGC::Core;
-using namespace ExhaustiveGC::API;
-using namespace ExhaustiveGC::Energy;
 
-void gluedCurve(const std::string& outputFilePath)
+int main(int argc,char* argv[])
 {
-    boost::filesystem::path p(outputFilePath);
-    boost::filesystem::create_directories(p.remove_filename());
-
-
-    typedef GenerateSeedPairs::SeedPair SeedPair;
-    typedef ExhaustiveGC::CheckableSeedPair CheckableSeedPair;
-    typedef ExhaustiveGC::CurveFromJoints CurveFromJoints;
-
-    typedef std::vector< CheckableSeedPair > CheckableSeedPairVector;
-
-
-    DigitalSet ds = DIPaCUS::Shapes::square();
-
-    EnergyInput energyInput(EnergyType::Elastica,EnergyInput::MDCA,1.0,5,0.001);
-    SearchParameters sp(SearchParameters::Strategy::Best, 1, 11, 12,energyInput,2,1000);
-
-    const DGtal::Z2i::Domain& domain = ds.domain();
-    KSpace kspace;
-    kspace.init(domain.lowerBound(),domain.upperBound(),true);
-
-    GCurve::Range gcRange(ds,5);
-    GenerateSeedPairs::SeedPairsList spl;
-    GenerateSeedPairs(spl,gcRange);
-
-
-    FilterSeedPairs(spl,sp.minGCLength,sp.maxGCLength);
-    std::cout << spl.size() << " qualified seeds\n";
-
-
-    CheckableSeedPairVector cspv;
-    std::for_each(spl.begin(),spl.end(),[&cspv](SeedPair sp) mutable {cspv.push_back( CheckableSeedPair(sp) );});
-
-
-    DGtal::Board2D board;
-    board << ds;
-
-    auto mainC = gcRange.beginSeed()->inCirculatorBegin;
-    auto outC = gcRange.beginSeed()->outCirculatorBegin;
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,mainC,mainC);
-    GCurve::Utils::drawCurve(board,DGtal::Color::Silver,DGtal::Color::Silver,outC,outC);
-
-    auto range = magLac::Core::addRange(cspv.begin(),cspv.end(),sp.jointPairs);
-    auto combinator = magLac::Core::Single::createCombinator(range);
-    auto resolver = combinator.resolver();
-
-    typedef decltype(combinator) MyCombinator;
-    typedef MyCombinator::MyResolver MyResolver;
-
-    std::vector<CheckableSeedPair> seedCombination(sp.jointPairs);
-    while( combinator.next(resolver) )
+    if(argc < 2)
     {
-        resolver >> seedCombination;
-        if(seedCombination[0].data().first.type==GCurve::Seed::SeedType::MainOuter) break;
-    }
-
-
-    Curve curve;
-    CurveFromJoints(curve, seedCombination.data(), sp.jointPairs);
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Red,DGtal::Color::Red,curve.begin(),curve.end());
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
-                             seedCombination[0].data().first.inCirculatorBegin,
-                             seedCombination[0].data().first.inCirculatorEnd);
-
-    GCurve::Utils::drawCurve(board,DGtal::Color::Green,DGtal::Color::Green,
-                             seedCombination[0].data().first.inCirculatorEnd,
-                             seedCombination[0].data().second.outCirculatorBegin+1);
-
-    board << DGtal::CustomStyle(curve.begin()->className() + "/Paving", new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Blue));
-    board << seedCombination[0].data().first.linkLinels[0]
-          << seedCombination[0].data().second.linkLinels[0];
-
-
-    board.saveEPS(outputFilePath.c_str());
-
-};
-
-void modelRegions(const std::string& outputFilePath)
-{
-    using namespace SCaBOliC::Core;
-
-    DigitalSet square = DIPaCUS::Shapes::square(1.0,0,0,20);
-    SCaBOliC::Core::ODRPixels odrPixels(3,
-                                        1.0,
-                                        4,
-                                        ODRModel::LevelDefinition::LD_CloserFromCenter,
-                                        ODRModel::FourNeighborhood);
-    ODRModel ODR = odrPixels.createODR(ODRModel::OM_CorrectConvexities,
-                                            ODRModel::AM_AroundBoundary,
-                                            square);
-
-    DGtal::Board2D board;
-    board << DGtal::SetMode(ODR.original.className(),"Paving")
-          << square;
-
-
-    std::string specificStyle = ODR.original.className() + "/Paving";
-
-    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Green));
-    board << ODR.optRegion;
-
-    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Blue));
-    board << ODR.applicationRegion;
-
-    board.saveEPS(outputFilePath.c_str());
-
-}
-
-int main(int argc, char* argv[])
-{
-    if(argc <2)
-    {
-        std::cerr << "Usage: " << argv[0]  << " OutputFolder\n";
+        std::cerr << "Usage: jmiv-figR1 outputFolder";
         exit(1);
     }
 
     std::string outputFolder = argv[1];
 
-    gluedCurve(outputFolder + "/glued-curve-example.eps");
-    modelRegions(outputFolder + "/square-regions.eps");
+    boost::filesystem::path p(outputFolder);
+    boost::filesystem::create_directories(p);
+
+    DigitalSet flower = DIPaCUS::Shapes::flower(0.1,0,0,10,4,2);
+    Image2D flowerImg(flower.domain());
+    DIPaCUS::Representation::digitalSetToImage(flowerImg,flower);
+    DGtal::GenericWriter<Image2D>::exportFile(outputFolder+"/flower.pgm",flowerImg);
+
+    std::vector<Point> extremePoints;
+    extremePoints.push_back(*flower.begin());
+    for(auto p:flower)
+    {
+        Point r = *extremePoints.begin();
+        if(p[0] < r[0])
+        {
+            extremePoints.clear();
+            extremePoints.push_back(p);
+        }else if(p[0]==r[0])
+        {
+            extremePoints.push_back(p);
+        }
+    }
+
+    std::sort(extremePoints.begin(),extremePoints.end(),[](const Point& p1, const Point& p2){ return p1[1]<p2[1]; });
+    Point pMiddle = extremePoints[ extremePoints.size()/2 ];
+
+
+    Curve c;
+    DIPaCUS::Misc::computeBoundaryCurve(c,flower);
+    KSpace kspace;
+    const Domain& domain = flower.domain();
+    kspace.init(domain.lowerBound(),domain.upperBound(),true);
+
+    DGtal::Circulator<Curve::ConstIterator> cBegin(c.begin(),c.begin(),c.end());
+    bool found=false;
+    auto it = cBegin;
+    do
+    {
+        for(auto p:kspace.sUpperIncident(*it))
+        {
+            Point pixel = kspace.sCoords(p);
+            if(pixel==pMiddle)
+            {
+                found=true;
+                break;
+            }
+        }
+
+        if(found) break;
+
+        ++it;
+    }while(it!=cBegin);
+
+    auto segBegin = it-17;
+    auto segEnd = it+20;
+
+
+    Point removeAfterPoint = pMiddle + Point(10,0);
+    DigitalSet clippedFlower = flower;
+    for(auto p:flower)
+    {
+        if(p[0]>removeAfterPoint[0]) clippedFlower.erase(p);
+        if(p[1]>removeAfterPoint[1]+10) clippedFlower.erase(p);
+        if(p[1]<removeAfterPoint[1]-10) clippedFlower.erase(p);
+    }
+
+    DGtal::Board2D board;
+    board << DGtal::CustomStyle(flower.className() + "/paving",new DGtal::CustomColors(DGtal::Color::Silver,DGtal::Color::Silver));
+    board << clippedFlower;
+
+    board << DGtal::CustomStyle(segBegin->className(),new DGtal::CustomColors(DGtal::Color::Green,DGtal::Color::Green));
+    for(auto it=segBegin;it!=segEnd;++it)
+    {
+        board << *it;
+    }
+
+    board << DGtal::CustomStyle(segBegin->className(),new DGtal::CustomColors(DGtal::Color::Blue,DGtal::Color::Blue));
+    for(auto it=segBegin;it!=segEnd;++it)
+    {
+        for(auto p:kspace.sLowerIncident(*it))
+        {
+            board << p;
+        }
+
+    }
+
+
+    board.saveEPS( (outputFolder + "/cellular-grid-illustration.eps").c_str() );
+
 
     return 0;
 }
-
