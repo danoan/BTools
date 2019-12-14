@@ -5,6 +5,7 @@
 #include <opencv2/highgui.hpp>
 #include <DIPaCUS/base/Representation.h>
 #include <SCaBOliC/Core/interface/ODRInterface.h>
+#include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
 
 #include <BTools/core/control/BCControl.h>
 
