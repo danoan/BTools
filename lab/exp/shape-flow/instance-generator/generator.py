@@ -19,7 +19,7 @@ def resolve_output_folder(c):
 
 def regions_of_interest(c):
     outputFolder = resolve_output_folder(c)
-    shape,method,radius,levels,gs,up = c
+    shape,method,radius,levels,gs,optband,up = c
 
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
@@ -31,13 +31,14 @@ def regions_of_interest(c):
                       "%s%d" % ("-n",4),
                       "%s%d" % ("-l",levels['value']),
                       "%s%f" % ("-h", gs['value']),
+                      "%s%d" % ("-O", optband['value']),
                       outputFilepath
                       ] )
 
 def shape_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    shape,method,radius,levels,gs,up = c
+    shape,method,radius,levels,gs,optband,up = c
 
 
     binary = "%s/%s" % (BINARY_FOLDER,"shape-flow")
@@ -52,6 +53,7 @@ def shape_flow(c):
                       "%s%f" % ("-t",0),
                       "%s%f" % ("-g",0),
                       "-u" if up['value'] else "",
+                      "%s%d" % ("-O", optband['value']),
                       "%s%s" % ("-m",method['value']),
                       "%s%f" % ("-h", gs['value']),
                       outputFolder
