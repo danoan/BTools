@@ -28,7 +28,10 @@ def valid_combination(c):
     if levels['value'] > radius['value']:
         return False
 
-    if levels['value'] < radius['value']-3:
+    if levels['value'] < radius['value']-4:
+        return False
+
+    if optband['value']*2 > radius['value']:
         return False
 
     return True
