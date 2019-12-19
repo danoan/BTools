@@ -55,7 +55,7 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Green, DGtal::Color::Green));
     board << ODR.optRegion;
 
-    DigitalSet appRegion = ODR.applicationRegionIn;
+    DigitalSet appRegion = ODR.applicationRegionInn;
     appRegion += ODR.applicationRegionOut;
 
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Red, DGtal::Color::Red));
