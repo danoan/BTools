@@ -20,7 +20,7 @@ def resolve_output_folder(c):
     return output_folder
 
 def boundary_correction(c):
-    gcobject,method,radius,dt,sq,lt,optband,up,iterations = c
+    gcobject,method,radius,dt,sq,lt,levels,optband,up,iterations = c
 
     outputFolder=resolve_output_folder(c)
 
@@ -38,13 +38,14 @@ def boundary_correction(c):
                       "%s%s" % ("-m",method['value']),
                       "%s%s" % ("-o",outputFolder),
                       "%s%d" % ("-O",optband['value']),
+                      "%s%d" % ("-l",levels['value']),
                       "-u" if up else ""])
     tend=time.time()
 
     print("*****Done in: %f seconds" % (tend-tstart,))
 
 def export_seed_mask(c):
-    gcobject,method,radius,dt,sq,lt,optband,up,iterations = c
+    gcobject,method,radius,dt,sq,lt,levels,optband,up,iterations = c
 
     outputFolder=resolve_output_folder(c)
 
@@ -64,17 +65,10 @@ def read_input():
     BINARY_FOLDER = sys.argv[1]
     INPUT_FOLDER = "%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"data")
 
-def valid(c):
-    gcobject,method,radius,dt,sq,lt,optband,up,iterations = c
-    if dt['value']==0 and sq['value']==0 and lt['value']==0:
-        return False
-
-    return True
-
 def main():
     read_input()
     for c in combinations(CONFIG_LIST):
-        if valid(c):
+        if valid_combination(c):
             boundary_correction(c)
             export_seed_mask(c)
 

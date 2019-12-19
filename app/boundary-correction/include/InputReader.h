@@ -15,6 +15,7 @@ namespace BoundaryCorrection
         struct InputData
         {
             typedef BTools::Core::ODRConfigInput ODRConfigInput;
+            typedef ODRConfigInput::LevelDefinition LevelDefinition;
             typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
 
             InputData();
@@ -22,7 +23,10 @@ namespace BoundaryCorrection
             int radius;
             int iterations;
             double optBand;
+            double levels;
 
+            ODRConfigInput::LevelDefinition ld;
+            
             double sqWeight;
             double dtWeight;
             double lgWeight;

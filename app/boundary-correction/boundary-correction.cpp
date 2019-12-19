@@ -67,7 +67,7 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 
 BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
-    double levels = 1;
+    double levels = inputData.levels;
     bool optInApplicationRegion=false;
 
     BCConfigInput bcConfigInput(inputData.radius,
@@ -83,7 +83,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
 
     ODRConfigInput odrConfigInput(inputData.radius, 1.0,
             levels,
-            ODRConfigInput::LevelDefinition::LD_FartherFromCenter,
+            inputData.ld,
             ODRConfigInput::NeighborhoodType::FourNeighborhood,
             ODRConfigInput::ApplicationMode::AM_AroundBoundary,
             optInApplicationRegion,

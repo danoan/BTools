@@ -7,6 +7,8 @@ InputReader::InputData::InputData()
     radius=3;
     iterations=10;
     optBand=3;
+    levels=-1;
+    ld = ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
 
     dtWeight = 0.5;
     sqWeight = 1.0;
@@ -26,7 +28,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:w:uO:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:w:uO:l:"))!=-1)
     {
         switch(opt)
         {
@@ -73,6 +75,12 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
             case 'O':
                 id.optBand = std::atof(optarg);
                 break;
+            case 'l':
+                id.levels= std::atof(optarg);
+                if(id.levels<0) id.ld = InputData::LevelDefinition::LD_FartherFromCenter;
+                else id.ld = InputData::LevelDefinition::LD_CloserFromCenter;
+                id.levels = fabs(id.levels);                 
+                break;                
             default:
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
@@ -89,6 +97,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
                         "[-u Uniform perimeter: default: false] \n"
                         "[-w Pixel mask path] \n"
                         "[-O Optimization band size. default: 3] \n"
+                        "[-l Application level. default: -1] \n"
                         << std::endl;
                 exit(1);
         }
