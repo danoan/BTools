@@ -67,19 +67,22 @@ echo "Summary flow for flower h=0.25"
 
 }
 
-produce_plots()
+square_plot()
 {
     OUTPUT_PLOT=${OUTPUT_FOLDER}/square.eps
 
-    create_multiplot ${OUTPUT_PLOT} "" ${DATA_FOLDER}/squareh1/energy.txt "square(h=1)" \
-    ${DATA_FOLDER}/squareh05/energy.txt "square(h=0.5)" \
-    ${DATA_FOLDER}/squareh05/energy.txt "square(h=0.25)"
+    create_multiplot ${OUTPUT_PLOT} "Square" ${DATA_FOLDER}/squareh1/energy.txt "h=1" \
+    ${DATA_FOLDER}/squareh05/energy.txt "h=0.5" \
+    ${DATA_FOLDER}/squareh025/energy.txt "h=0.25"
+}
 
+flower_plot()
+{
     OUTPUT_PLOT=${OUTPUT_FOLDER}/flower.eps
 
-    create_multiplot ${OUTPUT_PLOT} "" ${DATA_FOLDER}/squareh1/energy.txt ${DATA_FOLDER}/flowerh1/energy.txt "flower(h=1)" \
-    ${DATA_FOLDER}/flowerh05/energy.txt "flower(h=0.5)" \
-    ${DATA_FOLDER}/flowerh05/energy.txt "flower(h=0.25)"
+    create_multiplot ${OUTPUT_PLOT} "Flower" ${DATA_FOLDER}/flowerh1/energy.txt "h=1" \
+    ${DATA_FOLDER}/flowerh05/energy.txt "h=0.5" \
+    ${DATA_FOLDER}/flowerh025/energy.txt "h=0.25"
 }
 
 gp_plot_config()
@@ -88,10 +91,14 @@ gp_plot_config()
     printf "set title '$1';
     set xlabel 'Iterations';
     set ylabel 'Elastica ({/Symbol a}=0.01, {/Symbol b}=1)';"
+
+    printf "set arrow 10 from 0,1.2566 to graph 1, first 1.2566 nohead lw 2 dt 2;
+            set yrange [1:];"
 }
 
 source ${PLOT_SCRIPT_FOLDER}/graph-plot.sh
 
 produce_data
 produce_figures
-produce_plots
+square_plot
+flower_plot

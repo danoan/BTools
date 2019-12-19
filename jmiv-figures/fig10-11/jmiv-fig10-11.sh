@@ -205,12 +205,12 @@ gp_plot_config()
 
 gp_add_plot()
 {
-    printf "'$1' u 1:3 w l title '$2',"
+    printf "'$1' u 1:3 w lp ls $3 title '$2',"
 }
 
 gp_last_plot()
 {
-	printf "'$1' u 1:3 w l title '$2';"
+	printf "'$1' u 1:3 w lp ls $3 title '$2';"
 }
 
 lower_higher_level_plot concavities probe 0.5 5
