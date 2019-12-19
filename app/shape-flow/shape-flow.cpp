@@ -28,8 +28,8 @@ int main(int argc, char* argv[])
                                        id.uniformPerimeter,
                                        0,
                                        id.optMethod,
-                                       id.innerBallCoef,
-                                       id.outerBallCoef);
+                                       id.innerBallCoeff,
+                                       id.outerBallCoeff);
 
     FlowControl::ODRConfigInput odrConfigInput(id.radius,
                                                id.gridStep,

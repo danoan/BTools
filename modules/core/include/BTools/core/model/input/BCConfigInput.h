@@ -23,8 +23,8 @@ namespace BTools
                           bool uniformPerimeter,
                           int initialDilation,
                           QPBOSolverType solverType,
-                          double innerBallCoef,
-                          double outerBallCoef):radius(radius),
+                          double innerBallCoeff,
+                          double outerBallCoeff):radius(radius),
                                                      dataTermWeight(dataTermWeight),
                                                      sqTermWeight(sqTermWeight),
                                                      lengthTermWeight(lengthTermWeight),
@@ -32,8 +32,8 @@ namespace BTools
                                                      uniformPerimeter(uniformPerimeter),
                                                      initialDilation(initialDilation),
                                                      solverType(solverType),
-                                                     innerBallCoef(innerBallCoef),
-                                                     outerBallCoef(outerBallCoef){}
+                                                     innerBallCoeff(innerBallCoeff),
+                                                     outerBallCoeff(outerBallCoeff){}
 
             double radius;
             double dataTermWeight;
@@ -46,7 +46,7 @@ namespace BTools
 
             QPBOSolverType solverType;
 
-            double innerBallCoef,outerBallCoef;
+            double innerBallCoeff,outerBallCoeff;
         };
     }
 }

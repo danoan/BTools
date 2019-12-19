@@ -47,7 +47,7 @@ namespace BTools
                 bool excludeOptPointsFromAreaComputation;
                 bool uniformPerimeter;
 
-                double innerBallCoef,outerBallCoef;
+                double innerBallCoeff,outerBallCoeff;
 
                 ApplicationMode am;
 

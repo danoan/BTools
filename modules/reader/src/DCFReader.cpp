@@ -28,8 +28,8 @@ DCFReader::InputData DCFReader::defaultValues()
     id.excludeOptPointsFromAreaComputation = false;
     id.am = InputData::ApplicationMode::AM_OptimizationBoundary;
 
-    id.innerBallCoef = 1.0;
-    id.outerBallCoef = 1.0;
+    id.innerBallCoeff = 1.0;
+    id.outerBallCoeff = 1.0;
 
     return id;
 }
@@ -136,12 +136,12 @@ DCFReader::InputData DCFReader::readInput(int argc,char** argv,const std::string
             }
             case 'a':
             {
-                id.innerBallCoef = std::atof(optarg);
+                id.innerBallCoeff = std::atof(optarg);
                 break;
             }
             case 'z':
             {
-                id.outerBallCoef = std::atof(optarg);
+                id.outerBallCoeff = std::atof(optarg);
                 break;
             }
             case 'u':
