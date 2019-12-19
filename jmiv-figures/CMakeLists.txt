@@ -1,5 +1,5 @@
 add_subdirectory(fig1)
 add_subdirectory(fig2)
-add_subdirectory(fig6)
-add_subdirectory(fig10)
-add_subdirectory(fig11-12)
+add_subdirectory(fig5)
+add_subdirectory(fig9)
+add_subdirectory(fig10-11)

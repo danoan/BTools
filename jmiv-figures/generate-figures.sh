@@ -21,6 +21,8 @@ echo "Generating JMIV figure 2"
 ${SCRIPT_FOLDER}/fig2/jmiv-fig2.sh ${BTOOLS_BIN} ${EXT_BIN}
 echo "Generating JMIV figure 3 and 4"
 ${SCRIPT_FOLDER}/fig3-4/jmiv-fig3-4.sh ${BTOOLS_BIN} ${EXT_BIN}
+echo "Generating JMIV figure 5"
+${SCRIPT_FOLDER}/fig5/jmiv-fig5.sh ${BTOOLS_BIN} ${EXT_BIN}
 echo "Generating JMIV figure 6"
 ${SCRIPT_FOLDER}/fig6/jmiv-fig6.sh ${BTOOLS_BIN} ${EXT_BIN}
 echo "Generating JMIV figure 7"
@@ -30,10 +32,8 @@ ${SCRIPT_FOLDER}/fig8/jmiv-fig8.sh ${BTOOLS_BIN} ${EXT_BIN}
 echo "Generating JMIV figure 9"
 ${SCRIPT_FOLDER}/fig9/jmiv-fig9.sh ${BTOOLS_BIN} ${EXT_BIN}
 echo "Generating JMIV figure 10"
-${SCRIPT_FOLDER}/fig10/jmiv-fig10.sh ${BTOOLS_BIN} ${EXT_BIN}
-echo "Generating JMIV figure 11 and 12"
-${SCRIPT_FOLDER}/fig11-12/jmiv-fig11-12.sh ${BTOOLS_BIN} ${EXT_BIN}
-echo "Generating JMIV figure 13"
-${SCRIPT_FOLDER}/fig13/jmiv-fig13.sh ${BTOOLS_BIN} ${EXT_BIN}
-echo "Generating JMIV figure 14-15"
-${SCRIPT_FOLDER}/fig14-15/jmiv-fig14-15.sh ${BTOOLS_BIN} ${EXT_BIN}
+${SCRIPT_FOLDER}/fig10-11/jmiv-fig10-11.sh ${BTOOLS_BIN} ${EXT_BIN}
+echo "Generating JMIV figure 12"
+${SCRIPT_FOLDER}/fig12/jmiv-fig12.sh ${BTOOLS_BIN} ${EXT_BIN}
+echo "Generating JMIV figure 13-14"
+${SCRIPT_FOLDER}/fig13-14/jmiv-fig13-14.sh ${BTOOLS_BIN} ${EXT_BIN}

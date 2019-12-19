@@ -3,7 +3,7 @@
 gp_save()
 {
 	printf "set size 1.0, 0.6;
-		set terminal postscript portrait enhanced color dashed lw 2 \"Helvetica\" 20;
+		set terminal postscript portrait enhanced color lw 2 \"Helvetica\" 20;
 		set key right top;
 		set output \"my-plot.ps\";
 		replot;
@@ -13,12 +13,12 @@ gp_save()
 
 gp_add_plot()
 {
-    printf "'$1' u 1:2 w l title '$2',"
+    printf "'$1' u 1:2 w l lt $3 dt $3 title '$2',"
 }
 
 gp_last_plot()
 {
-	printf "'$1' u 1:2 w l title '$2';"
+	printf "'$1' u 1:2 w l lt $3 dt $3 title '$2';"
 }
 
 
@@ -33,12 +33,12 @@ create_multiplot()
 
 	while [ ${i} -lt ${num_plots} ]
 	do
+	    i=`expr $i + 1`
+
 		subplotDataFile=$1
 		subplotTitle=$2
-		buffer="${buffer}$(gp_add_plot $subplotDataFile $subplotTitle)"
+		buffer="${buffer}$(gp_add_plot $subplotDataFile $subplotTitle $i)"
 		shift; shift;
-
-		i=`expr $i + 1`
 	done
 
 	if [ $num_plots -eq 0 ]
