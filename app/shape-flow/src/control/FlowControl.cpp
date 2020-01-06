@@ -140,7 +140,8 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
     std::ofstream os(outputFolder + "/" + inputName + ".txt");
 
 
-    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(60,60));
+    int borderSize = 30/odrConfigInput.gridStep;
+    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(borderSize,borderSize));
     Domain flowDomain = ds.domain();
 
 
