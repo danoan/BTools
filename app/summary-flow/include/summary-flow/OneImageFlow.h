@@ -41,7 +41,10 @@ namespace SummaryFlow
                      int seqTep=1,
                      ImageOutputType iot=SVG,                     
                      const std::string& pixelMaskPath="",
-                     const std::string& dirsMaskPath="");
+                     const std::string& dirsMaskPath="",
+                     bool drawCenterBall=false,
+                     double radius=5,
+                     double h=1.0);
 
     private:
         SetPoint setFromMask(const std::string& imgPath);

@@ -12,6 +12,11 @@ namespace SummaryFlow
         InputData()
         {
             jumpStep=5;
+
+            drawCenterBall=false;
+            radius=5;
+            h=1.0;
+
             pixelMaskPath="";
             dirsMaskPath="";
             flowImagesFolderPath="";
@@ -20,6 +25,9 @@ namespace SummaryFlow
         }
 
         int jumpStep;
+        double radius;
+        double h;
+        bool drawCenterBall;
         std::string pixelMaskPath;
         std::string dirsMaskPath;
 

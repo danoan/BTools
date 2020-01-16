@@ -20,6 +20,8 @@ namespace SummaryFlow
         PixelSet incidentPixels(const Domain& domain, const LinelSet& ls);
         DigitalSet eliminatePixels(const DigitalSet& ds, const PixelSet& ps);
         DigitalSet eliminatePixels(const DigitalSet&ds, const LinelSet& ls);
+        DigitalSet imageToDigitalSet(const std::string& imgPath);
+        DigitalSet centerBall(const std::set<Point>& lastSP,double radius, double h);
     }
 
 }

@@ -104,7 +104,10 @@ namespace SummaryFlow
                                int seqStep,
                                ImageOutputType iot,
                                const std::string& pixelMaskPath,
-                               const std::string& dirsMaskPath)
+                               const std::string& dirsMaskPath,
+                               bool drawCenterBall,
+                               double radius,
+                               double h)
     {
         boost::filesystem::path imageSrcPath(imageSrcFolder);
         boost::filesystem::directory_iterator di(imageSrcPath);
@@ -137,18 +140,7 @@ namespace SummaryFlow
         for(auto it=vectorOfImgPath.begin();it!=vectorOfImgPath.end();++it)
         {
             SetPoint sp;
-            cv::Mat cvImg = cv::imread(*it);
-
-            cv::Mat grayscale(cvImg.size(),
-                              CV_8UC1);
-
-            if(cvImg.type()!=CV_8UC1)
-                cv::cvtColor(cvImg,grayscale,cv::COLOR_RGB2GRAY,1);
-
-
-            DigitalSet ds( Domain(Point(0,0),Point(grayscale.cols-1,grayscale.rows-1) ) );
-
-            DIPaCUS::Representation::CVMatToDigitalSet(ds,grayscale);
+            DigitalSet ds = Utils::imageToDigitalSet(*it);
 
             DigitalSet boundaryDS(ds.domain());
             DIPaCUS::Misc::digitalBoundary<Pred8>(boundaryDS,ds);
@@ -161,8 +153,14 @@ namespace SummaryFlow
                 setPointFamily.push_back(sp);
             }
 
-
         }
+
+        if(drawCenterBall)
+        {
+            DigitalSet ballContour = Utils::centerBall(setPointFamily.back(),radius,h);
+            dirs.insert(ballContour.begin(),ballContour.end());
+        }
+
 
         createUnifiedImage(imageOutputPath,
                            setPointFamily.begin(),

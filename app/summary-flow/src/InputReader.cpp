@@ -8,6 +8,8 @@ namespace SummaryFlow
         {
             std::cerr << "Usage " << argv[0] << ": FlowImagesFolderPath OutputFilePath \n"
             << "-j [Jump step (default: 5) ]\n"
+            << "-r [Center ball radius (default: 5) ]\n"
+            << "-h [Center ball grid step (default: 1.0) ]\n"
             << "-p [ path to pixelMask ]\n"
             << "-d [ path to dirsMask ]\n";
         }
@@ -23,7 +25,7 @@ namespace SummaryFlow
             InputData id;
             int opt;
 
-            while( (opt=getopt(argc,argv,"j:p:d:") )!=-1 )
+            while( (opt=getopt(argc,argv,"j:p:d:r:h:") )!=-1 )
             {
                 switch(opt)
                 {
@@ -40,6 +42,18 @@ namespace SummaryFlow
                     case 'd':
                     {
                         id.dirsMaskPath = optarg;
+                        break;
+                    }
+                    case 'r':
+                    {
+                        id.radius = std::atof(optarg);
+                        id.drawCenterBall=true;
+                        break;
+                    }
+                    case 'h':
+                    {
+                        id.h= std::atof(optarg);
+                        id.drawCenterBall=true;
                         break;
                     }
                     default:
