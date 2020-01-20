@@ -24,6 +24,9 @@ int main(int argc, char* argv[])
     boost::filesystem::path srcImagePath( id.flowImagesFolderPath );
     std::string name = srcImagePath.stem().string();
 
+    boost::filesystem::path outputFilePath = id.outputFilePath;
+    boost::filesystem::create_directories(outputFilePath.remove_filename());
+
     SummaryFlow::OneImageFlow oif(srcImagePath.string(),id.outputFilePath,id.jumpStep,id.iot,id.pixelMaskPath,id.dirsMaskPath,id.drawCenterBall,id.radius,id.h);
 
     return 0;
