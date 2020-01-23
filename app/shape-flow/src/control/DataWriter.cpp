@@ -66,13 +66,16 @@ void DataWriter::printTable(const std::string& inputName,const double gridStep,c
     for(auto it=entries.begin();it!=entries.end();++it)
     {
         if(it->solution.outputDS.size()==0) continue;
-
         const EnergySolution &curr = (it->solution);
+
+        double numVars = curr.labelsVector.rows();
+        double unlabeledRatio = numVars==0?0:curr.unlabeled/numVars;
+
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
         outputElasticaEnergy(it->solution.outputDS,gridStep,os);
         outputShapePerimeter(it->solution.outputDS,os);
-        os << fnD(colLength,curr.unlabeled) << "\t\n";
+        os << fnD(colLength,unlabeledRatio) << "\t\n";
     }
 }
 
