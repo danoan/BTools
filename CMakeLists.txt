@@ -32,6 +32,9 @@ set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, crea
 set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
 
 project(btools)
+set(VERSION_BTOOLS_CORE v0.1)
+set(VERSION_BTOOLS_READER v0.1)
+set(VERSION_BTOOLS_UTILS v0.1)
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -72,8 +75,5 @@ if(${BUILD_APPLICATIONS})
     add_subdirectory(app/summary-flow)
 endif()
 
-if(${BUILD_FIGURES})
-    add_subdirectory(jmiv-figures)
-endif()
 
 

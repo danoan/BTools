@@ -19,6 +19,10 @@ else()
     add_dependencies(btools-core btools-utils)
 endif()
 
+set_target_properties(btools-core
+        PROPERTIES
+        VERSION ${VERSION_BTOOLS_CORE})
+
 
 target_include_directories(btools-core PRIVATE
         include

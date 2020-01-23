@@ -13,6 +13,10 @@ if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-reader scabolic)
 endif()
 
+set_target_properties(btools-reader
+        PROPERTIES
+        VERSION ${VERSION_BTOOLS_READER})
+
 target_include_directories(btools-reader PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include
