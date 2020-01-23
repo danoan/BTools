@@ -1,6 +1,6 @@
 ExternalProject_Add(gcurve
         GIT_REPOSITORY https://github.com/danoan/GCurve.git
-        GIT_TAG v0.1
+        GIT_TAG v0.2
         SOURCE_DIR ${EXTPROJECTS_SOURCE_DIR}/GCurve
         CMAKE_ARGS
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
@@ -9,6 +9,7 @@ ExternalProject_Add(gcurve
         -DUSE_REMOTE_REPOSITORIES=OFF
         -DDIPACUS_INCLUDE_DIRS=${EXTPROJECTS_BUILD_DIR}/include
         -DDIPACUS_LIBS_DIR=${EXTPROJECTS_BUILD_DIR}/lib
-        -DCREATE_SHARED_LIBRARIES=ON)
+        -DCREATE_SHARED_LIBRARIES=ON
+        -DBUILD_TESTS=OFF)
 
 add_dependencies(gcurve dipacus)

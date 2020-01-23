@@ -66,9 +66,6 @@ namespace BTools
                            const ISQInputData& energyInput,
                            const ISQEnergy& energy);
 
-            void printData(const Solution& solution,
-                           const ISQEnergy& energy);
-
         };
     }
 }

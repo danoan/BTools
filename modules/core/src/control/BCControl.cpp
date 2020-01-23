@@ -49,21 +49,3 @@ void BCControl::updateSet(Solution& solution,
 
 }
 
-
-void BCControl::printData(const Solution& solution,
-                          const ISQEnergy& energy)
-{
-    std::cout << "Energy Value: " << solution.energyValue << std::endl;
-    std::cout << "Unlabelled: " << solution.unlabeled << std::endl;
-
-    const Solution::LabelsVector& labelsVector = solution.labelsVector;
-
-    std::cout << "Data Energy: " << energy.dataEnergy(labelsVector) << std::endl;
-    std::cout << "SQ Energy: " << energy.sqEnergy(labelsVector) << std::endl;
-
-    std::cout << "Data Energy Not Normalized: " << energy.dataEnergyNotNormalized(labelsVector) << std::endl;
-    std::cout << "SQ Energy Not Normalized: " << energy.sqEnergyNotNormalized(labelsVector) << std::endl;
-
-    std::cout << "Data Term Real Value: " << energy.dataRealValue(labelsVector) << std::endl;
-    std::cout << "SQ Term Real Value: " << energy.sqRealValue(labelsVector) << std::endl;
-}

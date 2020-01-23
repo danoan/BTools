@@ -15,7 +15,8 @@ namespace Fig2
 
             DigitalSet ds = DIPaCUS::Shapes::square();
 
-            EnergyInput energyInput(EnergyType::Elastica,EnergyInput::MDCA,1.0,5,0.001);
+            EnergyInput::LinelSet fixedLinels;
+            EnergyInput energyInput(EnergyType::Elastica,EnergyInput::MDCA,1.0,5,0.001,fixedLinels);
             SearchParameters sp(SearchParameters::Strategy::Best, 1, 11, 12,energyInput,2,1000);
 
             const DGtal::Z2i::Domain& domain = ds.domain();

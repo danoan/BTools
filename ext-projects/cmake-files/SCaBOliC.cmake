@@ -1,6 +1,6 @@
 ExternalProject_Add(scabolic
         GIT_REPOSITORY https://github.com/danoan/SCaBOliC.git
-        GIT_TAG v0.1
+        GIT_TAG v0.2
         SOURCE_DIR ${EXTPROJECTS_SOURCE_DIR}/SCaBOliC
         CMAKE_ARGS
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
@@ -10,6 +10,8 @@ ExternalProject_Add(scabolic
         -DDIPACUS_INCLUDE_DIRS=${EXTPROJECTS_BUILD_DIR}/include
         -DDIPACUS_LIBS_DIR=${EXTPROJECTS_BUILD_DIR}/lib
         -DGEOC_INCLUDE_DIRS=${EXTPROJECTS_BUILD_DIR}/include
-        -DCREATE_SHARED_LIBRARIES=ON)
+        -DCREATE_SHARED_LIBRARIES=ON
+        -DBUILD_TESTS=OFF
+        -DBUILD_APPLICATIONS=OFF)
 
 add_dependencies(scabolic dipacus geoc)

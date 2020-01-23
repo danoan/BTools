@@ -2,15 +2,14 @@
 
 using namespace ShapeFlow;
 
-void DataWriter::outputElasticaEnergy(const DigitalSet& ds, std::ostream& os)
+void DataWriter::outputElasticaEnergy(const DigitalSet& ds, const double gridStep,std::ostream& os)
 {
     int colLength=20;
     std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
     double IIValue,MDCAValue;
 
-    SCaBOliC::Utils::ISQEvaluation(MDCAValue,ds,
-                                   SCaBOliC::Utils::ISQEvaluation::MDCA);
+    MDCAValue = SCaBOliC::Utils::ISQEvaluation::mdca(ds,gridStep);
 
     os << fnD(colLength,MDCAValue) << "\t";
 }
@@ -49,7 +48,7 @@ void DataWriter::outputShapePerimeter(const DigitalSet& ds, std::ostream& os)
     os << fnD(colLength,perimeter) << "\t";
 }
 
-void DataWriter::printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os)
+void DataWriter::printTable(const std::string& inputName,const double gridStep,const std::vector<TableEntry> &entries, std::ostream &os)
 {
     os << "#Image: " << inputName << "\n#\n";
     int colLength=20;
@@ -71,7 +70,7 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
         const EnergySolution &curr = (it->solution);
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
-        outputElasticaEnergy(it->solution.outputDS,os);
+        outputElasticaEnergy(it->solution.outputDS,gridStep,os);
         outputShapePerimeter(it->solution.outputDS,os);
         os << fnD(colLength,curr.unlabeled) << "\t\n";
     }

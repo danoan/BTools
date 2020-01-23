@@ -31,10 +31,10 @@ namespace ShapeFlow
             std::string name;
         };
 
-        void outputElasticaEnergy(const DigitalSet& ds, std::ostream& os);
+        void outputElasticaEnergy(const DigitalSet& ds,const double gridStep, std::ostream& os);
         void outputShapePerimeter(const DigitalSet& ds, std::ostream& os);
 
-        void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
+        void printTable(const std::string& inputName,const double gridStep, const std::vector<TableEntry> &entries, std::ostream &os);
 
         void printFlowMetadata(const BCFlowInput &bcFlowInput,
         const DigitalSet& dsZero,

@@ -152,8 +152,7 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco,
     const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
 
     double outputElasticaEnergy,inputElasticaEnergy;
-    SCaBOliC::Utils::ISQEvaluation(outputElasticaEnergy,
-                                   solution.outputDS,SCaBOliC::Utils::ISQEvaluation::MDCA);
+    outputElasticaEnergy = SCaBOliC::Utils::ISQEvaluation::mdca(solution.outputDS,1.0);
 
     cv::Mat gcSegImage = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(gcSegImage ,gco.segMask);
@@ -166,8 +165,7 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco,
     cv::cvtColor(gcSegImage,grayImage,cv::ColorConversionCodes::COLOR_BGR2GRAY);
 
     DIPaCUS::Representation::CVMatToDigitalSet(baseImageDS,grayImage);
-    SCaBOliC::Utils::ISQEvaluation(inputElasticaEnergy,
-                                   baseImageDS,SCaBOliC::Utils::ISQEvaluation::MDCA);
+    inputElasticaEnergy = SCaBOliC::Utils::ISQEvaluation::mdca(baseImageDS,1.0);
 
     std::ofstream ofs(outputFolder + "/energy.txt");
     ofs << "GrabCut Segmentation Elastica Energy: " << inputElasticaEnergy << "\n"

@@ -32,6 +32,9 @@ set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, crea
 set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
 
 project(btools)
+set(VERSION_BTOOLS_CORE v0.2)
+set(VERSION_BTOOLS_READER v0.2)
+set(VERSION_BTOOLS_UTILS v0.2)
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
