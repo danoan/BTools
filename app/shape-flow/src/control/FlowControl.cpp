@@ -141,6 +141,7 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
     Domain solutionDomain(Point(0,0),Point(img.cols-1,img.rows-1));
 
     int i=1;
+    double lastValue=0;
     try
     {
         do
@@ -162,6 +163,10 @@ void FlowControl::shapeFlow(const DigitalSet& _ds,
 
                 currImagePath = outputFolder + "/" + BTools::Utils::nDigitsString(i,4) + ".pgm";
                 BTools::Utils::exportImageFromDigitalSet(correctedSet,flowDomain,currImagePath);
+
+                cv::Mat newImage = cv::imread(currImagePath,cv::IMREAD_COLOR);
+                if(i>1 && lastValue==bcaOutput.energySolution.energyValue) break;
+                lastValue=bcaOutput.energySolution.energyValue;
 
 
             ++i;
