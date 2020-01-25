@@ -47,7 +47,7 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
 
     SetPointSequenceIterator itS;
     int jump = 0;
-    for(itS=begin;itS!=end;++itS,++c,--jump)
+    for(itS=begin;itS!=end;++itS,--jump)
     {
         if(jump>0) continue;
 
@@ -60,6 +60,7 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
         ds.clear();
 
         jump=seqStep;
+        ++c;
     }
     itS = begin;
     while(itS+1!=end)++itS;
@@ -94,9 +95,9 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
         }
         ++di;
     }
-    
+
     if(seqStep<0) seqStep=numImages/10;
-    
+
     std::sort(vectorOfImgPath.begin(),vectorOfImgPath.end());
 
     std::vector< SetPoint > setPointFamily;
