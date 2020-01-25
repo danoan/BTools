@@ -83,15 +83,20 @@ OneImageFlow::OneImageFlow(const std::string& imageSrcFolder,
 
     std::vector<std::string> vectorOfImgPath;
     boost::filesystem::path currPath;
+    int numImages=0;
     while( di!=boost::filesystem::directory_iterator() )
     {
         currPath = di->path();
         if(boost::filesystem::is_regular_file(currPath) && currPath.extension().string()==".pgm")
         {
             vectorOfImgPath.push_back(currPath.string());
+            numImages+=1;
         }
         ++di;
     }
+    
+    if(seqStep<0) seqStep=numImages/10;
+    
     std::sort(vectorOfImgPath.begin(),vectorOfImgPath.end());
 
     std::vector< SetPoint > setPointFamily;

@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    int jumpStep = 2;
+    int jumpStep = -1;
     OneImageFlow::ImageOutputType iot=OneImageFlow::SVG;
     if(argc>=4) jumpStep = atoi(argv[3]);
 
