@@ -45,7 +45,7 @@ namespace SummaryFlow
         Board2D board;
         SetPointSequenceIterator itS;
         int jump = 0;
-        for(itS=begin+1;itS!=end;++itS,++c,--jump)
+        for(itS=begin+1;itS!=end;++itS,--jump)
         {
             if(jump>0) continue;
 
@@ -57,6 +57,7 @@ namespace SummaryFlow
             ds.clear();
 
             jump=seqStep;
+            ++c;
         }
         itS = begin;
 
