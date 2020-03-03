@@ -11,7 +11,7 @@ namespace SummaryFlow
     {
         InputData()
         {
-            jumpStep=5;
+            jumpStep=-1;
 
             drawCenterBall=false;
             radius=5;

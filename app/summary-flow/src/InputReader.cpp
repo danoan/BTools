@@ -7,7 +7,7 @@ namespace SummaryFlow
         void usage(int argc,char* argv[])
         {
             std::cerr << "Usage " << argv[0] << ": FlowImagesFolderPath OutputFilePath \n"
-            << "-j [Jump step (default: 5) ]\n"
+            << "-j [Jump step (default: -1 (automatic)) ]\n"
             << "-r [Center ball radius (default: 5) ]\n"
             << "-h [Center ball grid step (default: 1.0) ]\n"
             << "-p [ path to pixelMask ]\n"
