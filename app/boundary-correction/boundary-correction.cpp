@@ -69,9 +69,14 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
     typedef BTools::Core::BCFlowInput BCFlowInput;
-    int levels = 1;
+    int levels = inputData.levels;
     bool optInApplicationRegion=false;
     bool repeatedImprovement = false;
+
+    ODRConfigInput::LevelDefinition ld;
+    if(levels<0) ld = ODRConfigInput::LevelDefinition::LD_FartherFromCenter;
+    else ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
+    levels = abs(levels);
 
     BCConfigInput bcConfigInput(inputData.radius,
                                 inputData.dtWeight,

@@ -6,6 +6,7 @@ InputReader::InputData::InputData()
 {
     radius=3;
     iterations=10;
+    levels=3;
 
     dtWeight = 0.5;
     sqWeight = 1.0;
@@ -24,7 +25,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"r:i:q:t:g:m:so:vxd:"))!=-1)
+    while( (opt=getopt(argc,argv,"r:i:l:q:t:g:m:so:vxd:"))!=-1)
     {
         switch(opt)
         {
@@ -33,6 +34,9 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
                 break;
             case 'i':
                 id.iterations= atoi(optarg);
+                break;
+            case 'l':
+                id.levels= atoi(optarg);
                 break;
             case 'q':
                 id.sqWeight = atof(optarg);
@@ -66,6 +70,7 @@ InputReader::InputData InputReader::readInput(int argc, char** argv)
                 std::cerr << "Usage: GRABCUT_FILE_PATH \n"
                         "[-r Ball Radius default 3] \n"
                         "[-i Max Iterations default 10] \n"
+                        "[-l Computation levels. If negative, select LD_FartherFromCenter. Default: Ball radius] \n"
                         "[-q Squared Curvature Term weight default: 1.0] \n"
                         "[-t Data Term weight default: 1.0] \n"
                         "[-g Length Term weight default: 1.0] \n"
