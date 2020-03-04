@@ -21,7 +21,7 @@ namespace GrabCut
         this->unknownMask= cv::imread(uknMaskPath,cv::IMREAD_GRAYSCALE);
     }
 
-    GrabCutOutput GrabCutApplication::run()
+    GrabCutOutput GrabCutApplication::run(const int iterations)
     {
         GrabCutOutput gco;
         gco.grabCutMask = cv::Mat::zeros(cvImg.size(),CV_8UC1);
@@ -50,7 +50,7 @@ namespace GrabCut
                     cv::Rect(),
                     bgModel,
                     fgModel,
-                    1,
+                    iterations,
                     cv::GC_INIT_WITH_MASK);
 
 

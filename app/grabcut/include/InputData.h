@@ -8,7 +8,7 @@ namespace GrabCut
 {
     struct InputData
     {
-        InputData():showSeg(false){}
+        InputData():showSeg(false),iterations(1){}
 
         std::string imgPath;
         std::string outputObject;
@@ -17,6 +17,8 @@ namespace GrabCut
         std::string unknownMask;
         std::string fgSeedMask;
         std::string bgSeedMask;
+
+        int iterations;
 
         bool showSeg;
     };

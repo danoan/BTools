@@ -18,7 +18,7 @@ namespace GrabCut
 
         InputData id;
         char opt;
-        while( (opt=getopt(argc,argv,"u:o:s"))!=-1 )
+        while( (opt=getopt(argc,argv,"u:o:i:s"))!=-1 )
         {
             switch(opt)
             {
@@ -30,6 +30,11 @@ namespace GrabCut
                 case 'o':
                 {
                     id.outputSegImage = optarg;
+                    break;
+                }
+                case 'i':
+                {
+                    id.iterations = std::atoi(optarg);
                     break;
                 }
                 case 's':

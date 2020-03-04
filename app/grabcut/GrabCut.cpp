@@ -15,7 +15,8 @@ using namespace BTools::Utils::GrabCutIO;
 GrabCutOutput runGrabCut(const std::string& imgPath,
                          const std::string& unknownMask,
                          const std::string& fgSeedMask,
-                         const std::string& bgSeedMask)
+                         const std::string& bgSeedMask,
+                         const int iterations)
 {
     cv::Mat cvImg = cv::imread(imgPath);
     GrabCutApplication gca(cvImg);
@@ -24,7 +25,7 @@ GrabCutOutput runGrabCut(const std::string& imgPath,
     gca.setFGMask(fgSeedMask);
     gca.setBGMask(bgSeedMask);
 
-    return gca.run();
+    return gca.run(iterations);
 }
 
 cv::Mat constructSeedMask( const std::string& inputImagePath,
@@ -57,7 +58,7 @@ int main(int argc, char* argv[])
     InputData id = readInput(argc,argv);
 
     cv::Mat inputImg = cv::imread(id.imgPath);
-    GrabCutOutput gco = runGrabCut(id.imgPath,id.unknownMask,id.fgSeedMask,id.bgSeedMask);
+    GrabCutOutput gco = runGrabCut(id.imgPath,id.unknownMask,id.fgSeedMask,id.bgSeedMask,id.iterations);
 
     GrabCutObject gcObject;
     gcObject.grabCutMask = gco.grabCutMask;

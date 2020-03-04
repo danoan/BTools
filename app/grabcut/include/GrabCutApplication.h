@@ -16,7 +16,7 @@ namespace GrabCut
         void setBGMask(const std::string& bgMaskPath);
         void setUnknownMask(const std::string& uknMaskPath);
 
-        GrabCutOutput run();
+        GrabCutOutput run(const int iterations);
 
     private:
         const cv::Mat& cvImg;
