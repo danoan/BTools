@@ -37,8 +37,8 @@ cv::Mat constructSeedMask( const std::string& inputImagePath,
     cv::Mat fg = cv::imread(fgSeedMaskPath,CV_8UC1);
     cv::Mat bg = cv::imread(bgSeedMaskPath,CV_8UC1);
 
-    outImg.setTo(cv::Scalar(0,255,0),fg);
-    outImg.setTo(cv::Scalar(120,120,120),bg);
+    outImg.setTo(FG_SEED_COLOR,fg);
+    outImg.setTo(BG_SEED_COLOR,bg);
     if(unknownMaskPath!="")
     {
         cv::Mat pbfg = cv::imread(unknownMaskPath,CV_8UC1);
@@ -46,7 +46,7 @@ cv::Mat constructSeedMask( const std::string& inputImagePath,
         cv::findContours( pbfg, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
         cv::Rect r = cv::boundingRect(contours[0]);
-        cv::rectangle(outImg,r,cv::Scalar(0,0,255),4);
+        cv::rectangle(outImg,r,PBFG_SEED_COLOR,4);
 
     }
 
@@ -66,6 +66,9 @@ int main(int argc, char* argv[])
     gcObject.inputImage = inputImg;
     gcObject.seeds = constructSeedMask(id.imgPath,id.fgSeedMask,id.bgSeedMask,id.unknownMask);
     BTools::Utils::GrabCutIO::write(gcObject,id.outputObject);
+
+    cv::Mat fg,bg,pbfg;
+    BTools::Utils::GrabCutIO::getSeedMasks(gcObject,fg,bg,pbfg);
 
     cv::Mat segResultImg = cv::Mat::zeros(inputImg.size(),CV_8UC4);
 
