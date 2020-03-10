@@ -16,6 +16,7 @@
 
 #include "BTools/utils/imgUtils.h"
 #include "BTools/utils/model/GrabCutObject.h"
+#include "BTools/utils/timer.h"
 
 #include "InputReader.h"
 
@@ -69,6 +70,7 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
 {
     double levels = inputData.levels;
     bool optInApplicationRegion=false;
+
 
     BCConfigInput bcConfigInput(inputData.radius,
                                 inputData.dtWeight,
@@ -171,6 +173,9 @@ void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco,
     std::ofstream ofs(outputFolder + "/energy.txt");
     ofs << "GrabCut Segmentation Elastica Energy: " << inputElasticaEnergy << "\n"
         << "Boundary Correction Elastica Energy: " << outputElasticaEnergy << std::endl;
+
+    ofs << "#Execution time: ";
+    BTools::Utils::Timer::end(ofs);
     ofs.close();
 }
 
@@ -181,6 +186,7 @@ int main(int argc, char* argv[])
 
     GrabCutObject gco = read(inputData.grabcutFile);
 
+    BTools::Utils::Timer::start();
     BCApplicationOutput bcaOutput = boundaryCorrection(inputData,gco);
 
     if(inputData.outputFolder!="")
