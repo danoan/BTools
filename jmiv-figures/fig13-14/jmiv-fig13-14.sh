@@ -58,9 +58,8 @@ configure_schoenemann()
     LINE=$(find_line_number_first_ocurrence "COINLIBDIR =" "${EXT_FOLDER}/RegionCurv/Makefile")
     replace_line "${EXT_FOLDER}/RegionCurv/Makefile" ${LINE} "COINLIBDIR = ${EXT_FOLDER}/cbc-build/lib"
 
-    cd ${EXT_FOLDER}/RegionCurv/common
-    make
-    cd ..
+    cd ${EXT_FOLDER}/RegionCurv
+    make clean
     make
 
 }
