@@ -1,4 +1,4 @@
-#include <opencv/cv.hpp>
+#include <opencv/highgui.hpp>
 #include "BTools/utils/model/GrabCutObject.h"
 
 using namespace BTools::Utils;

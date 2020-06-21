@@ -3,7 +3,8 @@
 
 #include <vector>
 
-#include "types.h"
+#include "summary-flow/model/ColorScheme.h"
+#include "summary-flow/types.h"
 
 namespace SummaryFlow
 {
@@ -11,25 +12,34 @@ namespace SummaryFlow
     {
         InputData()
         {
-            jumpStep=-1;
+            drawInterval=-1;
 
             drawCenterBall=false;
             radius=5;
             h=1.0;
 
+            colorScheme = DefaultColorSchemes::Classic;
+
             pixelMaskPath="";
             dirsMaskPath="";
+
             flowImagesFolderPath="";
             outputFilePath="";
+            imageExtension=".pgm";
+
             iot=ImageOutputType::SVG;
         }
 
-        int jumpStep;
+        int drawInterval;
         double radius;
         double h;
         bool drawCenterBall;
+
+        ColorScheme colorScheme;
+
         std::string pixelMaskPath;
         std::string dirsMaskPath;
+        std::string imageExtension;
 
         ImageOutputType iot;
         std::string flowImagesFolderPath;

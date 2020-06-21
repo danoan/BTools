@@ -5,11 +5,11 @@
 #include <DGtal/io/boards/Board2D.h>
 #include <boost/filesystem/operations.hpp>
 
-#include "summary-flow/InputData.h"
-#include "summary-flow/InputReader.h"
+#include "summary-flow/input/InputData.h"
+#include "summary-flow/input/InputReader.h"
 
 #include "summary-flow/utils.h"
-#include "summary-flow/OneImageFlow.h"
+#include "summary-flow/control/OneImageFlow.h"
 
 using namespace DGtal::Z2i;
 using namespace SummaryFlow;
@@ -27,7 +27,17 @@ int main(int argc, char* argv[])
     boost::filesystem::path outputFilePath = id.outputFilePath;
     boost::filesystem::create_directories(outputFilePath.remove_filename());
 
-    SummaryFlow::OneImageFlow oif(srcImagePath.string(),id.outputFilePath,id.jumpStep,id.iot,id.pixelMaskPath,id.dirsMaskPath,id.drawCenterBall,id.radius,id.h);
+    SummaryFlow::OneImageFlow oif(srcImagePath.string(),
+            id.outputFilePath,
+            id.imageExtension,
+            id.drawInterval,
+            id.colorScheme,
+            id.iot,
+            id.pixelMaskPath,
+            id.dirsMaskPath,
+            id.drawCenterBall,
+            id.radius,
+            id.h);
 
     return 0;
 }
