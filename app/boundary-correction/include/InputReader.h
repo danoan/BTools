@@ -4,50 +4,41 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "BTools/core/model/input/ODRConfigInput.h"
-#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/ModelParameters.h"
 
 
 namespace BoundaryCorrection
 {
-    namespace InputReader
-    {
-        struct InputData
-        {
-            typedef BTools::Core::ODRConfigInput ODRConfigInput;
-            typedef ODRConfigInput::LevelDefinition LevelDefinition;
-            typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
+namespace InputReader
+{
+struct InputData
+{
+  typedef BTools::Core::ModelParameters ModelParameters;
+  typedef ModelParameters::LevelDefinition LevelDefinition;
 
-            InputData();
+  InputData();
 
-            int radius;
-            int iterations;
-            double optBand;
-            double levels;
+  int radius;
+  int iterations;
+  double levels;
 
-            ODRConfigInput::LevelDefinition ld;
-            
-            double sqWeight;
-            double dtWeight;
-            double lgWeight;
+  ModelParameters::LevelDefinition levelDefinition;
 
-            std::string grabcutFile;
-            OptMethod optMethod;
+  double sqWeight;
+  double dtWeight;
+  double lgWeight;
 
-            bool excludeOptPointsFromAreaComputation;
-            bool uniformPerimeter;
-            int initialDilation;
+  std::string grabcutFile;
+  int initialDilation;
 
-            std::string pixelMaskFilepath;
+  std::string outputFolder;
+  bool showIterations;
+  bool showProgress;
+};
 
-            std::string outputFolder;
-            bool showIterations;
-            bool showProgress;
-        };
+InputData readInput(int argc,char** argv);
 
-        InputData readInput(int argc,char** argv);
-
-    }
+}
 }
 
 #endif //BTOOLS_APPLICATION_INTERACTIVE_INPUTREADER_H

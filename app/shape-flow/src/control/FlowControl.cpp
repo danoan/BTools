@@ -66,13 +66,13 @@ FlowControl::BCAOutput FlowControl::boundaryCorrection(const BCConfigInput& bcIn
     MockDistribution frDistr;
     MockDistribution bkDistr;
 
-    BTools::Core::ImageDataInput imageDataInput(frDistr,
+    BTools::Core::ImageData imageDataInput(frDistr,
                                   bkDistr,
                                   currentImage,
                                   currentImage,
                                   pixelMaskFilepath);
 
-    BTools::Core::BCApplicationInput bcaInput(bcInput,
+    BTools::Core::BCInput bcaInput(bcInput,
                                               imageDataInput,
                                               odrConfigInput);
 

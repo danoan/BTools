@@ -3,17 +3,18 @@
 
 #include <opencv2/core/mat.hpp>
 #include <opencv2/highgui.hpp>
+
 #include <DIPaCUS/base/Representation.h>
 #include <SCaBOliC/Core/interface/ODRInterface.h>
 #include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
 
-#include <BTools/core/control/BCControl.h>
+#include "BTools/core/control/BCControl.h"
 
-#include <BTools/core/model/input/BCApplicationInput.h>
-#include <BTools/core/model/input/ImageDataInput.h>
-#include <BTools/core/model/BCAOutput.h>
+#include "BTools/core/model/input/BCInput.h"
+#include "BTools/core/model/input/ImageData.h"
+#include "BTools/core/model/BCOutput.h"
 
-#include <BTools/utils/imgUtils.h>
+#include "BTools/utils/imgUtils.h"
 
 namespace BTools
 {
@@ -28,23 +29,21 @@ namespace BTools
             typedef DGtal::Z2i::Point Point;
 
         public:
-            typedef BTools::Core::BCApplicationInput BCAInput;
-            typedef BTools::Core::BCApplicationOutput BCAOutput;
+            typedef BTools::Core::BCInput BCInput;
+            typedef BTools::Core::BCOutput BCOutput;
 
             typedef SCaBOliC::Energy::Solution BCSolution;
             typedef SCaBOliC::Core::ODRInterface ODRInterface;
 
         public:
-            BCApplication(BCAOutput& bcaOutput,
-                          const BCAInput& bcaInput,
-                          int maxIterations,
-                          bool displayEachIteration);
+            BCApplication(BCOutput& bcOutput,
+                          const BCInput& bcInput);
 
         private:
 
             DigitalSet prepareInputDS(const cv::Mat& inputImg);
-            void prepareProductImage(BCAOutput& bcaOutput,
-                                     const ImageDataInput& imageDataInput);
+            void prepareProductImage(BCOutput& bcOutput,
+                                     const ImageData& imageData);
 
         };
     }

@@ -6,11 +6,10 @@
 
 #include <SCaBOliC/Utils/Utils.h>
 
-#include "BTools/core/model/input/ImageDataInput.h"
-#include "BTools/core/model/input/BCApplicationInput.h"
-#include "BTools/core/model/BCAOutput.h"
-#include "BTools/core/model/input/ODRConfigInput.h"
-#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/ImageData.h"
+#include "BTools/core/model/input/BCInput.h"
+#include "BTools/core/model/BCOutput.h"
+#include "BTools/core/model/input/ModelParameters.h"
 #include "BTools/core/model/CVMatDistribution.h"
 #include "BTools/core/BCApplication.h"
 
@@ -66,31 +65,16 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 }
 
 
-BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
+BCOutput boundaryCorrection(const InputReader::InputData& inputData, GrabCutObject& gco)
 {
-    double levels = inputData.levels;
-    bool optInApplicationRegion=false;
-
-
-    BCConfigInput bcConfigInput(inputData.radius,
-                                inputData.dtWeight,
-                                inputData.sqWeight,
-                                inputData.lgWeight,
-                                inputData.excludeOptPointsFromAreaComputation,
-                                inputData.uniformPerimeter,
-                                inputData.initialDilation,
-                                inputData.optMethod,
-                                1.0,
-                                1.0);
-
-    ODRConfigInput odrConfigInput(inputData.radius, 1.0,
-            levels,
-            inputData.ld,
-            ODRConfigInput::NeighborhoodType::FourNeighborhood,
-            ODRConfigInput::ApplicationMode::AM_AroundBoundary,
-            optInApplicationRegion,
-            inputData.optBand);
-
+    ModelParameters modelParameters(inputData.radius,
+                                    1.0,
+                                    inputData.levels,
+                                    inputData.levelDefinition,
+                                    inputData.dtWeight,
+                                    inputData.sqWeight,
+                                    inputData.lgWeight,
+                                    inputData.initialDilation);
 
     cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
     gco.inputImage.copyTo(segResultImg,gco.segMask);
@@ -102,20 +86,23 @@ BCApplicationOutput boundaryCorrection(const InputReader::InputData& inputData, 
     CVMatDistribution fgDistr(gco.inputImage,fgGMM);
     CVMatDistribution bgDistr(gco.inputImage,bgGMM);
 
-    ImageDataInput imageDataInput(fgDistr,bgDistr,gco.inputImage,segResultImg,inputData.pixelMaskFilepath,inputData.initialDilation);
+    ImageData imageData(fgDistr,
+                        bgDistr,
+                        gco.inputImage,
+                        segResultImg,
+                        inputData.initialDilation);
 
-    BCApplicationInput bcaInput(bcConfigInput,
-                                imageDataInput,
-                                odrConfigInput,
-                                inputData.showProgress);
+    BCInput bcInput(modelParameters,
+                    imageData,
+                    inputData.iterations,
+                    inputData.showIterations,
+                    inputData.showProgress);
 
-    BCApplicationOutput bcaOutput(bcaInput);
-    BCApplication bca(bcaOutput,
-                      bcaInput,
-                      inputData.iterations,
-                      inputData.showIterations);
+    BCOutput bcOutput(bcInput);
+    BCApplication bca(bcOutput,
+                      bcInput);
 
-    return bcaOutput;
+    return bcOutput;
 }
 
 cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(255,255,255))
@@ -132,9 +119,9 @@ cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(2
     return maskBoundaryImgColor;
 }
 
-void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutObject& gco, const std::string& outputFolder)
+void outputImages(const BCOutput& bcOutput, const GrabCutObject& gco, const std::string& outputFolder)
 {
-    const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
+    const BCOutput::EnergySolution& solution = bcOutput.energySolution;
 
     std::string graphCutSegFilepath = outputFolder + "/gc-seg.png";
     std::string correctedSegFilepath = outputFolder +"/corrected-seg.png";
@@ -146,13 +133,13 @@ void outputImages(const BCApplicationOutput& bcaOutput, const GrabCutObject& gco
 
 
     cv::imwrite(graphCutSegFilepath,gcSegImg);
-    cv::imwrite(correctedSegFilepath,bcaOutput.imgOutput);
-    cv::imwrite(maskBoundaryFilepath,highlightBorder(bcaOutput.energySolution.outputDS));
+    cv::imwrite(correctedSegFilepath,bcOutput.bcImageOutput);
+    cv::imwrite(maskBoundaryFilepath,highlightBorder(bcOutput.energySolution.outputDS));
 }
 
-void outputEnergy(const BCApplicationOutput& bcaOutput,const GrabCutObject& gco, const std::string& outputFolder)
+void outputEnergy(const BCOutput& bcOutput,const GrabCutObject& gco, const std::string& outputFolder)
 {
-    const BCApplicationOutput::EnergySolution& solution = bcaOutput.energySolution;
+    const BCOutput::EnergySolution& solution = bcOutput.energySolution;
 
     double outputElasticaEnergy,inputElasticaEnergy;
     SCaBOliC::Utils::ISQEvaluation::mdca(solution.outputDS,1.0);
@@ -187,13 +174,13 @@ int main(int argc, char* argv[])
     GrabCutObject gco = read(inputData.grabcutFile);
 
     BTools::Utils::Timer::start();
-    BCApplicationOutput bcaOutput = boundaryCorrection(inputData,gco);
+    BCOutput bcOutput = boundaryCorrection(inputData,gco);
 
     if(inputData.outputFolder!="")
     {
         boost::filesystem::create_directories(inputData.outputFolder);
-        outputImages(bcaOutput,gco,inputData.outputFolder);
-        outputEnergy(bcaOutput,gco,inputData.outputFolder);
+        outputImages(bcOutput,gco,inputData.outputFolder);
+        outputEnergy(bcOutput,gco,inputData.outputFolder);
     }
 
 

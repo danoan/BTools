@@ -4,8 +4,8 @@
 #include <string>
 #include <ostream>
 
-#include "BTools/core/model/input/BCConfigInput.h"
-#include "BTools/core/model/input/BCApplicationInput.h"
+#include "BTools/core/model/input/ModelParameters.h"
+#include "BTools/core/model/input/BCInput.h"
 #include "BTools/utils/model/OptOutput.h"
 #include "BTools/utils/strUtils.h"
 
@@ -15,16 +15,13 @@ namespace BTools
     {
         namespace DataWriter
         {
-            typedef BTools::Core::BCApplicationInput BCApplicationInput;
-            typedef BTools::Core::BCConfigInput BCConfigInput;
-            typedef BTools::Core::BCConfigInput::QPBOSolverType QPBOSolverType;
+            typedef BTools::Core::BCInput BCInput;
+            typedef BTools::Core::ModelParameters ModelParameters;
 
             void write(const OptOutput& optOutput,
                        std::ostream& os,
                        bool printHeader);
 
-
-            std::string resolveQPBOSolverType(QPBOSolverType solverType);
         };
     }
 }

@@ -12,9 +12,9 @@
 #include <DIPaCUS/derivates/Misc.h>
 #include <SCaBOliC/Utils/Utils.h>
 
-#include <BTools/core/model/BCAOutput.h>
-#include <BTools/core/model/input/BCApplicationInput.h>
-#include <BTools/core/model/input/BCConfigInput.h>
+#include <BTools/core/model/BCOutput.h>
+#include <BTools/core/model/input/BCInput.h>
+#include <BTools/core/model/input/ModelParameters.h>
 #include <BTools/utils/strUtils.h>
 
 
@@ -39,11 +39,11 @@ namespace ShapeFlow
         typedef DGtal::Z2i::DigitalSet DigitalSet;
         typedef DGtal::Z2i::Curve Curve;
 
-        typedef BTools::Core::BCConfigInput BCConfigInput;
+        typedef BTools::Core::ModelParameters BCConfigInput;
         typedef BTools::Core::ODRConfigInput ODRConfigInput;
 
-        typedef BTools::Core::BCApplicationInput BCApplicationInput;
-        typedef BTools::Core::BCApplicationOutput::EnergySolution EnergySolution;
+        typedef BTools::Core::BCInput BCApplicationInput;
+        typedef BTools::Core::BCOutput::EnergySolution EnergySolution;
 
         struct TableEntry
         {

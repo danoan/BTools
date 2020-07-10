@@ -1,12 +1,16 @@
 #ifndef BTools_BOUNDARYCORRECTION_BCCONTROL_H
 #define BTools_BOUNDARYCORRECTION_BCCONTROL_H
 
+#include <SCaBOliC/Core/model/ODRModel.h>
+#include <SCaBOliC/Core/interface/ODRInterface.h>
+
 #include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Energy/ISQ/ISQEnergy.h>
-#include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
-#include "SCaBOliC/Core/interface/ODRInterface.h"
 
-#include "BTools/core/model/input/BCApplicationInput.h"
+#include <SCaBOliC/Optimization/solver/QPBOSolverType.h>
+
+
+#include "BTools/core/model/input/BCInput.h"
 
 namespace BTools
 {
@@ -29,13 +33,12 @@ namespace BTools
 
         public:
             BCControl(Solution& solution,
-                      const BCApplicationInput& bcaInput,
+                      const BCInput& bcaInput,
                       const ODRInterface& odrFactory,
                       const DigitalSet& inputDS);
 
         private:
             void solve(Solution& solution,
-                       const BCConfigInput& bcInput,
                        const ISQEnergy& energy,
                        const ISQInputData& energyInput,
                        const ISQInputData::OptimizationDigitalRegions& ODR,
@@ -54,3 +57,4 @@ namespace BTools
 }
 
 #endif //BTools_BOUNDARYCORRECTION_BCCONTROL_H
+

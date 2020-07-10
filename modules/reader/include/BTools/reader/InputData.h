@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 
-#include "BTools/core/model/input/BCConfigInput.h"
+#include "BTools/core/model/input/ModelParameters.h"
 #include "BTools/core/model/input/ODRConfigInput.h"
 
 #include "Types.h"
@@ -18,7 +18,7 @@ namespace BTools
             struct InputData
             {
                 typedef BTools::Core::ODRConfigInput ODRConfigInput;
-                typedef BTools::Core::BCConfigInput::QPBOSolverType OptMethod;
+                typedef BTools::Core::ModelParameters::QPBOSolverType OptMethod;
 
                 typedef BTools::Core::ODRConfigInput::ApplicationMode ApplicationMode;
 
