@@ -7,8 +7,7 @@ if(${CREATE_SHARED_LIBRARIES})
 endif()
 
 add_library(btools-core ${LIBRARY_ACTION}
-        src/BCApplication.cpp
-        src/control/BCControl.cpp
+        src/control/modelIteration.cpp
         src/model/GMM.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})

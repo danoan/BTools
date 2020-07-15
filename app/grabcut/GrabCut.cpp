@@ -6,7 +6,7 @@
 #include "InputData.h"
 #include "GrabCutOutput.h"
 #include "GrabCutApplication.h"
-#include "BTools/utils/model/GrabCutObject.h"
+#include "../../modules/io/seed/include/BTools/io/seed/GrabCutObject.h"
 
 
 using namespace GrabCut;

@@ -1,12 +1,13 @@
-#include "BTools/utils/DataWriter.h"
+#include "BTools/io/writer/DataWriter.h"
 
-using namespace BTools::Utils;
+namespace BTools{
+namespace IO{
+namespace Writer{
 
-void DataWriter::write(const OptOutput& optOutput,
-                       std::ostream& os,
-                       bool printHeader)
-{
-    const BCInput& bcInput = optOutput.bcInput;
+void write(const BCOutput& bcOutput,
+           std::ostream& os,
+           bool printHeader){
+    const BCInput& bcInput = bcOutput.bcInput;
     const ModelParameters& modelParameters = bcInput.modelParameters;
     int colLength=20;
 
@@ -24,9 +25,14 @@ void DataWriter::write(const OptOutput& optOutput,
     }
 
 
-    os << BTools::Utils::fixedStrLength(colLength,optOutput.optEnergyValue) << "\t"
-       << BTools::Utils::fixedStrLength(colLength,optOutput.IIElasticaValue) << "\t"
-       << BTools::Utils::fixedStrLength(colLength,optOutput.MDCAElasticaValue) << "\t"
-       << BTools::Utils::fixedStrLength(colLength,optOutput.unlabeled) << std::endl;
+    os << BTools::Utils::fixedStrLength(colLength,bcOutput.energySolution.energyValue) << "\t"
+       << BTools::Utils::fixedStrLength(colLength,bcOutput.IIElasticaValue) << "\t"
+       << BTools::Utils::fixedStrLength(colLength,bcOutput.MDCAElasticaValue) << "\t"
+       << BTools::Utils::fixedStrLength(colLength,bcOutput.energySolution.unlabeled) << std::endl;
+}
+
 
 }
+}
+}
+

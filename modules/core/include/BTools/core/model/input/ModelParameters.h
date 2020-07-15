@@ -1,15 +1,12 @@
-#ifndef BTools_MODEL_PARAMETERS_H
-#define BTools_MODEL_PARAMETERS_H
+#ifndef BTools_CORE_MODEL_PARAMETERS_H
+#define BTools_CORE_MODEL_PARAMETERS_H
 
 #include <SCaBOliC/Energy/ISQ/InputData.h>
 #include <SCaBOliC/Core/model/ODRModel.h>
 
-namespace BTools
-{
-namespace Core
-{
-struct ModelParameters
-{
+namespace BTools{
+namespace Core{
+struct ModelParameters{
   typedef SCaBOliC::Core::ODRModel::LevelDefinition LevelDefinition;
 
   ModelParameters(){};
@@ -44,4 +41,4 @@ struct ModelParameters
 }
 }
 
-#endif //BTools_MODEL_PARAMETERS_H
+#endif //BTools_CORE_MODEL_PARAMETERS_H

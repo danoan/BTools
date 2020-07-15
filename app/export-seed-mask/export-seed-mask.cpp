@@ -4,7 +4,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 
-#include "BTools/utils/model/GrabCutObject.h"
+#include "../../modules/io/seed/include/BTools/io/seed/GrabCutObject.h"
 
 using namespace BTools::Utils::GrabCutIO;
 

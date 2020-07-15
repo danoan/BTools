@@ -3,7 +3,7 @@ project(regions-of-interest)
 
 add_executable(regions-of-interest regions-of-interest.cpp)
 
-add_dependencies(regions-of-interest btools-core btools-utils btools-reader)
+add_dependencies(regions-of-interest btools-core btools-utils)
 
 target_include_directories(regions-of-interest PRIVATE
         include

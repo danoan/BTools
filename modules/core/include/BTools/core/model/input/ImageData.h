@@ -1,5 +1,5 @@
-#ifndef BTools_IMAGE_DATA_H
-#define BTools_IMAGE_DATA_H
+#ifndef BTools_CORE_IMAGE_DATA_H
+#define BTools_CORE_IMAGE_DATA_H
 
 #include <opencv2/core/mat.hpp>
 #include <DGtal/helpers/StdDefs.h>
@@ -8,12 +8,9 @@
 #include <DIPaCUS/base/Representation.h>
 #include <DIPaCUS/components/Transform.h>
 
-namespace BTools
-{
-namespace Core
-{
-struct ImageData
-{
+namespace BTools{
+namespace Core{
+class ImageData{
  public:
   typedef DGtal::Z2i::Domain Domain;
   typedef DGtal::Z2i::Point Point;
@@ -93,4 +90,4 @@ struct ImageData
 };
 }
 }
-#endif //BTools_IMAGE_DATA_H
+#endif //BTools_CORE_IMAGE_DATA_H

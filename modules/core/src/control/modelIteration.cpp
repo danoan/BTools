@@ -1,12 +1,15 @@
-#include "BTools/core/control/BCControl.h"
+#include "BTools/core/control/modelIteration.h"
 
-using namespace BTools::Core;
+namespace BTools{
+namespace Core{
 
-BCControl::BCControl(Solution& solution,
-                     const BCInput& bcInput,
-                     const ODRInterface& odrFactory,
-                     const DigitalSet& inputDS)
-{
+typedef DGtal::Z2i::Domain Domain;
+typedef DGtal::Z2i::Point Point;
+
+void solveModel(Solution& solution,
+                const BCInput& bcInput,
+                const ODRInterface& odrFactory,
+                const DigitalSet& inputDS){
   const ModelParameters& modelParameters = bcInput.modelParameters;
   const ImageData& imageData = bcInput.imageData;
 
@@ -30,16 +33,7 @@ BCControl::BCControl(Solution& solution,
   ISQEnergy energy(energyInput,odrFactory.handle());
   solution.init(energy.numVars());
 
-  solve(solution,energy,energyInput,ODR,odrFactory);
-}
 
-
-void BCControl::solve(Solution& solution,
-                      const ISQEnergy& energy,
-                      const ISQInputData& energyInput,
-                      const ISQInputData::OptimizationDigitalRegions& ODR,
-                      const ODRInterface& odrFactory)
-{
   energy.template solve<QPBOImproveSolver>(solution);
   updateSet(solution,
             odrFactory,
@@ -47,10 +41,10 @@ void BCControl::solve(Solution& solution,
             energy);
 }
 
-void BCControl::updateSet(Solution& solution,
-                          const ODRInterface& odrFactory,
-                          const ISQInputData& energyInput,
-                          const ISQEnergy& energy)
+void updateSet(Solution& solution,
+               const ODRInterface& odrFactory,
+               const ISQInputData& energyInput,
+               const ISQEnergy& energy)
 {
   DigitalSet initialDS(energyInput.optimizationRegions.domain);
   DigitalSet tempOutDS(energyInput.optimizationRegions.domain);
@@ -72,21 +66,30 @@ void BCControl::updateSet(Solution& solution,
 
 }
 
+void createBCImage(BCOutput& bcOutput, const ImageData& imageData){
+  const BCOutput::EnergySolution& solution = bcOutput.energySolution;
 
-void BCControl::printData(const Solution& solution,
-                          const ISQEnergy& energy)
-{
-  std::cout << "Energy Value: " << solution.energyValue << std::endl;
-  std::cout << "Unlabelled: " << solution.unlabeled << std::endl;
+  DigitalSet translatedBackDS( Domain( Point(0,0),
+                                       Point(imageData.inputImage.cols-1,
+                                             imageData.inputImage.rows-1)
+  ) );
 
-  const Solution::LabelsVector& labelsVector = solution.labelsVector;
+  for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
+  {
+    Point pt = *it + imageData.translation;
+    if( translatedBackDS.domain().isInside(pt) )
+      translatedBackDS.insert(pt);
+  }
 
-  std::cout << "Data Energy: " << energy.dataEnergy(labelsVector) << std::endl;
-  std::cout << "SQ Energy: " << energy.sqEnergy(labelsVector) << std::endl;
+  cv::Mat foregroundMask = cv::Mat::zeros(imageData.inputImage.size(),
+                                          CV_8UC1);
+  DIPaCUS::Representation::digitalSetToCVMat(foregroundMask,translatedBackDS);
 
-  std::cout << "Data Energy Not Normalized: " << energy.dataEnergyNotNormalized(labelsVector) << std::endl;
-  std::cout << "SQ Energy Not Normalized: " << energy.sqEnergyNotNormalized(labelsVector) << std::endl;
+  BTools::Utils::setHighlightMask(bcOutput.bcImageOutput,imageData.inputImage,foregroundMask);
+}
 
-  std::cout << "Data Term Real Value: " << energy.dataRealValue(labelsVector) << std::endl;
-  std::cout << "SQ Term Real Value: " << energy.sqRealValue(labelsVector) << std::endl;
+
+
+
+}
 }

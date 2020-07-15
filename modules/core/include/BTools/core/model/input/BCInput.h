@@ -1,17 +1,12 @@
-#ifndef BTools_BCINPUT_H
-#define BTools_BCINPUT_H
+#ifndef BTools_CORE_BCINPUT_H
+#define BTools_CORE_BCINPUT_H
 
 #include "ModelParameters.h"
 #include "ImageData.h"
 
-namespace BTools
-{
-namespace Core
-{
-struct BCInput
-{
- public:
-
+namespace BTools{
+namespace Core{
+struct BCInput{
   BCInput(const ModelParameters& modelParameters,
           const ImageData& imageData,
           int maxIterations = 10,
@@ -34,4 +29,4 @@ struct BCInput
 }
 }
 
-#endif //BTools_BCINPUT_H
+#endif //BTools_CORE_BCINPUT_H

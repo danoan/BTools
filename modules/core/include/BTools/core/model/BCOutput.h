@@ -1,5 +1,5 @@
-#ifndef BTools_BCOUTPUT_H
-#define BTools_BCOUTPUT_H
+#ifndef BTools_CORE_BCOUTPUT_H
+#define BTools_CORE_BCOUTPUT_H
 
 #include <opencv2/core/mat.hpp>
 
@@ -8,12 +8,9 @@
 
 #include "BTools/core/model/input/BCInput.h"
 
-namespace BTools
-{
-namespace Core
-{
-class BCOutput
-{
+namespace BTools{
+namespace Core{
+class BCOutput{
  public:
   typedef SCaBOliC::Energy::Solution EnergySolution;
   typedef DGtal::Z2i::Domain Domain;
@@ -28,30 +25,33 @@ class BCOutput
 
   BCOutput& operator=(const BCOutput& other)
   {
-      this->energySolution = other.energySolution;
-      this->grabcutImage = other.grabcutImage;
-      this->bcImageOutput = other.bcImageOutput;
+    this->energySolution = other.energySolution;
+    this->grabcutImage = other.grabcutImage;
+    this->bcImageOutput = other.bcImageOutput;
 
-      return *this;
+    return *this;
   }
 
   BCOutput(const BCInput& bcInput,
-                      const EnergySolution& energySolution,
-                      const cv::Mat& bcImageOutput)
+           const EnergySolution& energySolution,
+           const cv::Mat& bcImageOutput)
       :bcInput(bcInput),
        grabcutImage(bcInput.imageData.grabcutImage.clone()),
        energySolution(bcInput.imageData.inputDomain),
        bcImageOutput(bcImageOutput){}
 
- private:
+ public:
   const BCInput& bcInput;
 
- public:
   EnergySolution energySolution;
+
   cv::Mat grabcutImage;
   cv::Mat bcImageOutput;
+
+  double IIElasticaValue;
+  double MDCAElasticaValue;
 };
 }
 }
 
-#endif //BTools_BCOUTPUT_H
+#endif //BTools_CORE_BCOUTPUT_H

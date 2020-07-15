@@ -1,8 +1,9 @@
 #include "BTools/utils/strUtils.h"
 
-using namespace BTools;
+namespace BTools{
+namespace Utils{
 
-std::string Utils::fixedStrLength(int l,double v)
+std::string fixedStrLength(int l,double v)
 {
     std::string out = std::to_string(v);
     while(out.length()<l) out += " ";
@@ -10,7 +11,7 @@ std::string Utils::fixedStrLength(int l,double v)
     return out;
 }
 
-std::string Utils::fixedStrLength(int l,std::string str)
+std::string fixedStrLength(int l,std::string str)
 {
     std::string out = str;
     while(out.length()<l) out += " ";
@@ -18,7 +19,7 @@ std::string Utils::fixedStrLength(int l,std::string str)
     return out;
 }
 
-std::string Utils::nDigitsString(int num, int digits)
+std::string nDigitsString(int num, int digits)
 {
     std::string s = "";
     int numSize = num==0?1:log10( abs(num) ) + 1;
@@ -31,3 +32,7 @@ std::string Utils::nDigitsString(int num, int digits)
     s+=std::to_string(num);
     return s;
 }
+
+}
+}
+

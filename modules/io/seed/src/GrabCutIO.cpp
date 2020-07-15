@@ -1,16 +1,14 @@
-#include <opencv/highgui.hpp>
-#include "BTools/utils/model/GrabCutObject.h"
+#include "BTools/io/seed/GrabCutObject.h"
 
-using namespace BTools::Utils;
+namespace BTools{
+namespace IO{
+namespace Seed{
 
-namespace BTools{namespace Utils{ namespace GrabCutIO
-{
 cv::Vec3b FG_SEED_COLOR(0,255,0);
 cv::Vec3b BG_SEED_COLOR(120,120,120);
 cv::Vec3b PBFG_SEED_COLOR(0,0,255);
-}}}
 
-void GrabCutIO::filterColor(const cv::Mat& img,cv::Vec3b& color,cv::Mat& out)
+void filterColor(const cv::Mat& img,cv::Vec3b& color,cv::Mat& out)
 {
     for(int r=0;r<img.rows;++r)
     {
@@ -24,7 +22,7 @@ void GrabCutIO::filterColor(const cv::Mat& img,cv::Vec3b& color,cv::Mat& out)
     }
 }
 
-void GrabCutIO::write(const GrabCutObject& gco, const std::string& outputPath)
+void write(const GrabCutObject& gco, const std::string& outputPath)
 {
     boost::filesystem::path p(outputPath);
     boost::filesystem::create_directories(p.remove_filename());
@@ -38,9 +36,9 @@ void GrabCutIO::write(const GrabCutObject& gco, const std::string& outputPath)
     gcObjectFile.release();
 }
 
-GrabCutIO::GrabCutObject GrabCutIO::read(const std::string &grabCutObjectFile)
+GrabCutObject read(const std::string &grabCutObjectFile)
 {
-    GrabCutIO::GrabCutObject gco;
+    GrabCutObject gco;
 
     cv::FileStorage grabcutObjectFile(grabCutObjectFile,cv::FileStorage::READ);
     grabcutObjectFile["grabCutMask"] >> gco.grabCutMask;
@@ -51,7 +49,7 @@ GrabCutIO::GrabCutObject GrabCutIO::read(const std::string &grabCutObjectFile)
     return gco;
 }
 
-void GrabCutIO::getSeedMasks(const GrabCutObject& gco,cv::Mat& fgMask, cv::Mat& bgMask, cv::Mat& pbfgMask)
+void getSeedMasks(const GrabCutObject& gco,cv::Mat& fgMask, cv::Mat& bgMask, cv::Mat& pbfgMask)
 {
     fgMask = cv::Mat::zeros(gco.seeds.size(),CV_8UC1);
     filterColor(gco.seeds,FG_SEED_COLOR,fgMask);
@@ -67,3 +65,8 @@ void GrabCutIO::getSeedMasks(const GrabCutObject& gco,cv::Mat& fgMask, cv::Mat& 
     cv::Rect r = cv::boundingRect(temp);
     cv::rectangle(pbfgMask,r,255,cv::FILLED);
 }
+
+}
+
+}}
+

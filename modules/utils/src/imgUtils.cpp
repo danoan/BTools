@@ -1,8 +1,9 @@
 #include "BTools/utils/imgUtils.h"
 
-using namespace BTools;
+namespace BTools{
+namespace Utils{
 
-void Utils::setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
+void setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
 {
     cv::Mat dilated = img.clone();
     cv::dilate(img,dilated,cv::getStructuringElement(cv::MORPH_RECT,cv::Size(3,3),cv::Point(1,1)));
@@ -17,8 +18,8 @@ void Utils::setHighlightedBorder(cv::Mat &img, Utils::ColorType color)
     img.setTo(color,dilatedFilter);
 }
 
-void Utils::exportImageFromDigitalSet(const DigitalSet& ds,
-                                            const std::string& outputFilepath)
+void exportImageFromDigitalSet(const DigitalSet& ds,
+                               const std::string& outputFilepath)
 {
     Point lb,ub;
     ds.computeBoundingBox(lb,ub);
@@ -30,9 +31,9 @@ void Utils::exportImageFromDigitalSet(const DigitalSet& ds,
     DGtal::GenericWriter<Image2D>::exportFile(outputFilepath, image);
 }
 
-void Utils::exportImageFromDigitalSet(const DigitalSet& ds,
-                                            const Domain& domain,
-                                            const std::string& outputFilepath)
+void exportImageFromDigitalSet(const DigitalSet& ds,
+                               const Domain& domain,
+                               const std::string& outputFilepath)
 {
 
     Image2D image( domain );
@@ -41,7 +42,7 @@ void Utils::exportImageFromDigitalSet(const DigitalSet& ds,
     DGtal::GenericWriter<Image2D>::exportFile(outputFilepath, image);
 }
 
-void Utils::setHighlightMask(cv::Mat& outputImage, const cv::Mat& baseImage, const cv::Mat& mask)
+void setHighlightMask(cv::Mat& outputImage, const cv::Mat& baseImage, const cv::Mat& mask)
 {
     cv::Mat bwImage8UC1 = cv::Mat::zeros(baseImage.size(),
                                          CV_8UC1);
@@ -69,3 +70,7 @@ void Utils::setHighlightMask(cv::Mat& outputImage, const cv::Mat& baseImage, con
     outputImage.setTo(cv::Vec3b(150,250,250),contourMask);
 
 }
+
+}
+}
+
