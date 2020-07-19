@@ -126,6 +126,17 @@ void outputEnergy(const BCOutput& bcOutput,const GrabCutObject& gco, const std::
   ofs.close();
 }
 
+void callback( BTools::API::CallbackData&& data ){
+  if(data.iteration%5==0 && data.bcInput.showProgress)
+    std::cout << data.iteration << "/" << data.bcInput.maxIterations << std::endl;
+
+
+  if(data.bcInput.displayEachIteration)
+  {
+    cv::imshow(data.windowName,data.bcOutput.bcImageOutput);
+    cv::waitKey(10);
+  }
+}
 
 int main(int argc, char* argv[])
 {
@@ -169,8 +180,10 @@ int main(int argc, char* argv[])
 
   BCOutput bcOutput(bcInput);
 
+
   BTools::API::bce(bcOutput,
-                   bcInput);
+                   bcInput,
+                   callback);
 
 
   if(inputData.outputFolder!="")

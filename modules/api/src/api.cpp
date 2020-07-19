@@ -9,7 +9,7 @@ typedef BTools::Core::ModelParameters ModelParameters;
 typedef BTools::Core::ImageData ImageData;
 
 
-void bce(BCOutput& bcOutput, const BCInput& bcInput)
+void bce(BCOutput& bcOutput, const BCInput& bcInput,BCECallback callback)
 {
   BCOutput::EnergySolution& solution = bcOutput.energySolution;
   const ModelParameters& modelParameters = bcInput.modelParameters;
@@ -51,15 +51,7 @@ void bce(BCOutput& bcOutput, const BCInput& bcInput)
       BTools::Core::createBCImage(bcOutput,
                                   imageData);
 
-      if(nit%5==0 && bcInput.showProgress)
-        std::cout << nit << "/" << bcInput.maxIterations << std::endl;
-
-
-      if(bcInput.displayEachIteration)
-      {
-        cv::imshow(windowName,bcOutput.bcImageOutput);
-        cv::waitKey(10);
-      }
+      callback( CallbackData{nit,windowName,bcInput,bcOutput} );
 
       lastValidSolution = bcOutput;
       ++nit;
