@@ -122,28 +122,20 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
     }
 }
 
-void DataWriter::printFlowMetadata(const BCConfigInput& bcInput,
-                                   const ODRConfigInput& odrConfigInput,
+void DataWriter::printFlowMetadata(const ModelParameters& modelParameters,
                                     const DigitalSet& dsZero,
                                     std::ofstream &ofs)
 {
-    ofs << "Levels: " << odrConfigInput.levels << "("
-        << ( (odrConfigInput.levelDefinition==ODRConfigInput::LevelDefinition::LD_CloserFromCenter)?"CloserFromCenter":"FartherFromCenter")
+    ofs << "Levels: " << modelParameters.levels << "("
+        << ( (modelParameters.levelDefinition==ModelParameters::LevelDefinition::LD_CloserFromCenter)?"CloserFromCenter":"FartherFromCenter")
         << ")\n";
 
-    ofs << "Radius: " << bcInput.radius << "\n";
-
-    if( odrConfigInput.neighborhood==ODRConfigInput::NeighborhoodType::FourNeighborhood ) ofs << "Neighborhood: 4\n";
-    if( odrConfigInput.neighborhood==ODRConfigInput::NeighborhoodType::EightNeighborhood ) ofs << "Neighborhood: 8\n";
+    ofs << "Radius: " << modelParameters.radius << "\n";
 
 
-    ofs << "Squared Curvature Weight: " << bcInput.sqTermWeight << " \n";
-    ofs << "Length Weight: " << bcInput.lengthTermWeight << " \n";
-    ofs << "Data Weight: " << bcInput.dataTermWeight << " \n";
+    ofs << "Squared Curvature Weight: " << modelParameters.sqTermWeight << " \n";
+    ofs << "Length Weight: " << modelParameters.lengthTermWeight << " \n";
 
-    ofs << "Opt region in application: " << odrConfigInput.optInApplicationRegion << "\n";
     ofs << "Initial shape has: " << dsZero.size() << " pixels\n";
-
-
 
 }

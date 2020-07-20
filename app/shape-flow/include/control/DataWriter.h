@@ -10,9 +10,9 @@
 #include <DGtal/geometry/curves/estimation/MLPLengthEstimator.h>
 
 #include <DIPaCUS/derivates/Misc.h>
+#include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Utils/Utils.h>
 
-#include <BTools/core/model/BCOutput.h>
 #include <BTools/core/model/input/BCInput.h>
 #include <BTools/core/model/input/ModelParameters.h>
 #include <BTools/utils/strUtils.h>
@@ -39,17 +39,16 @@ namespace ShapeFlow
         typedef DGtal::Z2i::DigitalSet DigitalSet;
         typedef DGtal::Z2i::Curve Curve;
 
-        typedef BTools::Core::ModelParameters BCConfigInput;
-        typedef BTools::Core::ODRConfigInput ODRConfigInput;
+        typedef BTools::Core::ModelParameters ModelParameters;
 
-        typedef BTools::Core::BCInput BCApplicationInput;
-        typedef BTools::Core::BCOutput::EnergySolution EnergySolution;
+        typedef BTools::Core::BCInput BCInput;
+        typedef SCaBOliC::Energy::Solution EnergySolution;
 
         struct TableEntry
         {
-            TableEntry(const ODRConfigInput& odrConfigInput,
+            TableEntry(const ModelParameters& modelParameters,
                     const EnergySolution& solution,
-                    const std::string name):solution(solution),name(name),gridStep(odrConfigInput.gridStep),radius(odrConfigInput.radius){}
+                    const std::string name):solution(solution),name(name),gridStep(modelParameters.gridStep),radius(modelParameters.radius){}
 
             EnergySolution solution;
             std::string name;
@@ -65,8 +64,7 @@ namespace ShapeFlow
 
         void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
 
-        void printFlowMetadata(const BCConfigInput& bcInput,
-                                const ODRConfigInput& odrConfigInput,
+        void printFlowMetadata(const ModelParameters& modelParameters,
                                 const DigitalSet& dsZero,
                                std::ofstream &ofs);
     }
