@@ -4,17 +4,17 @@
 #include <boost/date_time.hpp>
 #include <ostream>
 
-namespace BTools
-{
-namespace Utils
-{
-namespace Timer
-{
+namespace BTools{
+namespace Utils{
+namespace Timer{
+
 extern boost::posix_time::ptime startTime;
 extern boost::posix_time::ptime endTime;
 
 void start();
 void end(std::ostream& os);
+std::string end();
+
 }
 }
 }

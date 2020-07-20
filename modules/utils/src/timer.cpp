@@ -19,6 +19,13 @@ void end(std::ostream& os)
     os << diff.total_seconds() << "s " << diff.total_milliseconds() << "ms " << diff.total_microseconds() << "us \n";
 }
 
+std::string end(){
+    endTime = boost::posix_time::microsec_clock::local_time();
+
+    boost::posix_time::time_duration diff = endTime - startTime;
+    return "" + std::to_string( diff.total_seconds() ) + "s " + std::to_string( diff.total_milliseconds() ) + "ms " + std::to_string(diff.total_microseconds()) + "us \n";
+}
+
 }
 }
 }
