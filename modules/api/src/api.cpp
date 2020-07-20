@@ -41,13 +41,13 @@ void bce(const BCInput& bcInput,BCECallback callback)
                                bcInput,
                                odrPixels,
                                inputDS);
-
+      ++nit;
       callback( CallbackData{Event::Iteration,nit,windowName,bcInput,solution} );
 
       inputDS.clear();
       inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
 
-      ++nit;
+
     }
   }catch(std::exception ex){
     std::cerr << "Error in iteration " << nit << ". Saving current solution.\n";
