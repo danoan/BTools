@@ -66,15 +66,13 @@ void updateSet(Solution& solution,
 
 }
 
-void createBCImage(BCOutput& bcOutput, const ImageData& imageData){
-  const BCOutput::EnergySolution& solution = bcOutput.energySolution;
-
+cv::Mat createBCImage(const DigitalSet& outputDS, const ImageData& imageData){
   DigitalSet translatedBackDS( Domain( Point(0,0),
                                        Point(imageData.inputImage.cols-1,
                                              imageData.inputImage.rows-1)
   ) );
 
-  for (auto it = solution.outputDS.begin(); it != solution.outputDS.end(); ++it)
+  for (auto it = outputDS.begin(); it != outputDS.end(); ++it)
   {
     Point pt = *it + imageData.translation;
     if( translatedBackDS.domain().isInside(pt) )
@@ -85,7 +83,10 @@ void createBCImage(BCOutput& bcOutput, const ImageData& imageData){
                                           CV_8UC1);
   DIPaCUS::Representation::digitalSetToCVMat(foregroundMask,translatedBackDS);
 
-  BTools::Utils::setHighlightMask(bcOutput.bcImageOutput,imageData.inputImage,foregroundMask);
+  cv::Mat bcImage;
+  BTools::Utils::setHighlightMask(bcImage,imageData.inputImage,foregroundMask);
+
+  return bcImage;
 }
 
 

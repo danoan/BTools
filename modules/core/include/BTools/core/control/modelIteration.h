@@ -9,9 +9,7 @@
 #include <SCaBOliC/Energy/model/Solution.h>
 #include <SCaBOliC/Energy/ISQ/ISQEnergy.h>
 
-#include "BTools/core/model/input/ImageData.h"
-#include "BTools/core/model/BCOutput.h"
-
+#include "BTools/core/model/input/BCInput.h"
 #include "BTools/utils/imgUtils.h"
 
 namespace BTools{
@@ -25,7 +23,6 @@ typedef SCaBOliC::Energy::Solution Solution;
 
 typedef BTools::Core::ImageData ImageData;
 typedef BTools::Core::BCInput BCInput;
-typedef BTools::Core::BCOutput BCOutput;
 
 
 void solveModel(Solution& solution,
@@ -38,7 +35,7 @@ void updateSet(Solution& solution,
                const ISQInputData& energyInput,
                const ISQEnergy& energy);
 
-void createBCImage(BCOutput& bcOutput, const ImageData& imageData);
+cv::Mat createBCImage(const DigitalSet& outputDS, const ImageData& imageData);
 }
 }
 

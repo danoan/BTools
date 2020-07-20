@@ -11,7 +11,6 @@
 #include "BTools/core/model/input/ModelParameters.h"
 #include "BTools/core/model/input/ImageData.h"
 #include "BTools/core/model/input/BCInput.h"
-#include "BTools/core/model/BCOutput.h"
 #include "BTools/core/model/CVMatDistribution.h"
 
 #include "BTools/io/seed/GrabCutObject.h"
@@ -26,6 +25,8 @@ using namespace DGtal::Z2i;
 
 using namespace BoundaryCorrection;
 using namespace BTools::IO::Seed;
+
+typedef SCaBOliC::Energy::Solution EnergySolution;
 
 void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM )
 {
@@ -80,10 +81,8 @@ cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(2
   return maskBoundaryImgColor;
 }
 
-void outputImages(const BCOutput& bcOutput, const GrabCutObject& gco, const std::string& outputFolder)
+void outputImages(const BCInput& bcInput, const EnergySolution& solution, const GrabCutObject& gco, const std::string& outputFolder)
 {
-  const BCOutput::EnergySolution& solution = bcOutput.energySolution;
-
   std::string graphCutSegFilepath = outputFolder + "/gc-seg.png";
   std::string correctedSegFilepath = outputFolder +"/corrected-seg.png";
   std::string maskBoundaryFilepath = outputFolder +"/mask-boundary.png";
@@ -92,17 +91,18 @@ void outputImages(const BCOutput& bcOutput, const GrabCutObject& gco, const std:
   cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
   BTools::Utils::setHighlightMask(gcSegImg,gco.inputImage,gco.segMask);
 
+  cv::Mat bcImage = BTools::Core::createBCImage(solution.outputDS,bcInput.imageData);
+
 
   cv::imwrite(graphCutSegFilepath,gcSegImg);
-  cv::imwrite(correctedSegFilepath,bcOutput.bcImageOutput);
-  cv::imwrite(maskBoundaryFilepath,highlightBorder(bcOutput.energySolution.outputDS));
+  cv::imwrite(correctedSegFilepath,bcImage);
+  cv::imwrite(maskBoundaryFilepath,highlightBorder(solution.outputDS));
 }
 
-void outputEnergy(const BCOutput& bcOutput,const GrabCutObject& gco, const std::string& outputFolder)
+void outputEnergy(const BCInput& bcInput, const EnergySolution& solution,const GrabCutObject& gco, const std::string& outputFolder)
 {
-  const BCOutput::EnergySolution& solution = bcOutput.energySolution;
-  const ModelParameters& modelParameters = bcOutput.bcInput.modelParameters;
-  const ImageData& imageData = bcOutput.bcInput.imageData;
+  const ModelParameters& modelParameters = bcInput.modelParameters;
+  const ImageData& imageData = bcInput.imageData;
 
   double outputElasticaEnergy,inputElasticaEnergy;
 
@@ -126,16 +126,55 @@ void outputEnergy(const BCOutput& bcOutput,const GrabCutObject& gco, const std::
   ofs.close();
 }
 
-void callback( BTools::API::CallbackData&& data ){
-  if(data.iteration%5==0 && data.bcInput.showProgress)
-    std::cout << data.iteration << "/" << data.bcInput.maxIterations << std::endl;
+struct ExtParams{
+
+  ExtParams(const GrabCutObject& gco, std::ostream& osLog, const std::string& outputFolder)
+      :gco(gco),
+       osLog(osLog),
+       outputFolder(outputFolder){}
+
+  const GrabCutObject& gco;
+  std::string outputFolder;
+
+  std::ostream& osLog;
+};
 
 
-  if(data.bcInput.displayEachIteration)
-  {
-    cv::imshow(data.windowName,data.bcOutput.bcImageOutput);
-    cv::waitKey(10);
+void callback( BTools::API::CallbackData&& data, ExtParams& extParams ){
+
+  switch(data.event){
+    case BTools::API::Event::Start:
+      BTools::Utils::Timer::start();
+      break;
+    case BTools::API::Event::Iteration:
+      if(data.iteration%5==0 && data.bcInput.showProgress){
+        extParams.osLog << data.iteration << "/" << data.bcInput.maxIterations << "\n";
+      }
+
+      if(data.bcInput.displayEachIteration)
+      {
+        cv::Mat bcImage = BTools::Core::createBCImage(data.solution.outputDS,data.bcInput.imageData);
+        cv::imshow(data.windowName,bcImage);
+        cv::waitKey(10);
+      }
+      break;
+    case BTools::API::Event::End:
+      BTools::Utils::Timer::end(extParams.osLog);
+      if(data.bcInput.displayEachIteration){
+        extParams.osLog << "The flow is done. Press any key to exit\n";
+        cv::waitKey(0);
+      }
+
+      if(extParams.outputFolder!="")
+      {
+        boost::filesystem::create_directories(extParams.outputFolder);
+        outputImages(data.bcInput, data.solution,extParams.gco,extParams.outputFolder);
+        outputEnergy(data.bcInput, data.solution,extParams.gco,extParams.outputFolder);
+      }
+
+      break;
   }
+
 }
 
 int main(int argc, char* argv[])
@@ -143,10 +182,6 @@ int main(int argc, char* argv[])
   InputReader::InputData inputData = InputReader::readInput(argc,argv);
 
   GrabCutObject gco = read(inputData.grabcutFile);
-
-  BTools::Utils::Timer::start();
-
-
   ModelParameters modelParameters(inputData.radius,
                                   1.0,
                                   inputData.levels,
@@ -178,20 +213,9 @@ int main(int argc, char* argv[])
                   inputData.showIterations,
                   inputData.showProgress);
 
-  BCOutput bcOutput(bcInput);
 
-
-  BTools::API::bce(bcOutput,
-                   bcInput,
-                   callback);
-
-
-  if(inputData.outputFolder!="")
-  {
-    boost::filesystem::create_directories(inputData.outputFolder);
-    outputImages(bcOutput,gco,inputData.outputFolder);
-    outputEnergy(bcOutput,gco,inputData.outputFolder);
-  }
-
+  ExtParams extParams(gco,std::cout,inputData.outputFolder);
+  BTools::API::bce(bcInput,
+                   [&extParams](BTools::API::CallbackData&& data){ callback(std::move(data),extParams); } );
 
 }

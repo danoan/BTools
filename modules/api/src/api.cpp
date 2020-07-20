@@ -9,18 +9,15 @@ typedef BTools::Core::ModelParameters ModelParameters;
 typedef BTools::Core::ImageData ImageData;
 
 
-void bce(BCOutput& bcOutput, const BCInput& bcInput,BCECallback callback)
+void bce(const BCInput& bcInput,BCECallback callback)
 {
-  BCOutput::EnergySolution& solution = bcOutput.energySolution;
   const ModelParameters& modelParameters = bcInput.modelParameters;
   const ImageData& imageData = bcInput.imageData;
+  EnergySolution solution(imageData.inputDomain);
 
   DigitalSet inputDS(imageData.inputDS->domain());
   DIPaCUS::Morphology::StructuringElement se(DIPaCUS::Morphology::StructuringElement::RECT, 1);
   DIPaCUS::Morphology::dilate(inputDS,*imageData.inputDS,se,modelParameters.initialDilation);
-
-  BCOutput lastValidSolution(bcInput);
-
 
   ODRPixels odrPixels(modelParameters.radius,
                       modelParameters.gridStep,
@@ -31,11 +28,11 @@ void bce(BCOutput& bcOutput, const BCInput& bcInput,BCECallback callback)
 
 
   std::string windowName="IterationViewer";
-
   if(bcInput.displayEachIteration){
     cv::namedWindow(windowName);
-    cv::imshow(windowName,imageData.grabcutImage);
   }
+
+  callback( CallbackData{Event::Start,0,windowName,bcInput,solution} );
 
   int nit=0;
   try{
@@ -45,30 +42,18 @@ void bce(BCOutput& bcOutput, const BCInput& bcInput,BCECallback callback)
                                odrPixels,
                                inputDS);
 
+      callback( CallbackData{Event::Iteration,nit,windowName,bcInput,solution} );
+
       inputDS.clear();
       inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
 
-      BTools::Core::createBCImage(bcOutput,
-                                  imageData);
-
-      callback( CallbackData{nit,windowName,bcInput,bcOutput} );
-
-      lastValidSolution = bcOutput;
       ++nit;
     }
   }catch(std::exception ex){
     std::cerr << "Error in iteration " << nit << ". Saving current solution.\n";
   }
 
-  if(bcInput.displayEachIteration){
-    std::cout << "The flow is done. Press any key to exit" << std::endl;
-    cv::waitKey(0);
-    cv::destroyWindow(windowName);
-  }
-
-  bcOutput = lastValidSolution;
-  BTools::Core::createBCImage(bcOutput,
-                              imageData);
+  callback( CallbackData{Event::End,nit,windowName,bcInput,solution} );
 }
 
 
