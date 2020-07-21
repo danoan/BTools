@@ -28,11 +28,11 @@ target_include_directories(btools-core PRIVATE
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(btools-core
+        -lscabolic-core
         -lbtools-utils
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
-        -lscabolic-core
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS}
         )

@@ -4,10 +4,9 @@ namespace BTools{
 namespace IO{
 namespace Writer{
 
-void write(const BCOutput& bcOutput,
+void write(const BCInput& bcInput,
            std::ostream& os,
            bool printHeader){
-    const BCInput& bcInput = bcOutput.bcInput;
     const ModelParameters& modelParameters = bcInput.modelParameters;
     int colLength=20;
 
@@ -25,10 +24,10 @@ void write(const BCOutput& bcOutput,
     }
 
 
-    os << BTools::Utils::fixedStrLength(colLength,bcOutput.energySolution.energyValue) << "\t"
-       << BTools::Utils::fixedStrLength(colLength,bcOutput.IIElasticaValue) << "\t"
-       << BTools::Utils::fixedStrLength(colLength,bcOutput.MDCAElasticaValue) << "\t"
-       << BTools::Utils::fixedStrLength(colLength,bcOutput.energySolution.unlabeled) << std::endl;
+//    os << BTools::Utils::fixedStrLength(colLength,bcOutput.energySolution.energyValue) << "\t"
+//       << BTools::Utils::fixedStrLength(colLength,bcOutput.IIElasticaValue) << "\t"
+//       << BTools::Utils::fixedStrLength(colLength,bcOutput.MDCAElasticaValue) << "\t"
+//       << BTools::Utils::fixedStrLength(colLength,bcOutput.energySolution.unlabeled) << std::endl;
 }
 
 

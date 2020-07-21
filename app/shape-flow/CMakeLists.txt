@@ -25,10 +25,27 @@ target_include_directories(shape-flow PRIVATE
         ${DGTAL_INCLUDE_DIRS}
         )
 
+#target_link_libraries(shape-flow
+#        -lpthread
+#        -lbtools-api
+#        -lbtools-utils
+#        -lbtools-core
+#        -lscabolic-utils
+#        -lscabolic-energy
+#        -lscabolic-core
+#        -lscabolic-optimization
+#        -ldipacus-derivates
+#        -ldipacus-components
+#        -ldipacus-base
+#        -lboost_filesystem
+#        -lboost_system
+#        ${DGTAL_LIBRARIES}
+#        ${OpenCV_LIBS})
+
 target_link_libraries(shape-flow
         -lpthread
-        -lbtools-api
         -lbtools-utils
+        -lbtools-api
         -lbtools-core
         -lscabolic-utils
         -lscabolic-energy
