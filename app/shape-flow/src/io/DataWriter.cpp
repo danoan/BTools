@@ -95,12 +95,12 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
 
     os  << "#" << fnS(colLength,"Iteration") << "\t"
         << fnS(colLength,"Opt. Energy") << "\t"
-        << fnS(colLength,"Elastica MDCA") << "\t"
-        << fnS(colLength,"Perimeter") << "\t"
         << fnS(colLength,"Unlabeled") << "\t"
+        << fnS(colLength,"Elastica MDCA") << "\t"
+        << fnS(colLength,"Elastica II") << "\t"
+        << fnS(colLength,"Perimeter") << "\t"
         << fnS(colLength,"Area") << "\t"
         << fnS(colLength,"Perimeter^2/Area") << "\t"
-        << fnS(colLength,"Elastica II") << "\t"
         << std::endl;
 
     for(auto it=entries.begin();it!=entries.end();++it)
@@ -110,14 +110,14 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
         const EnergySolution &curr = (it->solution);
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
+        os << fnD(colLength,curr.unlabeled) << "\t";
         outputElasticaMDCA(it->solution.outputDS,it->gridStep,os);
+        outputElasticaII(it->solution.outputDS,it->gridStep,it->radius,os);
 
         double perimeter = outputShapePerimeter(it->solution.outputDS,it->gridStep,os);
-
-        os << fnD(colLength,curr.unlabeled) << "\t";
         double area = outputShapeArea(it->solution.outputDS,it->gridStep,os);
         os << fnD(colLength,pow(perimeter,2)/area) << "\t";
-        outputElasticaII(it->solution.outputDS,it->gridStep,it->radius,os);
+
         os << "\t\n";
     }
 }
