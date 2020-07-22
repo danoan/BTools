@@ -6,8 +6,9 @@ find_package(OpenCV REQUIRED)
 
 add_executable(shape-flow
         shape-flow.cpp
-        src/control/DataWriter.cpp
-        src/InputReader.cpp
+        src/io/DataWriter.cpp
+        src/io/InputReader.cpp
+        src/utils.cpp
         )
 
 add_dependencies(shape-flow btools-core btools-utils btools-api)
@@ -24,23 +25,6 @@ target_include_directories(shape-flow PRIVATE
         ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
         )
-
-#target_link_libraries(shape-flow
-#        -lpthread
-#        -lbtools-api
-#        -lbtools-utils
-#        -lbtools-core
-#        -lscabolic-utils
-#        -lscabolic-energy
-#        -lscabolic-core
-#        -lscabolic-optimization
-#        -ldipacus-derivates
-#        -ldipacus-components
-#        -ldipacus-base
-#        -lboost_filesystem
-#        -lboost_system
-#        ${DGTAL_LIBRARIES}
-#        ${OpenCV_LIBS})
 
 target_link_libraries(shape-flow
         -lpthread

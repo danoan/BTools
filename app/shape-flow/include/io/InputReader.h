@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 #include "BTools/core/model/input/ModelParameters.h"
-#include "ShapeType.h"
+#include "model/ShapeType.h"
 
 
 namespace ShapeFlow{

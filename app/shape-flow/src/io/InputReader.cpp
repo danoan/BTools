@@ -1,4 +1,4 @@
-#include "InputReader.h"
+#include "io/InputReader.h"
 
 namespace ShapeFlow{
 InputData::InputData()

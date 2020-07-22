@@ -1,4 +1,4 @@
-#include "control/DataWriter.h"
+#include "io/DataWriter.h"
 
 using namespace ShapeFlow;
 
@@ -123,8 +123,8 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
 }
 
 void DataWriter::printFlowMetadata(const ModelParameters& modelParameters,
-                                    const DigitalSet& dsZero,
-                                    std::ofstream &ofs)
+                                   const DigitalSet& dsZero,
+                                   std::ofstream &ofs)
 {
     ofs << "Levels: " << modelParameters.levels << "("
         << ( (modelParameters.levelDefinition==ModelParameters::LevelDefinition::LD_CloserFromCenter)?"CloserFromCenter":"FartherFromCenter")

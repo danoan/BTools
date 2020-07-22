@@ -32,6 +32,7 @@ void bce(const BCInput& bcInput,BCECallback callback)
     cv::namedWindow(windowName);
   }
 
+  solution.outputDS = *imageData.inputDS;
   callback( CallbackData{Event::Start,0,windowName,bcInput,solution} );
 
   int nit=0;
