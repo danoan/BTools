@@ -1,53 +1,25 @@
-#include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
-#include <BTools/reader/DCFReader.h>
+#include <boost/filesystem.hpp>
 
 #include <DGtal/helpers/StdDefs.h>
+#include <DGtal/io/writers/GenericWriter.h>
 #include <DGtal/io/boards/Board2D.h>
 
-#include <boost/filesystem.hpp>
-#include <DGtal/io/writers/GenericWriter.h>
+#include <SCaBOliC/Core/ODRPixels/ODRPixels.h>
+#include <BTools/utils/digUtils.h>
 
+#include "InputReader.h"
 
 using namespace DGtal::Z2i;
 
 using namespace SCaBOliC::Core;
 using namespace BTools::Core;
-using namespace BTools::Reader;
-
-typedef DCFReader::Shape Shape;
-typedef DCFReader::ShapeType ShapeType;
-
-
-DigitalSet getShape(Shape shape,double gridStep)
-{
-    int radius=20;
-    if(shape.type==ShapeType::Triangle) return DIPaCUS::Shapes::triangle(gridStep,0,0,radius);
-    else if(shape.type==ShapeType::Square) return DIPaCUS::Shapes::square(gridStep,0,0,radius);
-    else if(shape.type==ShapeType::Pentagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,5);
-    else if(shape.type==ShapeType::Heptagon) return DIPaCUS::Shapes::NGon(gridStep,0,0,radius,7);
-    else if(shape.type==ShapeType::Ball) return DIPaCUS::Shapes::ball(gridStep,0,0,radius);
-    else if(shape.type==ShapeType::Flower) return DIPaCUS::Shapes::flower(gridStep,0,0,radius,radius/2.0,2);
-    else if(shape.type==ShapeType::Ellipse) return DIPaCUS::Shapes::ellipse(gridStep,0,0,radius,radius/2);
-    else if(shape.type==ShapeType::Wave) return DIPaCUS::Shapes::wave(gridStep,1200,radius*3,radius*6,0.01);
-    else if(shape.type==ShapeType::Bean) return DIPaCUS::Shapes::bean(gridStep,0,0,0.1);
-    else
-    {
-        cv::Mat img = cv::imread(shape.imagePath,CV_8UC1);
-        Domain domain( DGtal::Z2i::Point(0,0), DGtal::Z2i::Point(img.cols-1,img.rows-1) );
-        DigitalSet ds(domain);
-        DIPaCUS::Representation::CVMatToDigitalSet(ds,img,1);
-        return ds;
-    }
-}
+using namespace RegionsOfInterest;
 
 void saveODR(const ODRModel& ODR,std::string outputPath)
 {
     DGtal::Board2D board;
     std::string specificStyle = ODR.original.className() + "/Paving";
     board << DGtal::SetMode(ODR.original.className(),"Paving");
-
-//    board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Silver, DGtal::Color::Silver));
-//    board << ODR.trustBKG;
 
     board << DGtal::CustomStyle(specificStyle, new DGtal::CustomColors(DGtal::Color::Blue, DGtal::Color::Blue));
     board << ODR.trustFRG;
@@ -71,54 +43,22 @@ void saveODR(const ODRModel& ODR,std::string outputPath)
 
 }
 
-DCFReader::InputData defaultValues()
-{
-    DCFReader::InputData id;
-
-    id.radius=3;
-    id.neighborhood= ODRConfigInput::NeighborhoodType::FourNeighborhood;
-    id.ld = ODRConfigInput::LevelDefinition::LD_CloserFromCenter;
-
-    id.am = ODRModel::ApplicationMode::AM_AroundBoundary;
-
-    id.levels=3;
-    id.optRegionInApplication = false;
-
-    id.shape = Shape(ShapeType::Square);
-    id.gridStep = 1.0;
-
-    return id;
-}
-
 int main(int argc, char* argv[])
 {
-    DCFReader::InputData id = DCFReader::readInput(argc,argv,"OUTPUT_FILEPATH\n",defaultValues);
-
-    std::string outputFilePath;
-    try
-    {
-        outputFilePath = argv[argc-1];
-    }catch(std::exception ex)
-    {
-        std::cerr << "Missing output_filepath!\n";
-        exit(1);
-    }
-
-
+    InputData id = readInput(argc,argv);
 
     SCaBOliC::Core::ODRPixels odrPixels(id.radius,id.gridStep,id.levels,
-                                  id.ld,id.neighborhood,id.optBand);
+                                  id.levelDefinition,ODRPixels::NeighborhoodType::FourNeighborhood,id.optBand);
 
 
+    ODRModel odrModel = odrPixels.createODR(ODRPixels::ApplicationMode::AM_AroundBoundary,
+                                          BTools::Utils::resolveShape(id.shape,id.gridStep),
+                                          false);
 
-    ODRModel odrModel = odrPixels.createODR(id.am,
-                                          getShape(id.shape,id.gridStep),
-                                          id.optRegionInApplication);
 
-
-    boost::filesystem::path p(outputFilePath);
+    boost::filesystem::path p(id.outputFilepath);
     boost::filesystem::create_directories(p.remove_filename());
-    saveODR(odrModel,outputFilePath);
+    saveODR(odrModel,id.outputFilepath);
 
     return 0;
 }
