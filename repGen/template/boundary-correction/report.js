@@ -114,15 +114,9 @@ function open_src(el)
 
 function init()
 {
-    basePath=window.prompt("Enter images base folder");
-    if(basePath=="")
-    {
-        basePath=window.location.toString();
-        basePath=basePath.substring(0, basePath.lastIndexOf("/") );
-    }else
-    {
-        basePath="file://".concat(basePath);
-    }
+    basePath=window.location.toString();
+    basePath=basePath.substring(0, basePath.lastIndexOf("/") );
+
     default_buttons();
     load_figure();
     document.body.style.visibility="visible";
