@@ -6,9 +6,21 @@
 
 using namespace SeedSelector;
 
+void print_instructions(){
+    std::cout << "***Seed selector instructions***\n\n"
+              << "p: Select unknown image mask (Probably foreground mask)\n"
+              << "f: Select foreground image mask\n"
+              << "b: Select background image mask\n"
+              << "+: Increase pen width\n"
+              << "-: Decrease pen width\n"
+              << "s: Save masks\n"
+              << "q: Quit selector\n\n";
+}
+
 int main(int argc, char* argv[])
 {
     InputData id = readInput(argc,argv);
+    print_instructions();
 
     GUIData gd = GUIData::initGUIData("SeedSelector",id.outputFolder,id.imagePath,id.once);
     cv::namedWindow(gd.windowName);
@@ -61,7 +73,6 @@ int main(int argc, char* argv[])
         refreshWindow(gd);
     }
 
-    std::cout << "destroy" << std::endl;
     cv::destroyWindow(gd.windowName);
 
     return 0;

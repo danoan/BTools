@@ -4,7 +4,11 @@ namespace SeedSelector
 {
     void usage(char* argv[])
     {
-        std::cerr << "Usage: ./" << argv[0] << "imagePath outputFolder\n\n";
+        std::cerr << "Usage: ./" << argv[0] << "imagePath outputFolder"
+                  << "[-o Selector is destroyed after saving]\n"
+                  << "[-u Path to unknown image mask]\n"
+                  << "[-f Path to foreground image mask]\n"
+                  << "[-b Path to background image mask]\n\n";
     }
 
     InputData readInput(int argc, char* argv[])

@@ -3,14 +3,16 @@
 #include <opencv2/highgui.hpp>
 #include <boost/filesystem.hpp>
 
+#include <BTools/io/seed/GrabCutObject.h>
+
 #include "InputData.h"
 #include "GrabCutOutput.h"
 #include "GrabCutApplication.h"
-#include "../../modules/io/seed/include/BTools/io/seed/GrabCutObject.h"
+
 
 
 using namespace GrabCut;
-using namespace BTools::Utils::GrabCutIO;
+using namespace BTools::IO::Seed;
 
 GrabCutOutput runGrabCut(const std::string& imgPath,
                          const std::string& unknownMask,
@@ -65,10 +67,10 @@ int main(int argc, char* argv[])
     gcObject.segMask = gco.segMaskResult;
     gcObject.inputImage = inputImg;
     gcObject.seeds = constructSeedMask(id.imgPath,id.fgSeedMask,id.bgSeedMask,id.unknownMask);
-    BTools::Utils::GrabCutIO::write(gcObject,id.outputObject);
+    write(gcObject,id.outputObject);
 
     cv::Mat fg,bg,pbfg;
-    BTools::Utils::GrabCutIO::getSeedMasks(gcObject,fg,bg,pbfg);
+    getSeedMasks(gcObject,fg,bg,pbfg);
 
     cv::Mat segResultImg = cv::Mat::zeros(inputImg.size(),CV_8UC4);
 
@@ -86,6 +88,6 @@ int main(int argc, char* argv[])
     }
 
 
-
+    std::cout << "Press any key to continue...\n";
     cv::waitKey(0);
 }

@@ -99,7 +99,7 @@ namespace SeedSelector
         if(gd->once)
         {
             cv::destroyAllWindows();
-            exit(0);
+            exit(1);
         }
     }
 }

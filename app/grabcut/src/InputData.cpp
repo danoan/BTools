@@ -5,7 +5,10 @@ namespace GrabCut
     void usage(char* argv[])
     {
         std::cerr << "Usage: ./" << argv[0] << "imgPath fgSeedMask bgSeedMask outputObjectPath "
-                  << "[-u unknownSeedMaskPath] [-o outputSegPath] [-s show segmented image] \n\n";
+                  << "[-i Grabcut iterations (default: 1)]"
+                  << "[-u unknownSeedMaskPath]"
+                  << "[-o outputSegPath]"
+                  << "[-s show segmented image]\n\n";
     }
 
     InputData readInput(int argc, char* argv[])
