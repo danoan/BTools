@@ -34,7 +34,7 @@ void solveModel(Solution& solution,
   solution.init(energy.numVars());
 
 
-  energy.template solve<QPBOImproveSolver>(solution);
+  energy.template solve<QPBOProbeSolver>(solution);
   updateSet(solution,
             odrFactory,
             energyInput,
