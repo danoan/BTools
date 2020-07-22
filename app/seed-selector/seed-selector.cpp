@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 #include <opencv2/highgui.hpp>
 
 #include "InputData.h"
@@ -17,6 +18,40 @@ void print_instructions(){
               << "q: Quit selector\n\n";
 }
 
+void handleEvent(int key, GUIData& gd, bool& onExecution){
+  switch(key)
+  {
+    case 'p':{ probablyForegroundCallback(1,&gd); break; }
+    case 'f':{ foregroundCallback(1,&gd); break; }
+    case 'b':{ backgroundCallback(1,&gd); break; }
+    case 'r':{ restartCallback(1,&gd); break; }
+    case 's':{ saveCallback(1,&gd); break; }
+    case 'q':{ onExecution=false; break;}
+    case '+':
+    {
+      gd.penWidth += gd.penWidth<255?1:0;
+      displayStatusBar(gd);
+      break;
+    }
+    case '-':
+    {
+      gd.penWidth -= gd.penWidth>0?1:0;
+      displayStatusBar(gd);
+      break;
+    }
+  }
+}
+
+void testMode(const std::string& testModeString, GUIData& gd){
+  bool onExecution= true;
+  for(char c:testModeString){
+    int key = (int) c;
+    handleEvent(key,gd,onExecution);
+    if(onExecution==false) break;
+    refreshWindow(gd);
+  }
+}
+
 int main(int argc, char* argv[])
 {
     InputData id = readInput(argc,argv);
@@ -32,7 +67,6 @@ int main(int argc, char* argv[])
     cv::imshow(gd.windowName,gd.cvImg);
 
 
-
     cv::createButton("Probably Foreground",probablyForegroundCallback,&gd,cv::QT_RADIOBOX,true);
     cv::createButton("Foreground",foregroundCallback,&gd,cv::QT_RADIOBOX,false);
     cv::createButton("Background",backgroundCallback,&gd,cv::QT_RADIOBOX,false);
@@ -45,33 +79,17 @@ int main(int argc, char* argv[])
     setRectMouseCallback(gd);
 
 
-    bool onExecution=true;
-    while(onExecution)
-    {
+    if(id.testModeFlag) testMode(id.testModeString,gd);
+    else{
+      bool onExecution=true;
+      while(onExecution)
+      {
         int key=cv::waitKey(10);
-        switch(key)
-        {
-            case 'p':{ probablyForegroundCallback(1,&gd); break; }
-            case 'f':{ foregroundCallback(1,&gd); break; }
-            case 'b':{ backgroundCallback(1,&gd); break; }
-            case 'r':{ restartCallback(1,&gd); break; }
-            case 's':{ saveCallback(1,&gd); break; }
-            case 'q':{ onExecution=false; break;}
-            case '+':
-            {
-                gd.penWidth += gd.penWidth<255?1:0;
-                displayStatusBar(gd);
-                break;
-            }
-            case '-':
-            {
-                gd.penWidth -= gd.penWidth>0?1:0;
-                displayStatusBar(gd);
-                break;
-            }
-        }
+        handleEvent(key,gd,onExecution);
         refreshWindow(gd);
+      }
     }
+
 
     cv::destroyWindow(gd.windowName);
 

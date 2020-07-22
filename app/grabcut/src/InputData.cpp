@@ -4,10 +4,10 @@ namespace GrabCut
 {
     void usage(char* argv[])
     {
-        std::cerr << "Usage: ./" << argv[0] << "imgPath fgSeedMask bgSeedMask outputObjectPath "
-                  << "[-i Grabcut iterations (default: 1)]"
-                  << "[-u unknownSeedMaskPath]"
-                  << "[-o outputSegPath]"
+        std::cerr << "Usage: ./" << argv[0] << " imgPath fgSeedMask bgSeedMask outputObjectPath\n"
+                  << "[-i Grabcut iterations (default: 1)]\n"
+                  << "[-u unknownSeedMaskPath]\n"
+                  << "[-o outputSegPath]\n"
                   << "[-s show segmented image]\n\n";
     }
 

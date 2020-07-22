@@ -4,11 +4,12 @@ namespace SeedSelector
 {
     void usage(char* argv[])
     {
-        std::cerr << "Usage: ./" << argv[0] << "imagePath outputFolder"
+        std::cerr << "Usage: ./" << argv[0] << "imagePath outputFolder\n"
                   << "[-o Selector is destroyed after saving]\n"
                   << "[-u Path to unknown image mask]\n"
                   << "[-f Path to foreground image mask]\n"
-                  << "[-b Path to background image mask]\n\n";
+                  << "[-b Path to background image mask]\n"
+                  << "[-T Test mode. Enter sequence of commands.]\n\n";
     }
 
     InputData readInput(int argc, char* argv[])
@@ -22,7 +23,7 @@ namespace SeedSelector
         InputData id;
 
         char opt;
-        while( (opt=getopt(argc,argv,"ou:f:b:"))!=-1)
+        while( (opt=getopt(argc,argv,"ou:f:b:T:"))!=-1)
         {
             switch(opt)
             {
@@ -44,6 +45,12 @@ namespace SeedSelector
                 case 'b':
                 {
                     id.bgImageMask=optarg;
+                    break;
+                }
+                case 'T':
+                {
+                    id.testModeString=optarg;
+                    id.testModeFlag=true;
                     break;
                 }
                 default:

@@ -85,9 +85,9 @@ int main(int argc, char* argv[])
         cv::namedWindow("GrabCut");
         cv::imshow("GrabCut",
                    segResultImg);
+        std::cout << "Press any key to continue...\n";
+        cv::waitKey(0);
     }
 
 
-    std::cout << "Press any key to continue...\n";
-    cv::waitKey(0);
 }
