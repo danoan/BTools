@@ -9,7 +9,8 @@ endif()
 add_library(btools-utils ${LIBRARY_ACTION}
         src/imgUtils.cpp
         src/strUtils.cpp
-        src/timer.cpp)
+        src/timer.cpp
+        src/digUtils.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-utils dipacus scabolic)

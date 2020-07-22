@@ -5,6 +5,7 @@
 #include <DGtal/helpers/StdDefs.h>
 
 #include <BTools/api/api.h>
+#include <BTools/utils/digUtils.h>
 #include <BTools/utils/strUtils.h>
 #include <BTools/utils/timer.h>
 
@@ -108,7 +109,7 @@ int main(int argc, char* argv[])
                                   id.lgWeight,
                                   0);
 
-  DigitalSet dsShape = Utils::resolveShape(id.shape,id.gridStep);
+  DigitalSet dsShape = BTools::Utils::resolveShape(id.shape,id.gridStep);
   cv::Mat initialImage = Utils::createInitialImage(dsShape,modelParameters);
 
   MockDistribution frDistr;

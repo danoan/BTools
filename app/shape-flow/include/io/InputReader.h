@@ -4,8 +4,8 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "BTools/core/model/input/ModelParameters.h"
-#include "model/ShapeType.h"
+#include <BTools/core/model/input/ModelParameters.h>
+#include <BTools/core/model/ShapeType.h>
 
 
 namespace ShapeFlow{
@@ -13,6 +13,8 @@ struct InputData
 {
   typedef BTools::Core::ModelParameters ModelParameters;
   typedef ModelParameters::LevelDefinition LevelDefinition;
+  typedef BTools::Core::Shape Shape;
+  typedef BTools::Core::ShapeType ShapeType;
 
   InputData();
 
