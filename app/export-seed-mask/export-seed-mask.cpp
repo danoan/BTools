@@ -4,9 +4,9 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 
-#include "BTools/utils/model/GrabCutObject.h"
+#include <BTools/io/seed/GrabCutObject.h>
 
-using namespace BTools::Utils::GrabCutIO;
+using namespace BTools::IO::Seed;
 
 void usage(char* argv[])
 {

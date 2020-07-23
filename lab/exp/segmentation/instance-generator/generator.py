@@ -20,7 +20,7 @@ def resolve_output_folder(c):
     return output_folder
 
 def boundary_correction(c):
-    gcobject,method,radius,dt,sq,lt,levels,optband,up,iterations = c
+    gcobject,radius,dt,sq,lt,levels,iterations = c
 
     outputFolder=resolve_output_folder(c)
 
@@ -35,17 +35,14 @@ def boundary_correction(c):
                       "%s%f" % ("-q",sq['value']),
                       "%s%f" % ("-t",dt['value']),
                       "%s%f" % ("-g",lt['value']),
-                      "%s%s" % ("-m",method['value']),
                       "%s%s" % ("-o",outputFolder),
-                      "%s%d" % ("-O",optband['value']),
-                      "%s%d" % ("-l",levels['value']),
-                      "-u" if up else ""])
+                      "%s%d" % ("-l",levels['value'])])
     tend=time.time()
 
     print("*****Done in: %f seconds" % (tend-tstart,))
 
 def export_seed_mask(c):
-    gcobject,method,radius,dt,sq,lt,levels,optband,up,iterations = c
+    gcobject,radius,dt,sq,lt,levels,iterations = c
 
     outputFolder=resolve_output_folder(c)
 

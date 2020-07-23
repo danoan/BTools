@@ -11,10 +11,10 @@ gp_plot_config()
 
 gp_add_plot()
 {
-    printf "'$1' u 1:(\$4*\$4/\$6) w l title '$2',"
+    printf "'$1' u 1:8 w l title '$2',"
 }
 
 gp_last_plot()
 {
-	printf "'$1' u 1:(\$4*\$4/\$6) w l title '$2';"
+	printf "'$1' u 1:8 w l title '$2';"
 }

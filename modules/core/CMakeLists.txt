@@ -7,8 +7,7 @@ if(${CREATE_SHARED_LIBRARIES})
 endif()
 
 add_library(btools-core ${LIBRARY_ACTION}
-        src/BCApplication.cpp
-        src/control/BCControl.cpp
+        src/control/modelIteration.cpp
         src/model/GMM.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
@@ -29,11 +28,11 @@ target_include_directories(btools-core PRIVATE
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(btools-core
+        -lscabolic-core
         -lbtools-utils
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
-        -lscabolic-core
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS}
         )

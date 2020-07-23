@@ -7,12 +7,10 @@ if(${CREATE_SHARED_LIBRARIES})
 endif()
 
 add_library(btools-utils ${LIBRARY_ACTION}
-        src/dispUtils.cpp
-        src/DataWriter.cpp
         src/imgUtils.cpp
         src/strUtils.cpp
-        src/GrabCutIO.cpp
-        src/timer.cpp)
+        src/timer.cpp
+        src/digUtils.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(btools-utils dipacus scabolic)

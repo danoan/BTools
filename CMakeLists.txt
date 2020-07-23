@@ -32,8 +32,10 @@ set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHu
 project(btools)
 
 set(VERSION_BTOOLS_CORE master)
-set(VERSION_BTOOLS_READER master)
 set(VERSION_BTOOLS_UTILS master)
+set(VERSION_BTOOLS_WRITER master)
+set(VERSION_BTOOLS_SEEDIO master)
+set(VERSION_BTOOLS_API master)
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -53,12 +55,17 @@ link_directories(${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
-        ${CMAKE_BINARY_DIR}/modules/reader
+        ${CMAKE_BINARY_DIR}/modules/io/reader
+        ${CMAKE_BINARY_DIR}/modules/io/writer
+        ${CMAKE_BINARY_DIR}/modules/io/seed
+        ${CMAKE_BINARY_DIR}/modules/api
         )
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/utils)
-add_subdirectory(modules/reader)
+add_subdirectory(modules/io/writer)
+add_subdirectory(modules/io/seed)
+add_subdirectory(modules/api)
 
 if(${BUILD_TESTS})
     #add_subdirectory(modules/lab/Test)

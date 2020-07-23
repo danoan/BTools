@@ -3,8 +3,10 @@ project(summary-flow)
 
 add_executable(summary-flow
         summary-flow.cpp
-        src/OneImageFlow.cpp
-        src/InputReader.cpp
+        src/control/OneImageFlow.cpp
+        src/input/InputReader.cpp
+        src/model/ColorScheme.cpp
+        src/model/DrawingBuffer.cpp
         src/utils.cpp
         )
 

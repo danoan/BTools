@@ -18,6 +18,9 @@ namespace SeedSelector
         std::string fgImageMask;
         std::string bgImageMask;
 
+        std::string testModeString;
+        bool testModeFlag{false};
+
         bool once;
     };
 

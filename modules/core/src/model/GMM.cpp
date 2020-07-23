@@ -1,6 +1,7 @@
 #include "BTools/core/model/GMM.h"
 
-using namespace BTools::Core;
+namespace BTools{
+namespace Core{
 using namespace cv;
 
 GMM::GMM( Mat& _model )
@@ -44,8 +45,8 @@ double GMM::operator()( int ci, const Vec3d color ) const
         double* m = mean + 3*ci;
         diff[0] -= m[0]; diff[1] -= m[1]; diff[2] -= m[2];
         double mult = diff[0]*(diff[0]*inverseCovs[ci][0][0] + diff[1]*inverseCovs[ci][1][0] + diff[2]*inverseCovs[ci][2][0])
-                      + diff[1]*(diff[0]*inverseCovs[ci][0][1] + diff[1]*inverseCovs[ci][1][1] + diff[2]*inverseCovs[ci][2][1])
-                      + diff[2]*(diff[0]*inverseCovs[ci][0][2] + diff[1]*inverseCovs[ci][1][2] + diff[2]*inverseCovs[ci][2][2]);
+            + diff[1]*(diff[0]*inverseCovs[ci][0][1] + diff[1]*inverseCovs[ci][1][1] + diff[2]*inverseCovs[ci][2][1])
+            + diff[2]*(diff[0]*inverseCovs[ci][0][2] + diff[1]*inverseCovs[ci][1][2] + diff[2]*inverseCovs[ci][2][2]);
         res = 1.0f/sqrt(covDeterms[ci]) * exp(-0.5f*mult);
     }
     return res;
@@ -186,10 +187,15 @@ double GMM::standardNormal( int ci, const cv::Vec3d color ) const
         diff[0] -= m[0]; diff[1] -= m[1]; diff[2] -= m[2];
         diff[0] /= covDeterms[ci]; diff[1] /= covDeterms[ci]; diff[2] /= covDeterms[ci];
         double mult = diff[0]*diff[0]
-                      + diff[1]*diff[1]
-                      + diff[2]*diff[2];
+            + diff[1]*diff[1]
+            + diff[2]*diff[2];
         res = 1.0f/sqrt(2*3.1415) * exp(-0.5f*mult);
 
     }
     return res;
 }
+
+}
+}
+
+

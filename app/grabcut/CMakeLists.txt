@@ -6,12 +6,12 @@ add_dependencies(grab-cut btools-utils)
 
 target_include_directories(grab-cut PRIVATE
         include
-        ${CMAKE_SOURCE_DIR}/modules/utils/include
+        ${CMAKE_SOURCE_DIR}/modules/io/seed/include
         ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRECTORIES})
 
 target_link_libraries(grab-cut
-        -lbtools-utils
+        -lbtools-seedio
         -ldipacus-components
         -ldipacus-base
         -lboost_filesystem

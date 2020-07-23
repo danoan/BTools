@@ -19,7 +19,7 @@ def resolve_output_folder(c):
 
 def regions_of_interest(c):
     outputFolder = resolve_output_folder(c)
-    shape,method,radius,levels,gs,optband,up = c
+    shape,radius,levels,gs,iterations = c
 
     outputFilepath="%s/%s" % (outputFolder,"odr.svg")
 
@@ -27,36 +27,27 @@ def regions_of_interest(c):
     subprocess.call( [binary,
                       "%s%s" % ("-S",shape['value']),
                       "%s%d" % ("-r",radius['value']),
-                      "%s%s" % ("-f","around-contour"),
-                      "%s%d" % ("-n",4),
                       "%s%d" % ("-l",levels['value']),
                       "%s%f" % ("-h", gs['value']),
-                      "%s%d" % ("-O", optband['value']),
                       outputFilepath
                       ] )
 
 def shape_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    shape,method,radius,levels,gs,optband,up = c
+    shape,radius,levels,gs,iterations = c
 
 
     binary = "%s/%s" % (BINARY_FOLDER,"shape-flow")
     subprocess.call( [binary,
                       "%s%s" % ("-S",shape['value']),
                       "%s%d" % ("-r",radius['value']),
-                      "%s%d" % ("-i",100),
-                      "%s%s" % ("-f","around-contour"),
-                      "%s%d" % ("-n",4),
+                      "%s%d" % ("-i",iterations['value']),
                       "%s%d" % ("-l",levels['value']),
                       "%s%f" % ("-q",1),
-                      "%s%f" % ("-t",0),
                       "%s%f" % ("-g",0),
-                      "-u" if up['value'] else "",
-                      "%s%d" % ("-O", optband['value']),
-                      "%s%s" % ("-m",method['value']),
                       "%s%f" % ("-h", gs['value']),
-                      outputFolder
+                      "%s%s" % ("-o",outputFolder)
                       ] )
 
 def summary_flow(c):

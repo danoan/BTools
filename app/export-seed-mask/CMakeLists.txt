@@ -8,12 +8,12 @@ add_dependencies(export-seed-mask btools-utils)
 
 target_include_directories(export-seed-mask PRIVATE
         include
-        ${CMAKE_SOURCE_DIR}/modules/utils/include
+        ${CMAKE_SOURCE_DIR}/modules/io/seed/include
         ${DGTAL_INCLUDE_DIRS}
         )
 
 target_link_libraries(export-seed-mask
-        -lbtools-utils
+        -lbtools-seedio
         -ldipacus-components
         -ldipacus-base
         -lboost_filesystem
