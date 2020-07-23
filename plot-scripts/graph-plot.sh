@@ -29,7 +29,7 @@ create_multiplot()
 
 	buffer="$(gp_plot_config "$plottitle")plot "
 	i=0
-	num_plots=`expr ${#} / 2 - 1`
+	num_plots=$(( ${#} / 2 - 1))
 
 	while [ "${i}" -lt "${num_plots}" ]
 	do
@@ -38,7 +38,7 @@ create_multiplot()
 		buffer="${buffer}$(gp_add_plot $subplotDataFile $subplotTitle)"
 		shift; shift;
 
-		i=`expr "$i" + 1`
+		i=$(("$i" + 1))
 	done
 
 	if [ "$num_plots" -eq 0 ]
@@ -50,6 +50,6 @@ create_multiplot()
 
 	buffer="${buffer}$(gp_save)"
 
-	`gnuplot -e "$buffer"`
-	`mv my-plot.ps "${fileoutput}"`
+	$(gnuplot -e "$buffer")
+	$(mv my-plot.ps "${fileoutput}")
 }

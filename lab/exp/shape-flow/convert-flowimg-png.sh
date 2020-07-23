@@ -1,3 +1,5 @@
+#!/bin/bash
+
 BASE_PATH="$(realpath "$1")"
 CURR_PATH="$PWD"
 

@@ -1,3 +1,4 @@
+#!/bin/bash
 SCRIPT_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 PROJECT_FOLDER="$(cd "$SCRIPT_FOLDER" && cd .. && pwd)"
@@ -91,7 +92,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${BC_APP}" "${SP_OUT}/gc-object.xml" -r$r -l$l -t$t -q$q -g$g -i$i -o "${SP_OUT}/bc" -v -s
+    "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -o "${SP_OUT}/bc" -v -s
 fi
 
 

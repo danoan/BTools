@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 gp_plot_config()
 {
