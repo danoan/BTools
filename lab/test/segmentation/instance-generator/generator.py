@@ -3,7 +3,6 @@ import subprocess,sys,os,time
 
 from param_combinator import *
 from config import *
-from template_render import *
 
 SCRIPT_FOLDER="set in read  input"
 BINARY_FOLDER="set in read  input"
@@ -68,8 +67,6 @@ def main():
         if valid_combination(c):
             boundary_correction(c)
             export_seed_mask(c)
-
-    render_template("boundary-correction",CONFIG_LIST,"%s/%s" % (os.path.dirname(SCRIPT_FOLDER),"output"))
 
 
 if __name__=='__main__':
