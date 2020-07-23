@@ -1,15 +1,15 @@
 var basePath;
 
-function build_path()
+function buildPath()
 {
-    var r=document.getElementsByClassName("row")[0];
-    var l=r.children.length;
-    var relPath="";
-    for(var i=0;i<l;i++)
+    let r=document.getElementsByClassName("row")[0];
+    let l=r.children.length;
+    let relPath="";
+    for(let i=0;i<l;i++)
     {
-        var c=r.children[i];
-        var buttons=c.children[0].children;
-        for(var j=0;j<buttons.length;j++)
+        let c=r.children[i];
+        let buttons=c.children[0].children;
+        for(let j=0;j<buttons.length;j++)
         {
             if(buttons[j].classList.contains("selected"))
             {
@@ -24,10 +24,10 @@ function build_path()
     return relPath;
 }
 
-function get_current_display()
+function getCurrentDisplay()
 {
-    var display = document.getElementsByClassName("display")[0];
-    for(var i=0;i<display.children.length;++i)
+    let display = document.getElementsByClassName("display")[0];
+    for(let i=0;i<display.children.length;++i)
     {
         if(display.children[i].classList.contains("active"))
         {
@@ -36,11 +36,11 @@ function get_current_display()
     }
 }
 
-function get_active_subdisplay(display_class)
+function getActiveSubdisplay(display_class)
 {
-    var activeDisplay = get_current_display();
-    var subdisplays = activeDisplay.children;
-    for(var i=0;i<subdisplays.length;++i)
+    let activeDisplay = getCurrentDisplay();
+    let subdisplays = activeDisplay.children;
+    for(let i=0;i<subdisplays.length;++i)
     {
         if(subdisplays[i].classList.contains(display_class))
         {
@@ -51,18 +51,18 @@ function get_active_subdisplay(display_class)
 
 function load_figure()
 {
-    var relPath=build_path();
+    let relPath=buildPath();
 
-    var seed_masks_img=basePath.concat("/",relPath,"seeds.png");
-    var seed_masks = get_active_subdisplay("seeds");
-    seed_masks.children[0].setAttribute("src",seed_masks_img);
+    let seedMasks_img=basePath.concat("/",relPath,"seeds.png");
+    let seedMasks = getActiveSubdisplay("seeds");
+    seedMasks.children[0].setAttribute("src",seedMasks_img);
 
-    var grabcut_seg_img = basePath.concat("/",relPath,"gc-seg.png");
-    var grabcut_seg = get_active_subdisplay("grabcut-seg");
-    grabcut_seg.children[0].setAttribute("src",grabcut_seg_img);
+    let grabcutSegImg = basePath.concat("/",relPath,"gc-seg.png");
+    let grabcutSeg = getActiveSubdisplay("grabcut-seg");
+    grabcutSeg.children[0].setAttribute("src",grabcutSegImg);
 
-    var corrected_seg_img = basePath.concat("/",relPath,"corrected-seg.png");
-    var corrected_seg = get_active_subdisplay("corrected-seg");
+    let corrected_seg_img = basePath.concat("/",relPath,"corrected-seg.png");
+    let corrected_seg = getActiveSubdisplay("corrected-seg");
     corrected_seg.children[0].setAttribute("src",corrected_seg_img);
 }
 
@@ -74,7 +74,7 @@ function select(el)
 
 function _select(el,load_flag)
 {
-    var list_li=el.parentElement.children;
+    let list_li=el.parentElement.children;
     for (var i=0;i<list_li.length;i++)
     {
         if(list_li[i].hasAttribute("type"))
@@ -91,13 +91,13 @@ function _select(el,load_flag)
 
 }
 
-function default_buttons()
+function defaultButtons()
 {
-    var r=document.getElementsByClassName("row")[0];
-    var l=r.children.length;
+    let r=document.getElementsByClassName("row")[0];
+    let l=r.children.length;
     for(var i=0;i<l;i++)
     {
-        var c=r.children[i];
+        let c=r.children[i];
         if(c.hasAttribute("menu"))
         {
             var buttons = c.children[0].children;
@@ -107,7 +107,7 @@ function default_buttons()
     }
 }
 
-function open_src(el)
+function openSrc(el)
 {
     document.location.href=el.getAttribute("src");
 }
@@ -117,7 +117,7 @@ function init()
     basePath=window.location.toString();
     basePath=basePath.substring(0, basePath.lastIndexOf("/") );
 
-    default_buttons();
+    defaultButtons();
     load_figure();
     document.body.style.visibility="visible";
 

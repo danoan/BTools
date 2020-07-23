@@ -1,4 +1,4 @@
-class Param:
+class AppParam:
     def __init__(self,name,prefix,type,items,resolver):
         self.name=name
         self.prefix=prefix
@@ -28,10 +28,10 @@ def valid_combination(c):
     return True
 
 
-CONFIG_LIST=[ Param("Shape","sp","shape",SHAPES,resolve_std),
-              Param("Radius","radius","radius",RADIUS,resolve_int),
-              Param("Levels","level","levels",LEVELS,resolve_int),
-              Param("Grid Step","gs","grid_step",GRID_STEP,resolve_double),
-              Param("Iterations","it","iterations",ITERATIONS,resolve_int),
+CONFIG_LIST=[ AppParam("Shape","sp","shape",SHAPES,resolve_std),
+              AppParam("Radius","radius","radius",RADIUS,resolve_int),
+              AppParam("Levels","level","levels",LEVELS,resolve_int),
+              AppParam("Grid Step","gs","grid_step",GRID_STEP,resolve_double),
+              AppParam("Iterations","it","iterations",ITERATIONS,resolve_int),
             ]
 

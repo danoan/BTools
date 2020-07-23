@@ -1,18 +1,18 @@
 var basePath;
-var wheel_accumulator=0;
-function shape_name()
+var wheelAccumulator=0;
+function shapeName()
 {
-    var r=document.getElementsByClassName("row")[0];
-    var l=r.children.length;
-    for(var i=0;i<l;i++)
+    let r=document.getElementsByClassName("row")[0];
+    let l=r.children.length;
+    for(let i=0;i<l;i++)
     {
-        var c=r.children[i];
-        var buttons=c.children[0].children;
-        for(var j=0;j<buttons.length;j++)
+        let c=r.children[i];
+        let buttons=c.children[0].children;
+        for(let j=0;j<buttons.length;j++)
         {
             if(buttons[j].classList.contains("selected"))
             {
-                if( buttons[j].getAttribute("type")=="shape" )
+                if( buttons[j].getAttribute("type")==="shape" )
                 {
                     return buttons[j].getAttribute("path");
                 }
@@ -20,16 +20,16 @@ function shape_name()
         }
     }
 }
-function build_path()
+function buildPath()
 {
-    var r=document.getElementsByClassName("row")[0];
-    var l=r.children.length;
-    var relPath="";
-    for(var i=0;i<l;i++)
+    let r=document.getElementsByClassName("row")[0];
+    let l=r.children.length;
+    let relPath="";
+    for(let i=0;i<l;i++)
     {
-        var c=r.children[i];
-        var buttons=c.children[0].children;
-        for(var j=0;j<buttons.length;j++)
+        let c=r.children[i];
+        let buttons=c.children[0].children;
+        for(let j=0;j<buttons.length;j++)
         {
             if(buttons[j].classList.contains("selected"))
             {
@@ -42,10 +42,10 @@ function build_path()
     }
     return relPath;
 }
-function get_current_display()
+function getCurrentDisplay()
 {
-    var display = document.getElementsByClassName("display")[0];
-    for(var i=0;i<display.children.length;++i)
+    let display = document.getElementsByClassName("display")[0];
+    for(let i=0;i<display.children.length;++i)
     {
         if(display.children[i].classList.contains("active"))
         {
@@ -53,11 +53,11 @@ function get_current_display()
         }
     }
 }
-function get_active_subdisplay(display_class)
+function getActiveSubdisplay(display_class)
 {
-    var activeDisplay = get_current_display();
-    var subdisplays = activeDisplay.children;
-    for(var i=0;i<subdisplays.length;++i)
+    let activeDisplay = getCurrentDisplay();
+    let subdisplays = activeDisplay.children;
+    for(let i=0;i<subdisplays.length;++i)
     {
         if(subdisplays[i].classList.contains(display_class))
         {
@@ -65,19 +65,18 @@ function get_active_subdisplay(display_class)
         }
     }
 }
-function load_figure()
+function loadFigure()
 {
-    var relPath=build_path();
-    var shapeName = shape_name();
-    var fullPath=basePath.concat("/",relPath,"summary.svg");
-    var summary_flow = get_active_subdisplay("summary-flow");
+    let relPath=buildPath();
+    let fullPath=basePath.concat("/",relPath,"summary.svg");
+    let summary_flow = getActiveSubdisplay("summary-flow");
     summary_flow.children[0].setAttribute("src",fullPath);
-    var odr_model = get_active_subdisplay("odr-model");
-    var odr_image_path = fullPath.substr(0,fullPath.lastIndexOf("/"));
-    odr_image_path=odr_image_path.concat("/","odr.svg");
-    odr_model.children[0].setAttribute("src",odr_image_path);
-    restart_image_sequence();
-    console.log(odr_image_path);
+    let odrModel = getActiveSubdisplay("odr-model");
+    let odrImagePath = fullPath.substr(0,fullPath.lastIndexOf("/"));
+    odrImagePath=odrImagePath.concat("/","odr.svg");
+    odrModel.children[0].setAttribute("src",odrImagePath);
+    restartImageSequence();
+    console.log(odrImagePath);
 }
 function select(el)
 {
@@ -85,8 +84,8 @@ function select(el)
 }
 function _select(el,load_flag)
 {
-    var list_li=el.parentElement.children;
-    for (var i=0;i<list_li.length;i++)
+    let list_li=el.parentElement.children;
+    for (let i=0;i<list_li.length;i++)
     {
         if(list_li[i].hasAttribute("type"))
         {
@@ -96,31 +95,31 @@ function _select(el,load_flag)
     el.className="button selected";
     if(load_flag)
     {
-        load_figure();
+        loadFigure();
     }
 }
 function default_buttons()
 {
-    var r=document.getElementsByClassName("row")[0];
-    var l=r.children.length-1;
-    for(var i=0;i<l;i++)
+    let r=document.getElementsByClassName("row")[0];
+    let l=r.children.length-1;
+    for(let i=0;i<l;i++)
     {
-        var c=r.children[i];
+        let c=r.children[i];
         if(c.hasAttribute("menu"))
         {
-            var buttons = c.children[0].children;
-            var first = buttons[1];
+            let buttons = c.children[0].children;
+            let first = buttons[1];
             _select(first, true);
         }
     }
 }
 function freeze(el)
 {
-    var display = document.getElementsByClassName("display")[0];
-    if(el.innerHTML=="Freeze")
+    let display = document.getElementsByClassName("display")[0];
+    if(el.innerHTML==="Freeze")
     {
         el.innerHTML="Unfreeze";
-        for(var i=0;i<display.children.length;i++)
+        for(let i=0;i<display.children.length;i++)
         {
             display.children[i].classList.remove("full");
             display.children[i].classList.remove("hidden");
@@ -128,24 +127,24 @@ function freeze(el)
             display.children[i].classList.add("half");
         }
         display.children[1].classList.add("active");
-        load_figure();
+        loadFigure();
     }else
     {
         el.innerHTML="Freeze";
-        for(var i=0;i<display.children.length;i++)
+        for(let i=0;i<display.children.length;i++)
         {
             display.children[i].classList.remove("half");
         }
         display.children[0].classList.add("full");
         display.children[0].classList.add("active");
         display.children[1].classList.add("hidden");
-        load_figure();
+        loadFigure();
     }
 }
-function toogle_display(class_to_display,class_to_hidden)
+function toogleDisplay(class_to_display,class_to_hidden)
 {
-    var display = get_current_display();
-    for(var i=0;i<display.children.length;++i)
+    let display = getCurrentDisplay();
+    for(let i=0;i<display.children.length;++i)
     {
         if(display.children[i].classList.contains(class_to_hidden))
         {
@@ -156,35 +155,35 @@ function toogle_display(class_to_display,class_to_hidden)
         }
     }
 }
-function restart_image_sequence()
+function restartImageSequence()
 {
-    var display = get_current_display();
-    for(var i=0;i<display.children.length;++i)
+    let display = getCurrentDisplay();
+    for(let i=0;i<display.children.length;++i)
     {
         if(display.children[i].classList.contains("image-sequence"))
         {
             display.children[i].setAttribute("img_seq","0");
         }
     }
-    var imageName = image_name("1");
-    var relPath = build_path();
-    var imagePath = basePath.concat("/",relPath,imageName);
-    var subdisplay = get_active_subdisplay("image-sequence");
+    let imageName = imageName("1");
+    let relPath = buildPath();
+    let imagePath = basePath.concat("/",relPath,imageName);
+    let subdisplay = getActiveSubdisplay("image-sequence");
     subdisplay.children[0].setAttribute("src",imagePath);
 }
 function summary(el)
 {
-    if(el.innerHTML=="Summary")
+    if(el.innerHTML==="Summary")
     {
         el.innerHTML="Image Sequence";
-        toogle_display("summary-flow","image-sequence");
+        toogleDisplay("summary-flow","image-sequence");
     }else
     {
         el.innerHTML="Summary";
-        toogle_display("image-sequence","summary-flow");
+        toogleDisplay("image-sequence","summary-flow");
     }
 }
-function open_src(el)
+function openSrc(el)
 {
     document.location.href=el.getAttribute("src");
 }
@@ -195,16 +194,16 @@ function init()
 
     default_buttons();
     document.body.style.visibility="visible";
-    for(var i=0;i<document.getElementsByClassName("image-sequence").length;++i)
+    for(let i=0;i<document.getElementsByClassName("image-sequence").length;++i)
     {
-        var el = document.getElementsByClassName("image-sequence")[i];
-        el.addEventListener("wheel",function(event){wheel_event(el,event);});
+        let el = document.getElementsByClassName("image-sequence")[i];
+        el.addEventListener("wheel",function(event){wheelEvent(el,event);});
     }
 }
-function image_name(imgSeq)
+function imageName(imgSeq)
 {
-    var name="";
-    for(var i=4-imgSeq.length;i>0;--i)
+    let name="";
+    for(let i=4-imgSeq.length;i>0;--i)
     {
         name+="0";
     }
@@ -212,26 +211,26 @@ function image_name(imgSeq)
     name+=".png";
     return name;
 }
-function wheel_event(el,event)
+function wheelEvent(el,event)
 {
     event.preventDefault();
-    wheel_accumulator+=event.deltaY;
-    var subdisplay = get_active_subdisplay("image-sequence");
-    var imgEl = subdisplay.children[0];
-    var imgSeq = imgEl.getAttribute("img_seq");
-    var imageName = image_name(imgSeq);
-    var relPath = build_path();
-    var imagePath = basePath.concat("/",relPath,imageName);
+    wheelAccumulator+=event.deltaY;
+    let subdisplay = getActiveSubdisplay("image-sequence");
+    let imgEl = subdisplay.children[0];
+    let imgSeq = imgEl.getAttribute("img_seq");
+    let imageName = imageName(imgSeq);
+    let relPath = buildPath();
+    let imagePath = basePath.concat("/",relPath,imageName);
     imgEl.setAttribute("src",imagePath);
-    if(wheel_accumulator < -5)
+    if(wheelAccumulator < -5)
     {
         imgEl.setAttribute("img_seq", (parseInt(imgSeq) + 1).toString());
-        wheel_accumulator=0;
+        wheelAccumulator=0;
     }
-    else if(wheel_accumulator > 5)
+    else if(wheelAccumulator > 5)
     {
         imgEl.setAttribute("img_seq",(parseInt(imgSeq)-1).toString());
-        wheel_accumulator=0;
+        wheelAccumulator=0;
     }
 }
 window.onload=init;

@@ -1,4 +1,4 @@
-class Param:
+class AppParam:
     def __init__(self,name,prefix,type,items,resolver):
         self.name=name
         self.prefix=prefix
@@ -34,12 +34,12 @@ def valid_combination(c):
     return True
 
 
-CONFIG_LIST=[ Param("Image","img","Image",GC_OBJECT,resolve_gcobject),
-              Param("Radius","radius","radius",RADIUS,resolve_int),
-              Param("Data Term","data","data-term",DATA_TERM,resolve_double),
-              Param("Sqc Term","sq","sqc-term",SQ_TERM,resolve_double),
-              Param("Length Term","length","length-term",LENGTH_TERM,resolve_double),
-              Param("Levels","levels","levels",LEVELS,resolve_int),
-              Param("Iterations","it","iterations",ITERATIONS,resolve_int)
+CONFIG_LIST=[ AppParam("Image","img","Image",GC_OBJECT,resolve_gcobject),
+              AppParam("Radius","radius","radius",RADIUS,resolve_int),
+              AppParam("Data Term","data","data-term",DATA_TERM,resolve_double),
+              AppParam("Sqc Term","sq","sqc-term",SQ_TERM,resolve_double),
+              AppParam("Length Term","length","length-term",LENGTH_TERM,resolve_double),
+              AppParam("Levels","levels","levels",LEVELS,resolve_int),
+              AppParam("Iterations","it","iterations",ITERATIONS,resolve_int)
             ]
 
