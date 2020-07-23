@@ -6,8 +6,8 @@ class Param:
         self.items=[ {'path':resolver(prefix,v),'value':v} for v in items]
 
 SHAPES=["triangle","square","ellipse","flower","ball","wave","bean"]
-RADIUS=[5,7]
-LEVELS=[1,2,3,4,6,7]
+RADIUS=[5]
+LEVELS=[2,4]
 GRID_STEP=[0.25]
 ITERATIONS=[10]
 

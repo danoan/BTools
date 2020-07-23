@@ -7,10 +7,10 @@ class Param:
 
 GC_OBJECT=["coala/gc-object.xml"]
 RADIUS=[7]
-DATA_TERM=[0,0.5]
-SQ_TERM=[0,0.5]
-LENGTH_TERM=[0,0.5]
-LEVELS=[1,2,3,4,5,6,7]
+DATA_TERM=[0.5]
+SQ_TERM=[1.0]
+LENGTH_TERM=[0.5]
+LEVELS=[1,3,5,6,7]
 ITERATIONS=[10]
 
 
