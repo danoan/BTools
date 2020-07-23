@@ -1,4 +1,7 @@
 ## BTools
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/50a49f3955c245e9977c282d2036e4a2)](https://app.codacy.com/manual/danoan/BTools?utm_source=github.com&utm_medium=referral&utm_content=danoan/BTools&utm_campaign=Badge_Grade_Dashboard)
+
  BTools is a collection of applications developped for the 
  publication [1]. In this work, we describe a flow driven by 
  the minimization of the digital version of the elastica 
