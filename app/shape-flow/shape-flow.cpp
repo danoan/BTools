@@ -126,6 +126,10 @@ int main(int argc, char* argv[])
                                 id.showIterations,
                                 id.showProgress);
 
+  std::ofstream ofs(id.outputFolder + "/input-data.txt");
+  DataWriter::printFlowMetadata(modelParameters,*imageDataInput.inputDS,ofs);
+  ofs.close();
+
   ExtParameters extParams(std::cerr,id.shape.name,id.outputFolder);
   BTools::API::bce(bcInput,
                    [&extParams](BTools::API::CallbackData&& data){ callback( std::move(data),extParams); } );
