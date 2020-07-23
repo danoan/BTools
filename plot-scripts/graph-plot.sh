@@ -24,24 +24,24 @@ gp_last_plot()
 
 create_multiplot()
 {
-	fileoutput=$1;shift;
+	fileoutput="$1";shift;
 	plottitle="$1";shift;
 
 	buffer="$(gp_plot_config "$plottitle")plot "
 	i=0
 	num_plots=`expr ${#} / 2 - 1`
 
-	while [ ${i} -lt ${num_plots} ]
+	while [ "${i}" -lt "${num_plots}" ]
 	do
-		subplotDataFile=$1
-		subplotTitle=$2
+		subplotDataFile="$1"
+		subplotTitle="$2"
 		buffer="${buffer}$(gp_add_plot $subplotDataFile $subplotTitle)"
 		shift; shift;
 
-		i=`expr $i + 1`
+		i=`expr "$i" + 1`
 	done
 
-	if [ $num_plots -eq 0 ]
+	if [ "$num_plots" -eq 0 ]
 	then
 		buffer="${buffer}$(gp_last_plot $1 $2)"
 	else
@@ -51,5 +51,5 @@ create_multiplot()
 	buffer="${buffer}$(gp_save)"
 
 	`gnuplot -e "$buffer"`
-	`mv my-plot.ps ${fileoutput}`
+	`mv my-plot.ps "${fileoutput}"`
 }

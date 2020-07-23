@@ -2,8 +2,6 @@
 
 gp_plot_config()
 {
-    mode=$1;shift;
-
     printf "set title '$1';
     set xlabel 'Iterations';
     set ylabel 'Squared Perimeter Area ratio';"
