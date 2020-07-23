@@ -11,7 +11,8 @@ add_library(btools-seedio ${LIBRARY_ACTION}
 
 target_include_directories(btools-seedio PRIVATE
         include
-        ${CMAKE_SOURCE_DIR}/modules/io/seed/include)
+        ${CMAKE_SOURCE_DIR}/modules/io/seed/include
+	${BOOST_INCLUDE_DIRS})
 
 set_target_properties(btools-seedio PROPERTIES
         VERSION ${VERSION_BTOOLS_SEEDIO})
