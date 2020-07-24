@@ -105,7 +105,7 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
 
     for(auto it=entries.begin();it!=entries.end();++it)
     {
-        if(it->solution.outputDS.size()==0) continue;
+        if(it->solution.outputDS.size()<10) continue;
 
         const EnergySolution &curr = (it->solution);
         os << fnS(colLength,it->name) << "\t"

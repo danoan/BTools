@@ -48,10 +48,12 @@ void bce(const BCInput& bcInput,BCECallback callback)
       inputDS.clear();
       inputDS.insert(solution.outputDS.begin(),solution.outputDS.end());
 
-
     }
-  }catch(std::exception ex){
-    std::cerr << "Error in iteration " << nit << ". Saving current solution.\n";
+  }catch(std::runtime_error ex){
+    std::cerr << "Error in iteration " << nit
+    << ":" << ex.what() << " -- Saving current solution.\n";
+  }catch(std::exception ex) {
+    std::cerr << "Error in iteration " << nit << " -- Saving current solution.\n";
   }
 
   callback( CallbackData{Event::End,nit,windowName,bcInput,solution} );
