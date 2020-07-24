@@ -72,8 +72,7 @@ Load a image, select foreground/background seeds and then execute the boundary-c
 ```
 ./interactive-seg.sh -I images/coala.jpg output/coala
 ```
-<img alt="Coala seeds" src="https://github.com/danoan/BTools/blob/master/doc/images/coala-seeds.png" height="200" />
-<img alt="Coala segmentation" src="https://github.com/danoan/BTools/blob/master/doc/images/coala-seg.png" height="200" />
+<img alt="Coala seeds" src="https://github.com/danoan/BTools/blob/master/doc/images/coala-seeds.png" height="200" /> <img alt="Coala segmentation" src="https://github.com/danoan/BTools/blob/master/doc/images/coala-seg.png" height="200" />
 
 
 
