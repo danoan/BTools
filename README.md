@@ -7,8 +7,8 @@
  BTools is a collection of applications originally developped for the 
  publication [1]. In this work, we describe a flow driven by 
  the minimization of the elastica 
- energy. Its main applications are the **shape-flow**, 
- **boundary-correction** and ***interactive-seg** apps. The 
+ energy. Its main applications are the **shape-flow** 
+ and ***interactive-seg** apps. The 
  latter integrates all the necessary steps to execute
  a segmentation using the proposed digital flow.
  
@@ -62,20 +62,18 @@ type: [application] -?
 Evolve the digital curvature flow for a given digital shape.
 
 <img alt="Triangle flow" src="https://github.com/danoan/BTools/blob/master/doc/images/triangle.gif" height="200" />
-<img alt="Square flow" src="https://github.com/danoan/BTools/blob/master/doc/images/square.gif" height="200" />
 <img alt="Flower flow" src="https://github.com/danoan/BTools/blob/master/doc/images/flower.gif" height="200" />
-<img alt="Bean flow" src="https://github.com/danoan/BTools/blob/master/doc/images/bean.gif" height="200" />
 
 
-### boundary-correction-app
+### interactive-seg
 
-Runs the boundary-correction algorithm. Given a grab-cut object file,
-the digital curvature flow is evolved in order to enhance segmentation
-quality with respect to curvature.
+Load a image, select foreground/background seeds and then execute the boundary-correction algorithm.
 
+```
+./interactive-seg.sh -I images/coala.jpg output/coala
+```
+<img alt="Coala seeds" src="https://github.com/danoan/BTools/blob/master/doc/images/coala-seeds.png" height="200" />
+<img alt="Coala segmentation" src="https://github.com/danoan/BTools/blob/master/doc/images/coala-seg.png" height="200" />
 
-### summary-flow
-
-Overlay flow images in one single image.
 
 
