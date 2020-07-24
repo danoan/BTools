@@ -54,12 +54,19 @@ done. In this scenario, ccmake is quite handy.
 
 Build instructions can be found in INSTALL.txt
 
-This source contains five applications. For detailed description,
+This source contains eight applications. For detailed description,
 type: [application] -?
+
+We give output examples of the main applications: shape-flow and interactive-seg
 
 ### shape-flow
 
 Evolve the digital curvature flow for a given digital shape.
+
+```
+./shape-flow -Striangle -r15 -h0.1
+./shape-flow -Sflower -r15 -h0.1
+```
 
 <img alt="Triangle flow" src="https://github.com/danoan/BTools/blob/master/doc/images/triangle.gif" height="200" />
 <img alt="Flower flow" src="https://github.com/danoan/BTools/blob/master/doc/images/flower.gif" height="200" />
