@@ -4,15 +4,15 @@ using namespace ShapeFlow;
 
 void threadFn(ThreadData& td)
 {
-    td.IIValue=SCaBOliC::Utils::ISQEvaluation::ii(td.ds,td.h,&td.data);
+    td.IIValue=SCaBOliC::Utils::ISQEvaluation::ii(td.ds,td.h,td.alpha,td.beta,&td.data);
 }
 
-void DataWriter::outputElasticaII(const DigitalSet& ds,const double h, const double radius, std::ostream& os)
+void DataWriter::outputElasticaII(const DigitalSet& ds,const double h, const double radius, const double alpha, const double beta, std::ostream& os)
 {
     int colLength=20;
     std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
-    ThreadData td(ds,h,radius);
+    ThreadData td(ds,h,radius,alpha,beta);
 
     std::thread iiEvalThread = std::thread(&threadFn,std::ref(td));
     iiEvalThread.detach();
@@ -28,14 +28,14 @@ void DataWriter::outputElasticaII(const DigitalSet& ds,const double h, const dou
     os << fnD(colLength,td.IIValue) << "\t";
 }
 
-void DataWriter::outputElasticaMDCA(const DigitalSet& ds,const double h, std::ostream& os)
+void DataWriter::outputElasticaMDCA(const DigitalSet& ds,const double h, const double alpha, const double beta, std::ostream& os)
 {
     int colLength=20;
     std::string(*fnD)(int,double) = BTools::Utils::fixedStrLength;
 
     double MDCAValue;
 
-    MDCAValue=SCaBOliC::Utils::ISQEvaluation::mdca(ds,h);
+    MDCAValue=SCaBOliC::Utils::ISQEvaluation::mdca(ds,h,alpha,beta);
 
     os << fnD(colLength,MDCAValue) << "\t";
 }
@@ -111,8 +111,8 @@ void DataWriter::printTable(const std::string& inputName,const std::vector<Table
         os << fnS(colLength,it->name) << "\t"
            << fnD(colLength,curr.energyValue) << "\t";
         os << fnD(colLength,curr.unlabeled) << "\t";
-        outputElasticaMDCA(it->solution.outputDS,it->gridStep,os);
-        outputElasticaII(it->solution.outputDS,it->gridStep,it->radius,os);
+        outputElasticaMDCA(it->solution.outputDS,it->gridStep,it->lengthTermWeight,it->sqTermWeight, os);
+        outputElasticaII(it->solution.outputDS,it->gridStep,it->radius,it->lengthTermWeight,it->sqTermWeight,os);
 
         double perimeter = outputShapePerimeter(it->solution.outputDS,it->gridStep,os);
         double area = outputShapeArea(it->solution.outputDS,it->gridStep,os);
@@ -131,6 +131,7 @@ void DataWriter::printFlowMetadata(const ModelParameters& modelParameters,
         << ")\n";
 
     ofs << "Radius: " << modelParameters.radius << "\n";
+    ofs << "Grid Step: " << modelParameters.gridStep<< "\n";
 
 
     ofs << "Squared Curvature Weight: " << modelParameters.sqTermWeight << " \n";

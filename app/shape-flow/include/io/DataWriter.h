@@ -20,54 +20,65 @@
 
 struct ThreadData
 {
-    typedef DGtal::Z2i::DigitalSet DigitalSet;
+  typedef DGtal::Z2i::DigitalSet DigitalSet;
 
-    ThreadData(const DigitalSet& ds, double h, double r):ds(ds),h(h),data(true,r),IIValue(-1){}
+  ThreadData(const DigitalSet& ds, double h, double r,double alpha, double beta)
+      :ds(ds),h(h),data(true,r),alpha(alpha),beta(beta),IIValue(-1){}
 
-    const DigitalSet& ds;
-    double h;
-    SCaBOliC::Utils::ISQEvaluation::IICurvatureExtraData data;
-    double IIValue;
+  const DigitalSet& ds;
+  double h;
+  double alpha;
+  double beta;
+  SCaBOliC::Utils::ISQEvaluation::IICurvatureExtraData data;
+  double IIValue;
 };
 
 void threadFn(ThreadData& td);
 
 namespace ShapeFlow
 {
-    namespace DataWriter
-    {
-        typedef DGtal::Z2i::DigitalSet DigitalSet;
-        typedef DGtal::Z2i::Curve Curve;
+namespace DataWriter
+{
+typedef DGtal::Z2i::DigitalSet DigitalSet;
+typedef DGtal::Z2i::Curve Curve;
 
-        typedef BTools::Core::ModelParameters ModelParameters;
+typedef BTools::Core::ModelParameters ModelParameters;
 
-        typedef BTools::Core::BCInput BCInput;
-        typedef SCaBOliC::Energy::Solution EnergySolution;
+typedef BTools::Core::BCInput BCInput;
+typedef SCaBOliC::Energy::Solution EnergySolution;
 
-        struct TableEntry
-        {
-            TableEntry(const ModelParameters& modelParameters,
-                    const EnergySolution& solution,
-                    const std::string name):solution(solution),name(name),gridStep(modelParameters.gridStep),radius(modelParameters.radius){}
+struct TableEntry
+{
+  TableEntry(const ModelParameters& modelParameters,
+             const EnergySolution& solution,
+             const std::string name)
+      :solution(solution),
+       name(name),
+       gridStep(modelParameters.gridStep),
+       radius(modelParameters.radius),
+       lengthTermWeight(modelParameters.lengthTermWeight),
+       sqTermWeight(modelParameters.sqTermWeight){}
 
-            EnergySolution solution;
-            std::string name;
-            double gridStep;
-            double radius;
-        };
+  EnergySolution solution;
+  std::string name;
+  double gridStep;
+  double radius;
+  double lengthTermWeight;
+  double sqTermWeight;
+};
 
-        void outputElasticaMDCA(const DigitalSet& ds,const double h, std::ostream& os);
-        void outputElasticaII(const DigitalSet& ds,const double h, const double radius, std::ostream& os);
+void outputElasticaMDCA(const DigitalSet& ds,const double h, const double alpha, const double beta, std::ostream& os);
+void outputElasticaII(const DigitalSet& ds,const double h, const double radius,const double alpha, const double beta, std::ostream& os);
 
-        double outputShapePerimeter(const DigitalSet& ds,const double h, std::ostream& os);
-        double outputShapeArea(const DigitalSet& ds, double gridStep, std::ostream& os);
+double outputShapePerimeter(const DigitalSet& ds,const double h, std::ostream& os);
+double outputShapeArea(const DigitalSet& ds, double gridStep, std::ostream& os);
 
-        void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
+void printTable(const std::string& inputName,const std::vector<TableEntry> &entries, std::ostream &os);
 
-        void printFlowMetadata(const ModelParameters& modelParameters,
-                                const DigitalSet& dsZero,
-                               std::ofstream &ofs);
-    }
+void printFlowMetadata(const ModelParameters& modelParameters,
+                       const DigitalSet& dsZero,
+                       std::ofstream &ofs);
+}
 }
 
 

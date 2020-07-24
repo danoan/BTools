@@ -107,8 +107,8 @@ void outputEnergy(const BCInput& bcInput, const EnergySolution& solution,const G
   double outputElasticaEnergy,inputElasticaEnergy;
 
   SCaBOliC::Utils::ISQEvaluation::IICurvatureExtraData extraData(true,modelParameters.radius);
-  inputElasticaEnergy = SCaBOliC::Utils::ISQEvaluation::ii(*imageData.inputDS,1.0,&extraData);
-  outputElasticaEnergy = SCaBOliC::Utils::ISQEvaluation::ii(solution.outputDS,1.0,&extraData);
+  inputElasticaEnergy = SCaBOliC::Utils::ISQEvaluation::ii(*imageData.inputDS,1.0,modelParameters.lengthTermWeight,modelParameters.sqTermWeight,&extraData);
+  outputElasticaEnergy = SCaBOliC::Utils::ISQEvaluation::ii(solution.outputDS,1.0,modelParameters.lengthTermWeight,modelParameters.sqTermWeight,&extraData);
 
   cv::Mat gcSegImage = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
   gco.inputImage.copyTo(gcSegImage ,gco.segMask);
