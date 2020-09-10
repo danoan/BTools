@@ -18,6 +18,7 @@ namespace SummaryFlow
         typedef DGtal::Color Color;
 
     public:
+        DrawingBuffer(){};
         DrawingBuffer(const Domain& domain);
         void draw(const DigitalSet& ds,const Color& fillColor,const Color& contourColor);
         void draw(const Point& p,const Color& fillColor,const Color& contourColor);

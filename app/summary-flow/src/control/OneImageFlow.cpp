@@ -44,7 +44,9 @@ namespace SummaryFlow
                           pointDraw);
 
             itColor++;
-            for(int i=0;i<drawInterval;++i) itContour++;
+            for(int i=0;i<drawInterval && itContour!=contours.end();++i){
+                itContour++;
+            }
         }
 
         //Draw initial contour
@@ -73,7 +75,7 @@ namespace SummaryFlow
                                           ImageOutputType iot)
     {
         Domain domain = findCommonDomain(contours);
-        DrawingBuffer drawBuffer(domain);
+        DrawingBuffer drawBuffer;
         drawContours(drawBuffer,contours,drawInterval,colorScheme);
 
         //Draw ExtraPoints
@@ -183,7 +185,8 @@ namespace SummaryFlow
             extraPoints.insert(ballContour.begin(),ballContour.end());
         }
 
-        if(drawInterval<0) drawInterval=numImages/10;
+        if(drawInterval<0) drawInterval=(int) ceil(numImages/10.0);
+        if(drawInterval>=contours.size()) drawInterval = 1+contours.size()/2;
 
 
         createUnifiedImage(imageOutputPath,
