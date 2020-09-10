@@ -13,7 +13,7 @@ add_library(btools-utils ${LIBRARY_ACTION}
         src/digUtils.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(btools-utils dipacus scabolic)
+    add_dependencies(btools-utils dipacus)
 endif()
 
 set_target_properties(btools-utils  PROPERTIES
@@ -24,10 +24,12 @@ target_include_directories(btools-utils PRIVATE
         ${BOOST_INCLUDE_DIRS}
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${DIPACUS_INCLUDE_DIRS}
-        ${SCABOLIC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(btools-utils
+        -ldipacus-derivates
+        -ldipacus-components
+        -ldipacus-base
         -lboost_filesystem
         -lboost_system
         ${DGTAL_LIBRARIES}
