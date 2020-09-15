@@ -67,25 +67,11 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
 }
 
 
-cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(255,255,255))
-{
-  const DigitalSet& boundaryMaskDs = ds;
-  Point dims = boundaryMaskDs.domain().upperBound() - boundaryMaskDs.domain().lowerBound() + Point(1,1);
-  cv::Mat maskBoundaryImgGS = cv::Mat::zeros( dims(1),dims(0) ,CV_8UC1);
-  DIPaCUS::Representation::digitalSetToCVMat(maskBoundaryImgGS,boundaryMaskDs);
-
-  cv::Mat maskBoundaryImgColor( maskBoundaryImgGS.size(),CV_8UC3);
-  cv::cvtColor(maskBoundaryImgGS,maskBoundaryImgColor,cv::COLOR_GRAY2RGB);
-
-  BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,color);
-  return maskBoundaryImgColor;
-}
-
 void outputImages(const BCInput& bcInput, const EnergySolution& solution, const GrabCutObject& gco, const std::string& outputFolder)
 {
   std::string graphCutSegFilepath = outputFolder + "/gc-seg.png";
   std::string correctedSegFilepath = outputFolder +"/corrected-seg.png";
-  std::string maskBoundaryFilepath = outputFolder +"/mask-boundary.png";
+  std::string maskBoundaryFilepath = outputFolder +"/mask-seg.png";
 
 
   cv::Mat gcSegImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
@@ -93,10 +79,15 @@ void outputImages(const BCInput& bcInput, const EnergySolution& solution, const 
 
   cv::Mat bcImage = BTools::Core::createBCImage(solution.outputDS,bcInput.imageData);
 
+  int sx = bcInput.imageData.translation[0];
+  int sy = bcInput.imageData.translation[1];
+
+  cv::Mat segMask = cv::Mat::zeros(gco.inputImage.size(),CV_8UC1);
+  DIPaCUS::Representation::digitalSetToCVMat(segMask,solution.outputDS,sx,sy);
 
   cv::imwrite(graphCutSegFilepath,gcSegImg);
   cv::imwrite(correctedSegFilepath,bcImage);
-  cv::imwrite(maskBoundaryFilepath,highlightBorder(solution.outputDS));
+  cv::imwrite(maskBoundaryFilepath,segMask);
 }
 
 void outputEnergy(const BCInput& bcInput, const EnergySolution& solution,const GrabCutObject& gco, const std::string& outputFolder)
@@ -205,7 +196,7 @@ int main(int argc, char* argv[])
                       bgDistr,
                       gco.inputImage,
                       segResultImg,
-                      inputData.initialDilation);
+                      2*(2*inputData.radius+inputData.initialDilation));
 
   BCInput bcInput(modelParameters,
                   imageData,

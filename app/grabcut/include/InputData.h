@@ -17,6 +17,7 @@ namespace GrabCut
         std::string unknownMask;
         std::string fgSeedMask;
         std::string bgSeedMask;
+        std::string lastSegmentationMask;
 
         int iterations;
 

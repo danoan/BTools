@@ -18,6 +18,7 @@ GrabCutOutput runGrabCut(const std::string& imgPath,
                          const std::string& unknownMask,
                          const std::string& fgSeedMask,
                          const std::string& bgSeedMask,
+                         const std::string& lastSegmentationMask,
                          const int iterations)
 {
     cv::Mat cvImg = cv::imread(imgPath);
@@ -25,6 +26,7 @@ GrabCutOutput runGrabCut(const std::string& imgPath,
 
     gca.setUnknownMask(unknownMask);
     gca.setFGMask(fgSeedMask);
+    gca.setPBFGMask(lastSegmentationMask);
     gca.setBGMask(bgSeedMask);
 
     return gca.run(iterations);
@@ -60,7 +62,7 @@ int main(int argc, char* argv[])
     InputData id = readInput(argc,argv);
 
     cv::Mat inputImg = cv::imread(id.imgPath);
-    GrabCutOutput gco = runGrabCut(id.imgPath,id.unknownMask,id.fgSeedMask,id.bgSeedMask,id.iterations);
+    GrabCutOutput gco = runGrabCut(id.imgPath,id.unknownMask,id.fgSeedMask,id.bgSeedMask,id.lastSegmentationMask,id.iterations);
 
     GrabCutObject gcObject;
     gcObject.grabCutMask = gco.grabCutMask;

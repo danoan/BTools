@@ -52,7 +52,8 @@ void callback(BTools::API::CallbackData&& data, ExtParameters& extParams) {
         cv::imwrite(initialImagePath, data.bcInput.imageData.grabcutImage);
       }
       break;
-    case BTools::API::Event::Iteration:extParams.osLog << "|";
+    case BTools::API::Event::Iteration:
+      extParams.osLog << "|";
       extParams.entries.push_back(TableEntry(data.bcInput.modelParameters,
                                              data.solution, std::to_string(data.iteration)));
 

@@ -22,7 +22,7 @@ t=0.5
 q=1
 g=0.1
 i=30
-while getopts ":r:l:t:q:g:i:" o; do
+while getopts ":r:l:t:q:g:i:I:" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -41,6 +41,9 @@ while getopts ":r:l:t:q:g:i:" o; do
 	        ;;
 	    i)
 	        i=$OPTARG
+	        ;;
+	    I)
+	        INPUT_IMAGE=$OPTARG
 	        ;;
         :)
             echo "Invalid option: $OPTARG requires an argument" 1>&2
@@ -90,7 +93,7 @@ then
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" \
     "${SP_OUT}/mask-bg-0.pgm" \
     "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
     "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -o "${SP_OUT}/bc" -v -s
 fi
@@ -102,7 +105,8 @@ do
     "${SEED_SELECTOR_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" \
     -f "${SP_OUT}/mask-fg-0.pgm" \
-    -b "${SP_OUT}/mask-bg-0.pgm" -o
+    -b "${SP_OUT}/mask-bg-0.pgm" \
+    -s "${SP_OUT}/bc/mask-seg.png" -o
 
     if [ $? -eq 0 ]
     then
@@ -110,8 +114,8 @@ do
     fi
 
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/bc/mask-seg.png"
 
-    "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -o "${SP_OUT}/bc" -v -s
+    "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -d0 -o "${SP_OUT}/bc" -v -s
 done
 
