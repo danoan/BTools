@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
                       bgDistr,
                       gco.inputImage,
                       segResultImg,
-                      inputData.initialDilation);
+                      2*(2*inputData.radius+inputData.initialDilation));
 
   BCInput bcInput(modelParameters,
                   imageData,
