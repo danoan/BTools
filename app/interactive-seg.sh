@@ -22,7 +22,7 @@ t=0.5
 q=1
 g=0.1
 i=30
-while getopts ":r:l:t:q:g:i:" o; do
+while getopts ":r:l:t:q:g:i:I:" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -41,6 +41,9 @@ while getopts ":r:l:t:q:g:i:" o; do
 	        ;;
 	    i)
 	        i=$OPTARG
+	        ;;
+	    I)
+	        INPUT_IMAGE=$OPTARG
 	        ;;
         :)
             echo "Invalid option: $OPTARG requires an argument" 1>&2
