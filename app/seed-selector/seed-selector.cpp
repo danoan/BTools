@@ -20,6 +20,7 @@ void print_instructions(){
 void handleEvent(int key, GUIData& gd, bool& onExecution){
   switch(key)
   {
+    case 'p':{ probablyForegroundCallback(1,&gd); break; }
     case 'f':{ foregroundCallback(1,&gd); break; }
     case 'b':{ backgroundCallback(1,&gd); break; }
     case 'r':{ restartCallback(1,&gd); break; }
@@ -64,6 +65,7 @@ int main(int argc, char* argv[])
   gd.loadFgMask(id.fgImageMask);
   gd.loadBgMask(id.bgImageMask);
 
+  cv::createButton("Probably Foreground",probablyForegroundCallback,&gd,cv::QT_RADIOBOX,true);
   cv::createButton("Foreground",foregroundCallback,&gd,cv::QT_RADIOBOX,false);
   cv::createButton("Background",backgroundCallback,&gd,cv::QT_RADIOBOX,false);
   cv::createButton("Restart",restartCallback,&gd);
