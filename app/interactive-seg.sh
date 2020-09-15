@@ -63,6 +63,7 @@ then
 fi
 
 SEED_SELECTOR_APP="${BTOOLS_BIN}/seed-selector"
+REFINE_SEED_APP="${BTOOLS_BIN}/refine-seed"
 GRAB_CUT_APP="${BTOOLS_BIN}/grab-cut"
 BC_APP="${BTOOLS_BIN}/boundary-correction-app"
 
@@ -90,7 +91,7 @@ then
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" \
     "${SP_OUT}/mask-bg-0.pgm" \
     "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
     "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -o "${SP_OUT}/bc" -v -s
 fi
@@ -99,10 +100,11 @@ fi
 
 while :
 do
-    "${SEED_SELECTOR_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
+    "${REFINE_SEED_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" \
     -f "${SP_OUT}/mask-fg-0.pgm" \
-    -b "${SP_OUT}/mask-bg-0.pgm" -o
+    -b "${SP_OUT}/mask-bg-0.pgm" \
+    -s "${SP_OUT}/bc/mask-seg.png" -o
 
     if [ $? -eq 0 ]
     then
@@ -110,8 +112,8 @@ do
     fi
 
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/bc/mask-seg.png"
 
-    "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -o "${SP_OUT}/bc" -v -s
+    "${BC_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -l"$l" -t"$t" -q"$q" -g"$g" -i"$i" -d0 -o "${SP_OUT}/bc" -v -s
 done
 
