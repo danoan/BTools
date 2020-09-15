@@ -5,21 +5,22 @@
 
 namespace GrabCut
 {
-    class GrabCutApplication
-    {
-    private:
+class GrabCutApplication
+{
+ private:
 
-    public:
-        GrabCutApplication(const cv::Mat& cvImg);
+ public:
+  GrabCutApplication(const cv::Mat& cvImg);
 
-        void setFGMask(const std::string& fgMaskPath);
-        void setBGMask(const std::string& bgMaskPath);
-        void setUnknownMask(const std::string& uknMaskPath);
+  void setFGMask(const std::string& fgMaskPath);
+  void setPBFGMask(const std::string& lastSegmentationMask);
+  void setBGMask(const std::string& bgMaskPath);
+  void setUnknownMask(const std::string& uknMaskPath);
 
-        GrabCutOutput run(const int iterations);
+  GrabCutOutput run(const int iterations);
 
-    private:
-        const cv::Mat& cvImg;
-        cv::Mat fgMask,bgMask,unknownMask;
-    };
+ private:
+  const cv::Mat& cvImg;
+  cv::Mat fgMask,bgMask,unknownMask,pbFgMask;
+};
 }
