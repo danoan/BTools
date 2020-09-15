@@ -66,7 +66,6 @@ then
 fi
 
 SEED_SELECTOR_APP="${BTOOLS_BIN}/seed-selector"
-REFINE_SEED_APP="${BTOOLS_BIN}/refine-seed"
 GRAB_CUT_APP="${BTOOLS_BIN}/grab-cut"
 BC_APP="${BTOOLS_BIN}/boundary-correction-app"
 
@@ -103,7 +102,7 @@ fi
 
 while :
 do
-    "${REFINE_SEED_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
+    "${SEED_SELECTOR_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" \
     -f "${SP_OUT}/mask-fg-0.pgm" \
     -b "${SP_OUT}/mask-bg-0.pgm" \
