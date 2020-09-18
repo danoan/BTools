@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(grab-cut)
 
 add_executable(grab-cut GrabCut.cpp src/InputData.cpp src/GrabCutApplication.cpp)
-add_dependencies(grab-cut btools-utils)
+add_dependencies(grab-cut btools-utils btools-seedio)
 
 target_include_directories(grab-cut PRIVATE
         include

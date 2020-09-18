@@ -4,7 +4,7 @@ project(export-seed-mask)
 add_executable(export-seed-mask
         export-seed-mask.cpp)
 
-add_dependencies(export-seed-mask btools-utils)
+add_dependencies(export-seed-mask btools-utils btools-seedio)
 
 target_include_directories(export-seed-mask PRIVATE
         include
